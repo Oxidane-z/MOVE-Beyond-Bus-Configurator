@@ -102,8 +102,11 @@ function move(p, slot) {
 function removeCard(p) {
   occupy(p, null); placements.delete(p.id);
   p.busy = true; if (sel && sel.id === p.id) sel = null;
-  ['x', 'y', 'z'].forEach(k => tween(p.group.scale, k, 0.01, 480, easeIn));
-  tween(p.group.position, 'y', SEAT_Y + 150, 480, easeIn).then(() => {
+  // 先从连接器里拔出一小段，再加速上升直到离开画面
+  const exit = SEAT_Y + 140 + 2 * camera.top / view.zoom / Math.cos(PITCH_A);
+  tween(p.group.position, 'y', SEAT_Y + 7, 220, easeInOut)
+    .then(() => tween(p.group.position, 'y', exit, 900, easeIn))
+    .then(() => {
     scene.remove(p.group);
     if (!p.shared) p.group.traverse(o => { if (o.geometry) o.geometry.dispose(); });
   });
@@ -134,7 +137,7 @@ Object.keys(TYPES).forEach(key => {
   b.type = 'button'; b.className = 'item'; b.id = 'lib-' + key; b.dataset.type = key;
   b.innerHTML = '<span class="sw" style="background:' + T.color + '"></span><span><span class="nm"></span><br><span class="mt"></span></span>';
   b.querySelector('.nm').textContent = T.name;
-  b.querySelector('.mt').textContent = (T.gen === 1 ? '一代' : '二代') + ' · 占 ' + T.w + ' 槽 · ' + (T.wh ? T.wh + ' Wh' : T.typ == null ? '功耗未填' : T.typ.toFixed(1) + ' W');
+  b.querySelector('.mt').textContent = (sys.levels[T.level] || T.level) + ' · 占 ' + T.w + ' 槽 · ' + (T.wh ? T.wh + ' Wh' : T.typ == null ? '功耗未填' : T.typ.toFixed(1) + ' W');
   b.addEventListener('click', () => setSel(sel && sel.kind === 'lib' && sel.type === key ? null : { kind: 'lib', type: key }));
   libList.appendChild(b);
 });
@@ -155,7 +158,7 @@ function renderUI() {
       if (sel && sel.kind === 'placed' && sel.id === p.id) c.classList.add('sel');
       no.textContent = T.w === 2 ? (i + 1) + '–' + (i + 2) : String(i + 1);
       const lb = document.createElement('span'); lb.className = 'lb';
-      lb.textContent = T.name + (T.gen === 1 ? ' (一代)' : '');
+      lb.textContent = T.name + (T.level === 'iter1' ? ' (Iter 1)' : T.level === 'proto' ? ' (Proto)' : '');
       c.appendChild(lb);
       c.setAttribute('aria-label', '槽位 ' + no.textContent + '：' + lb.textContent);
       c.addEventListener('click', () => { if (!p.busy) setSel(sel && sel.id === p.id ? null : { kind: 'placed', id: p.id }); });
@@ -271,7 +274,8 @@ function resize() {
 }
 new ResizeObserver(resize).observe(stage);
 
-function frameLoop(now) {
+function frameLoop() {
+  const now = performance.now();   // 与补间起点用同一个时钟
   for (const t of tweens) {
     const u = Math.min(1, (now - t.t0) / t.ms);
     t.o[t.k] = t.from + (t.to - t.from) * t.ease(u);

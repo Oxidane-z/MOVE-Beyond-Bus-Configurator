@@ -55,7 +55,8 @@ export function buildStructure(scene, sys, slotZ) {
 export function buildCard(key, T, pitch) {
   if (T.kind === 'model') return buildModelCard(key, T, pitch);
   const g = new THREE.Group();
-  const W = T.gen === 1 ? 80 : 92, H = T.gen === 1 ? 74 : 88, cy = 5 + H / 2;
+  const old = T.level !== 'iter2';   // 占位几何里，早期版本用更小的外形和不同的安装耳
+  const W = old ? 80 : 92, H = old ? 74 : 88, cy = 5 + H / 2;
   box(g, 58, 5, 3.2, C.conn, 0, 2.5, 0);
   box(g, W, H, 1.6, T.color, 0, cy, 0);
 
@@ -67,8 +68,8 @@ export function buildCard(key, T, pitch) {
   } else {
     [-1, 1].forEach(s => box(g, 6, H, 4, C.stiff, s * (W / 2 - 3), cy, 2.8));
     [-1, 1].forEach(s => box(g, W - 12, 5, 4, C.stiff, 0, cy + s * (H / 2 - 2.5), 2.8));
-    // 两代的安装耳位置不同
-    if (T.gen === 2) [-1, 1].forEach(sx => [-1, 1].forEach(sy => box(g, 7, 8, 4, C.stiff, sx * (W / 2 + 3.5), cy + sy * (H / 2 - 4), 2.8)));
+    // 不同迭代的安装耳位置不同
+    if (!old) [-1, 1].forEach(sx => [-1, 1].forEach(sy => box(g, 7, 8, 4, C.stiff, sx * (W / 2 + 3.5), cy + sy * (H / 2 - 4), 2.8)));
     else [-1, 1].forEach(sx => box(g, 7, 12, 4, C.stiff, sx * (W / 2 + 3.5), cy, 2.8));
 
     if (T.kind === 'cm5') {
