@@ -4,7 +4,7 @@
   "seatY": 11.6,
   "initial": [["eps2", 0], ["bat2", 1], ["piklas", 3], ["cm5", 4]],
   "boards": {
-    "piklas": { "name": "PIKLAS Rework",  "gen": 2, "w": 1, "kind": "model", "model": "models/piklas.glb", "color": "#8fcf9f", "typ": 1.0,  "peak": 2.0 },
+    "piklas": { "name": "Piklas", "gen": 2, "w": 1, "kind": "model", "model": "models/piklas.glb", "color": "#8fcf9f" },
     "obc2":  { "name": "主控板 OBC",     "gen": 2, "w": 1, "kind": "std", "color": "#7cc4b8", "typ": 0.8,  "peak": 1.5 },
     "eps2":  { "name": "电源板 EPS",     "gen": 2, "w": 1, "kind": "std", "color": "#f2b872", "typ": 0.3,  "peak": 0.6 },
     "com2":  { "name": "通信板 UHF",     "gen": 2, "w": 1, "kind": "std", "color": "#ef8f84", "typ": 0.5,  "peak": 4.0 },

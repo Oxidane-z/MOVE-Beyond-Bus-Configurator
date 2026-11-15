@@ -134,7 +134,7 @@ Object.keys(TYPES).forEach(key => {
   b.type = 'button'; b.className = 'item'; b.id = 'lib-' + key; b.dataset.type = key;
   b.innerHTML = '<span class="sw" style="background:' + T.color + '"></span><span><span class="nm"></span><br><span class="mt"></span></span>';
   b.querySelector('.nm').textContent = T.name;
-  b.querySelector('.mt').textContent = (T.gen === 1 ? '一代' : '二代') + ' · 占 ' + T.w + ' 槽 · ' + (T.wh ? T.wh + ' Wh' : T.typ.toFixed(1) + ' W');
+  b.querySelector('.mt').textContent = (T.gen === 1 ? '一代' : '二代') + ' · 占 ' + T.w + ' 槽 · ' + (T.wh ? T.wh + ' Wh' : T.typ == null ? '功耗未填' : T.typ.toFixed(1) + ' W');
   b.addEventListener('click', () => setSel(sel && sel.kind === 'lib' && sel.type === key ? null : { kind: 'lib', type: key }));
   libList.appendChild(b);
 });
@@ -193,7 +193,8 @@ function renderUI() {
   if (placements.size) hint.appendChild(btn('清空', 'ghost', () => { [...placements.values()].forEach(removeCard); }));
 
   let typ = 0, peak = 0, wh = 0;
-  placements.forEach(p => { const T = TYPES[p.type]; typ += T.typ; peak += T.peak; wh += T.wh || 0; });
+  let missing = 0;
+  placements.forEach(p => { const T = TYPES[p.type]; if (T.typ == null) missing++; typ += T.typ || 0; peak += T.peak || 0; wh += T.wh || 0; });
   const used = slots.filter(s => s !== null).length;
   const rows = [['已用槽位', used + ' / ' + SLOTS], ['典型功耗', typ.toFixed(2) + ' W'], ['峰值功耗', peak.toFixed(2) + ' W'],
                 ['电池容量', wh.toFixed(1) + ' Wh'], ['续航', typ > 0 && wh > 0 ? (wh / typ).toFixed(1) + ' h' : '—']];
@@ -201,6 +202,7 @@ function renderUI() {
   rows.forEach(r => { const d = document.createElement('div'), dt = document.createElement('dt'), dd = document.createElement('dd');
     dt.textContent = r[0]; dd.textContent = r[1]; d.appendChild(dt); d.appendChild(dd); stats.appendChild(d); });
   const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = '示例数据'; stats.appendChild(tag);
+  if (missing) { const m = document.createElement('span'); m.className = 'tag'; m.textContent = missing + ' 块板未填功耗，未计入'; stats.appendChild(m); }
 }
 
 /* ---------- 画面交互 ---------- */
