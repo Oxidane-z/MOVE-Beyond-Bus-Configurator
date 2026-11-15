@@ -1,0 +1,16 @@
+{
+  "slots": 7,
+  "pitch": 13,
+  "seatY": 11.6,
+  "initial": [["eps2", 0], ["bat2", 1], ["obc2", 3], ["cm5", 4]],
+  "boards": {
+    "obc2":  { "name": "主控板 OBC",     "gen": 2, "w": 1, "kind": "std", "color": "#7cc4b8", "typ": 0.8,  "peak": 1.5 },
+    "eps2":  { "name": "电源板 EPS",     "gen": 2, "w": 1, "kind": "std", "color": "#f2b872", "typ": 0.3,  "peak": 0.6 },
+    "com2":  { "name": "通信板 UHF",     "gen": 2, "w": 1, "kind": "std", "color": "#ef8f84", "typ": 0.5,  "peak": 4.0 },
+    "adcs2": { "name": "姿控板 ADCS",    "gen": 2, "w": 1, "kind": "std", "color": "#a99be0", "typ": 1.2,  "peak": 3.0 },
+    "bat2":  { "name": "电池板 4×18650", "gen": 2, "w": 2, "kind": "bat", "color": "#e9d27a", "typ": 0.05, "peak": 0.05, "wh": 37.4 },
+    "cm5":   { "name": "CM5 载板",       "gen": 2, "w": 2, "kind": "cm5", "color": "#d97aa0", "typ": 3.0,  "peak": 8.0 },
+    "obc1":  { "name": "主控板 OBC",     "gen": 1, "w": 1, "kind": "std", "color": "#9fc9c1", "typ": 1.0,  "peak": 1.8 },
+    "com1":  { "name": "通信板 UHF",     "gen": 1, "w": 1, "kind": "std", "color": "#f0aaa2", "typ": 0.6,  "peak": 4.5 }
+  }
+}
