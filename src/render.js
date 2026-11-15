@@ -12,20 +12,37 @@ export const hitMat = new THREE.MeshBasicMaterial({ visible: false });
 
 const VERT = `
 varying vec3 vN;
+#ifdef USE_COLOR
+varying vec3 vC;
+#endif
 void main() {
   vN = normalize(mat3(modelMatrix) * normal);
+  #ifdef USE_COLOR
+  vC = color.rgb;
+  #endif
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }`;
 // 按世界法线取三档亮度：顶面最亮，Z 向面居中，X 向面最暗
 const FRAG = `
 uniform vec3 uColor;
 uniform vec3 uShade;
+uniform vec3 uDark;
+uniform vec3 uLight;
 varying vec3 vN;
+#ifdef USE_COLOR
+varying vec3 vC;
+#endif
 void main() {
   vec3 n = normalize(vN);
   vec3 w = n * n;
   float s = w.y * (n.y > 0.0 ? 1.0 : 0.45) + w.z * 0.84 + w.x * 0.62;
-  gl_FragColor = vec4(mix(uShade, uColor, s), 1.0);
+  vec3 base = uColor;
+  #ifdef USE_COLOR
+  // CAD 原色按亮度压到两色调色板上，只保留少量原色相，避免写实配色破坏平面风格
+  float l = dot(vC, vec3(0.2126, 0.7152, 0.0722));
+  base = mix(mix(uDark, uLight, smoothstep(0.02, 0.45, l)), vC, 0.3);
+  #endif
+  gl_FragColor = vec4(mix(uShade, base, s), 1.0);
   #include <colorspace_fragment>
 }`;
 
@@ -33,12 +50,27 @@ const matCache = new Map();
 export function flatMat(color) {
   if (!matCache.has(color)) {
     matCache.set(color, new THREE.ShaderMaterial({
-      uniforms: { uColor: { value: new THREE.Color(color) }, uShade },
+      uniforms: { uColor: { value: new THREE.Color(color) }, uShade, uDark: { value: new THREE.Color() }, uLight: { value: new THREE.Color() } },
       vertexShader: VERT, fragmentShader: FRAG,
       polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1
     }));
   }
   return matCache.get(color);
+}
+
+// CAD 模型用：颜色来自顶点色
+export const cadMat = new THREE.ShaderMaterial({
+  uniforms: { uColor: { value: new THREE.Color('#ffffff') }, uShade,
+              uDark: { value: new THREE.Color('#4a4664') }, uLight: { value: new THREE.Color('#e4e1ef') } },
+  vertexShader: VERT, fragmentShader: FRAG, vertexColors: true,
+  polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1
+});
+
+// 把 GLB 里的线段图元换成可设线宽的粗线
+export function fatLines(positions, mat = lineMat) {
+  const lg = new LineSegmentsGeometry();
+  lg.setPositions(positions);
+  return new LineSegments2(lg, mat);
 }
 
 export function addEdges(obj, geo, mat = lineMat) {

@@ -1,6 +1,38 @@
 // 占位几何：真实 STEP 转换出 GLB 后，这个文件由模型加载器取代。
 import * as THREE from 'three';
-import { box, wireBox, cylinder, hitMat } from './render.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { box, wireBox, cylinder, hitMat, flatMat, cadMat, fatLines } from './render.js';
+
+// 预加载 system.json 里所有带 model 字段的板卡，返回 key → 模板
+const templates = new Map();
+export const hasModel = key => templates.has(key);
+export async function loadModels(boards) {
+  const loader = new GLTFLoader();
+  await Promise.all(Object.entries(boards).filter(([, T]) => T.model).map(async ([key, T]) => {
+    const gltf = await loader.loadAsync(import.meta.env.BASE_URL + T.model);
+    const parts = [];
+    gltf.scene.traverse(o => {
+      if (o.isLineSegments) parts.push({ lines: o.geometry.attributes.position.array });
+      else if (o.isMesh) parts.push({ name: o.name, geometry: o.geometry });
+    });
+    const bounds = new THREE.Box3().setFromObject(gltf.scene);
+    templates.set(key, { parts, bounds });
+  }));
+}
+
+function buildModelCard(key, T, pitch) {
+  const tpl = templates.get(key), g = new THREE.Group();
+  for (const p of tpl.parts) {
+    if (p.lines) g.add(fatLines(p.lines));
+    // 基板用板卡自己的主色，元器件用顶点色
+    else g.add(new THREE.Mesh(p.geometry, p.name === 'board' ? flatMat(T.color) : cadMat));
+  }
+  const size = tpl.bounds.getSize(new THREE.Vector3()), c = tpl.bounds.getCenter(new THREE.Vector3());
+  const hit = new THREE.Mesh(new THREE.BoxGeometry(size.x + 4, size.y + 4, pitch * T.w), hitMat);
+  hit.position.set(c.x, c.y, T.w === 2 ? pitch / 2 : 0);
+  g.add(hit);
+  return { group: g, hit, shared: true };
+}
 
 const C = { base: '#d9d5e8', post: '#c9c4de', backplane: '#6fae8f', conn: '#3a3652', stiff: '#e4e1ef',
             comp: '#4a4664', cell: '#f3ead0', module: '#5d8f6e', sink: '#bfc3d6' };
@@ -21,6 +53,7 @@ export function buildStructure(scene, sys, slotZ) {
 
 // 板卡原点在背板连接器顶面、所占第一个槽的中心
 export function buildCard(key, T, pitch) {
+  if (T.kind === 'model') return buildModelCard(key, T, pitch);
   const g = new THREE.Group();
   const W = T.gen === 1 ? 80 : 92, H = T.gen === 1 ? 74 : 88, cy = 5 + H / 2;
   box(g, 58, 5, 3.2, C.conn, 0, 2.5, 0);

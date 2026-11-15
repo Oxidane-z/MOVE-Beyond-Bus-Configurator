@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import sys from '../system.json';
 import { wireBox, ghostMat, hitMat, applyTheme, setResolution } from './render.js';
-import { buildStructure, buildCard as buildCardGeo } from './models.js';
+import { buildStructure, buildCard as buildCardGeo, loadModels, hasModel } from './models.js';
 
 const SLOTS = sys.slots, PITCH = sys.pitch, SEAT_Y = sys.seatY, TYPES = sys.boards, INITIAL = sys.initial;
 const slotZ = i => (i - (SLOTS - 1) / 2) * PITCH;
@@ -73,7 +73,7 @@ function occupy(p, v) { for (let k = 0; k < TYPES[p.type].w; k++) slots[p.slot +
 
 function place(type, slot, animate) {
   const built = buildCard(type);
-  const p = { id: nextId++, type: type, slot: slot, group: built.group, hit: built.hit, busy: false };
+  const p = { id: nextId++, type: type, slot: slot, group: built.group, hit: built.hit, busy: false, shared: !!built.shared };
   built.hit.userData.id = p.id;
   p.group.position.set(0, SEAT_Y, slotZ(slot));
   placements.set(p.id, p);
@@ -105,7 +105,7 @@ function removeCard(p) {
   ['x', 'y', 'z'].forEach(k => tween(p.group.scale, k, 0.01, 480, easeIn));
   tween(p.group.position, 'y', SEAT_Y + 150, 480, easeIn).then(() => {
     scene.remove(p.group);
-    p.group.traverse(o => { if (o.geometry) o.geometry.dispose(); });
+    if (!p.shared) p.group.traverse(o => { if (o.geometry) o.geometry.dispose(); });
   });
   renderUI();
 }
@@ -289,6 +289,8 @@ function frameLoop(now) {
 
 applyTheme();
 resize();
-INITIAL.forEach(c => place(c[0], c[1], false));
 renderUI();
 requestAnimationFrame(frameLoop);
+loadModels(TYPES)
+  .catch(err => { console.error(err); hint.textContent = '模型加载失败：' + err.message; })
+  .then(() => { INITIAL.forEach(c => { if (TYPES[c[0]].kind !== 'model' || hasModel(c[0])) place(c[0], c[1], false); }); });
