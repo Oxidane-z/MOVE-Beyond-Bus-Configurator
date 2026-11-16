@@ -6,7 +6,7 @@
     {"ref": "TOSS", "match": ["FP-504050-0791*"], "label": "TOSS v5", "type": "io", "connector": "Molex Pico-Lock 7P", "desc": "Connects the TOSS v5 payload."},
     {"ref": "CAM-RS422", "match": ["PICOLOCK_4*"], "label": "SSTV camera RS-422", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Full-duplex RS-422 to the SSTV camera."},
     {"ref": "VHF-DEPLOY", "match": ["FP-503763-0691*"], "cluster": 0, "label": "SSTV VHF antenna deployment", "type": "actuator", "connector": "Molex Pico-Lock 6P", "desc": "Connects the deployment mechanism of the SSTV VHF antenna."},
-    {"ref": "VHF-ANT", "match": ["66011102111302*"], "label": "VHF antenna", "type": "rf", "connector": "RF coax (Würth 66011102111302)", "desc": "VHF antenna port for SSTV."},
+    {"ref": "VHF-ANT", "match": ["66011102111302*"], "label": "VHF antenna", "type": "rf", "connector": "MMCX", "desc": "VHF antenna port for SSTV."},
     {"ref": "CAM-I2S", "match": ["FP-503763-0691*"], "cluster": 1, "label": "SSTV camera I²S", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "I²S data link to the SSTV camera."}
   ]
 }

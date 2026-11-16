@@ -1,0 +1,15 @@
+{
+  "interfaces": [
+    {"ref": "BPC1", "label": "Backplane connector", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot. Carries CAN."},
+    {"ref": "STL1", "label": "ST-Link", "type": "debug", "connector": "Samtec FTSH-107 (2×7, 1.27 mm)", "desc": "Programming and debug port (SWD)."},
+    {"ref": "RJ1", "label": "E-Link", "type": "io", "connector": "RJ45", "desc": "Ethernet to the BEXUS E-Link."},
+    {"ref": "J1", "label": "Gondola power input", "type": "power", "connector": "Molex 205338-0002 (2P, 2 mm)", "desc": "28 V supply from the BEXUS gondola, up to 2.8 A. Goes through an ideal diode and an EMI filter."},
+    {"ref": "J2", "label": "24 V to backplane A", "type": "power", "connector": "Molex 205338-0006 (6P, 2 mm)", "desc": "24 V rail from the two on-board DC/DC converters, three 24 V and three GND pins. Wired in parallel with the other 24 V connector."},
+    {"ref": "J3", "label": "24 V to backplane B", "type": "power", "connector": "Molex 205338-0006 (6P, 2 mm)", "desc": "24 V rail from the two on-board DC/DC converters, three 24 V and three GND pins. Wired in parallel with the other 24 V connector."},
+    {"ref": "J4", "label": "Vacuum pump power", "type": "actuator", "connector": "Molex 205338-0002 (2P, 2 mm)", "desc": "Switched 24 V supply for the vacuum pump."},
+    {"ref": "J5", "label": "Vacuum pump control", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "UART and on/off signal to the vacuum pump."},
+    {"ref": "J6", "label": "Solenoid", "type": "actuator", "connector": "Molex 205338-0002 (2P, 2 mm)", "desc": "Low-side driven solenoid on switched 24 V."},
+    {"ref": "J7", "label": "Optical particle counter", "type": "sensor", "connector": "Molex Pico-Lock 6P", "desc": "Switched 5 V supply and SPI for the optical particle counter."},
+    {"ref": "J8", "label": "Filter wheel position", "type": "sensor", "connector": "Molex Pico-Lock 4P", "desc": "Three position indicator signals from the filter wheel."}
+  ]
+}

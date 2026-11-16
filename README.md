@@ -110,7 +110,7 @@ python pipeline/step2glb.py 040700_001_PayloadSB.STEP public/models/payload --bo
 ```
 
 ```bash
-python pipeline/step2glb.py PHILEAS_SB.step public/models/phileas --board Board --mate BPC1 --deflection 0.2 --angular 1.2
+python pipeline/step2glb.py PHILEAS_SB.step public/models/phileas --board Board --mate BPC1 --annotations boards/phileas.json --deflection 0.2 --angular 1.2
 ```
 
 `--split` 的前缀也匹配上级装配的名称，所以 `040500_ELE_002_BBSidePCB` 把电池的加热板子装配整个拆成 `battery-heater.glb`。两代电池包的外形一致，这块加热板同时用在 Battery Pack v4.3 REXUS edition 上。
@@ -140,4 +140,4 @@ python pipeline/step2glb.py Backplane_V8.step public/models/backplane --frame ba
 
 转换时带上 `--annotations`，这些接口各自输出成独立节点，查看器的"查看接口"模式据此高亮和编号。只改说明文字不用重新转换；新增接口或改 `ref`、`match`、`cluster` 需要重新转换。
 
-ADCS、Battery、OBDH 和扩展板的接口目前是按料号认出来的，名称是通用的（Port A1 等），用途还没有填。Iteration 1 的板卡里目前标注了 CDH SB、ADCS SB V2.1、COM Stack、Payload SB、Battery Pack v4.3 和电池加热板，PHILEAS 还没有标注。S-Band 板的 CAD 缺元器件（导出时丢失），两个 MMCX 哪个发哪个收是暂定的。
+ADCS、Battery、OBDH 和扩展板的接口目前是按料号认出来的，名称是通用的（Port A1 等），用途还没有填。Iteration 1 的所有板卡都已标注；PHILEAS 的接口是按原理图推断的。S-Band 板的 CAD 缺元器件（导出时丢失），两个 MMCX 哪个发哪个收是暂定的。
