@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import sys from '../system.json';
 import { t, applyStatic } from './i18n.js';
-import { applyTheme, setResolution } from './render.js';
+import { applyTheme, setResolution, drawSilhouette, SIL_LAYER } from './render.js';
 import { isFree as isFreeIn, fit as fitIn, swapPlan as swapPlanIn } from './slots.js';
 import { inkOn } from './color.js';
 import { BRACKET_MODES, serialize, parse, presetCfg, defaultBracket } from './config.js';
@@ -102,7 +102,7 @@ function place(type, slot, animate, opts) {
   for (let k = 0; k < TYPES[type].w; k++) if (!isFree(slot + k, null)) return;
   const built = buildCard(type);
   const p = { id: nextId++, type, slot, group: built.group, hit: built.hit, busy: false, interfaces: [], ownInterfaces: built.interfaces,
-              pivot: built.pivot, body: built.body, front: built.front, faceOffset: built.faceOffset, cx: built.cx, cy: built.cy,
+              pivot: built.pivot, body: built.body, front: built.front, faceOffset: built.faceOffset, cx: built.cx, cy: built.cy, top: built.top,
               bracket: built.bracket, bracketMode: (opts && opts.bracket) || defaultBracket(sys, type), exps: sitesOf(type).map(() => ({ key: null, exp: null, by: -1 })) };
   if (p.bracket) setBracket(p.bracket, p.bracketMode);
   sitesOf(type).forEach((site, i) => { const key = opts && !site.fixed ? opts.exps[i] : site.default; if (key) setExpansion(p, i, key); });
@@ -399,6 +399,62 @@ function updateInspect() {
   });
 }
 
+/* ---------- 悬停信息 ---------- */
+// 鼠标停在一块板上（三维视图里或槽位条上）：板卡描出剪影，上方浮出一张信息卡。触屏没有悬停，选中后的操作栏起同样的作用
+const hoverEl = document.getElementById('hoverCard');
+let hover = null;
+const silMeshes = p => { const out = []; p.group.traverse(o => { if (o.isMesh && !o.isLineSegments2 && o !== p.hit) out.push(o); }); return out; };
+function setHover(p) {
+  if (p === hover) return;
+  if (hover) silMeshes(hover).forEach(o => o.layers.disable(SIL_LAYER));
+  hover = p; dirty = true;
+  hoverEl.hidden = !p;
+  if (!p) return;
+  silMeshes(p).forEach(o => o.layers.enable(SIL_LAYER));
+  const T = TYPES[p.type], sub = SUBS[T.subsystem];
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  const dot = color => { const d = el('span', 'dot'); d.style.background = color; return d; };
+  hoverEl.textContent = '';
+  // 第一行：PCB 色块和名称；第二行：分系统、代际、所在槽位
+  const hd = el('div', 'hd'), sw = el('span', 'sw');
+  sw.style.background = T.color; hd.appendChild(sw); hd.appendChild(el('span', 'nm', T.name));
+  hoverEl.appendChild(hd);
+  const mt = el('div', 'mt');
+  if (sub) mt.appendChild(dot(sub.color));
+  mt.appendChild(document.createTextNode([sub && sub.label, sys.levels[T.level] || T.level,
+    t('banner.slot', { n: T.w === 2 ? (p.slot + 1) + '–' + (p.slot + 2) : p.slot + 1 })].filter(Boolean).join(' · ')));
+  hoverEl.appendChild(mt);
+  if (T.desc) hoverEl.appendChild(el('div', 'ds', T.desc));
+  const row = (label, node) => { const r = el('div', 'row'); r.appendChild(el('span', 'k', label)); r.appendChild(node); hoverEl.appendChild(r); };
+  // 接口按类型计数，色点用接口类型的颜色
+  if (p.interfaces.length) {
+    const counts = new Map();
+    p.interfaces.forEach(i => counts.set(i.note.type, (counts.get(i.note.type) || 0) + 1));
+    const v = el('span', 'v');
+    counts.forEach((n, type) => {
+      const I = sys.interfaceTypes[type] || { label: type, color: '#cccccc' }, c = el('span', 'tag');
+      c.appendChild(dot(I.color)); c.appendChild(document.createTextNode(n + ' ' + I.label)); v.appendChild(c);
+    });
+    row(t('hover.interfaces'), v);
+  }
+  sitesOf(p.type).forEach((site, i) => {
+    const e = p.exps[i];
+    if (!site.fixed && site.options.length && e.by < 0) row(site.name, el('span', 'v', e.key ? sys.expansions[e.key].name : t('expansion.none')));
+  });
+  if (p.bracket) row(t('bracket'), el('span', 'v', t('bracket.' + p.bracketMode)));
+  if (T.wh) row(t('hover.capacity'), el('span', 'v', T.wh + ' Wh'));
+  if (T.typ != null) row(t('hover.power'), el('span', 'v', T.typ.toFixed(2) + ' W' + (T.peak != null ? ' / ' + T.peak.toFixed(2) + ' W' : '')));
+}
+// 重画时：悬停的板不在了、动起来了或者进了别的模式就收起；信息卡贴在板卡上沿的上方，不出舞台
+function updateHover() {
+  if (hover && (!placements.has(hover.id) || hover.busy || inspect || bpBusy || pd || cellDrag)) setHover(null);
+  if (!hover) return;
+  const g = hover.group.position, W = stage.clientWidth, hw = hoverEl.offsetWidth / 2, hh = hoverEl.offsetHeight;
+  _v.set(g.x + hover.cx, g.y + hover.top, g.z).project(camera);
+  hoverEl.style.left = clamp((_v.x * 0.5 + 0.5) * W, hw + 8, W - hw - 8).toFixed(1) + 'px';
+  hoverEl.style.top = Math.max((-_v.y * 0.5 + 0.5) * stage.clientHeight, hh + 20).toFixed(1) + 'px';
+}
+
 /* ---------- 槽位编号标记 ---------- */
 const slotMarksEl = document.getElementById('slotMarks');
 let ready = false, bpBusy = false;   // bpBusy：正在换背板（板卡悬在半空，新旧背板在滑动）
@@ -539,6 +595,8 @@ function renderUI() {
       if (selected) c.classList.add('sel');
       if (cellDrag && cellDrag.active && cellDrag.id === p.id) c.classList.add('drag');
       label(T, T.w, T.name + levelSuffix(T), 'aria.slot');
+      c.addEventListener('mouseenter', () => { if (!cellDrag && !inspect && !p.busy) setHover(p); });
+      c.addEventListener('mouseleave', () => setHover(null));
     } else if (pend) {
       // 已经指定放在这里、模型还在路上：先占个位，免得点了以后一片空白
       const w = pend.w === 2 && i + 1 < SLOTS && slots[i + 1] === null ? 2 : 1;
@@ -747,6 +805,7 @@ cv.addEventListener('pointermove', e => {
   } else if (!inspect) {
     const h = pick(e);
     if (h.a) showTarget(h.a.w, h.slot);
+    setHover(e.pointerType === 'mouse' && h.card && h.slot < 0 && !h.card.busy ? h.card : null);
     cv.style.cursor = h.slot >= 0 || h.card ? 'pointer' : 'grab';
   }
 });
@@ -768,7 +827,7 @@ cv.addEventListener('pointerup', e => {
   pd = null; dragging = false; cv.style.cursor = 'grab';
 });
 cv.addEventListener('pointercancel', e => { release(e); pd = null; dragging = false; });
-cv.addEventListener('pointerleave', () => { if (!pd) showTarget(1, -1); });
+cv.addEventListener('pointerleave', () => { if (!pd) showTarget(1, -1); setHover(null); });
 cv.addEventListener('wheel', e => {
   e.preventDefault(); killTween(view, 'zoom');
   // 按滚动量连续缩放：鼠标滚轮一格（约 100）是 8%，触控板一次滑动发很多个小增量，合起来幅度相当。
@@ -867,7 +926,9 @@ function draw() {
   camera.updateMatrixWorld();
   updateInspect();
   updateSlotMarks();
+  updateHover();
   renderer.render(scene, camera);
+  if (hover) drawSilhouette(renderer, scene, camera);
 }
 
 applyStatic(document);

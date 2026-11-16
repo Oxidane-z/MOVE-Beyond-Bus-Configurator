@@ -90,6 +90,52 @@ export function fatLines(positions, mat = lineMat) {
   return new LineSegments2(lg, mat);
 }
 
+/* ---------- 剪影高亮 ---------- */
+// 光标指着的板卡：把它单独画成一张蒙版，再在整幅画面上叠一层——蒙版内淡淡铺一层强调色，蒙版边缘描一圈实线。
+// 叠在所有东西上面，所以被别的板挡住的部分也看得出轮廓。
+export const SIL_LAYER = 1;   // 要高亮的网格临时加到这一层
+const maskMat = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+const silMat = new THREE.ShaderMaterial({
+  uniforms: { tMask: { value: null }, uPx: { value: new THREE.Vector2() }, uColor: { value: new THREE.Color() }, uFill: { value: 0.16 } },
+  vertexShader: 'varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }',
+  fragmentShader: `
+uniform sampler2D tMask;
+uniform vec2 uPx;
+uniform vec3 uColor;
+uniform float uFill;
+varying vec2 vUv;
+void main() {
+  float m = texture2D(tMask, vUv).a, mx = 0.0;
+  for (int i = 0; i < 12; i++) {
+    float a = float(i) * 0.5235988;
+    vec2 d = vec2(cos(a), sin(a)) * uPx;
+    mx = max(mx, max(texture2D(tMask, vUv + d).a, texture2D(tMask, vUv + d * 0.5).a));
+  }
+  float alpha = max(mx * (1.0 - m), m * uFill);
+  if (alpha < 0.01) discard;
+  gl_FragColor = vec4(uColor, alpha);
+  #include <colorspace_fragment>
+}`,
+  transparent: true, depthTest: false, depthWrite: false
+});
+const silScene = new THREE.Scene(), silCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1), _size = new THREE.Vector2();
+silScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), silMat));
+let maskRT = null;
+// 在主画面画完之后调用
+export function drawSilhouette(renderer, scene, camera) {
+  renderer.getDrawingBufferSize(_size);
+  if (!maskRT) maskRT = new THREE.WebGLRenderTarget(_size.x, _size.y, { samples: 4 });
+  else if (maskRT.width !== _size.x || maskRT.height !== _size.y) maskRT.setSize(_size.x, _size.y);
+  const layers = camera.layers.mask, auto = renderer.autoClear;
+  camera.layers.set(SIL_LAYER); scene.overrideMaterial = maskMat;
+  renderer.setRenderTarget(maskRT); renderer.render(scene, camera); renderer.setRenderTarget(null);
+  camera.layers.mask = layers; scene.overrideMaterial = null;
+  silMat.uniforms.tMask.value = maskRT.texture;
+  const w = 2 * renderer.getPixelRatio();   // 描边宽度，CSS 像素约 2px
+  silMat.uniforms.uPx.value.set(w / _size.x, w / _size.y);
+  renderer.autoClear = false; renderer.render(silScene, silCam); renderer.autoClear = auto;
+}
+
 export function setResolution(w, h) {
   lineMat.resolution.set(w, h);
   lineMatLight.resolution.set(w, h);
@@ -102,4 +148,5 @@ export function applyTheme() {
   lineMat.color.set(v('--line3d'));
   lineMatLight.color.set(v('--line3d-light'));
   uShade.value.set(v('--shade3d'));
+  silMat.uniforms.uColor.value.set(v('--accent'));
 }

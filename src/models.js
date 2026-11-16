@@ -156,7 +156,7 @@ export function buildCard(key, T, pitch) {
   // 占两个槽的板卡，连接器可能在靠后的那个槽（connectorSlot 为 1）
   hit.position.set(cx, c.y + seat, T.w === 2 ? (T.connectorSlot ? -pitch / 2 : pitch / 2) : 0);
   g.add(hit);
-  return { group: g, hit, interfaces, pivot, body, front, bracket, faceOffset: front < 0 ? Math.PI : 0, cx, cy: c.y + seat };
+  return { group: g, hit, interfaces, pivot, body, front, bracket, faceOffset: front < 0 ? Math.PI : 0, cx, cy: c.y + seat, top: tpl.bounds.max.y + seat };
 }
 
 // 扩展板：模型和主板同一坐标系（可以带一个位移），直接挂在主板的 body 下。返回 { obj, interfaces }
