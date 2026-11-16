@@ -45,9 +45,9 @@
     "battery1": {"name": "Battery Pack v4.3", "subsystem": "power", "level": "rev1", "w": 2, "model": "models/battery1.glb", "color": "#6fae8f", "front": 1, "seat": -4.4, "wh": 64.8, "expansionSites": [{"name": "Heater board", "options": ["battery-heater"], "default": "battery-heater", "fixed": true}]},
     "payload": {"name": "Payload SB", "subsystem": "payload", "level": "rev1", "w": 1, "model": "models/payload.glb", "color": "#6fae8f", "front": -1, "seat": -4.4},
     "adcs1": {"name": "ADCS SB V2.1", "subsystem": "adcs", "level": "rev1", "w": 1, "model": "models/adcs1.glb", "color": "#6fae8f", "front": -1, "seat": -4.4},
-    "moveup": {"name": "MOVE UP SB", "subsystem": "recovery", "level": "rev1", "w": 1, "model": "models/moveup.glb", "color": "#6fae8f", "front": -1, "seat": -4.4},
-    "measurement": {"name": "Measurement SB", "subsystem": "data", "level": "rev1", "w": 1, "model": "models/measurement.glb", "color": "#6fae8f", "front": -1, "seat": -4.4},
-    "exp1": {"name": "EXP V1", "subsystem": "data", "level": "proto", "w": 2, "connectorSlot": 1, "model": "models/exp1.glb", "color": "#6fae8f", "front": -1, "seat": -4.4}
+    "moveup": {"name": "MOVE UP SB", "subsystem": "recovery", "level": "rev1", "w": 1, "model": "models/moveup.glb", "color": "#2c2d31", "front": -1, "seat": -4.4},
+    "measurement": {"name": "Measurement SB", "subsystem": "data", "level": "rev1", "w": 1, "model": "models/measurement.glb", "color": "#ecece9", "front": -1, "seat": -4.4},
+    "exp1": {"name": "EXP V1", "subsystem": "data", "level": "proto", "w": 2, "connectorSlot": 1, "model": "models/exp1.glb", "color": "#ecece9", "front": -1, "seat": -4.4}
   },
   "accessories": {
     "bracket-rev2": {"label": "Rev 2 standard bracket", "model": "models/bracket-rev2.glb"}
