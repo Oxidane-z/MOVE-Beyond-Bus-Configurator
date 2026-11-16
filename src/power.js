@@ -43,7 +43,7 @@ export function boardPower(T, sel) {
   for (const L of P.loads || []) {
     const vals = Object.values(L.states), def = defaultState(L), state = own(L.states, sel && sel[L.key]) ? sel[L.key] : def;
     add(L.rail, { now: L.states[state], idle: Math.min(...vals), typ: L.states[def], peak: Math.max(...vals) });
-    out.loads.push({ key: L.key, name: L.name || L.key, rail: L.rail, interface: L.interface || null, states: L.states, state, watts: L.states[state] });
+    out.loads.push({ key: L.key, name: L.name || L.key, rail: L.rail, interface: L.interface || null, states: L.states, labels: L.labels || {}, state, watts: L.states[state] });
   }
   return any ? out : null;
 }
@@ -54,9 +54,12 @@ export function boardPower(T, sel) {
 //   rails              各电源轨上的合计
 //   wh / usable        电池总容量 / 其中可用的
 //   runtime            各档的续航小时数；没有电池或没有功耗时为 null
+//   loss               降压损耗，电池端减板卡端
 //   missing            既没有功耗数据也不是电池的板卡数，未计入
+//   counted / boards   有功耗数据的板卡数 / 应该有功耗数据的板卡数（不含电池）
+//   partial            有板卡没计入：合计偏小，续航只是上限
 export function budget(entries, P = {}) {
-  const defs = P.rails || {}, b = { ...zero(), draw: zero(), rails: {}, wh: 0, usable: 0, runtime: {}, missing: 0, counted: 0 };
+  const defs = P.rails || {}, b = { ...zero(), draw: zero(), loss: zero(), rails: {}, wh: 0, usable: 0, runtime: {}, missing: 0, counted: 0, boards: 0, partial: false };
   for (const { T, sel } of entries) {
     b.wh += T.wh || 0;
     const bp = boardPower(T, sel);
@@ -70,18 +73,46 @@ export function budget(entries, P = {}) {
     ALL.forEach(k => { b[k] += bp[k]; b.draw[k] += bp[k] - railed[k]; });
   }
   b.usable = b.wh * (P.usable != null ? P.usable : 1);
-  ALL.forEach(k => { b.runtime[k] = b.usable > 0 && b.draw[k] > 0 ? b.usable / b.draw[k] : null; });
+  ALL.forEach(k => { b.loss[k] = b.draw[k] - b[k]; b.runtime[k] = b.usable > 0 && b.draw[k] > 0 ? b.usable / b.draw[k] : null; });
+  b.boards = b.counted + b.missing; b.partial = b.missing > 0;
   return b;
 }
 
-// 一块板在各电源轨上的峰值电流，以及是否超过单槽上限。defs 是 system.json 的 power.rails。
-// 返回 [{ rail, amps, limit, over }]，只含登记了电压的轨
+/* 场景：一键把所有负载设到一档。idle 各取最低的状态，typ 取默认，peak 取最高 */
+export const SCENARIOS = ['idle', 'typ', 'peak'];
+const pickState = (L, name) => {
+  if (name === 'typ') return defaultState(L);
+  const keys = Object.keys(L.states);
+  return keys.reduce((best, k) => (name === 'idle' ? L.states[k] < L.states[best] : L.states[k] > L.states[best]) ? k : best, keys[0]);
+};
+// 一块板在某个场景下各负载的状态 { 负载 key: 状态名 }
+export function scenarioSel(T, name) {
+  const sel = {};
+  for (const L of (T && T.power && T.power.loads) || []) sel[L.key] = pickState(L, name);
+  return sel;
+}
+// 现在各板选的状态合起来是哪个场景。按瓦数比（两个状态瓦数相同就不区分）；都对不上是 'custom'。
+// 没有任何可切换的负载时算 'typ'
+export function scenarioOf(entries) {
+  return SCENARIOS.slice().sort((a, b) => (b === 'typ') - (a === 'typ')).find(name => entries.every(({ T, sel }) =>
+    ((T.power && T.power.loads) || []).every(L => {
+      const cur = own(L.states, sel && sel[L.key]) ? sel[L.key] : defaultState(L);
+      return L.states[cur] === L.states[pickState(L, name)];
+    }))) || 'custom';
+}
+
+// 一块板在各电源轨上的电流，以及是否超过单槽上限。defs 是 system.json 的 power.rails。
+// 返回 [{ rail, amps, ampsNow, limit, over, overNow }]，只含登记了电压的轨。amps 按峰值算，ampsNow 按当前选的状态算：
+// overNow 是现在就超了，只有 over 是最坏情况下会超
 export function railCurrents(bp, defs = {}) {
   return Object.entries(bp.rails).filter(([rail]) => defs[rail] && defs[rail].volts > 0).map(([rail, r]) => {
-    const amps = r.peak / defs[rail].volts, limit = defs[rail].limit;
-    return { rail, amps, limit, over: limit != null && amps > limit };
+    const amps = r.peak / defs[rail].volts, ampsNow = r.now / defs[rail].volts, limit = defs[rail].limit;
+    return { rail, amps, ampsNow, limit, over: limit != null && amps > limit, overNow: limit != null && ampsNow > limit };
   });
 }
 
-export const fmtW = v => (v >= 10 ? v.toFixed(1) : v.toFixed(2)) + ' W';
+// 一位小数，不到 1 W 的保留两位
+export const fmtW = v => (Math.abs(v) >= 1 || v === 0 ? v.toFixed(1) : v.toFixed(2)) + ' W';
+// 按钮上用的短写法：去掉末尾的零（4 W、0.3 W）
+export const fmtWShort = v => String(+(Math.abs(v) >= 1 ? v.toFixed(1) : v.toFixed(2))) + ' W';
 export const fmtH = h => h == null ? '—' : h >= 100 ? Math.round(h) + ' h' : h.toFixed(1) + ' h';

@@ -3,6 +3,7 @@
 :root {
   --bg: #e3e3e0; --panel: #f2f2ef; --ink: #25262b; --muted: #5c5e65; --rule: #cbcbc6;
   --accent: #c9453d; --accent-ink: #ffffff; --accent-soft: #f6dcd9;
+  --warn: #8a5200; --warn-ink: #ffffff; --warn-soft: #f6e7c8;
   --line3d: #25262b; --line3d-light: #eeeeeb; --shade3d: #3a3c44; --on-card: #25262b;
   --font: "Inter", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -10,6 +11,7 @@
 :root[data-theme="dark"] {
   --bg: #1c1d20; --panel: #26272b; --ink: #ececee; --muted: #a0a2a9; --rule: #3b3c41;
   --accent: #ff8a7a; --accent-ink: #2a1512; --accent-soft: #4a2c2e;
+  --warn: #f2b340; --warn-ink: #2a1e00; --warn-soft: #4a3a14;
   --line3d: #0c0d0f; --line3d-light: #b4b6bd; --shade3d: #121316; color-scheme: dark }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -71,13 +73,10 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .tools button { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 32px; background: var(--panel); border: 1.5px solid var(--rule); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
 .tools button:hover { border-color: var(--muted); }
 /* 悬浮标签：鼠标停在按钮上或键盘聚焦时在按钮下方出现 */
-.tools [data-tip] { position: relative; }
-.tools [data-tip]::after { content: attr(data-tip); position: absolute; top: calc(100% + 6px); left: 0; z-index: 4; white-space: nowrap;
+[data-tip] { position: relative; }
+[data-tip]::after { content: attr(data-tip); position: absolute; top: calc(100% + 6px); left: 0; z-index: 4; white-space: nowrap;
   background: var(--ink); color: var(--bg); font-size: 12px; font-weight: 400; padding: 3px 8px; border-radius: 6px; opacity: 0; pointer-events: none; transition: opacity 0.12s ease; }
-.tools [data-tip]:hover::after, .tools [data-tip]:focus-visible::after { opacity: 1; }
-/* 切换图层的按钮：按下时是强调色，后面留一点空隙和其余工具分开 */
-.tools .toggle { margin-right: 6px; }
-.tools .toggle[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+[data-tip]:hover::after, [data-tip]:focus-within::after { opacity: 1; }
 .toast { position: absolute; top: 52px; left: 50%; transform: translate(-50%, -6px); max-width: calc(100% - 24px); background: var(--ink); color: var(--bg);
   font-size: 12px; padding: 4px 10px; border-radius: 6px; opacity: 0; transition: opacity 0.15s ease, transform 0.15s ease; pointer-events: none; }
 .toast.on { opacity: 1; transform: translate(-50%, 0); }
@@ -122,6 +121,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .stats div { flex: none; display: flex; gap: 8px; align-items: baseline; }
 .stats dt { color: var(--muted); font-size: 12px; }
 .stats dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; font-weight: 500; }
+.stats .tag.warn { color: var(--warn); border-color: var(--warn); }
 .stats .tag { font-size: 11px; color: var(--muted); border: 1px solid var(--rule); border-radius: 3px; padding: 0 5px; }
 
 /* ---------- 单板查看：接口标记与列表 ---------- */
@@ -151,34 +151,58 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* ---------- 功耗层 ---------- */
 /* 进入功耗层：布局和背板的选择收起，槽位条只读，配置在这一层不能改。三维模型在画布里被压暗（render.js 的 drawDim），上面画电源分布图 */
-.app.power .layouts { display: none; }
+.app.power .layouts:not(.view) { display: none; }
+/* 功耗层里布局和背板不能换，换成一行只读的文字，说明现在是哪套布局、哪块背板 */
+.ctx { display: none; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.app.power .ctx { display: inline; }
 .app.power .cell { cursor: default; touch-action: auto; }
+/* 功耗层的操作栏只有一个按钮，提示文字可以折成两行，窄屏上不用截断（操作栏总高度不变） */
+.app.power .hint span { white-space: normal; height: auto; max-height: calc(2 * var(--txt)); }
 /* 电源分布图节点上的标签：电源轨用各自的颜色，板卡用分系统颜色，其余是中性的 */
 .fnode { position: absolute; transform: translate(-50%, -50%); padding: 1px 7px; border-radius: 10px; border: 1.5px solid var(--line3d);
   font: 600 11px/1.4 var(--mono); white-space: nowrap; color: var(--on-card); pointer-events: none; }
 .fnode.plain { background: var(--panel); color: var(--ink); border-color: var(--muted); font-weight: 500; }
-.prow { display: grid; grid-template-columns: 26px minmax(0, 1fr); column-gap: 8px; align-items: baseline;
-  background: var(--panel); border: 1.5px solid var(--rule); border-radius: 6px; padding: 6px 10px; }
-.prow .no { font-family: var(--mono); font-size: 11px; color: var(--muted); }
-.prow .nm { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.prow { grid-template-columns: 26px minmax(0, 1fr) auto; }
-.prow .val { font-family: var(--mono); font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
-/* 负载：名称、所在电源轨，右边是切换状态的分段按钮 */
-.prow .load { grid-column: 2 / -1; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; border-top: 1px solid var(--rule); padding-top: 4px; margin-top: 2px; }
-.prow .load .ln { font-size: 12px; }
-.prow .load .lr { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-left: 6px; }
-.prow .load .seg button { padding: 1px 8px; font-size: 11px; min-height: 0; }
-.prow .val.none { color: var(--muted); }
-.prow.over { border-color: var(--accent); }
-.prow .warn { grid-column: 2 / -1; font-size: 11px; color: var(--accent); }
-.prow .sub { grid-column: 2 / -1; font-family: var(--mono); font-size: 11px; color: var(--muted); }
-.ptotal { margin: 4px 0 0; display: flex; flex-direction: column; gap: 2px; border-top: 1.5px solid var(--rule); padding-top: 8px; }
+/* 面板顶部固定的一块：场景按钮和合计小表；下面的明细跟着列表滚动 */
+.psum { position: sticky; top: 0; z-index: 1; background: var(--bg); display: flex; flex-direction: column; gap: 6px; padding-bottom: 6px; }
+.psum .seg { width: max-content; max-width: 100%; }
+.psum .seg button { min-height: 32px; padding: 2px 10px; font-size: 12px; }
+.psum .seg button:disabled { opacity: 1; color: var(--muted); }
+.ptable { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums; }
+.ptable th { font-family: var(--font); font-weight: 500; font-size: 11px; color: var(--muted); text-align: right; padding: 1px 0 1px 6px; }
+.ptable th[scope="row"] { text-align: left; padding-left: 0; }
+.ptable td { text-align: right; padding: 1px 0 1px 6px; white-space: nowrap; }
+.ptable .cur { color: var(--ink); font-weight: 600; }
+.ptable th.cur { text-decoration: underline; text-underline-offset: 3px; }
+.pnote { font-size: 11px; color: var(--warn); }
+.ptotal { margin: 0; display: flex; flex-direction: column; gap: 2px; border-top: 1.5px solid var(--rule); border-bottom: 1.5px solid var(--rule); padding: 6px 0; }
 .ptotal div { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
 .ptotal dt { color: var(--muted); font-size: 12px; }
-.ptotal dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; font-weight: 500; }
-/* 槽位条在功耗层：中性底色，名称下面一行数值，底部横条是相对比例 */
+.ptotal dd { margin: 0; font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums; }
+/* 每块板一行 */
+.prow { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; column-gap: 8px; align-items: baseline;
+  background: var(--panel); border: 1.5px solid var(--rule); border-radius: 6px; padding: 6px 10px; }
+.prow:hover, .prow:focus-within { border-color: var(--muted); }
+.prow.flash { border-color: var(--accent); background: var(--accent-soft); }
+.prow .no { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.prow .nm { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.prow .val { font-family: var(--mono); font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.prow .sub { grid-column: 2 / -1; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+/* 没有功耗数据的板：警告色，不是不起眼的灰字——它让合计偏小 */
+.prow.nodata { border-color: var(--warn); border-style: dashed; }
+.prow.nodata .val { color: var(--warn); }
+/* 超限：现在就超了是实心的警告条，只有峰值会超是描边的 */
+.prow.over { border-color: var(--warn); }
+.prow .warn { grid-column: 2 / -1; font-size: 11px; border: 1.5px solid var(--warn); border-radius: 4px; padding: 1px 6px; margin-top: 2px; color: var(--warn); }
+.prow .warn.now { background: var(--warn); color: var(--warn-ink); font-weight: 500; }
+/* 负载：名称、所在电源轨，下面是切换状态的分段按钮（按钮上带瓦数） */
+.prow .load { grid-column: 2 / -1; display: flex; align-items: center; justify-content: space-between; gap: 4px 8px; flex-wrap: wrap; border-top: 1px solid var(--rule); padding-top: 4px; margin-top: 2px; }
+.prow .load .ln { font-size: 12px; }
+.prow .load .lr { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-left: 6px; }
+.prow .load .seg button { min-height: 32px; padding: 2px 9px; font-size: 11px; white-space: nowrap; }
+.prow .load .seg .w { font-family: var(--mono); opacity: 0.75; margin-left: 4px; }
+/* 槽位条在功耗层：中性底色，名称下面一行数值 */
 .cell.pw { flex-direction: column; gap: 0; padding-left: 26px; background: var(--panel); color: var(--ink); border-color: var(--rule); }
-.cell.pw .pv { font-family: var(--mono); font-size: 11px; color: var(--muted); line-height: 1.2; }
+.cell.pw .pv { max-width: 100%; font-family: var(--mono); font-size: 11px; color: var(--muted); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cell.pw .lb { max-width: 100%; line-height: 1.3; }
 
 /* ---------- 悬停信息卡 ---------- */
@@ -209,10 +233,15 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* 手机：整页固定在一屏内，舞台始终可见，板卡库在下方自己滚动。放在文件最后，才盖得住上面的基础规则 */
 @media (max-width: 760px) {
-  .app { height: 100vh; height: 100dvh; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) minmax(0, 32dvh);
+  .app { height: 100vh; height: 100dvh; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) minmax(0, 28dvh);
     grid-template-areas: "head" "main" "lib"; row-gap: 10px; padding-block: 10px; }
   .head { padding-bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
-  .head h1 { font-size: 16px; }
+  /* 标题和层切换挤在同一行（标题放不下就截断），省出一行给三维视图 */
+  .head h1 { font-size: 16px; flex: 1 1 100px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .layouts.view { flex: none; flex-direction: column; align-items: flex-end; gap: 2px; }
+  .stats { gap: 0 14px; padding-top: 6px; }
+  .stats dt { font-size: 11px; }
+  .stats dd { font-size: 12px; }
   .layouts { margin-top: 0; }
   .layouts > span { display: none; }
   .seg button { min-height: 32px; }
@@ -220,7 +249,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .tools { gap: 4px; }
   .tools button { min-width: 32px; padding: 4px 6px; }
   .main { gap: 8px; }
-  .stage { min-height: 160px; }
+  .stage { min-height: 120px; }
   .dock { gap: 6px; }
   /* 提示文字单独一行（放不下就截断），按钮在下面换行排开，不用横向滚动 */
   .hint { --btn: 28px; --txt: 18px; --gap: 6px; }
@@ -230,6 +259,13 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .cell .lb { font-size: 10px; }
   .lib { overscroll-behavior: contain; padding-right: 0; }
   .fnode { font-size: 10px; padding: 0 5px; }
+  /* 手机上面板只有两百多像素高：合计不固定在顶上，否则明细没有地方滚；负载按钮加高到好点中 */
+  .psum { position: static; }
+  .prow .load .seg button, .psum .seg button { min-height: 40px; }
+  .cell.pw { padding-left: 16px; }
+  .cell.pw .pv { font-size: 10px; }
+  /* 手机上一屏放不下所有东西：功耗层里底部统计和面板顶上的合计是同一组数，收起底部那份 */
+  .app.power .stats { display: none; }
   /* 过滤标签排成一行横向滑动，不占掉板卡列表的高度 */
   .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; padding-bottom: 4px; }
   .chip { min-height: 32px; padding: 3px 12px; }

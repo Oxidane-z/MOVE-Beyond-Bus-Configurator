@@ -5,7 +5,7 @@ import { applyTheme, setResolution, drawSilhouette, drawDim, SIL_LAYER } from '.
 import { makeFlow } from './flow.js';
 import { isFree as isFreeIn, fit as fitIn, swapPlan as swapPlanIn } from './slots.js';
 import { inkOn } from './color.js';
-import { LEVELS, boardPower, budget, railCurrents, fmtW, fmtH } from './power.js';
+import { LEVELS, SCENARIOS, boardPower, budget, railCurrents, scenarioSel, scenarioOf, fmtW, fmtWShort, fmtH } from './power.js';
 import { BRACKET_MODES, serialize, parse, presetCfg, defaultBracket } from './config.js';
 import { buildStructure, buildCard as buildCardGeo, buildExpansion, loadBackplane, loadBoard, hasModel, setBracket } from './models.js';
 
@@ -551,7 +551,7 @@ filterGroups.forEach(g => g.chips.forEach(([value, label]) => {
 applyFilters();
 
 /* ---------- 功耗预算面板 ---------- */
-const powerPanel = document.getElementById('powerPanel'), layerBtn = document.getElementById('layerToggle');
+const powerPanel = document.getElementById('powerPanel'), layerSeg = document.getElementById('layerSeg'), ctxLine = document.getElementById('ctxLine');
 const appEl = document.getElementById('app');
 // 功耗层里配置是锁住的：不能选板、落位、互换、移除，也不能换布局和背板，只能切换负载的状态
 function setLayer(next) {
@@ -562,66 +562,121 @@ function setLayer(next) {
   setHover(null);
   setSel(null);   // 里面会 renderUI
 }
-layerBtn.addEventListener('click', () => setLayer(layer === 'power' ? 'layout' : 'power'));
+layerSeg.querySelectorAll('button').forEach(b => b.addEventListener('click', () => setLayer(b.dataset.layer)));
 const powerOf = p => boardPower(TYPES[p.type], p.loads);
-// 左侧面板的功耗层：每块已放置的板一行——当前功耗，下面是待机 / 典型 / 峰值的范围和各电源轨上的当前值，
-// 再下面是这块板的负载，各有一组按钮切换状态；最后是合计、各轨合计、电池和续航
+const powerEntries = () => [...placements.values()].filter(p => !p.leaving).map(p => ({ T: TYPES[p.type], sel: p.loads }));
+const usableRatio = () => sys.power && sys.power.usable != null ? sys.power.usable : 1;
+// 电池容量的统一写法：可用 / 标称
+const fmtCap = wh => (wh * usableRatio()).toFixed(1) + ' / ' + wh.toFixed(1) + ' Wh';
+// 续航：有板卡没计入时合计偏小，续航只是上限
+const fmtRun = (B, k) => B.runtime[k] == null ? '—' : (B.partial ? '≤ ' : '') + fmtH(B.runtime[k]);
+const scenarioName = s => t(s === 'custom' ? 'power.custom' : 'power.' + s);
+// 滚动到面板里某块板的那一行并短暂高亮。给三维视图里的标签用（点标签找到对应的行）
+function focusPowerRow(id) {
+  const r = document.getElementById('prow-' + id);
+  if (!r) return;
+  r.scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' });
+  r.classList.add('flash');
+  setTimeout(() => r.classList.remove('flash'), 1200);
+}
+// 左侧面板的功耗层。顶上固定一块：场景按钮（一键把所有负载设到最低 / 默认 / 最高）和合计小表；
+// 下面是各电源轨、转换损耗、电池端功率和电池容量；再下面每块已放置的板一行，带它的负载和切换状态的按钮
 function renderPower(B) {
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
   const num = v => fmtW(v).replace(' W', '');
   powerPanel.textContent = '';
-  powerPanel.appendChild(el('h2', '', t('power.title')));
-  const list = [...placements.values()].sort((a, b) => a.slot - b.slot);
+  const list = [...placements.values()].filter(p => !p.leaving).sort((a, b) => a.slot - b.slot);
+  const scn = scenarioOf(powerEntries());
+
+  const sum = el('div', 'psum');
+  sum.appendChild(el('h2', '', t('power.title')));
+  const seg = el('div', 'seg');
+  seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', t('power.scenario'));
+  [...SCENARIOS, 'custom'].forEach(name => {
+    const b = el('button', '', scenarioName(name));
+    b.type = 'button'; b.dataset.act = 'scn-' + name; b.setAttribute('aria-pressed', String(name === scn));
+    // Custom 不是可以选的东西：手动改了任一负载后它自己亮起来
+    if (name === 'custom') b.disabled = true;
+    else b.addEventListener('click', () => { placements.forEach(p => { p.loads = scenarioSel(TYPES[p.type], name); }); renderUI(); });
+    seg.appendChild(b);
+  });
+  sum.appendChild(seg);
+  if (B.counted) {
+    // 列是三个场景；当前是 Custom 时多一列。当前场景的那一列加粗
+    const cols = scn === 'custom' ? [...SCENARIOS, 'custom'] : SCENARIOS, key = c => c === 'custom' ? 'now' : c;
+    const table = el('table', 'ptable'), head = el('tr'), rowP = el('tr'), rowR = el('tr');
+    head.appendChild(el('th', '', ''));
+    cols.forEach(c => { const th = el('th', c === scn ? 'cur' : '', scenarioName(c)); th.scope = 'col'; head.appendChild(th); });
+    const hp = el('th', '', t('power.row.power')), hr = el('th', '', t('power.row.runtime'));
+    hp.scope = hr.scope = 'row'; rowP.appendChild(hp); rowR.appendChild(hr);
+    cols.forEach(c => {
+      rowP.appendChild(el('td', c === scn ? 'cur' : '', fmtW(B[key(c)])));
+      rowR.appendChild(el('td', c === scn ? 'cur' : '', fmtRun(B, key(c))));
+    });
+    table.appendChild(head); table.appendChild(rowP); table.appendChild(rowR);
+    sum.appendChild(table);
+    if (B.partial) sum.appendChild(el('div', 'pnote', t('power.counted', { n: B.counted, of: B.boards })));
+  }
+  powerPanel.appendChild(sum);
   if (!list.length) { powerPanel.appendChild(el('p', 'note', t('power.empty'))); return; }
+
+  const dl = el('dl', 'ptotal'), kv = (k, v) => { const d = el('div'); d.appendChild(el('dt', '', k)); d.appendChild(el('dd', '', v)); dl.appendChild(d); };
+  if (B.counted) {
+    Object.keys(RAILS).filter(k => B.rails[k]).forEach(k => kv(railLabel(k), fmtW(B.rails[k].now)));
+    kv(t('power.loss'), fmtW(B.loss.now));
+    kv(t('power.battSide'), fmtW(B.draw.now));
+  }
+  kv(t('power.battery'), fmtCap(B.wh));
+  powerPanel.appendChild(dl);
+  if (!B.counted) powerPanel.appendChild(el('p', 'note', t('power.none')));
+
   const rowsEl = el('div', 'list');
   list.forEach(p => {
-    const T = TYPES[p.type], bp = powerOf(p), sub = SUBS[T.subsystem], r = el('div', 'prow');
+    const T = TYPES[p.type], bp = powerOf(p), sub = SUBS[T.subsystem], r = el('div', 'prow' + (bp || T.wh ? '' : ' nodata'));
+    r.id = 'prow-' + p.id;
+    // 悬停或键盘聚焦到这一行：三维视图里对应的板卡描出剪影
+    r.addEventListener('mouseenter', () => { if (!p.busy) setHover(p); });
+    r.addEventListener('mouseleave', () => setHover(null));
+    r.addEventListener('focusin', () => { if (!p.busy) setHover(p); });
+    r.addEventListener('focusout', e => { if (!r.contains(e.relatedTarget)) setHover(null); });
     const nm = el('span', 'nm');
     if (sub) { const d = el('span', 'dot'); d.style.background = sub.color; nm.appendChild(d); }
     nm.appendChild(document.createTextNode(T.name));
     r.appendChild(el('span', 'no', T.w === 2 ? (p.slot + 1) + '–' + (p.slot + 2) : String(p.slot + 1)));
     r.appendChild(nm);
-    r.appendChild(el('span', 'val' + (bp || T.wh ? '' : ' none'), bp ? fmtW(bp.now) : T.wh ? T.wh + ' Wh' : t('power.noData')));
+    r.appendChild(el('span', 'val', bp ? fmtW(bp.now) : T.wh ? fmtCap(T.wh) : t('power.noData')));
     if (bp) {
       r.appendChild(el('span', 'sub', t('power.range', { idle: num(bp.idle), typ: num(bp.typ), peak: num(bp.peak) }) + ' W · ' + t('power.source.' + bp.source)));
+      // 分轨小计。只有一个负载、没有底噪的板，这一行和下面负载那行是同一个数，省掉
+      const single = bp.loads.length === 1 && Math.abs(bp.now - bp.loads[0].watts) < 1e-9;
       const parts = Object.entries(bp.rails).map(([k, v]) => railLabel(k) + ' ' + fmtW(v.now));
-      if (parts.length) r.appendChild(el('span', 'sub', parts.join(' · ')));
-      // 峰值电流超过单槽上限的电源轨
+      if (parts.length && !single) r.appendChild(el('span', 'sub', parts.join(' · ')));
       railCurrents(bp, RAILS).filter(c => c.over).forEach(c => {
         r.classList.add('over');
-        r.appendChild(el('span', 'warn', t('power.over', { rail: railLabel(c.rail), a: c.amps.toFixed(1), limit: c.limit })));
+        r.appendChild(el('span', 'warn' + (c.overNow ? ' now' : ''), t(c.overNow ? 'power.overNow' : 'power.overPeak',
+          { rail: railLabel(c.rail), a: (c.overNow ? c.ampsNow : c.amps).toFixed(1), limit: c.limit })));
       });
       bp.loads.forEach(L => {
-        const row = el('div', 'load'), left = el('span'), seg = el('div', 'seg');
+        const row = el('div', 'load'), left = el('span'), lseg = el('div', 'seg');
         const iface = L.interface && ifaceNotes(p.type).find(n => n.ref === L.interface);
         left.appendChild(el('span', 'ln', L.name + (iface ? ' (' + iface.label + ')' : '')));
-        left.appendChild(el('span', 'lr', (L.rail ? railLabel(L.rail) + ' ' : '') + fmtW(L.watts)));
-        seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', L.name);
+        if (L.rail) left.appendChild(el('span', 'lr', railLabel(L.rail)));
+        lseg.setAttribute('role', 'group'); lseg.setAttribute('aria-label', L.name);
         Object.keys(L.states).forEach(st => {
-          const b = el('button', '', st);
-          b.type = 'button'; b.title = fmtW(L.states[st]); b.setAttribute('aria-pressed', String(st === L.state));
+          // 按钮上是状态的显示名（没写就是键名）和它的瓦数；data-act 是重建面板后把键盘焦点还回来用的
+          const b = el('button', '', L.labels[st] || st);
+          b.appendChild(el('span', 'w', fmtWShort(L.states[st])));
+          b.type = 'button'; b.dataset.act = 'load-' + p.id + '-' + L.key + '-' + st; b.setAttribute('aria-pressed', String(st === L.state));
           // 负载状态不进撤销记录，也不算改了布局（预设仍然是那套预设）；它会跟着分享链接走
           b.addEventListener('click', () => { if (st === L.state) return; p.loads = { ...p.loads, [L.key]: st }; renderUI(); });
-          seg.appendChild(b);
+          lseg.appendChild(b);
         });
-        row.appendChild(left); row.appendChild(seg); r.appendChild(row);
+        row.appendChild(left); row.appendChild(lseg); r.appendChild(row);
       });
     }
     rowsEl.appendChild(r);
   });
   powerPanel.appendChild(rowsEl);
-  const dl = el('dl', 'ptotal'), kv = (k, v) => { const d = el('div'); d.appendChild(el('dt', '', k)); d.appendChild(el('dd', '', v)); dl.appendChild(d); };
-  const levels = ['now', ...LEVELS];
-  if (B.counted) {
-    levels.forEach(k => kv(t('power.' + k), fmtW(B[k])));
-    Object.keys(RAILS).filter(k => B.rails[k]).forEach(k => kv(railLabel(k) + ' · ' + t('power.now').toLowerCase(), fmtW(B.rails[k].now)));
-  }
-  kv(t('power.capacity'), B.wh.toFixed(1) + ' Wh');
-  if (B.wh > 0 && B.usable !== B.wh) kv(t('power.usable'), B.usable.toFixed(1) + ' Wh');
-  if (B.counted) levels.forEach(k => kv(t('power.runtime') + ' · ' + t('power.' + k).toLowerCase(), fmtH(B.runtime[k])));
-  powerPanel.appendChild(dl);
-  if (!B.counted) powerPanel.appendChild(el('p', 'note', t('power.none')));
-  else if (B.missing) powerPanel.appendChild(el('p', 'note', t('power.missing', { n: B.missing })));
 }
 
 /* ---------- 电源分布图 ---------- */
@@ -698,7 +753,7 @@ function rebuildFlow() {
     const T = TYPES[b.p.type], share = B.wh > 0 ? B.draw.now * T.wh / B.wh : 0, x = lane(NV), color = colorOf(RAIL_KEYS[NV]);
     flow.line([[x, b.top, b.zf], [x, y, b.zf], [x, y, b.z]], [0, b.top - y, b.len], color, opt(share));
     if (share > 0) arrow([x, (b.top + y) / 2, b.zf], [0, -1, 0], [1, 0, 0], color);
-    node(x, b.top + 4, b.zf, t('flow.battery') + ' ' + (T.wh * (B.wh > 0 ? B.usable / B.wh : 1)).toFixed(1) + ' Wh', tagColor(T));
+    node(x, b.top + 4, b.zf, t('flow.battery') + ' ' + fmtCap(T.wh), tagColor(T));
     if (sys.power.charger) node(x, y, b.z, sys.power.charger, null);
     if (sys.power.external) {
       flow.line([[x, y - 24, b.z], [x, y, b.z]], [0, 24], color, opt(0, true));
@@ -772,11 +827,13 @@ function renderUI() {
   dirty = true; flowDirty = true;
   syncLift();
   // 操作栏和槽位条每次整体重建。记下键盘焦点在哪个按钮上，重建后还给同一个按钮
-  const ae = document.activeElement, refocus = ae && (hint.contains(ae) || strip.contains(ae)) ? { id: ae.id, act: ae.dataset.act } : null;
+  const ae = document.activeElement, refocus = ae && (hint.contains(ae) || strip.contains(ae) || powerPanel.contains(ae)) ? { id: ae.id, act: ae.dataset.act, power: powerPanel.contains(ae) } : null;
   libPanel.hidden = !!inspect || layer !== 'layout'; ifacePanel.hidden = !inspect;
   powerPanel.hidden = !!inspect || layer !== 'power';
-  layerBtn.setAttribute('aria-pressed', String(layer === 'power')); layerBtn.disabled = !!inspect;
-  const B = budget([...placements.values()].map(p => ({ T: TYPES[p.type], sel: p.loads })), sys.power);
+  layerSeg.querySelectorAll('button').forEach(b => { b.setAttribute('aria-pressed', String(b.dataset.layer === layer)); b.disabled = !!inspect; });
+  // layout 和 bpKey 在文件后面才声明，第一次 renderUI（还没 ready）时碰不得
+  if (ready) ctxLine.textContent = [LAYOUTS[layout] && LAYOUTS[layout].name, bpKey && BACKPLANES[bpKey].name].filter(Boolean).join(' · ');
+  const B = budget(powerEntries(), sys.power);
   if (!powerPanel.hidden) renderPower(B);
   libList.querySelectorAll('.item').forEach(b => {
     b.disabled = !ready;
@@ -824,7 +881,7 @@ function renderUI() {
         // 功耗层：格子换成中性底色，第二行是当前功耗（电池是容量）
         const bp = powerOf(p), pv = document.createElement('span');
         c.classList.add('pw'); c.style.background = ''; c.style.color = '';
-        pv.className = 'pv'; pv.textContent = bp ? fmtW(bp.now) : T.wh ? T.wh + ' Wh' : '—';
+        pv.className = 'pv'; pv.textContent = bp ? fmtW(bp.now) : T.wh ? fmtCap(T.wh) : '—';
         c.appendChild(pv);
       }
       c.addEventListener('mouseenter', () => { if (!cellDrag && !inspect && !p.busy) setHover(p); });
@@ -910,18 +967,20 @@ function renderUI() {
   undoBtn.disabled = !undoStack.length || !!inspect || layer === 'power';
   redoBtn.disabled = !redoStack.length || !!inspect || layer === 'power';
 
-  const used = slots.filter(s => s !== null).length, showP = hasPower || layer === 'power';
-  const watts = v => v > 0 ? fmtW(v) : '—';
-  const rows = [[t('stats.slots'), used + ' / ' + SLOTS], ...(showP ? [[t('stats.typ'), watts(B.now)], [t('stats.peak'), watts(B.peak)]] : []),
-                [t('stats.capacity'), B.wh.toFixed(1) + ' Wh'], ...(showP ? [[t('stats.runtime'), fmtH(B.runtime.now)]] : [])];
+  // 底部统计：布局层固定显示典型值（在功耗层切过负载也不影响这里），功耗层显示当前场景的值
+  const used = slots.filter(s => s !== null).length, showP = hasPower || layer === 'power', pw = layer === 'power';
+  const watts = v => v > 0 ? fmtW(v) : '—', lvl = pw ? 'now' : 'typ';
+  const rows = [[t('stats.slots'), used + ' / ' + SLOTS],
+                ...(showP ? [[pw ? t('stats.now', { name: scenarioName(scenarioOf(powerEntries())) }) : t('stats.typ'), watts(B[lvl])], [t('stats.peak'), watts(B.peak)]] : []),
+                [t('stats.capacity'), fmtCap(B.wh)], ...(showP ? [[t('stats.runtime'), fmtRun(B, lvl)]] : [])];
   stats.textContent = '';
   rows.forEach(r => { const d = document.createElement('div'), dt = document.createElement('dt'), dd = document.createElement('dd');
     dt.textContent = r[0]; dd.textContent = r[1]; d.appendChild(dt); d.appendChild(dd); stats.appendChild(d); });
-  const tag = text => { const e = document.createElement('span'); e.className = 'tag'; e.textContent = text; stats.appendChild(e); };
-  if (B.missing && hasPower) tag(t('stats.missing', { n: B.missing }));
+  if (B.partial && showP) { const e = document.createElement('span'); e.className = 'tag warn'; e.textContent = t('power.counted', { n: B.counted, of: B.boards }); stats.appendChild(e); }
 
   if (refocus) {
-    const el = (refocus.id && document.getElementById(refocus.id)) || (refocus.act && hint.querySelector('[data-act="' + refocus.act + '"]')) || hint.querySelector('button');
+    const box = refocus.power ? powerPanel : hint;
+    const el = (refocus.id && document.getElementById(refocus.id)) || (refocus.act && box.querySelector('[data-act="' + refocus.act + '"]')) || box.querySelector('button:not(:disabled)');
     if (el) el.focus({ preventScroll: true });
   }
   syncHash();

@@ -144,3 +144,43 @@ describe('rail limits', () => {
     expect(c.map(v => [v.rail, +v.amps.toFixed(2), v.over])).toEqual([['5v', 6, true], ['vsys', 2, false]]);
   });
 });
+
+import { scenarioSel, scenarioOf, fmtW, fmtWShort } from '../src/power.js';
+describe('power: totals you can trust', () => {
+  const P = { rails: { '5v': { efficiency: 0.8, volts: 5, limit: 5 } }, usable: 1 };
+  const T = { power: { loads: [
+    { key: 'pa', rail: '5v', states: { off: 0, rx: 1, tx: 4 }, default: 'rx' },
+    { key: 'gnss', rail: '5v', states: { off: 0, on: 2 }, default: 'on' }] } };
+  it('marks the budget as partial and counts boards when some have no data', () => {
+    const b = budget([{ T: { wh: 10 } }, { T }, { T: {} }, { T: {} }], P);
+    expect([b.counted, b.boards, b.missing, b.partial]).toEqual([1, 3, 2, true]);
+    expect(budget([{ T: { wh: 10 } }, { T }], P).partial).toBe(false);
+  });
+  it('reports conversion loss as battery side minus board side', () => {
+    const b = budget([{ T }], P);
+    expect(b.now).toBeCloseTo(3);
+    expect(b.draw.now).toBeCloseTo(3.75);
+    expect(b.loss.now).toBeCloseTo(0.75);
+    expect(b.loss.peak).toBeCloseTo(6 / 0.8 - 6);
+  });
+  it('builds scenario selections and recognises them', () => {
+    expect(scenarioSel(T, 'idle')).toEqual({ pa: 'off', gnss: 'off' });
+    expect(scenarioSel(T, 'typ')).toEqual({ pa: 'rx', gnss: 'on' });
+    expect(scenarioSel(T, 'peak')).toEqual({ pa: 'tx', gnss: 'on' });
+    expect(scenarioOf([{ T, sel: {} }, { T: { wh: 5 } }])).toBe('typ');
+    expect(scenarioOf([{ T, sel: scenarioSel(T, 'peak') }])).toBe('peak');
+    expect(scenarioOf([{ T, sel: scenarioSel(T, 'idle') }])).toBe('idle');
+    expect(scenarioOf([{ T, sel: { pa: 'tx', gnss: 'off' } }])).toBe('custom');
+    expect(scenarioOf([])).toBe('typ');
+  });
+  it('tells a present overload from a worst-case one', () => {
+    const c = railCurrents(boardPower({ power: { loads: [{ key: 'x', rail: '5v', states: { a: 10, b: 30 }, default: 'a' }] } }), P.rails)[0];
+    expect([c.over, c.overNow]).toEqual([true, false]);
+    const d = railCurrents(boardPower({ power: { loads: [{ key: 'x', rail: '5v', states: { a: 10, b: 30 }, default: 'a' }] } }, { x: 'b' }), P.rails)[0];
+    expect([d.over, d.overNow]).toEqual([true, true]);
+  });
+  it('formats watts with one decimal, two below 1 W', () => {
+    expect([fmtW(5), fmtW(10), fmtW(20.04), fmtW(0.4), fmtW(0)]).toEqual(['5.0 W', '10.0 W', '20.0 W', '0.40 W', '0.0 W']);
+    expect([fmtWShort(4), fmtWShort(0.3), fmtWShort(0), fmtWShort(10.5)]).toEqual(['4 W', '0.3 W', '0 W', '10.5 W']);
+  });
+});
