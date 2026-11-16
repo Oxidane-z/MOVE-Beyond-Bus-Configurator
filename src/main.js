@@ -615,6 +615,7 @@ function renderPower(B) {
     Object.keys(RAILS).filter(k => B.rails[k]).forEach(k => kv(railLabel(k) + ' · ' + t('power.now').toLowerCase(), fmtW(B.rails[k].now)));
   }
   kv(t('power.capacity'), B.wh.toFixed(1) + ' Wh');
+  if (B.wh > 0 && B.usable !== B.wh) kv(t('power.usable'), B.usable.toFixed(1) + ' Wh');
   if (B.counted) levels.forEach(k => kv(t('power.runtime') + ' · ' + t('power.' + k).toLowerCase(), fmtH(B.runtime[k])));
   powerPanel.appendChild(dl);
   if (!B.counted) powerPanel.appendChild(el('p', 'note', t('power.none')));
@@ -654,8 +655,6 @@ function renderUI() {
   // 互换模式下，哪些板卡换得了
   const me = !inspect && sel && sel.swap ? placements.get(sel.id) : null;
   strip.textContent = ''; stripCells.length = 0;
-  let maxTyp = 0;
-  placements.forEach(p => { const bp = powerOf(p); if (bp) maxTyp = Math.max(maxTyp, bp.now); });
   let pendSpan = 0;
   for (let i = 0; i < SLOTS; i++) {
     const id = slots[i], p = id === null ? null : placements.get(id);
@@ -687,12 +686,11 @@ function renderUI() {
       if (cellDrag && cellDrag.active && cellDrag.id === p.id) c.classList.add('drag');
       label(T, T.w, T.name + levelSuffix(T), 'aria.slot');
       if (layer === 'power') {
-        // 功耗层：格子换成中性底色，第二行是典型功耗（电池是容量），底部横条是它相对最耗电那块板的比例
-        const bp = powerOf(p), pv = document.createElement('span'), bar = document.createElement('span');
+        // 功耗层：格子换成中性底色，第二行是当前功耗（电池是容量）
+        const bp = powerOf(p), pv = document.createElement('span');
         c.classList.add('pw'); c.style.background = ''; c.style.color = '';
         pv.className = 'pv'; pv.textContent = bp ? fmtW(bp.now) : T.wh ? T.wh + ' Wh' : '—';
-        bar.className = 'bar'; bar.style.width = (bp && maxTyp > 0 ? Math.max(2, bp.now / maxTyp * 100) : 0) + '%';
-        c.appendChild(pv); c.appendChild(bar);
+        c.appendChild(pv);
       }
       c.addEventListener('mouseenter', () => { if (!cellDrag && !inspect && !p.busy) setHover(p); });
       c.addEventListener('mouseleave', () => setHover(null));

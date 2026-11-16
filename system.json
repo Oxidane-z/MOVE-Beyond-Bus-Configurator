@@ -18,7 +18,7 @@
       "5v": {"label": "5V", "efficiency": 0.95, "volts": 5, "limit": 5},
       "3v3": {"label": "3V3", "efficiency": 0.95, "volts": 3.3, "limit": 5}
     },
-    "usable": 1
+    "usable": 0.9
   },
   "levels": {"proto": "Prototype", "rev1": "Revision 1", "rev2": "Revision 2"},
   "subsystems": {

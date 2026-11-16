@@ -41,6 +41,8 @@ const STRINGS = {
     'power.total': 'Total',
     'power.rails': 'By rail (typical)',
     'power.capacity': 'Battery capacity',
+    'power.usable': 'Usable down to 6.5 V',
+    'tip.power': 'Power budget · work in progress',
     'power.runtime': 'Runtime',
     'power.noData': 'no data',
     'power.source.est': 'est.',

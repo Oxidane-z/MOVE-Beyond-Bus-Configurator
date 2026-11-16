@@ -70,6 +70,11 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .tools { position: absolute; top: 10px; right: 10px; display: flex; gap: 6px; }
 .tools button { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 32px; background: var(--panel); border: 1.5px solid var(--rule); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
 .tools button:hover { border-color: var(--muted); }
+/* 悬浮标签：鼠标停在按钮上或键盘聚焦时在按钮下方出现 */
+.tools [data-tip] { position: relative; }
+.tools [data-tip]::after { content: attr(data-tip); position: absolute; top: calc(100% + 6px); left: 0; z-index: 4; white-space: nowrap;
+  background: var(--ink); color: var(--bg); font-size: 12px; font-weight: 400; padding: 3px 8px; border-radius: 6px; opacity: 0; pointer-events: none; transition: opacity 0.12s ease; }
+.tools [data-tip]:hover::after, .tools [data-tip]:focus-visible::after { opacity: 1; }
 /* 切换图层的按钮：按下时是强调色，后面留一点空隙和其余工具分开 */
 .tools .toggle { margin-right: 6px; }
 .tools .toggle[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
@@ -174,7 +179,6 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .cell.pw { flex-direction: column; gap: 0; padding-left: 26px; background: var(--panel); color: var(--ink); border-color: var(--rule); }
 .cell.pw .pv { font-family: var(--mono); font-size: 11px; color: var(--muted); line-height: 1.2; }
 .cell.pw .lb { max-width: 100%; line-height: 1.3; }
-.cell.pw .bar { position: absolute; left: 0; bottom: 0; height: 3px; background: var(--accent); }
 
 /* ---------- 悬停信息卡 ---------- */
 /* 贴在被指着的板卡上方。边框用强调色，和板卡的剪影描边是同一件事的两头 */
