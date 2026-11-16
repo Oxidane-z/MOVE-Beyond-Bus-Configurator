@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import sys from '../system.json';
 import { t, applyStatic } from './i18n.js';
-import { applyTheme, setResolution, drawSilhouette, SIL_LAYER } from './render.js';
+import { applyTheme, setResolution, drawSilhouette, drawDim, SIL_LAYER } from './render.js';
+import { makeFlow } from './flow.js';
 import { isFree as isFreeIn, fit as fitIn, swapPlan as swapPlanIn } from './slots.js';
 import { inkOn } from './color.js';
 import { LEVELS, boardPower, budget, railCurrents, fmtW, fmtH } from './power.js';
@@ -557,6 +558,7 @@ function setLayer(next) {
   if (inspect || layer === next) return;
   layer = next;
   appEl.classList.toggle('power', layer === 'power');
+  tween(dim, 'a', layer === 'power' ? DIM : 0, 250, easeInOut);
   setHover(null);
   setSel(null);   // 里面会 renderUI
 }
@@ -622,6 +624,73 @@ function renderPower(B) {
   else if (B.missing) powerPanel.appendChild(el('p', 'note', t('power.missing', { n: B.missing })));
 }
 
+/* ---------- 电源分布图 ---------- */
+// 功耗层里叠在压暗的模型上：电池经充电芯片接到 VSYS 干线，VSYS 经背板上的两路降压分出 5V 和 3V3 干线，
+// 三条干线沿背板靠镜头一侧的边缘排开；每块板从它用到的干线上各分出一条支线，沿板卡靠镜头的那条边升到板的上角。
+// 线宽随当前功率变化；没有电流的支路画成虚线。线走在模型外侧，不钻进板卡之间
+const DIM = 0.72, dim = { a: 0 };
+const flow = makeFlow(), flowMarks = document.getElementById('flowMarks');
+let flowNodes = [], flowDirty = true, flowSide = 0;
+const RAIL_KEYS = Object.keys(RAILS);
+function rebuildFlow(side) {
+  flow.clear(); flowMarks.textContent = ''; flowNodes = [];
+  const list = [...placements.values()].filter(p => !p.leaving && !p.busy);
+  const B = budget(list.map(p => ({ T: TYPES[p.type], sel: p.loads })), sys.power);
+  const max = Math.max(B.draw.now, 1e-6), wOf = w => 1.4 + 5 * Math.sqrt(Math.max(w, 0) / max);
+  const colorOf = k => (RAILS[k] && RAILS[k].color) || '#cccccc';
+  const node = (x, y, z, text, bg) => {
+    const e = document.createElement('span');
+    e.className = 'fnode' + (bg ? '' : ' plain'); e.textContent = text;
+    if (bg) { e.style.background = bg; e.style.color = inkOn(bg); }
+    flowMarks.appendChild(e); flowNodes.push({ e, pos: new THREE.Vector3(x, y, z) });
+  };
+  const edge = S.cx + side * S.hx, y = S.topY + 0.6, riserX = edge + side * 2;
+  const xr = k => edge + side * (8 + 6 * k);                 // 第 k 条干线的位置，VSYS 最靠里
+  const zA = slotZ(0) - PITCH * 0.9, zB = slotZ(SLOTS - 1) + PITCH * 0.6;
+  // 干线。VSYS 上走的是电池端的总功率（含降压损耗），其余两条是各自的合计
+  RAIL_KEYS.forEach((k, n) => {
+    const w = k === 'vsys' ? B.draw.now : B.rails[k] ? B.rails[k].now : 0, z0 = zA - (n ? (n - 1) * 5 : 5 * (RAIL_KEYS.length - 2));
+    const zEnd = zB + n * 9;   // 三条干线的末端错开，标签才不会叠在一起
+    flow.line([[xr(n), y, z0], [xr(n), y, zEnd]], colorOf(k), wOf(w), w <= 0);
+    // 降压：从 VSYS 干线的起点一侧接到这条干线的起点
+    if (n) flow.line([[xr(0), y, z0], [xr(n), y, z0]], colorOf(k), wOf(w), w <= 0);
+    node(xr(n), y, zEnd + 4, railLabel(k) + ' ' + fmtW(w), colorOf(k));
+  });
+  list.forEach(p => {
+    const T = TYPES[p.type], zc = p.group.position.z, top = SEAT_Y + p.top + 3;
+    if (T.wh) {
+      // 电池：经充电芯片并入 VSYS；外部充电口在背板背面，画成向下的一条虚线
+      const share = B.wh > 0 ? B.draw.now * T.wh / B.wh : 0;
+      flow.line([[xr(0), y, zc], [riserX, y, zc], [riserX, top, zc]], colorOf('vsys'), wOf(share), share <= 0);
+      node(riserX, top, zc, t('flow.battery') + ' ' + (T.wh * (B.wh > 0 ? B.usable / B.wh : 1)).toFixed(1) + ' Wh', tagColor(T));
+      if (sys.power.charger) node(xr(0), y, zc, sys.power.charger, null);
+      if (sys.power.external) {
+        flow.line([[xr(0), y, zc], [xr(0), y - 26, zc]], colorOf('vsys'), wOf(0), true);
+        node(xr(0), y - 26, zc, sys.power.external, null);
+      }
+      return;
+    }
+    const bp = powerOf(p);
+    if (!bp) return;
+    const used = RAIL_KEYS.filter(k => bp.rails[k]);
+    used.forEach(k => {
+      const n = RAIL_KEYS.indexOf(k), z = zc + (n - (RAIL_KEYS.length - 1) / 2) * 1.8, w = bp.rails[k].now;
+      flow.line([[xr(n), y, z], [riserX, y, z], [riserX, top, z]], colorOf(k), wOf(w), w <= 0);
+    });
+    if (used.length) node(riserX, top, zc, fmtW(bp.now), tagColor(T));
+  });
+}
+// 重画时：配置或负载变了、或者镜头转到了背板的另一侧，就重建；然后把节点标签投影到屏幕上
+function updateFlow() {
+  const on = layer === 'power' && !inspect && ready && !bpBusy;
+  flowMarks.hidden = !on;
+  if (!on) return false;
+  const side = Math.sin(view.yaw) >= 0 ? 1 : -1;
+  if (flowDirty || side !== flowSide) { rebuildFlow(side); flowDirty = false; flowSide = side; }
+  flowNodes.forEach(n => toScreen(_v.copy(n.pos), n.e));
+  return true;
+}
+
 // 选中的那块板抬起一点，其余的都落回槽里。每次界面更新时按当前的选中状态重新对一遍，
 // 而不是只在“换选中”的那一刻动这两块板：有些路径直接改了选中（互换失败、撤销），靠增量更新会留下悬在半空的板
 function syncLift() {
@@ -634,7 +703,7 @@ function syncLift() {
   });
 }
 function renderUI() {
-  dirty = true;
+  dirty = true; flowDirty = true;
   syncLift();
   // 操作栏和槽位条每次整体重建。记下键盘焦点在哪个按钮上，重建后还给同一个按钮
   const ae = document.activeElement, refocus = ae && (hint.contains(ae) || strip.contains(ae)) ? { id: ae.id, act: ae.dataset.act } : null;
@@ -1020,6 +1089,7 @@ function resize() {
   renderer.setSize(w, h, false);
   aspect = w / h;
   setResolution(w, h);
+  flow.setResolution(w, h);
   draw();   // 改尺寸会清空画布，当场重画一帧，否则会闪一下
 }
 new ResizeObserver(resize).observe(stage);
@@ -1032,7 +1102,7 @@ function frameLoop() {
     const u = Math.min(1, (now - w.t0) / w.ms);
     w.o[w.k] = w.from + (w.to - w.from) * w.ease(u);
     // 补间结束后接着执行的收尾（摘掉模型、复位朝向）发生在这一帧之后，所以下一帧再画一次
-    if (u >= 1) { tweens.delete(w); w.res(); dirty = true; }
+    if (u >= 1) { tweens.delete(w); w.res(); dirty = true; flowDirty = true; }
   }
   if (active) draw();   // 没有变化就不重画
   requestAnimationFrame(frameLoop);
@@ -1052,6 +1122,9 @@ function draw() {
   updateSlotMarks();
   updateHover();
   renderer.render(scene, camera);
+  // 功耗层：把模型压暗，再在上面画电源分布图
+  if (dim.a > 0.005) drawDim(renderer, dim.a);
+  if (updateFlow()) { renderer.autoClear = false; renderer.render(flow.scene, camera); renderer.autoClear = true; }
   if (hover) drawSilhouette(renderer, scene, camera);
 }
 

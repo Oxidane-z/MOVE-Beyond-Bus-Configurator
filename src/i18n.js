@@ -33,6 +33,7 @@ const STRINGS = {
     'power': 'Power',
     'aria.powerLayer': 'Power budget',
     'power.title': 'Power budget',
+    'flow.battery': 'Battery',
     'hint.power': 'Power budget. Switch load states on the left. The layout is locked in this view.',
     'power.now': 'Now',
     'power.idle': 'Idle',

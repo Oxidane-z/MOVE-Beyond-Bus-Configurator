@@ -14,11 +14,13 @@
   "initial": "custom",
   "power": {
     "rails": {
-      "vsys": {"label": "VSYS", "efficiency": 1, "volts": 6.5, "range": [6.5, 8.4], "limit": 5},
-      "5v": {"label": "5V", "efficiency": 0.95, "volts": 5, "limit": 5},
-      "3v3": {"label": "3V3", "efficiency": 0.95, "volts": 3.3, "limit": 5}
+      "vsys": {"label": "VSYS", "color": "#ecd06a", "efficiency": 1, "volts": 6.5, "range": [6.5, 8.4], "limit": 5},
+      "5v": {"label": "5V", "color": "#f2a57e", "efficiency": 0.95, "volts": 5, "limit": 5},
+      "3v3": {"label": "3V3", "color": "#7fd0c6", "efficiency": 0.95, "volts": 3.3, "limit": 5}
     },
-    "usable": 0.9
+    "usable": 0.9,
+    "charger": "MAX77961",
+    "external": "External charge"
   },
   "levels": {"proto": "Prototype", "rev1": "Revision 1", "rev2": "Revision 2"},
   "subsystems": {

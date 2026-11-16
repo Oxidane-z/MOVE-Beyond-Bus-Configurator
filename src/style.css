@@ -150,12 +150,13 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .iface .sd { font-size: 11px; color: var(--muted); border: 1px solid var(--rule); border-radius: 3px; padding: 0 4px; margin-left: 6px; }
 
 /* ---------- 功耗层 ---------- */
-/* 进入功耗层：三维视图整体退到背景里，布局和背板的选择收起，槽位条只读。配置在这一层不能改 */
-.stage canvas { transition: opacity 0.25s ease; }
-.app.power .stage canvas { opacity: 0.35; }
+/* 进入功耗层：布局和背板的选择收起，槽位条只读，配置在这一层不能改。三维模型在画布里被压暗（render.js 的 drawDim），上面画电源分布图 */
 .app.power .layouts { display: none; }
 .app.power .cell { cursor: default; touch-action: auto; }
-@media (prefers-reduced-motion: reduce) { .stage canvas { transition: none; } }
+/* 电源分布图节点上的标签：电源轨用各自的颜色，板卡用分系统颜色，其余是中性的 */
+.fnode { position: absolute; transform: translate(-50%, -50%); padding: 1px 7px; border-radius: 10px; border: 1.5px solid var(--line3d);
+  font: 600 11px/1.4 var(--mono); white-space: nowrap; color: var(--on-card); pointer-events: none; }
+.fnode.plain { background: var(--panel); color: var(--ink); border-color: var(--muted); font-weight: 500; }
 .prow { display: grid; grid-template-columns: 26px minmax(0, 1fr); column-gap: 8px; align-items: baseline;
   background: var(--panel); border: 1.5px solid var(--rule); border-radius: 6px; padding: 6px 10px; }
 .prow .no { font-family: var(--mono); font-size: 11px; color: var(--muted); }

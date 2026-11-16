@@ -136,6 +136,28 @@ export function drawSilhouette(renderer, scene, camera) {
   renderer.autoClear = false; renderer.render(silScene, silCam); renderer.autoClear = auto;
 }
 
+/* ---------- 压暗 ---------- */
+// 在已经画好的模型上盖一层半透明的背景色，让它退到后面，上面再画功耗层的电源分布图
+const dimMat = new THREE.ShaderMaterial({
+  uniforms: { uColor: { value: new THREE.Color() }, uAlpha: { value: 0 } },
+  vertexShader: 'void main() { gl_Position = vec4(position.xy, 0.0, 1.0); }',
+  fragmentShader: `
+uniform vec3 uColor;
+uniform float uAlpha;
+void main() {
+  gl_FragColor = vec4(uColor, uAlpha);
+  #include <colorspace_fragment>
+}`,
+  transparent: true, depthTest: false, depthWrite: false
+});
+const dimScene = new THREE.Scene();
+dimScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), dimMat));
+export function drawDim(renderer, alpha) {
+  const auto = renderer.autoClear;
+  dimMat.uniforms.uAlpha.value = alpha;
+  renderer.autoClear = false; renderer.render(dimScene, silCam); renderer.autoClear = auto;
+}
+
 export function setResolution(w, h) {
   lineMat.resolution.set(w, h);
   lineMatLight.resolution.set(w, h);
@@ -149,4 +171,5 @@ export function applyTheme() {
   lineMatLight.color.set(v('--line3d-light'));
   uShade.value.set(v('--shade3d'));
   silMat.uniforms.uColor.value.set(v('--accent'));
+  dimMat.uniforms.uColor.value.set(v('--bg'));
 }
