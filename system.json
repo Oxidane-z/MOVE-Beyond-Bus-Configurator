@@ -15,8 +15,8 @@
   "power": {
     "rails": {
       "vsys": {"label": "VSYS", "efficiency": 1, "volts": 6.5, "range": [6.5, 8.4], "limit": 5},
-      "5v": {"label": "5V", "efficiency": 1, "volts": 5, "limit": 5},
-      "3v3": {"label": "3V3", "efficiency": 1, "volts": 3.3, "limit": 5}
+      "5v": {"label": "5V", "efficiency": 0.95, "volts": 5, "limit": 5},
+      "3v3": {"label": "3V3", "efficiency": 0.95, "volts": 3.3, "limit": 5}
     },
     "usable": 1
   },
@@ -45,8 +45,8 @@
     "piklas": {"name": "Piklas", "subsystem": "payload", "level": "rev2", "w": 1, "model": "models/piklas.glb", "color": "#6a5796", "front": -1, "seat": -4.8, "bracket": "bracket-rev2"},
     "battery": {"name": "Battery Pack v4.3 REXUS edition", "subsystem": "power", "level": "rev2", "w": 2, "model": "models/battery.glb", "color": "#6fae8f", "front": 1, "seat": -4.4, "wh": 64.8, "expansionSites": [{"name": "Heater board", "options": ["battery-heater"], "default": "battery-heater", "fixed": true}]},
     "adcs": {"name": "ADCS V2.1 REXUS edition", "subsystem": "adcs", "level": "rev2", "w": 1, "model": "models/adcs.glb", "color": "#2c2d31", "front": -1, "seat": -4.4, "bracket": "bracket-rev2"},
-    "obdh": {"name": "Rexus OBDH (EXP V2)", "subsystem": "data", "power": {"rails": {"5v": [5, 10, 20]}, "source": "est"}, "level": "rev2", "w": 2, "connectorSlot": 1, "model": "models/obdh.glb", "color": "#ecece9", "front": 1, "seat": -4.4, "expansionSites": [{"name": "Expansion", "options": ["obdh-expansion"], "default": "obdh-expansion"}]},
-    "recovery": {"name": "Recovery V2", "subsystem": "recovery", "power": {"rails": {"3v3": [0.1, 0.4, 1.4], "5v": [0, 0, 4]}, "source": "est"}, "level": "rev2", "w": 1, "model": "models/recovery.glb", "color": "#4d6c9e", "front": -1, "seat": -4.8, "bracket": "bracket-rev2", "expansionSites": [{"name": "Expansion 1", "options": [], "default": null}, {"name": "Expansion 2", "options": [], "default": null}]},
+    "obdh": {"name": "Rexus OBDH (EXP V2)", "subsystem": "data", "power": {"loads": [{"key": "cm5", "name": "CM5", "rail": "5v", "states": {"idle": 5, "processing": 10, "max": 20}, "default": "processing"}], "source": "est"}, "level": "rev2", "w": 2, "connectorSlot": 1, "model": "models/obdh.glb", "color": "#ecece9", "front": 1, "seat": -4.4, "expansionSites": [{"name": "Expansion", "options": ["obdh-expansion"], "default": "obdh-expansion"}]},
+    "recovery": {"name": "Recovery V2", "subsystem": "recovery", "power": {"base": {"3v3": 0.1}, "loads": [{"key": "lora-pa", "name": "LoRa2021F33", "rail": "5v", "states": {"off": 0, "tx": 4}, "default": "off"}, {"key": "lora", "name": "LoRa2021", "rail": "3v3", "states": {"off": 0, "tx": 1}, "default": "off"}, {"key": "gnss", "name": "GNSS", "rail": "3v3", "states": {"off": 0, "on": 0.3}, "default": "on"}], "source": "est"}, "level": "rev2", "w": 1, "model": "models/recovery.glb", "color": "#4d6c9e", "front": -1, "seat": -4.8, "bracket": "bracket-rev2", "expansionSites": [{"name": "Expansion 1", "options": [], "default": null}, {"name": "Expansion 2", "options": [], "default": null}]},
     "phileas": {"name": "PHILEAS SB", "subsystem": "payload", "level": "rev1", "w": 1, "model": "models/phileas.glb", "color": "#4d6c9e", "front": -1, "seat": -4.4},
     "comstack": {"name": "COM Stack", "subsystem": "comms", "level": "rev1", "w": 2, "connectorSlot": 1, "model": "models/com.glb", "color": "#2c2d31", "front": -1, "seat": -4.4, "expansionSites": [{"name": "S-Band", "options": ["sband"], "default": "sband", "fixed": true}]},
     "cdh": {"name": "CDH SB", "subsystem": "data", "level": "rev1", "w": 1, "model": "models/cdh.glb", "color": "#6fae8f", "front": -1, "seat": -4.4},

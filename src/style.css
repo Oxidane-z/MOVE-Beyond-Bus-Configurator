@@ -70,6 +70,9 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .tools { position: absolute; top: 10px; right: 10px; display: flex; gap: 6px; }
 .tools button { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 32px; background: var(--panel); border: 1.5px solid var(--rule); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
 .tools button:hover { border-color: var(--muted); }
+/* 切换图层的按钮：按下时是强调色，后面留一点空隙和其余工具分开 */
+.tools .toggle { margin-right: 6px; }
+.tools .toggle[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .toast { position: absolute; top: 52px; left: 50%; transform: translate(-50%, -6px); max-width: calc(100% - 24px); background: var(--ink); color: var(--bg);
   font-size: 12px; padding: 4px 10px; border-radius: 6px; opacity: 0; transition: opacity 0.15s ease, transform 0.15s ease; pointer-events: none; }
 .toast.on { opacity: 1; transform: translate(-50%, 0); }
@@ -142,14 +145,17 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .iface .sd { font-size: 11px; color: var(--muted); border: 1px solid var(--rule); border-radius: 3px; padding: 0 4px; margin-left: 6px; }
 
 /* ---------- 功耗层 ---------- */
-/* 左侧面板顶上的页签：板卡库 / 功耗预算 */
-.tabs { margin: 4px 0 8px; width: max-content; }
-.phead { font-family: var(--mono); font-size: 11px; color: var(--muted); padding-left: 46px; }
 .prow { display: grid; grid-template-columns: 26px minmax(0, 1fr); column-gap: 8px; align-items: baseline;
   background: var(--panel); border: 1.5px solid var(--rule); border-radius: 6px; padding: 6px 10px; }
 .prow .no { font-family: var(--mono); font-size: 11px; color: var(--muted); }
 .prow .nm { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.prow .val { grid-column: 2 / -1; font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.prow { grid-template-columns: 26px minmax(0, 1fr) auto; }
+.prow .val { font-family: var(--mono); font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
+/* 负载：名称、所在电源轨，右边是切换状态的分段按钮 */
+.prow .load { grid-column: 2 / -1; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; border-top: 1px solid var(--rule); padding-top: 4px; margin-top: 2px; }
+.prow .load .ln { font-size: 12px; }
+.prow .load .lr { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-left: 6px; }
+.prow .load .seg button { padding: 1px 8px; font-size: 11px; min-height: 0; }
 .prow .val.none { color: var(--muted); }
 .prow.over { border-color: var(--accent); }
 .prow .warn { grid-column: 2 / -1; font-size: 11px; color: var(--accent); }

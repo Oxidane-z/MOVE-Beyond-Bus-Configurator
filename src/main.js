@@ -107,7 +107,7 @@ function place(type, slot, animate, opts) {
   const built = buildCard(type);
   const p = { id: nextId++, type, slot, group: built.group, hit: built.hit, busy: false, interfaces: [], ownInterfaces: built.interfaces,
               pivot: built.pivot, body: built.body, front: built.front, faceOffset: built.faceOffset, cx: built.cx, cy: built.cy, top: built.top,
-              bracket: built.bracket, bracketMode: (opts && opts.bracket) || defaultBracket(sys, type), exps: sitesOf(type).map(() => ({ key: null, exp: null, by: -1 })) };
+              bracket: built.bracket, bracketMode: (opts && opts.bracket) || defaultBracket(sys, type), loads: { ...(opts && opts.loads) }, exps: sitesOf(type).map(() => ({ key: null, exp: null, by: -1 })) };
   if (p.bracket) setBracket(p.bracket, p.bracketMode);
   sitesOf(type).forEach((site, i) => { const key = opts && !site.fixed ? opts.exps[i] : site.default; if (key) setExpansion(p, i, key); });
   rebuildInterfaces(p);
@@ -443,8 +443,8 @@ function setHover(p) {
   });
   if (p.bracket) row(t('bracket'), el('span', 'v', t('bracket.' + p.bracketMode)));
   if (T.wh) row(t('hover.capacity'), el('span', 'v', T.wh + ' Wh'));
-  const bp = boardPower(T);
-  if (bp) row(t('hover.power'), el('span', 'v', LEVELS.map(k => fmtW(bp[k])).join(' / ')));
+  const bp = powerOf(p);
+  if (bp) row(t('hover.power'), el('span', 'v', fmtW(bp.now) + ' (' + LEVELS.map(k => fmtW(bp[k]).replace(' W', '')).join(' / ') + ')'));
 }
 // 重画时：悬停的板不在了、动起来了或者进了别的模式就收起；信息卡贴在板卡上沿的上方，不出舞台
 function updateHover() {
@@ -550,44 +550,62 @@ filterGroups.forEach(g => g.chips.forEach(([value, label]) => {
 applyFilters();
 
 /* ---------- 功耗预算面板 ---------- */
-const powerPanel = document.getElementById('powerPanel'), libTabs = document.getElementById('libTabs');
-libTabs.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { layer = b.dataset.layer; renderUI(); }));
-// 左侧面板的功耗层：每块已放置的板一行（待机 / 典型 / 峰值，下面是典型值在各电源轨上的分解），然后是合计、各轨合计、电池和续航
+const powerPanel = document.getElementById('powerPanel'), layerBtn = document.getElementById('layerToggle');
+layerBtn.addEventListener('click', () => { layer = layer === 'power' ? 'layout' : 'power'; renderUI(); });
+const powerOf = p => boardPower(TYPES[p.type], p.loads);
+// 左侧面板的功耗层：每块已放置的板一行——当前功耗，下面是待机 / 典型 / 峰值的范围和各电源轨上的当前值，
+// 再下面是这块板的负载，各有一组按钮切换状态；最后是合计、各轨合计、电池和续航
 function renderPower(B) {
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
-  const triple = v => LEVELS.map(k => fmtW(v[k]).replace(' W', '')).join(' / ') + ' W';
+  const num = v => fmtW(v).replace(' W', '');
   powerPanel.textContent = '';
+  powerPanel.appendChild(el('h2', '', t('power.title')));
   const list = [...placements.values()].sort((a, b) => a.slot - b.slot);
   if (!list.length) { powerPanel.appendChild(el('p', 'note', t('power.empty'))); return; }
-  powerPanel.appendChild(el('div', 'phead', t('power.header')));
   const rowsEl = el('div', 'list');
   list.forEach(p => {
-    const T = TYPES[p.type], bp = boardPower(T), sub = SUBS[T.subsystem], r = el('div', 'prow');
+    const T = TYPES[p.type], bp = powerOf(p), sub = SUBS[T.subsystem], r = el('div', 'prow');
     const nm = el('span', 'nm');
     if (sub) { const d = el('span', 'dot'); d.style.background = sub.color; nm.appendChild(d); }
     nm.appendChild(document.createTextNode(T.name));
     r.appendChild(el('span', 'no', T.w === 2 ? (p.slot + 1) + '–' + (p.slot + 2) : String(p.slot + 1)));
     r.appendChild(nm);
-    r.appendChild(el('span', 'val' + (bp || T.wh ? '' : ' none'), bp ? triple(bp) : T.wh ? T.wh + ' Wh' : t('power.noData')));
+    r.appendChild(el('span', 'val' + (bp || T.wh ? '' : ' none'), bp ? fmtW(bp.now) : T.wh ? T.wh + ' Wh' : t('power.noData')));
     if (bp) {
-      const parts = Object.entries(bp.rails).map(([k, v]) => railLabel(k) + ' ' + fmtW(v.typ));
-      r.appendChild(el('span', 'sub', [...parts, t('power.source.' + bp.source)].join(' · ')));
+      r.appendChild(el('span', 'sub', t('power.range', { idle: num(bp.idle), typ: num(bp.typ), peak: num(bp.peak) }) + ' W · ' + t('power.source.' + bp.source)));
+      const parts = Object.entries(bp.rails).map(([k, v]) => railLabel(k) + ' ' + fmtW(v.now));
+      if (parts.length) r.appendChild(el('span', 'sub', parts.join(' · ')));
       // 峰值电流超过单槽上限的电源轨
       railCurrents(bp, RAILS).filter(c => c.over).forEach(c => {
         r.classList.add('over');
         r.appendChild(el('span', 'warn', t('power.over', { rail: railLabel(c.rail), a: c.amps.toFixed(1), limit: c.limit })));
+      });
+      bp.loads.forEach(L => {
+        const row = el('div', 'load'), left = el('span'), seg = el('div', 'seg');
+        const iface = L.interface && ifaceNotes(p.type).find(n => n.ref === L.interface);
+        left.appendChild(el('span', 'ln', L.name + (iface ? ' (' + iface.label + ')' : '')));
+        left.appendChild(el('span', 'lr', (L.rail ? railLabel(L.rail) + ' ' : '') + fmtW(L.watts)));
+        seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', L.name);
+        Object.keys(L.states).forEach(st => {
+          const b = el('button', '', st);
+          b.type = 'button'; b.title = fmtW(L.states[st]); b.setAttribute('aria-pressed', String(st === L.state));
+          b.addEventListener('click', () => { if (st === L.state) return; touched(); p.loads = { ...p.loads, [L.key]: st }; renderUI(); });
+          seg.appendChild(b);
+        });
+        row.appendChild(left); row.appendChild(seg); r.appendChild(row);
       });
     }
     rowsEl.appendChild(r);
   });
   powerPanel.appendChild(rowsEl);
   const dl = el('dl', 'ptotal'), kv = (k, v) => { const d = el('div'); d.appendChild(el('dt', '', k)); d.appendChild(el('dd', '', v)); dl.appendChild(d); };
+  const levels = ['now', ...LEVELS];
   if (B.counted) {
-    LEVELS.forEach(k => kv(t('power.' + k), fmtW(B[k])));
-    Object.keys(RAILS).filter(k => B.rails[k]).forEach(k => kv(railLabel(k) + ' · ' + t('power.typ').toLowerCase(), fmtW(B.rails[k].typ)));
+    levels.forEach(k => kv(t('power.' + k), fmtW(B[k])));
+    Object.keys(RAILS).filter(k => B.rails[k]).forEach(k => kv(railLabel(k) + ' · ' + t('power.now').toLowerCase(), fmtW(B.rails[k].now)));
   }
   kv(t('power.capacity'), B.wh.toFixed(1) + ' Wh');
-  if (B.counted) LEVELS.forEach(k => kv(t('power.runtime') + ' · ' + t('power.' + k).toLowerCase(), fmtH(B.runtime[k])));
+  if (B.counted) levels.forEach(k => kv(t('power.runtime') + ' · ' + t('power.' + k).toLowerCase(), fmtH(B.runtime[k])));
   powerPanel.appendChild(dl);
   if (!B.counted) powerPanel.appendChild(el('p', 'note', t('power.none')));
   else if (B.missing) powerPanel.appendChild(el('p', 'note', t('power.missing', { n: B.missing })));
@@ -610,9 +628,9 @@ function renderUI() {
   // 操作栏和槽位条每次整体重建。记下键盘焦点在哪个按钮上，重建后还给同一个按钮
   const ae = document.activeElement, refocus = ae && (hint.contains(ae) || strip.contains(ae)) ? { id: ae.id, act: ae.dataset.act } : null;
   libPanel.hidden = !!inspect || layer !== 'layout'; ifacePanel.hidden = !inspect;
-  powerPanel.hidden = !!inspect || layer !== 'power'; libTabs.hidden = !!inspect;
-  libTabs.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.layer === layer)));
-  const B = budget([...placements.values()].map(p => TYPES[p.type]), sys.power);
+  powerPanel.hidden = !!inspect || layer !== 'power';
+  layerBtn.setAttribute('aria-pressed', String(layer === 'power')); layerBtn.disabled = !!inspect;
+  const B = budget([...placements.values()].map(p => ({ T: TYPES[p.type], sel: p.loads })), sys.power);
   if (!powerPanel.hidden) renderPower(B);
   libList.querySelectorAll('.item').forEach(b => {
     b.disabled = !ready;
@@ -627,7 +645,7 @@ function renderUI() {
   const me = !inspect && sel && sel.swap ? placements.get(sel.id) : null;
   strip.textContent = ''; stripCells.length = 0;
   let maxTyp = 0;
-  placements.forEach(p => { const bp = boardPower(TYPES[p.type]); if (bp) maxTyp = Math.max(maxTyp, bp.typ); });
+  placements.forEach(p => { const bp = powerOf(p); if (bp) maxTyp = Math.max(maxTyp, bp.now); });
   let pendSpan = 0;
   for (let i = 0; i < SLOTS; i++) {
     const id = slots[i], p = id === null ? null : placements.get(id);
@@ -660,10 +678,10 @@ function renderUI() {
       label(T, T.w, T.name + levelSuffix(T), 'aria.slot');
       if (layer === 'power') {
         // 功耗层：格子换成中性底色，第二行是典型功耗（电池是容量），底部横条是它相对最耗电那块板的比例
-        const bp = boardPower(T), pv = document.createElement('span'), bar = document.createElement('span');
+        const bp = powerOf(p), pv = document.createElement('span'), bar = document.createElement('span');
         c.classList.add('pw'); c.style.background = ''; c.style.color = '';
-        pv.className = 'pv'; pv.textContent = bp ? fmtW(bp.typ) : T.wh ? T.wh + ' Wh' : '—';
-        bar.className = 'bar'; bar.style.width = (bp && maxTyp > 0 ? Math.max(2, bp.typ / maxTyp * 100) : 0) + '%';
+        pv.className = 'pv'; pv.textContent = bp ? fmtW(bp.now) : T.wh ? T.wh + ' Wh' : '—';
+        bar.className = 'bar'; bar.style.width = (bp && maxTyp > 0 ? Math.max(2, bp.now / maxTyp * 100) : 0) + '%';
         c.appendChild(pv); c.appendChild(bar);
       }
       c.addEventListener('mouseenter', () => { if (!cellDrag && !inspect && !p.busy) setHover(p); });
@@ -748,8 +766,8 @@ function renderUI() {
 
   const used = slots.filter(s => s !== null).length, showP = hasPower || layer === 'power';
   const watts = v => v > 0 ? fmtW(v) : '—';
-  const rows = [[t('stats.slots'), used + ' / ' + SLOTS], ...(showP ? [[t('stats.typ'), watts(B.typ)], [t('stats.peak'), watts(B.peak)]] : []),
-                [t('stats.capacity'), B.wh.toFixed(1) + ' Wh'], ...(showP ? [[t('stats.runtime'), fmtH(B.runtime.typ)]] : [])];
+  const rows = [[t('stats.slots'), used + ' / ' + SLOTS], ...(showP ? [[t('stats.typ'), watts(B.now)], [t('stats.peak'), watts(B.peak)]] : []),
+                [t('stats.capacity'), B.wh.toFixed(1) + ' Wh'], ...(showP ? [[t('stats.runtime'), fmtH(B.runtime.now)]] : [])];
   stats.textContent = '';
   rows.forEach(r => { const d = document.createElement('div'), dt = document.createElement('dt'), dd = document.createElement('dd');
     dt.textContent = r[0]; dd.textContent = r[1]; d.appendChild(dt); d.appendChild(dd); stats.appendChild(d); });
@@ -1066,7 +1084,7 @@ function bump(p) {
 /* ---------- 配置：撤销、地址栏、整套替换 ---------- */
 // 当前的配置（正在拔出的板卡不算）
 const currentCfg = () => ({ bp: bpKey, boards: [...placements.values()].filter(p => !p.leaving)
-  .map(p => ({ type: p.type, slot: p.slot, bracket: p.bracketMode, exps: p.exps.map(e => e.by >= 0 ? null : e.key) })) });
+  .map(p => ({ type: p.type, slot: p.slot, bracket: p.bracketMode, exps: p.exps.map(e => e.by >= 0 ? null : e.key), loads: p.loads })) });
 const snapshot = () => serialize(sys, currentCfg());
 // 逐块替换的过程中，以换完以后的样子为准
 const stateSnap = () => applying ? targetSnap : snapshot();
@@ -1117,6 +1135,7 @@ function setLayoutFor(cfg) {
 function setOpts(p, c) {
   if (!placements.has(p.id)) return;
   if (p.bracket && p.bracketMode !== c.bracket) { p.bracketMode = c.bracket; setBracket(p.bracket, p.bracketMode); }
+  p.loads = { ...c.loads };
   let changed = false;
   sitesOf(p.type).forEach((site, i) => {
     const e = p.exps[i], key = c.exps[i] || null;

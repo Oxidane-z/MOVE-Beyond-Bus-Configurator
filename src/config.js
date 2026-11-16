@@ -1,12 +1,15 @@
 // 一套配置的文字形式，用在地址栏（分享、刷新后恢复）和撤销记录里。
 // 配置：{ bp: 背板 key, boards: [{ type, slot, bracket, exps: [扩展板 key 或 null, …] }] }
-// 文字：背板;板卡,槽位[,b支架面][,e扩展板+扩展板];…   槽位从 1 起；和默认值相同的选项不写；"-" 表示这个扩展位不装
+// 文字：背板;板卡,槽位[,b支架面][,e扩展板+扩展板][,p负载=状态+负载=状态];…   槽位从 1 起；和默认值相同的选项不写；"-" 表示这个扩展位不装
+// loads 是功耗层里各负载选的状态 { 负载 key: 状态名 }，只记和默认不同的
 // 例：v78;obdh,1,e-;recovery,3,bfront
 
 export const BRACKET_MODES = ['back', 'front', 'none'];
 const own = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
 export const sitesOf = (sys, type) => sys.boards[type].expansionSites || [];
 export const defaultBracket = (sys, type) => sys.boards[type].bracketSide || 'back';
+const loadsOf = (sys, type) => (sys.boards[type].power && sys.boards[type].power.loads) || [];
+const defState = L => own(L.states, L.default) ? L.default : Object.keys(L.states)[0];
 export const defaultExps = (sys, type) => sitesOf(sys, type).map(s => s.default || null);
 
 export function serialize(sys, cfg) {
@@ -15,6 +18,8 @@ export function serialize(sys, cfg) {
     const f = [c.type, c.slot + 1], def = defaultExps(sys, c.type), exps = c.exps || def;
     if (sys.boards[c.type].bracket && c.bracket && c.bracket !== defaultBracket(sys, c.type)) f.push('b' + c.bracket);
     if (exps.some((k, i) => (k || null) !== def[i])) f.push('e' + exps.map(k => k || '-').join('+'));
+    const ld = loadsOf(sys, c.type).filter(L => c.loads && own(L.states, c.loads[L.key]) && c.loads[L.key] !== defState(L)).map(L => L.key + '=' + c.loads[L.key]);
+    if (ld.length) f.push('p' + ld.join('+'));
     parts.push(f.join(','));
   });
   return parts.join(';');
@@ -33,9 +38,13 @@ export function parse(sys, str) {
     const T = sys.boards[type], slot = Number(n) - 1;
     if (!Number.isInteger(slot) || slot < 0 || slot + T.w > sys.slots) continue;
     if (used.slice(slot, slot + T.w).some(Boolean)) continue;
-    const c = { type, slot, bracket: defaultBracket(sys, type), exps: defaultExps(sys, type) };
+    const c = { type, slot, bracket: defaultBracket(sys, type), exps: defaultExps(sys, type), loads: {} };
     for (const o of opts) {
       if (o[0] === 'b' && T.bracket && BRACKET_MODES.includes(o.slice(1))) c.bracket = o.slice(1);
+      if (o[0] === 'p') o.slice(1).split('+').forEach(kv => {
+        const [k, st] = kv.split('='), L = loadsOf(sys, type).find(L => L.key === k);
+        if (L && own(L.states, st) && st !== defState(L)) c.loads[k] = st;
+      });
       if (o[0] === 'e') o.slice(1).split('+').forEach((k, i) => {
         const site = sitesOf(sys, type)[i];
         if (!site || site.fixed) return;
@@ -52,5 +61,5 @@ export function parse(sys, str) {
 // system.json 里的一套预设布局，选项都取默认值
 export const presetCfg = (sys, key, bp) => ({
   bp,
-  boards: sys.layouts[key].boards.map(([type, slot]) => ({ type, slot, bracket: defaultBracket(sys, type), exps: defaultExps(sys, type) }))
+  boards: sys.layouts[key].boards.map(([type, slot]) => ({ type, slot, bracket: defaultBracket(sys, type), exps: defaultExps(sys, type), loads: {} }))
 });

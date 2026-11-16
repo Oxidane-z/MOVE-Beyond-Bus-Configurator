@@ -110,12 +110,29 @@ describe('power', () => {
     expect(boardPower({})).toBe(null);
   });
   it('applies rail efficiency and usable capacity to the runtime', () => {
-    const b = budget([{ wh: 10 }, { power: { rails: { '5v': [0.4, 0.8, 1.6] } } }, { power: { typ: 1 } }, {}], P);
+    const b = budget([{ wh: 10 }, { power: { rails: { '5v': [0.4, 0.8, 1.6] } } }, { power: { typ: 1 } }, {}].map(T => ({ T })), P);
     expect(b.typ).toBeCloseTo(1.8);
     expect(b.draw.typ).toBeCloseTo(2);       // 0.8 / 0.8 + 1
     expect(b.runtime.typ).toBeCloseTo(2.5);  // 10 Wh × 0.5 ÷ 2 W
     expect(b.missing).toBe(1);
-    expect(budget([{ power: { typ: 1 } }], P).runtime.typ).toBe(null);
+    expect(budget([{ T: { power: { typ: 1 } } }], P).runtime.typ).toBe(null);
+  });
+  it('derives idle / typ / peak from load states and follows the selected state', () => {
+    const T = { power: { base: { '3v3': 0.1 }, loads: [
+      { key: 'pa', rail: '5v', states: { off: 0, tx: 4 }, default: 'off' },
+      { key: 'gnss', rail: '3v3', states: { off: 0, on: 0.3 }, default: 'on' }] } };
+    const d = boardPower(T);
+    expect([d.idle, d.typ, d.peak, d.now].map(v => +v.toFixed(2))).toEqual([0.1, 0.4, 4.4, 0.4]);
+    const s = boardPower(T, { pa: 'tx', gnss: 'off', nope: 'x' });
+    expect(+s.now.toFixed(2)).toBe(4.1);
+    expect(s.rails['5v'].now).toBe(4);
+    expect(s.loads.map(l => l.state)).toEqual(['tx', 'off']);
+    expect(boardPower(T, { pa: 'bogus' }).now).toBeCloseTo(0.4);
+  });
+  it('keeps non-default load states in the config text', () => {
+    const cfg = parse(sys, 'v78;recovery,3,plora-pa=tx+gnss=on+x=y');
+    expect(cfg.boards[0].loads).toEqual({ 'lora-pa': 'tx' });
+    expect(serialize(sys, cfg)).toBe('v78;recovery,3,plora-pa=tx');
   });
 });
 
