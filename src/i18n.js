@@ -114,7 +114,9 @@ export function applyStatic(root) {
   root.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
   root.querySelectorAll('[data-i18n-aria]').forEach(el => {
     el.setAttribute('aria-label', t(el.dataset.i18nAria));
-    if (el.tagName === 'BUTTON') el.title = t(el.dataset.i18nAria);   // 只有图标的按钮，鼠标停上去也能看到说明
+    // 只有图标的按钮，鼠标停上去也能看到说明；有自己的悬浮标签（data-tip）的不再加系统提示
+    if (el.tagName === 'BUTTON' && !el.dataset.i18nTip) el.title = t(el.dataset.i18nAria);
   });
+  root.querySelectorAll('[data-i18n-tip]').forEach(el => { el.dataset.tip = t(el.dataset.i18nTip); });
   document.title = t('title');
 }
