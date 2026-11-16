@@ -79,6 +79,14 @@ Recovery 的支架和 `bracket-iter2` 是同一个件，拆出来的 `recovery-b
 
 `--full 前缀|前缀` 让匹配的元器件不论大小都保留完整几何（Recovery 的 `MP` 是扩展卡的螺母柱，否则会被简化成方块）。`--material 前缀=材质` 覆盖 CAD 原色，材质取 `dark`、`light`、`gold`、`kapton`。
 
+背板用背板坐标系，并指出槽位连接器的名称前缀。`cad/Backplane_V8.zip` 需要先解压：
+
+```bash
+python pipeline/step2glb.py Backplane_V8.step public/models/backplane --frame backplane --slots SAMTEC_ERF8 --deflection 0.25 --angular 1.3 --annotations boards/backplane.json
+```
+
+脚本会在输出的 JSON 里写出各槽位的位置和槽距，`system.json` 里的 `pitch` 和 `seatY` 要与之一致。几何完全相同的元器件（比如 7 个槽位连接器）只存一份网格。
+
 ## 扩展板
 
 一块板卡上通过板对板连接器叠装的第二块 PCB 可以拆成单独的扩展板。转换时用 `--split 名称=前缀` 加 `--split-board 扩展板PCB的名称前缀`：装在扩展板上的元器件按位置自动跟着拆出去，其余按名称前缀补充（比如没有贴着板面的连接器零件）。输出是同目录下的 `名称.glb`，坐标系与主板相同。
