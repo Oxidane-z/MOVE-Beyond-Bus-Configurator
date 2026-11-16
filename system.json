@@ -14,7 +14,8 @@
     "trigger": {"label": "Trigger", "color": "#e59ac9"},
     "expansion": {"label": "Expansion", "color": "#b9a2ee"},
     "io": {"label": "I/O", "color": "#a6d08c"},
-    "power": {"label": "Power", "color": "#ee8f8f"}
+    "power": {"label": "Power", "color": "#ee8f8f"},
+    "rf": {"label": "RF", "color": "#8fd3ee"}
   },
   "boards": {
     "piklas": {"name": "Piklas", "level": "iter2", "w": 1, "model": "models/piklas.glb", "color": "#6a5796", "front": -1, "seat": -4.8, "bracket": "bracket-iter2"},

@@ -31,8 +31,8 @@
  "slots": null,
  "counts": {
   "board": 1,
-  "parts": 9,
-  "blocks": 27,
+  "parts": 15,
+  "blocks": 21,
   "bits": 0,
   "decals": 68,
   "interface": 16
@@ -40,11 +40,11 @@
  "triangles": {
   "board": 1516,
   "parts": 48534,
-  "blocks": 324,
+  "blocks": 252,
   "bits": 0,
   "decals": 136,
   "interface": 85824,
-  "instanced": 0
+  "instanced": 168
  },
  "split": {
   "name": "recovery-bracket",
@@ -950,8 +950,9 @@
     4.35,
     2.9
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "parts",
+   "instanceOf": "MP6",
+   "triangles": 0
   },
   {
    "name": "MP2",
@@ -961,8 +962,9 @@
     4.35,
     2.9
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "parts",
+   "instanceOf": "MP6",
+   "triangles": 0
   },
   {
    "name": "MP3",
@@ -972,8 +974,9 @@
     4.35,
     2.9
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "parts",
+   "instanceOf": "MP6",
+   "triangles": 0
   },
   {
    "name": "MP4",
@@ -983,8 +986,9 @@
     4.35,
     2.9
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "parts",
+   "instanceOf": "MP6",
+   "triangles": 0
   },
   {
    "name": "MP5",
@@ -994,8 +998,9 @@
     4.35,
     2.9
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "parts",
+   "instanceOf": "MP6",
+   "triangles": 0
   },
   {
    "name": "MP6",
@@ -1005,8 +1010,9 @@
     4.35,
     2.9
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "parts",
+   "instanceOf": "MP6",
+   "triangles": 168
   },
   {
    "name": "P1",

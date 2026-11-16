@@ -72,12 +72,12 @@ python pipeline/step2glb.py "Pi board.step" public/models/obdh --mate ERM8 --boa
 ```
 
 ```bash
-python pipeline/step2glb.py cad/RecoveryRework.step public/models/recovery --mate J2 --split "recovery-bracket=Free-Models" --annotations boards/recovery.json
+python pipeline/step2glb.py cad/RecoveryRework.step public/models/recovery --mate J2 --split "recovery-bracket=Free-Models" --full MP --annotations boards/recovery.json
 ```
 
 Recovery 的支架和 `bracket-iter2` 是同一个件，拆出来的 `recovery-bracket.glb` 不用，可以删掉。
 
-`--material 前缀=材质` 覆盖 CAD 原色，材质取 `dark`、`light`、`gold`、`kapton`。
+`--full 前缀|前缀` 让匹配的元器件不论大小都保留完整几何（Recovery 的 `MP` 是扩展卡的螺母柱，否则会被简化成方块）。`--material 前缀=材质` 覆盖 CAD 原色，材质取 `dark`、`light`、`gold`、`kapton`。
 
 ## 扩展板
 

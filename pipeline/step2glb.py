@@ -31,6 +31,7 @@
 STEP 里没有位号时用 match 列出名称通配符，同名的多个连接器再用 cluster 按序号区分
 （转换时会打印每个通配符匹配到的各组位置）。
 
+--full PREFIX|PREFIX 让名称匹配的元器件不论大小都保留完整几何，否则中小件会被简化成盒体或色块。
 --material PREFIX=NAME 指定名称匹配的元器件的材质（dark、light、gold、kapton），覆盖 CAD 原色。可重复。
 """
 import argparse
@@ -609,6 +610,7 @@ def main():
     ap.add_argument('--large', type=float, default=6.0, help='占板最大边不小于此值（mm）保留完整几何')
     ap.add_argument('--tall', type=float, default=3.0, help='高度不小于此值（mm）也保留完整几何')
     ap.add_argument('--annotations', nargs='*', default=[], help='板卡标注 JSON（可多个），其中的接口单独输出')
+    ap.add_argument('--full', help='前缀|前缀：匹配的元器件不论大小都保留完整几何（比如螺母柱）')
     ap.add_argument('--material', action='append', default=[], help='前缀=材质：覆盖匹配元器件的颜色，可重复')
     ap.add_argument('--deflection', type=float, default=0.12, help='三角化线性偏差（mm）')
     ap.add_argument('--angular', type=float, help='三角化角度偏差（弧度），默认 0.9，越大越粗')
@@ -705,6 +707,11 @@ def main():
         c = override(it)
         return np.tile(c, (len(C), 1)) if c else C
 
+    full_prefixes = tuple(x for x in (args.full or '').split('|') if x)
+
+    def forced(it):
+        return bool(full_prefixes) and it['name'].startswith(full_prefixes)
+
     def dims(it):
         size = it['whi'] - it['wlo']
         return float(max(size[u], size[v])), float(size[na])
@@ -712,7 +719,7 @@ def main():
     # 完整几何件里指纹相同的归为一组，只三角化第一个，其余作为平移实例
     def is_full(it):
         foot, height = dims(it)
-        return it is not board and id(it) not in iface_of and not is_split(it) and (foot >= args.large or height >= args.tall)
+        return it is not board and id(it) not in iface_of and not is_split(it) and (forced(it) or foot >= args.large or height >= args.tall)
     by_sig = {}
     for it in items:
         if is_full(it):
@@ -770,7 +777,7 @@ def main():
                          triangles=int(len(inst['mesh'][3])) if it is first and inst['mesh'] else 0)
             manifest.append(entry)
             continue
-        elif plate is None or foot >= args.large or height >= args.tall:
+        elif plate is None or forced(it) or foot >= args.large or height >= args.tall:
             kind = 'parts'
             mesh = tess_item(it, colors, args.deflection, skip_small=MIN_SOLID)
         elif foot >= args.small:

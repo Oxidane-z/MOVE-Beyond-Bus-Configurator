@@ -1,20 +1,20 @@
 {
   "interfaces": [
     {"ref": "J2", "label": "Backplane connector", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot."},
-    {"ref": "JTAG", "label": "JTAG", "type": "debug", "connector": "Molex Pico-Lock 4P", "desc": "Programming and debug port."},
-    {"ref": "P1", "label": "Expansion connector 1", "type": "expansion", "connector": "", "desc": "Board-to-board connector for an expansion card. No expansion card exists yet."},
-    {"ref": "P2", "label": "Expansion connector 2", "type": "expansion", "connector": "", "desc": "Board-to-board connector for an expansion card. No expansion card exists yet."},
-    {"ref": "TEMP1", "label": "Temperature 1", "type": "sensor", "connector": "Molex Pico-Lock 4P", "desc": "Connects a temperature sensor."},
-    {"ref": "TEMP2", "label": "Temperature 2", "type": "sensor", "connector": "Molex Pico-Lock 4P", "desc": "Connects a temperature sensor."},
-    {"ref": "J1", "label": "J1", "type": "io", "connector": "", "desc": "Named after its designator in the CAD model. Function not documented yet."},
-    {"ref": "J4", "label": "J4", "type": "io", "connector": "", "desc": "Named after its designator in the CAD model. Function not documented yet."},
-    {"ref": "J5", "label": "J5", "type": "io", "connector": "", "desc": "Named after its designator in the CAD model. Function not documented yet."},
-    {"ref": "J6", "label": "J6", "type": "io", "connector": "", "desc": "Named after its designator in the CAD model. Function not documented yet."},
-    {"ref": "J7", "label": "J7", "type": "io", "connector": "", "desc": "Named after its designator in the CAD model. Function not documented yet."},
-    {"ref": "J3", "label": "J3", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "Named after its designator in the CAD model. Function not documented yet."},
-    {"ref": "J8", "label": "J8", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "Named after its designator in the CAD model. Function not documented yet."},
-    {"ref": "J9", "label": "J9", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "Named after its designator in the CAD model. Function not documented yet."},
-    {"ref": "P3", "label": "P3", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Named after its designator in the CAD model. Function not documented yet."},
-    {"ref": "P4", "label": "P4", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Named after its designator in the CAD model. Function not documented yet."}
+    {"ref": "JTAG", "label": "ST-Link A", "type": "debug", "connector": "Molex Pico-Lock 4P", "desc": "Programming and debug port. The two ST-Link connectors are used together."},
+    {"ref": "J3", "label": "ST-Link B", "type": "debug", "connector": "Molex Pico-Lock 6P", "desc": "Programming and debug port. The two ST-Link connectors are used together."},
+    {"ref": "P1", "label": "Expansion connector 1", "type": "expansion", "connector": "", "desc": "Board-to-board connector for an expansion card. One card can use both expansion connectors, or two cards can use one connector and three screws each. No expansion card exists yet."},
+    {"ref": "P2", "label": "Expansion connector 2", "type": "expansion", "connector": "", "desc": "Board-to-board connector for an expansion card. One card can use both expansion connectors, or two cards can use one connector and three screws each. No expansion card exists yet."},
+    {"ref": "TEMP1", "label": "Temperature 1", "type": "sensor", "connector": "Molex Pico-Lock 4P", "desc": "I²C bus for temperature sensors."},
+    {"ref": "TEMP2", "label": "Temperature 2", "type": "sensor", "connector": "Molex Pico-Lock 4P", "desc": "I²C bus for temperature sensors."},
+    {"ref": "J1", "label": "U1 Sub-GHz antenna", "type": "rf", "connector": "MMCX", "desc": "Sub-GHz port of U1, a NiceRF LoRa2021 module."},
+    {"ref": "J5", "label": "U1 2.4 GHz antenna", "type": "rf", "connector": "MMCX", "desc": "2.4 GHz port of U1, a NiceRF LoRa2021 module."},
+    {"ref": "J4", "label": "U2 Sub-GHz antenna", "type": "rf", "connector": "MMCX", "desc": "Sub-GHz port of U2, a NiceRF LoRa2021F33 module."},
+    {"ref": "J6", "label": "U2 2.4 GHz antenna", "type": "rf", "connector": "MMCX", "desc": "2.4 GHz port of U2, a NiceRF LoRa2021F33 module."},
+    {"ref": "J7", "label": "GNSS antenna", "type": "rf", "connector": "MMCX", "desc": "Antenna port of the u-blox NEO GNSS module."},
+    {"ref": "J9", "label": "SPI expansion", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "SPI expansion interface."},
+    {"ref": "J8", "label": "GPIO expansion", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "GPIO expansion interface."},
+    {"ref": "P3", "label": "I²C bus 1", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Independent I²C bus."},
+    {"ref": "P4", "label": "I²C bus 2", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Independent I²C bus."}
   ]
 }
