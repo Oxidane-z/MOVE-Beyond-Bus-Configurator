@@ -102,7 +102,7 @@ python pipeline/step2glb.py 040400_001_COMSB.STEP public/models/com --board 0404
 ```
 
 ```bash
-python pipeline/step2glb.py 040500_001_BatteryBoard.STEP public/models/battery1 --board 040500_ELE_001_BatteryBoard_BOARD --mate SAMTEC_ERM8 --split "battery-heater=040500_ELE_002_BBSidePCB" --material "999999_COTS_002_Molicel=kapton" --annotations boards/battery1.json boards/battery-heater.json --deflection 0.2 --angular 1.2
+python pipeline/step2glb.py 040500_001_BatteryBoard.STEP public/models/battery1 --board 040500_ELE_001_BatteryBoard_BOARD --mate SAMTEC_ERM8 --split "battery-heater=040500_ELE_002_BBSidePCB" --split-board 040500_ELE_002_BBSidePCB_V2_BOARD --material "999999_COTS_002_Molicel=kapton" --annotations boards/battery1.json boards/battery-heater.json --deflection 0.2 --angular 1.2
 ```
 
 ```bash

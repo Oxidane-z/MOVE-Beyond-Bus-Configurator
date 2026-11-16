@@ -48,7 +48,7 @@
   },
   "expansions": {
     "obdh-expansion": {"name": "OBDH expansion board", "model": "models/obdh-expansion.glb", "color": "#6fae8f"},
-    "battery-heater": {"name": "Heater board", "model": "models/battery-heater.glb", "color": "#c98a3c"},
+    "battery-heater": {"name": "Heater board", "model": "models/battery-heater.glb", "color": "#6fae8f"},
     "sband": {"name": "S-Band SB", "model": "models/sband.glb", "color": "#6fae8f", "offset": [0, 0, -14.5]}
   }
 }

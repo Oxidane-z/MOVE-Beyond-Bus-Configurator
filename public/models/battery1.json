@@ -48,18 +48,29 @@
  },
  "split": {
   "name": "battery-heater",
-  "board": null,
+  "board": {
+   "min": [
+    -24.545,
+    31.506,
+    18.854
+   ],
+   "max": [
+    56.333,
+    82.019,
+    19.265
+   ]
+  },
   "counts": {
-   "board": 0,
-   "parts": 1,
+   "board": 1,
+   "parts": 0,
    "blocks": 0,
    "bits": 0,
    "decals": 0,
    "interface": 2
   },
   "triangles": {
-   "board": 0,
-   "parts": 1212,
+   "board": 1212,
+   "parts": 0,
    "blocks": 0,
    "bits": 0,
    "decals": 0,
@@ -231,7 +242,7 @@
     50.513
    ],
    "in": "battery-heater",
-   "kind": "parts",
+   "kind": "board",
    "triangles": 1212,
    "edgeSegments": 573
   },
@@ -829,7 +840,7 @@
   },
   {
    "name": "FP-503763-0691-MFG_CMP-015-000026-2_Standard",
-   "side": "bottom",
+   "side": "top",
    "size": [
     10.606,
     1.704,
@@ -1197,7 +1208,7 @@
   },
   {
    "name": "PICOLOCK_4_1MM_CMP-123-000000-2",
-   "side": "bottom",
+   "side": "top",
    "size": [
     8.6,
     1.5,
