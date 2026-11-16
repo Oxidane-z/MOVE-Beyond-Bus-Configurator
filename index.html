@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MOVE Beyond Bus Configurator</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<script>
+// 主题：默认深色，用户选过的记在浏览器里。放在样式之前执行，避免先闪一下浅色
+(function () {
+  var t = 'dark';
+  try { t = localStorage.getItem('theme') === 'light' ? 'light' : 'dark'; } catch (e) {}
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
 <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
@@ -46,6 +54,7 @@
         <button id="rotL" type="button" data-i18n-aria="aria.rotL">⟲</button>
         <button id="rotR" type="button" data-i18n-aria="aria.rotR">⟳</button>
         <button id="resetView" type="button" data-i18n-aria="aria.reset">⌂</button>
+        <button id="themeToggle" type="button"></button>
       </div>
     </div>
     <div class="dock">

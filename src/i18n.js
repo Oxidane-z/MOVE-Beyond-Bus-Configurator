@@ -57,6 +57,8 @@ const STRINGS = {
     'aria.rotL': 'Rotate left 90°',
     'aria.rotR': 'Rotate right 90°',
     'aria.reset': 'Reset view',
+    'aria.toLight': 'Switch to light theme',
+    'aria.toDark': 'Switch to dark theme',
     'level.rev1': ' (Rev 1)',
     'level.proto': ' (Proto)'
   }

@@ -620,6 +620,20 @@ window.addEventListener('keydown', e => {
 });
 
 /* ---------- 主题、尺寸、循环 ---------- */
+// 初始主题由 index.html 里的内联脚本设好（默认深色）。按钮上显示的是点了以后会换成的主题
+const themeBtn = document.getElementById('themeToggle');
+function syncThemeBtn() {
+  const dark = document.documentElement.getAttribute('data-theme') !== 'light';
+  themeBtn.textContent = dark ? '☀' : '☾';
+  themeBtn.setAttribute('aria-label', t(dark ? 'aria.toLight' : 'aria.toDark'));
+}
+themeBtn.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', next);   // 三维部分的颜色由下面的 MutationObserver 跟着更新
+  try { localStorage.setItem('theme', next); } catch (e) {}
+  syncThemeBtn();
+});
+syncThemeBtn();
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
 new MutationObserver(applyTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
