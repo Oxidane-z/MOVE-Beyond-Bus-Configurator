@@ -4,7 +4,7 @@ import { t, applyStatic } from './i18n.js';
 import { applyTheme, setResolution } from './render.js';
 import { buildStructure, buildCard as buildCardGeo, buildExpansion, loadBackplane, loadBoard, hasModel, setBracket } from './models.js';
 
-const SLOTS = sys.slots, PITCH = sys.pitch, SEAT_Y = sys.seatY, TYPES = sys.boards, INITIAL = sys.initial;
+const SLOTS = sys.slots, PITCH = sys.pitch, SEAT_Y = sys.seatY, TYPES = sys.boards, LAYOUTS = sys.layouts;
 const slotZ = i => (i - (SLOTS - 1) / 2) * PITCH;
 const buildCard = key => buildCardGeo(key, TYPES[key], PITCH);
 // 板卡原点（连接器）所在的 Z。占两个槽的板卡，连接器可能在靠后的那个槽
@@ -464,6 +464,7 @@ function renderUI() {
     if (p.interfaces.length) hint.appendChild(btn(t('btn.interfaces'), '', () => enterInspect(p)));
     if (placements.size > 1) hint.appendChild(btn(t('btn.swap'), 'ghost', () => { sel = { kind: 'placed', id: p.id, swap: true }; renderUI(); }));
     sitesOf(p.type).forEach((site, i) => {
+      if (site.fixed) return;   // 固定装着的部件（电池的加热板、COM stack 的 S-Band 板）不提供切换
       // 每个扩展位一个按钮，依次切换：各个可用的扩展板，然后是不装
       const e = p.exps[i], cycle = [...site.options, null];
       const state = e.key ? sys.expansions[e.key].name : t(site.options.length ? 'expansion.none' : 'expansion.unavailable');
@@ -613,29 +614,50 @@ renderUI();
 requestAnimationFrame(frameLoop);
 // 先取背板，界面随即可用；板卡的模型同时开始下载，默认布局按槽位顺序一块一块插入
 const wait = ms => new Promise(res => setTimeout(res, reduced ? 0 : ms));
-let intro = false;
+let run = 0, layout = sys.initial;   // run：每次换布局或清空加一，用来中止还在进行的逐块插入
 const fetchBoard = type => loadBoard(sys, type).then(() => { loaded.add(type); renderUI(); });
-async function playIntro() {
-  intro = true;
-  const jobs = INITIAL.map(c => fetchBoard(c[0]));
-  for (let k = 0; k < INITIAL.length && intro; k++) {
+async function playLayout(key) {
+  const mine = ++run, list = LAYOUTS[key].boards;
+  layout = key; renderLayouts();
+  const jobs = list.map(c => fetchBoard(c[0]));
+  for (let k = 0; k < list.length; k++) {
     await jobs[k];
-    if (!intro) break;
-    place(INITIAL[k][0], INITIAL[k][1], true);
+    if (run !== mine) return;
+    place(list[k][0], list[k][1], true);
     await wait(260);
+    if (run !== mine) return;
   }
-  intro = false;
-  Object.keys(TYPES).forEach(fetchBoard);   // 默认布局里没有的板卡最后取
+  Object.keys(TYPES).forEach(fetchBoard);   // 布局里没有的板卡最后取
 }
-// 清空：从最后一个槽开始依次拔出。同时中止还没放完的默认布局
+// 清空：从最后一个槽开始依次拔出。同时中止还没放完的布局。返回全部拔出所需的毫秒数
 function clearAll() {
-  intro = false;
+  run++;
   setSel(null);
-  [...placements.values()].sort((a, b) => b.slot - a.slot).forEach((p, k) => {
+  const list = [...placements.values()].sort((a, b) => b.slot - a.slot);
+  list.forEach((p, k) => {
     p.busy = true;
     setTimeout(() => removeCard(p), reduced ? 0 : k * 170);
   });
+  return reduced || !list.length ? 0 : (list.length - 1) * 170 + 700;
 }
+// 换成另一套默认布局：先清空，等板卡都拔出后再逐块插入
+const layoutsEl = document.getElementById('layouts');
+function loadLayout(key) {
+  if (!ready || inspect) return;
+  const ms = clearAll(), mine = ++run;
+  layout = key; renderLayouts();
+  setTimeout(() => { if (run === mine) playLayout(key); }, ms);
+}
+function renderLayouts() {
+  layoutsEl.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.key === layout)));
+}
+Object.entries(LAYOUTS).forEach(([key, L]) => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.dataset.key = key; b.textContent = L.name;
+  b.addEventListener('click', () => loadLayout(key));
+  layoutsEl.appendChild(b);
+});
+renderLayouts();
 loadBackplane(sys).then(() => {
   S = buildStructure(scene, sys);
   if (S.group) {
@@ -646,5 +668,5 @@ loadBackplane(sys).then(() => {
   HOME.tx = view.tx = S.cx; HOME.tz = view.tz = S.cz;
   ready = true;
   renderUI();
-  playIntro();
+  playLayout(sys.initial);
 });

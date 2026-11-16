@@ -2,7 +2,7 @@
 
 MOVE Beyond 卫星 slot card 总线系统的三维交互配置器。正交等轴测视角、平面着色加描边，可在 7 槽背板上自由安排板卡。
 
-当前状态：背板、Piklas、Battery Pack v4.3、ADCS V2.1、Rexus OBDH 和 Recovery V2 都来自真实 STEP，默认布局是 REXUS 项目的总线配置。OBDH 的扩展板是可单独更换的部件。板卡的功耗数据还没有填，统计栏里对应的项显示为空。界面文案在 `src/i18n.js`，目前只有英文。
+当前状态：所有板卡都来自真实 STEP。有两套默认布局，可在标题下方切换：REXUS（Iteration 2 的板卡）和 MOVE-IIIa（Iteration 1 的板卡：COM Stack、CDH、Battery Pack、Payload、ADCS）。布局写在 `system.json` 的 `layouts` 里，`initial` 是打开时用的那一套。OBDH 的扩展板是可单独更换的部件。板卡的功耗数据还没有填，统计栏里对应的项显示为空。界面文案在 `src/i18n.js`，目前只有英文。
 
 ## 运行
 
@@ -24,7 +24,7 @@ npm run build
 
 | 路径 | 内容 |
 |---|---|
-| `system.json` | 系统描述：槽位数、槽距、板卡库（代际、占槽数、功耗）、扩展板、附件 |
+| `system.json` | 系统描述：槽位数、槽距、默认布局、板卡库（代际、占槽数、功耗）、扩展板、附件 |
 | `src/render.js` | 平面着色材质、元器件的三种材质色、描边、主题色 |
 | `src/models.js` | GLB 加载，板卡和背板的实例化 |
 | `src/main.js` | 配置状态、界面、交互、动画 |
@@ -79,6 +79,38 @@ Recovery 的支架和 `bracket-iter2` 是同一个件，拆出来的 `recovery-b
 
 `--full 前缀|前缀` 让匹配的元器件不论大小都保留完整几何（Recovery 的 `MP` 是扩展卡的螺母柱，否则会被简化成方块）。`--material 前缀=材质` 覆盖 CAD 原色，材质取 `dark`、`light`、`gold`、`kapton`。
 
+Iteration 1 的板卡和 PHILEAS（`cad/Iter1/` 和 `cad/PHILEAS_SB.zip`，先解压）。这些 STEP 是多层装配：含有 PCB 的子装配会被展开，里面每个件算一个元器件；其余子装配（一个位号下的几个实体、一节电芯）整个算一个元器件。Iteration 1 的支架和板卡是配死的，留在板卡模型里，不拆成可选件。
+
+```bash
+python pipeline/step2glb.py 040100_001_ADCSSB.STEP public/models/adcs1 --board 040100_ELE_001_ADCS-SB-V2.1_BOARD --mate SAMTEC_ERM8 --deflection 0.2 --angular 1.2
+```
+
+```bash
+python pipeline/step2glb.py 040200_001_CDHSB.STEP public/models/cdh --mate SAMTEC_ERM8 --deflection 0.2 --angular 1.2
+```
+
+```bash
+python pipeline/step2glb.py 040300_001_SBandSB.STEP public/models/sband --board 040300_ELE_001_SBandPCB --mate SB_2 --deflection 0.2 --angular 1.2
+```
+
+```bash
+python pipeline/step2glb.py 040400_001_COMSB.STEP public/models/com --board 040400_ELE_001_COM-SB_BOARD --mate SAMTEC_ERM8 --deflection 0.2 --angular 1.2
+```
+
+```bash
+python pipeline/step2glb.py 040500_001_BatteryBoard.STEP public/models/battery1 --board 040500_ELE_001_BatteryBoard_BOARD --mate SAMTEC_ERM8 --split "battery-heater=040500_ELE_002_BBSidePCB" --material "999999_COTS_002_Molicel=kapton" --annotations boards/battery-heater.json --deflection 0.2 --angular 1.2
+```
+
+```bash
+python pipeline/step2glb.py 040700_001_PayloadSB.STEP public/models/payload --board 040700_ELE_PayloadSB_BOARD --mate SAMTEC_ERM8 --deflection 0.2 --angular 1.2
+```
+
+```bash
+python pipeline/step2glb.py PHILEAS_SB.step public/models/phileas --board Board --mate BPC1 --deflection 0.2 --angular 1.2
+```
+
+`--split` 的前缀也匹配上级装配的名称，所以 `040500_ELE_002_BBSidePCB` 把电池的加热板子装配整个拆成 `battery-heater.glb`。两代电池包的外形一致，这块加热板同时用在 Battery Pack v4.3 REXUS edition 上。
+
 背板用背板坐标系，并指出槽位连接器的名称前缀。`cad/Backplane_V8.zip` 需要先解压：
 
 ```bash
@@ -93,6 +125,8 @@ python pipeline/step2glb.py Backplane_V8.step public/models/backplane --frame ba
 
 在 `system.json` 的 `expansions` 里登记扩展板（名称、模型、PCB 颜色），再在板卡的 `expansionSites` 里列出扩展位，每个扩展位写 `{"name": 显示名, "options": [扩展板 key…], "default": key 或 null}`。`options` 为空表示这个位上还没有可用的扩展板。一块板可以有多个扩展位（Recovery 有两个）；同时占用相邻两个扩展位的扩展板在 `expansions` 里加 `"sites": 2`，并列在靠前那个扩展位的 `options` 里。扩展板自己的接口写在 `boards/扩展板key.json`。
 
+同一套机制也用来挂固定的部件：扩展位写 `"fixed": true` 就不显示切换按钮（电池的加热板、COM Stack 里的 S-Band 板）。扩展板可以带 `"offset": [x, y, z]`，相对主板平移；COM Stack 的主模型是 COM 板（连接器在第 2 个槽），S-Band 板偏移一个槽距叠在第 1 个槽上。
+
 ## 标注接口
 
 在 `boards/板卡名.json` 的 `interfaces` 里写接口说明，`type` 取 `system.json` 里 `interfaceTypes` 的键。每个接口有一个唯一的 `ref`：
@@ -102,4 +136,4 @@ python pipeline/step2glb.py Backplane_V8.step public/models/backplane --frame ba
 
 转换时带上 `--annotations`，这些接口各自输出成独立节点，查看器的"查看接口"模式据此高亮和编号。只改说明文字不用重新转换；新增接口或改 `ref`、`match`、`cluster` 需要重新转换。
 
-ADCS、Battery、OBDH 和扩展板的接口目前是按料号认出来的，名称是通用的（Port A1 等），用途还没有填。
+ADCS、Battery、OBDH 和扩展板的接口目前是按料号认出来的，名称是通用的（Port A1 等），用途还没有填。Iteration 1 的板卡和 PHILEAS 还没有标注接口（加热板除外）。

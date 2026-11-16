@@ -1,0 +1,2468 @@
+{
+ "source": "040200_001_CDHSB.STEP",
+ "bounds": {
+  "min": [
+   -30.04,
+   0.0,
+   -6.421
+  ],
+  "max": [
+   62.26,
+   84.33,
+   6.934
+  ]
+ },
+ "board": {
+  "min": [
+   -29.891,
+   2.841,
+   -0.795
+  ],
+  "max": [
+   62.099,
+   83.98,
+   0.795
+  ]
+ },
+ "frame": {
+  "front": -1,
+  "mateSlots": 1
+ },
+ "slots": null,
+ "counts": {
+  "board": 1,
+  "parts": 17,
+  "blocks": 46,
+  "bits": 0,
+  "decals": 154,
+  "interface": 0
+ },
+ "triangles": {
+  "board": 5652,
+  "parts": 223256,
+  "blocks": 552,
+  "bits": 0,
+  "decals": 308,
+  "interface": 0,
+  "instanced": 430
+ },
+ "split": null,
+ "components": [
+  {
+   "name": "040200_ELE_001_CDHSB_V2_BOARD",
+   "side": "bottom",
+   "size": [
+    91.99,
+    81.139,
+    1.589
+   ],
+   "kind": "board",
+   "triangles": 5652,
+   "edgeSegments": 2534
+  },
+  {
+   "name": "040900_STR_002_SSBFrameMiddle_Standard",
+   "side": "bottom",
+   "size": [
+    92.3,
+    76.0,
+    5.0
+   ],
+   "kind": "parts",
+   "triangles": 1440,
+   "edgeSegments": 698
+  },
+  {
+   "name": "434331013822_CMP-00609-2",
+   "side": "top",
+   "size": [
+    3.55,
+    4.7,
+    1.95
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "450404015514_CMP-00723-1",
+   "side": "bottom",
+   "size": [
+    7.7,
+    5.13,
+    1.9
+   ],
+   "kind": "parts",
+   "triangles": 2388,
+   "edgeSegments": 552
+  },
+  {
+   "name": "503763-0591-Footprint-1_CMP-015-000037-3",
+   "side": "bottom",
+   "size": [
+    9.6,
+    5.19,
+    1.5
+   ],
+   "kind": "parts",
+   "triangles": 988,
+   "edgeSegments": 261
+  },
+  {
+   "name": "632722200211_CMP-015-000045-1",
+   "side": "top",
+   "size": [
+    8.1,
+    8.942,
+    3.64
+   ],
+   "kind": "parts",
+   "triangles": 8352,
+   "edgeSegments": 1416
+  },
+  {
+   "name": "66012202111305_CMP-015-000004-2",
+   "side": "top",
+   "size": [
+    4.5,
+    7.5,
+    3.5
+   ],
+   "kind": "parts",
+   "triangles": 624,
+   "edgeSegments": 262
+  },
+  {
+   "name": "999999_COTS_ISO_7380-1_M2.5x06",
+   "side": "bottom",
+   "size": [
+    5.0,
+    10.0,
+    7.491
+   ],
+   "kind": "parts",
+   "instanceOf": "999999_COTS_ISO_7380-1_M2.5x06",
+   "triangles": 430
+  },
+  {
+   "name": "999999_COTS_ISO_7380-1_M2.5x06",
+   "side": "bottom",
+   "size": [
+    5.0,
+    10.0,
+    7.491
+   ],
+   "kind": "parts",
+   "triangles": 430,
+   "edgeSegments": 126
+  },
+  {
+   "name": "999999_COTS_ISO_7380-1_M2.5x06",
+   "side": "bottom",
+   "size": [
+    5.0,
+    10.0,
+    7.491
+   ],
+   "kind": "parts",
+   "instanceOf": "999999_COTS_ISO_7380-1_M2.5x06",
+   "triangles": 0
+  },
+  {
+   "name": "999999_COTS_ISO_7380-1_M2.5x06",
+   "side": "bottom",
+   "size": [
+    5.0,
+    10.0,
+    7.491
+   ],
+   "kind": "parts",
+   "instanceOf": "999999_COTS_ISO_7380-1_M2.5x06",
+   "triangles": 0
+  },
+  {
+   "name": "AMF6-02-S-RA-TR-Footprint-1_CMP-015-000055-4",
+   "side": "bottom",
+   "size": [
+    8.1,
+    8.53,
+    5.12
+   ],
+   "kind": "parts",
+   "triangles": 124,
+   "edgeSegments": 62
+  },
+  {
+   "name": "CAP_0402_CMP-00697-1",
+   "side": "top",
+   "size": [
+    1.1,
+    0.6,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00697-1",
+   "side": "top",
+   "size": [
+    1.1,
+    0.6,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00699-1",
+   "side": "top",
+   "size": [
+    1.1,
+    0.6,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00699-1",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00717-1",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00717-1",
+   "side": "top",
+   "size": [
+    1.1,
+    0.6,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00717-1",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00717-1",
+   "side": "top",
+   "size": [
+    1.1,
+    0.6,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00717-1",
+   "side": "top",
+   "size": [
+    1.1,
+    0.6,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00717-1",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00717-1",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00717-1",
+   "side": "top",
+   "size": [
+    1.1,
+    0.6,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00717-1",
+   "side": "top",
+   "size": [
+    1.1,
+    0.6,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00717-1",
+   "side": "top",
+   "size": [
+    1.1,
+    0.6,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00717-1",
+   "side": "top",
+   "size": [
+    1.1,
+    0.6,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00717-1",
+   "side": "top",
+   "size": [
+    1.1,
+    0.6,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00717-1",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00717-1",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00717-1",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00660-1",
+   "side": "top",
+   "size": [
+    0.95,
+    1.75,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00660-1",
+   "side": "top",
+   "size": [
+    0.95,
+    1.75,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00660-1",
+   "side": "top",
+   "size": [
+    0.95,
+    1.75,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00660-1",
+   "side": "top",
+   "size": [
+    0.95,
+    1.75,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00660-1",
+   "side": "top",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00660-1",
+   "side": "bottom",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00660-1",
+   "side": "top",
+   "size": [
+    0.95,
+    1.75,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00660-1",
+   "side": "top",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00660-1",
+   "side": "top",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00660-1",
+   "side": "top",
+   "size": [
+    0.95,
+    1.75,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00660-1",
+   "side": "bottom",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00660-1",
+   "side": "bottom",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00660-1",
+   "side": "bottom",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00660-1",
+   "side": "top",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00663-2",
+   "side": "bottom",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00718-1",
+   "side": "top",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0603_CMP-00718-1",
+   "side": "top",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0805_CMP-00675-1",
+   "side": "top",
+   "size": [
+    1.45,
+    2.2,
+    1.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "CAP_0805_CMP-00675-1",
+   "side": "top",
+   "size": [
+    1.45,
+    2.2,
+    1.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "CAP_0805_CMP-00675-1",
+   "side": "top",
+   "size": [
+    1.45,
+    2.2,
+    1.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "CAP_0805_CMP-00675-1",
+   "side": "top",
+   "size": [
+    1.45,
+    2.2,
+    1.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "CAP_0805_CMP-00675-1",
+   "side": "top",
+   "size": [
+    2.2,
+    1.45,
+    1.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "CAP_0805_CMP-00675-1",
+   "side": "bottom",
+   "size": [
+    1.45,
+    2.2,
+    1.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "CAP_0805_CMP-00701-1",
+   "side": "bottom",
+   "size": [
+    2.2,
+    1.45,
+    1.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "CAP_0805_CMP-00701-1",
+   "side": "bottom",
+   "size": [
+    1.45,
+    2.2,
+    1.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "CAP_0805_CMP-00701-1",
+   "side": "top",
+   "size": [
+    2.2,
+    1.45,
+    1.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "CAP_0805_CMP-00701-1",
+   "side": "top",
+   "size": [
+    2.2,
+    1.45,
+    1.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "CAP_0805_CMP-00701-1",
+   "side": "top",
+   "size": [
+    1.45,
+    2.2,
+    1.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "CAP_1206_CMP-00650-2",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.7
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "CAP_1206_CMP-00650-2",
+   "side": "top",
+   "size": [
+    3.4,
+    1.8,
+    1.7
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "CAP_1206_CMP-00650-2",
+   "side": "top",
+   "size": [
+    3.4,
+    1.8,
+    1.7
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "CAP_1206_CMP-00650-2",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.7
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "CAP_1206_CMP-00650-2",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.7
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "CAP_1206_CMP-00650-2",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.7
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "DMN2040U-7-Footprint-1_CMP-00713-1",
+   "side": "top",
+   "size": [
+    3.01,
+    2.5,
+    1.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "DMN2040U-7-Footprint-1_CMP-00713-1",
+   "side": "bottom",
+   "size": [
+    3.01,
+    2.5,
+    1.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "DMN2040U-7-Footprint-1_CMP-00713-1",
+   "side": "top",
+   "size": [
+    3.01,
+    2.5,
+    1.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "DMN2040U-7-Footprint-1_CMP-00713-1",
+   "side": "bottom",
+   "size": [
+    3.01,
+    2.5,
+    1.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "DMN2040U-7-Footprint-1_CMP-00713-1",
+   "side": "top",
+   "size": [
+    3.01,
+    2.5,
+    1.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "DMN2040U-7-Footprint-1_CMP-00713-1",
+   "side": "bottom",
+   "size": [
+    3.01,
+    2.5,
+    1.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "DMN2040U-7-Footprint-1_CMP-00713-1",
+   "side": "top",
+   "size": [
+    3.01,
+    2.5,
+    1.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "DMN2040U-7-Footprint-1_CMP-00713-1",
+   "side": "bottom",
+   "size": [
+    3.01,
+    2.5,
+    1.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "DMN2040U-7-Footprint-1_CMP-00713-1",
+   "side": "bottom",
+   "size": [
+    3.01,
+    2.5,
+    1.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "DMN2040U-7-Footprint-1_CMP-00713-1",
+   "side": "top",
+   "size": [
+    3.01,
+    2.5,
+    1.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "DMN2040U-7-Footprint-1_CMP-00713-1",
+   "side": "bottom",
+   "size": [
+    3.01,
+    2.5,
+    1.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "DMN2040U-7-Footprint-1_CMP-00713-1",
+   "side": "top",
+   "size": [
+    3.01,
+    2.5,
+    1.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "DMN2040U-7-Footprint-1_CMP-00713-1",
+   "side": "bottom",
+   "size": [
+    3.01,
+    2.5,
+    1.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "DMN2040U-7-Footprint-1_CMP-00713-1",
+   "side": "top",
+   "size": [
+    3.01,
+    2.5,
+    1.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "DMN2040U-7-Footprint-1_CMP-00713-1",
+   "side": "bottom",
+   "size": [
+    3.01,
+    2.5,
+    1.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "DMN2040U-7-Footprint-1_CMP-00713-1",
+   "side": "top",
+   "size": [
+    3.01,
+    2.5,
+    1.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-8MA2-IPC_B_CMP-047-000003-1",
+   "side": "top",
+   "size": [
+    2.001,
+    3.021,
+    0.603
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-8MA2-IPC_B_CMP-047-000003-1",
+   "side": "bottom",
+   "size": [
+    2.001,
+    3.021,
+    0.603
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-8MA2-IPC_B_CMP-047-000003-1",
+   "side": "top",
+   "size": [
+    3.021,
+    2.001,
+    0.603
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-DCK0006A-MFG_CMP-00672-1",
+   "side": "top",
+   "size": [
+    2.2,
+    2.004,
+    1.101
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-DCK0006A-MFG_CMP-00672-1",
+   "side": "top",
+   "size": [
+    2.2,
+    2.004,
+    1.101
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-DCK0006A-MFG_CMP-00672-1",
+   "side": "top",
+   "size": [
+    2.2,
+    2.004,
+    1.101
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-DQN0004A-MFG_CMP-095-000013-2",
+   "side": "top",
+   "size": [
+    1.0,
+    1.0,
+    0.402
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-G125-MH13405L3P-MFG_CMP-015-000050-3",
+   "side": "top",
+   "size": [
+    25.382,
+    8.108,
+    8.702
+   ],
+   "kind": "parts",
+   "triangles": 58204,
+   "edgeSegments": 1468
+  },
+  {
+   "name": "FP-LQG15HH_02-IPC_A_CMP-008-000007-1",
+   "side": "top",
+   "size": [
+    1.0,
+    0.5,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3",
+   "side": "top",
+   "size": [
+    1.6,
+    0.8,
+    1.28
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3",
+   "side": "top",
+   "size": [
+    1.6,
+    0.8,
+    1.28
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3",
+   "side": "bottom",
+   "size": [
+    1.6,
+    0.8,
+    1.28
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3",
+   "side": "bottom",
+   "size": [
+    1.6,
+    0.8,
+    1.28
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3",
+   "side": "bottom",
+   "size": [
+    1.6,
+    0.8,
+    1.28
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3",
+   "side": "bottom",
+   "size": [
+    1.6,
+    0.8,
+    1.28
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-ZED-F9P-04B-MFG_CMP-00667-1",
+   "side": "top",
+   "size": [
+    22.0,
+    17.0,
+    2.601
+   ],
+   "kind": "parts",
+   "triangles": 5444,
+   "edgeSegments": 1933
+  },
+  {
+   "name": "FTSH-107-01-L-DV-K-A-TR-Footprint-1_CMP-015-000041-1",
+   "side": "bottom",
+   "size": [
+    8.89,
+    5.842,
+    6.985
+   ],
+   "kind": "parts",
+   "triangles": 1444,
+   "edgeSegments": 774
+  },
+  {
+   "name": "G125-MH15005L3P-Footprint-1_CMP-015-000051-3",
+   "side": "top",
+   "size": [
+    35.383,
+    8.209,
+    8.749
+   ],
+   "kind": "parts",
+   "triangles": 83878,
+   "edgeSegments": 1706
+  },
+  {
+   "name": "PAC1944_CMP-00630-1_Standard",
+   "side": "top",
+   "size": [
+    3.052,
+    3.052,
+    0.901
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "RES_0402_CMP-00656-1",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00656-1",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00656-1",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00656-1",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00656-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00656-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00656-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00656-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00656-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00657-1",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00657-1",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00677-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00677-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00677-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00677-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00677-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00677-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00677-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00677-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00677-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00696-1",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00696-1",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00696-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00696-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00696-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00696-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00709-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00709-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00709-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00709-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00709-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00709-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00724-1",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00724-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00724-1",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00724-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00724-1",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00724-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00724-1",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00724-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00724-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00724-1",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00724-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00724-1",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00724-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00724-1",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00724-1",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00724-1",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00725-1",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00725-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00725-1",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00725-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00725-1",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00725-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00725-1",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00725-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00725-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00725-1",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00725-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00725-1",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00725-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00725-1",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00725-1",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0402_CMP-00725-1",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00654-1",
+   "side": "bottom",
+   "size": [
+    1.7,
+    0.9,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00658-1",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00658-1",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00658-1",
+   "side": "top",
+   "size": [
+    1.7,
+    0.9,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00662-1",
+   "side": "top",
+   "size": [
+    1.7,
+    0.9,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00706-1",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00720-1",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00720-1",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00720-1",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00720-1",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00720-1",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00720-1",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00720-1",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00721-1",
+   "side": "top",
+   "size": [
+    1.7,
+    0.9,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00721-1",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00721-1",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00721-1",
+   "side": "top",
+   "size": [
+    1.7,
+    0.9,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00721-1",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0603_CMP-00722-1",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0805_CMP-00652-2",
+   "side": "top",
+   "size": [
+    2.0,
+    1.35,
+    0.5
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_0805_CMP-00652-2",
+   "side": "top",
+   "size": [
+    2.0,
+    1.35,
+    0.5
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RES_1206_CMP-00673-1",
+   "side": "top",
+   "size": [
+    3.0,
+    1.7,
+    0.45
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "RES_1206_CMP-00673-1",
+   "side": "top",
+   "size": [
+    1.7,
+    3.0,
+    0.45
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "RES_1206_CMP-00673-1",
+   "side": "top",
+   "size": [
+    1.7,
+    3.0,
+    0.45
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "SAMTEC_ERM8-030-01-X-D-EM2-SL-XX_CMP-043-000000-5",
+   "side": "top",
+   "size": [
+    33.001,
+    12.951,
+    5.601
+   ],
+   "kind": "parts",
+   "triangles": 24996,
+   "edgeSegments": 3712
+  },
+  {
+   "name": "SD0805S020S0R5-Footprint-1_CMP-011-000013-1",
+   "side": "top",
+   "size": [
+    2.109,
+    1.403,
+    0.992
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "SDINBDG4-16G-XI2_CMP-001-0000-1",
+   "side": "top",
+   "size": [
+    11.5,
+    13.0,
+    0.8
+   ],
+   "kind": "parts",
+   "triangles": 60,
+   "edgeSegments": 36
+  },
+  {
+   "name": "STM32L4R5ZIT6P-Footprint-1_CMP-00528-3",
+   "side": "top",
+   "size": [
+    22.0,
+    22.0,
+    1.6
+   ],
+   "kind": "parts",
+   "triangles": 34884,
+   "edgeSegments": 3648
+  },
+  {
+   "name": "TCAN3404DRBRQ1-Footprint-1_CMP-00592-6",
+   "side": "bottom",
+   "size": [
+    3.098,
+    3.098,
+    0.993
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "THVD1424RGTR-Footprint-1_CMP-095-000019-3",
+   "side": "top",
+   "size": [
+    3.098,
+    3.098,
+    1.654
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "THVD1424RGTR-Footprint-1_CMP-095-000019-3",
+   "side": "top",
+   "size": [
+    3.098,
+    3.098,
+    1.654
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "WE-CBF_0805_L2W1.2H0.9_HC_CMP-008-000006-1",
+   "side": "top",
+   "size": [
+    1.2,
+    2.0,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WE-TVS_SOT23-5L_CMP-011-000001-1",
+   "side": "top",
+   "size": [
+    2.9,
+    2.8,
+    1.16
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "WE-VE_0402_CMP-00704-1",
+   "side": "bottom",
+   "size": [
+    0.5,
+    1.0,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WE-VE_0402_CMP-00704-1",
+   "side": "bottom",
+   "size": [
+    0.5,
+    1.0,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WE-VE_0402_CMP-00704-1",
+   "side": "top",
+   "size": [
+    0.5,
+    1.0,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WE-VE_0402_CMP-00704-1",
+   "side": "top",
+   "size": [
+    0.5,
+    1.0,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WE-VE_0402_CMP-00704-1",
+   "side": "top",
+   "size": [
+    0.5,
+    1.0,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WE-VE_femtoF_0402_CMP-00703-1",
+   "side": "top",
+   "size": [
+    1.0,
+    0.52,
+    0.41
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WE-XTAL_CFPX-180_CMP-00698-1",
+   "side": "top",
+   "size": [
+    2.714,
+    3.414,
+    0.814
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "WE-XTAL_IQXC-25_CMP-00543-1",
+   "side": "top",
+   "size": [
+    1.22,
+    2.02,
+    0.57
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1_Standard",
+   "side": "top",
+   "size": [
+    0.801,
+    1.601,
+    0.701
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1_Standard",
+   "side": "top",
+   "size": [
+    0.801,
+    1.601,
+    0.701
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1_Standard",
+   "side": "top",
+   "size": [
+    1.601,
+    0.801,
+    0.701
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1_Standard",
+   "side": "top",
+   "size": [
+    1.601,
+    0.801,
+    0.701
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1_Standard",
+   "side": "top",
+   "size": [
+    0.801,
+    1.601,
+    0.701
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1_Standard",
+   "side": "top",
+   "size": [
+    0.801,
+    1.601,
+    0.701
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75003_CMP-00605-2_Standard",
+   "side": "top",
+   "size": [
+    0.801,
+    1.601,
+    0.701
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75003_CMP-00605-2_Standard",
+   "side": "top",
+   "size": [
+    0.801,
+    1.601,
+    0.701
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75003_CMP-00605-2_Standard",
+   "side": "top",
+   "size": [
+    0.801,
+    1.601,
+    0.701
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75003_CMP-00605-2_Standard",
+   "side": "top",
+   "size": [
+    0.801,
+    1.601,
+    0.701
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75003_CMP-00605-2_Standard",
+   "side": "top",
+   "size": [
+    0.801,
+    1.601,
+    0.701
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75003_CMP-00605-2_Standard",
+   "side": "top",
+   "size": [
+    0.801,
+    1.601,
+    0.701
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75003_CMP-00605-2_Standard",
+   "side": "top",
+   "size": [
+    0.801,
+    1.601,
+    0.701
+   ],
+   "kind": "decals",
+   "triangles": 2
+  }
+ ]
+}

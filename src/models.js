@@ -158,14 +158,16 @@ export function buildCard(key, T, pitch) {
   return { group: g, hit, interfaces, pivot, body, front, bracket, faceOffset: front < 0 ? Math.PI : 0, cx, cy: c.y + seat };
 }
 
-// 扩展板：模型和主板同一坐标系，直接挂在主板的 body 下。返回 { obj, interfaces }
+// 扩展板：模型和主板同一坐标系（可以带一个位移），直接挂在主板的 body 下。返回 { obj, interfaces }
 export function buildExpansion(card, key, E) {
   const tpl = templates.get('exp:' + key);
   if (!tpl) return null;
   const interfaces = [];
   const obj = instantiate(tpl, E.color, collect(interfaces, card.front));
+  // offset：叠在相邻槽位上的板（比如 COM stack 里的 S-Band 板）相对主板的位移
+  if (E.offset) obj.position.fromArray(E.offset);
   card.body.add(obj);
-  interfaces.forEach(i => i.center.applyMatrix4(card.body.matrix));
+  interfaces.forEach(i => i.center.add(obj.position).applyMatrix4(card.body.matrix));
   return { obj, interfaces };
 }
 

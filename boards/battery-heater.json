@@ -1,0 +1,6 @@
+{
+  "interfaces": [
+    {"ref": "H1", "match": ["PICOLOCK_4*"], "cluster": 1, "label": "Heater 1", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "Connects to Heater 1 on the battery board."},
+    {"ref": "H2", "match": ["FP-503763-0691*"], "cluster": 1, "label": "Heater 2", "type": "actuator", "connector": "Molex Pico-Lock 6P", "desc": "Connects to Heater 2 on the battery board."}
+  ]
+}

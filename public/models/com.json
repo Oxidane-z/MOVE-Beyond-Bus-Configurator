@@ -1,0 +1,448 @@
+{
+ "source": "040400_001_COMSB.STEP",
+ "bounds": {
+  "min": [
+   -30.04,
+   0.0,
+   -13.695
+  ],
+  "max": [
+   62.26,
+   84.251,
+   9.322
+  ]
+ },
+ "board": {
+  "min": [
+   -29.89,
+   7.851,
+   -0.795
+  ],
+  "max": [
+   62.11,
+   83.851,
+   0.795
+  ]
+ },
+ "frame": {
+  "front": -1,
+  "mateSlots": 1
+ },
+ "slots": null,
+ "counts": {
+  "board": 1,
+  "parts": 32,
+  "blocks": 0,
+  "bits": 0,
+  "decals": 0,
+  "interface": 0
+ },
+ "triangles": {
+  "board": 656,
+  "parts": 40824,
+  "blocks": 0,
+  "bits": 0,
+  "decals": 0,
+  "interface": 0,
+  "instanced": 1206
+ },
+ "split": null,
+ "components": [
+  {
+   "name": "040400_ELE_001_COM-SB_BOARD_Standard",
+   "side": "bottom",
+   "size": [
+    92.0,
+    76.0,
+    1.59
+   ],
+   "kind": "board",
+   "triangles": 656,
+   "edgeSegments": 300
+  },
+  {
+   "name": "040900_STR_004_COMSBFrame_Outside",
+   "side": "top",
+   "size": [
+    92.3,
+    76.0,
+    12.9
+   ],
+   "kind": "parts",
+   "triangles": 1284,
+   "edgeSegments": 624
+  },
+  {
+   "name": "53261-04_ax100-b",
+   "side": "bottom",
+   "size": [
+    10.15,
+    5.2,
+    3.4
+   ],
+   "kind": "parts",
+   "triangles": 884,
+   "edgeSegments": 372
+  },
+  {
+   "name": "53261-08_ax100-b",
+   "side": "bottom",
+   "size": [
+    15.15,
+    5.2,
+    3.4
+   ],
+   "kind": "parts",
+   "triangles": 1220,
+   "edgeSegments": 516
+  },
+  {
+   "name": "9774030360_CMP-00629-1_Standard",
+   "side": "bottom",
+   "size": [
+    6.0,
+    6.0,
+    4.4
+   ],
+   "kind": "parts",
+   "instanceOf": "9774030360_CMP-00629-1_Standard",
+   "triangles": 152
+  },
+  {
+   "name": "9774030360_CMP-00629-1_Standard",
+   "side": "bottom",
+   "size": [
+    6.0,
+    6.0,
+    4.4
+   ],
+   "kind": "parts",
+   "instanceOf": "9774030360_CMP-00629-1_Standard",
+   "triangles": 0
+  },
+  {
+   "name": "9774030360_CMP-00629-1_Standard",
+   "side": "bottom",
+   "size": [
+    6.0,
+    6.0,
+    4.4
+   ],
+   "kind": "parts",
+   "instanceOf": "9774030360_CMP-00629-1_Standard",
+   "triangles": 0
+  },
+  {
+   "name": "9774030360_CMP-00629-1_Standard",
+   "side": "bottom",
+   "size": [
+    6.0,
+    6.0,
+    4.4
+   ],
+   "kind": "parts",
+   "instanceOf": "9774030360_CMP-00629-1_Standard",
+   "triangles": 0
+  },
+  {
+   "name": "999999_COTS_ISO_14579_M3x06_Standard",
+   "side": "bottom",
+   "size": [
+    5.953,
+    5.953,
+    9.0
+   ],
+   "kind": "parts",
+   "instanceOf": "999999_COTS_ISO_14579_M3x06_Standard",
+   "triangles": 428
+  },
+  {
+   "name": "999999_COTS_ISO_14579_M3x06_Standard",
+   "side": "bottom",
+   "size": [
+    5.953,
+    5.953,
+    9.0
+   ],
+   "kind": "parts",
+   "instanceOf": "999999_COTS_ISO_14579_M3x06_Standard",
+   "triangles": 0
+  },
+  {
+   "name": "999999_COTS_ISO_14579_M3x06_Standard",
+   "side": "bottom",
+   "size": [
+    5.953,
+    5.953,
+    9.0
+   ],
+   "kind": "parts",
+   "instanceOf": "999999_COTS_ISO_14579_M3x06_Standard",
+   "triangles": 0
+  },
+  {
+   "name": "999999_COTS_ISO_14579_M3x06_Standard",
+   "side": "bottom",
+   "size": [
+    5.953,
+    5.953,
+    9.0
+   ],
+   "kind": "parts",
+   "instanceOf": "999999_COTS_ISO_14579_M3x06_Standard",
+   "triangles": 0
+  },
+  {
+   "name": "999999_COTS_ISO_7380-1_M2.5x06",
+   "side": "top",
+   "size": [
+    5.0,
+    10.0,
+    7.491
+   ],
+   "kind": "parts",
+   "instanceOf": "999999_COTS_ISO_7380-1_M2.5x06",
+   "triangles": 430
+  },
+  {
+   "name": "999999_COTS_ISO_7380-1_M2.5x06",
+   "side": "top",
+   "size": [
+    5.0,
+    10.0,
+    7.491
+   ],
+   "kind": "parts",
+   "instanceOf": "999999_COTS_ISO_7380-1_M2.5x06",
+   "triangles": 0
+  },
+  {
+   "name": "999999_COTS_ISO_7380-1_M2.5x06",
+   "side": "top",
+   "size": [
+    5.0,
+    10.0,
+    7.491
+   ],
+   "kind": "parts",
+   "instanceOf": "999999_COTS_ISO_7380-1_M2.5x06",
+   "triangles": 0
+  },
+  {
+   "name": "999999_COTS_ISO_7380-1_M2.5x06",
+   "side": "top",
+   "size": [
+    5.0,
+    10.0,
+    7.491
+   ],
+   "kind": "parts",
+   "triangles": 430,
+   "edgeSegments": 126
+  },
+  {
+   "name": "MCX-J-P-H-ST-EM1_ax100-3",
+   "side": "bottom",
+   "size": [
+    9.3,
+    6.7,
+    5.154
+   ],
+   "kind": "parts",
+   "triangles": 976,
+   "edgeSegments": 418
+  },
+  {
+   "name": "PanHead_ISO7045(M016-04)",
+   "side": "bottom",
+   "size": [
+    2.8,
+    2.8,
+    4.85
+   ],
+   "kind": "parts",
+   "instanceOf": "PanHead_ISO7045(M016-04)",
+   "triangles": 196
+  },
+  {
+   "name": "PanHead_ISO7045(M016-04)",
+   "side": "bottom",
+   "size": [
+    2.8,
+    2.8,
+    4.85
+   ],
+   "kind": "parts",
+   "instanceOf": "PanHead_ISO7045(M016-04)",
+   "triangles": 0
+  },
+  {
+   "name": "PanHead_ISO7045(M016-04)",
+   "side": "bottom",
+   "size": [
+    2.8,
+    2.8,
+    4.85
+   ],
+   "kind": "parts",
+   "instanceOf": "PanHead_ISO7045(M016-04)",
+   "triangles": 0
+  },
+  {
+   "name": "PanHead_ISO7045(M016-04)",
+   "side": "bottom",
+   "size": [
+    2.8,
+    2.8,
+    4.85
+   ],
+   "kind": "parts",
+   "instanceOf": "PanHead_ISO7045(M016-04)",
+   "triangles": 0
+  },
+  {
+   "name": "PanHead_ISO7045(M016-04)",
+   "side": "bottom",
+   "size": [
+    2.8,
+    2.8,
+    4.85
+   ],
+   "kind": "parts",
+   "instanceOf": "PanHead_ISO7045(M016-04)",
+   "triangles": 0
+  },
+  {
+   "name": "PanHead_ISO7045(M016-04)",
+   "side": "bottom",
+   "size": [
+    2.8,
+    2.8,
+    4.85
+   ],
+   "kind": "parts",
+   "instanceOf": "PanHead_ISO7045(M016-04)",
+   "triangles": 0
+  },
+  {
+   "name": "PanHead_ISO7045(M016-04)",
+   "side": "bottom",
+   "size": [
+    2.8,
+    2.8,
+    4.85
+   ],
+   "kind": "parts",
+   "instanceOf": "PanHead_ISO7045(M016-04)",
+   "triangles": 0
+  },
+  {
+   "name": "PanHead_ISO7045(M016-04)",
+   "side": "bottom",
+   "size": [
+    2.8,
+    2.8,
+    4.85
+   ],
+   "kind": "parts",
+   "instanceOf": "PanHead_ISO7045(M016-04)",
+   "triangles": 0
+  },
+  {
+   "name": "PanHead_ISO7045(M016-04)",
+   "side": "bottom",
+   "size": [
+    2.8,
+    2.8,
+    4.85
+   ],
+   "kind": "parts",
+   "instanceOf": "PanHead_ISO7045(M016-04)",
+   "triangles": 0
+  },
+  {
+   "name": "PanHead_ISO7045(M016-04)",
+   "side": "bottom",
+   "size": [
+    2.8,
+    2.8,
+    4.85
+   ],
+   "kind": "parts",
+   "instanceOf": "PanHead_ISO7045(M016-04)",
+   "triangles": 0
+  },
+  {
+   "name": "PanHead_ISO7045(M016-04)",
+   "side": "bottom",
+   "size": [
+    2.8,
+    2.8,
+    4.85
+   ],
+   "kind": "parts",
+   "instanceOf": "PanHead_ISO7045(M016-04)",
+   "triangles": 0
+  },
+  {
+   "name": "PanHead_ISO7045(M016-04)",
+   "side": "bottom",
+   "size": [
+    2.8,
+    2.8,
+    4.85
+   ],
+   "kind": "parts",
+   "instanceOf": "PanHead_ISO7045(M016-04)",
+   "triangles": 0
+  },
+  {
+   "name": "SAMTEC_ERM8-030-01-X-D-EM2-SL-XX_CMP-043-000000-8",
+   "side": "top",
+   "size": [
+    33.001,
+    12.951,
+    5.601
+   ],
+   "kind": "parts",
+   "triangles": 24996,
+   "edgeSegments": 3712
+  },
+  {
+   "name": "SAMTEC_FSI-110-03-X-D-AD-TR_CMP-093-000000-2_Standard",
+   "side": "bottom",
+   "size": [
+    10.0,
+    10.76,
+    5.797
+   ],
+   "kind": "parts",
+   "triangles": 6940,
+   "edgeSegments": 2802
+  },
+  {
+   "name": "Shield_ax100-3-NEWLOGO(Default)",
+   "side": "bottom",
+   "size": [
+    65.0,
+    40.0,
+    4.0
+   ],
+   "kind": "parts",
+   "triangles": 3146,
+   "edgeSegments": 1506
+  },
+  {
+   "name": "ax100OutLine_ax100-3(Default)",
+   "side": "bottom",
+   "size": [
+    65.0,
+    40.0,
+    1.538
+   ],
+   "kind": "parts",
+   "triangles": 948,
+   "edgeSegments": 446
+  }
+ ]
+}

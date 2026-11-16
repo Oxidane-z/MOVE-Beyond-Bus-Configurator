@@ -3,7 +3,11 @@
   "pitch": 14.5,
   "seatY": 11.94,
   "backplane": {"model": "models/backplane.glb", "y": 5, "color": "#2c2d31"},
-  "initial": [["obdh", 0], ["recovery", 2], ["battery", 3], ["adcs", 5], ["piklas", 6]],
+  "layouts": {
+    "rexus": {"name": "REXUS", "boards": [["obdh", 0], ["recovery", 2], ["battery", 3], ["adcs", 5], ["piklas", 6]]},
+    "move3a": {"name": "MOVE-IIIa", "boards": [["comstack", 0], ["cdh", 2], ["battery1", 3], ["payload", 5], ["adcs1", 6]]}
+  },
+  "initial": "rexus",
   "levels": {"proto": "Prototype", "iter1": "Iteration 1", "iter2": "Iteration 2"},
   "interfaceTypes": {
     "bus": {"label": "Backplane bus", "color": "#8fb0ee"},
@@ -19,15 +23,23 @@
   },
   "boards": {
     "piklas": {"name": "Piklas", "level": "iter2", "w": 1, "model": "models/piklas.glb", "color": "#6a5796", "front": -1, "seat": -4.8, "bracket": "bracket-iter2"},
-    "battery": {"name": "Battery Pack v4.3", "level": "iter2", "w": 2, "model": "models/battery.glb", "color": "#6fae8f", "front": 1, "seat": -4.4, "wh": 64.8},
+    "battery": {"name": "Battery Pack v4.3 REXUS edition", "level": "iter2", "w": 2, "model": "models/battery.glb", "color": "#6fae8f", "front": 1, "seat": -4.4, "wh": 64.8, "expansionSites": [{"name": "Heater board", "options": ["battery-heater"], "default": "battery-heater", "fixed": true}]},
     "adcs": {"name": "ADCS V2.1 REXUS edition", "level": "iter2", "w": 1, "model": "models/adcs.glb", "color": "#2c2d31", "front": -1, "seat": -4.4, "bracket": "bracket-iter2"},
     "obdh": {"name": "Rexus OBDH (CM5)", "level": "iter2", "w": 2, "connectorSlot": 1, "model": "models/obdh.glb", "color": "#ecece9", "front": 1, "seat": -4.4, "expansionSites": [{"name": "Expansion", "options": ["obdh-expansion"], "default": "obdh-expansion"}]},
-    "recovery": {"name": "Recovery V2", "level": "iter2", "w": 1, "model": "models/recovery.glb", "color": "#4d6c9e", "front": -1, "seat": -4.8, "bracket": "bracket-iter2", "expansionSites": [{"name": "Expansion 1", "options": [], "default": null}, {"name": "Expansion 2", "options": [], "default": null}]}
+    "recovery": {"name": "Recovery V2", "level": "iter2", "w": 1, "model": "models/recovery.glb", "color": "#4d6c9e", "front": -1, "seat": -4.8, "bracket": "bracket-iter2", "expansionSites": [{"name": "Expansion 1", "options": [], "default": null}, {"name": "Expansion 2", "options": [], "default": null}]},
+    "phileas": {"name": "PHILEAS SB", "level": "iter2", "w": 1, "model": "models/phileas.glb", "color": "#6fae8f", "front": -1, "seat": -4.4},
+    "comstack": {"name": "COM Stack", "level": "iter1", "w": 2, "connectorSlot": 1, "model": "models/com.glb", "color": "#6fae8f", "front": -1, "seat": -4.4, "expansionSites": [{"name": "S-Band", "options": ["sband"], "default": "sband", "fixed": true}]},
+    "cdh": {"name": "CDH SB", "level": "iter1", "w": 1, "model": "models/cdh.glb", "color": "#6fae8f", "front": -1, "seat": -4.4},
+    "battery1": {"name": "Battery Pack", "level": "iter1", "w": 2, "model": "models/battery1.glb", "color": "#6fae8f", "front": 1, "seat": -4.4, "wh": 64.8, "expansionSites": [{"name": "Heater board", "options": ["battery-heater"], "default": "battery-heater", "fixed": true}]},
+    "payload": {"name": "Payload SB", "level": "iter1", "w": 1, "model": "models/payload.glb", "color": "#6fae8f", "front": -1, "seat": -4.4},
+    "adcs1": {"name": "ADCS SB V2.1", "level": "iter1", "w": 1, "model": "models/adcs1.glb", "color": "#6fae8f", "front": -1, "seat": -4.4}
   },
   "accessories": {
     "bracket-iter2": {"label": "Iter 2 standard bracket", "model": "models/bracket-iter2.glb"}
   },
   "expansions": {
-    "obdh-expansion": {"name": "OBDH expansion board", "model": "models/obdh-expansion.glb", "color": "#6fae8f"}
+    "obdh-expansion": {"name": "OBDH expansion board", "model": "models/obdh-expansion.glb", "color": "#6fae8f"},
+    "battery-heater": {"name": "Heater board", "model": "models/battery-heater.glb", "color": "#c98a3c"},
+    "sband": {"name": "S-Band SB", "model": "models/sband.glb", "color": "#6fae8f", "offset": [0, 0, -14.5]}
   }
 }

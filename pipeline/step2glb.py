@@ -93,6 +93,8 @@ def label_name(label):
 def bbox(shape):
     b = Bnd_Box()
     BRepBndLib.Add_s(shape, b)
+    if b.IsVoid():
+        return np.zeros(3), np.zeros(3)
     lo, hi = b.CornerMin(), b.CornerMax()
     return np.array([lo.X(), lo.Y(), lo.Z()]), np.array([hi.X(), hi.Y(), hi.Z()])
 
@@ -309,24 +311,29 @@ def signature(it):
     """元器件的形状指纹：包围盒尺寸 + 各实体体积质心相对包围盒角点的位置。
     指纹相同的元器件视为同一几何的平移副本，只存一份网格。"""
     sig = [round(float(v), 2) for v in (it['whi'] - it['wlo'])]
-    for shape, _ in it['bodies']:
+    for shape, _, mat in it['bodies']:
         g = GProp_GProps()
         BRepGProp.VolumeProperties_s(shape, g)
         c = g.CentreOfMass()
-        sig += [round(float(g.Mass()), 2)] + [round(float(v), 2) for v in (np.array([c.X(), c.Y(), c.Z()]) - it['wlo'])]
-    return (len(it['bodies']), tuple(sorted(sig[3:])), tuple(sig[:3]))
+        w = it['m'] @ mat
+        c = w[:3, :3] @ np.array([c.X(), c.Y(), c.Z()]) + w[:3, 3]      # 质心换到装配坐标
+        sig += [round(float(g.Mass()), 2)] + [round(float(v), 2) for v in (c - it['wlo'])]
+    # 朝向也算进指纹：同一个件转了方向就不是平移副本
+    rot = tuple(round(float(v), 3) for v in (it['m'] @ it['bodies'][0][2])[:3, :3].flatten())
+    return (len(it['bodies']), tuple(sorted(sig[3:])), tuple(sig[:3]), rot)
 
 
 def tess_item(it, colors, lin_defl, **kw):
     """三角化一个元器件的所有实体并合并。"""
     P, N, C, I, E, n = [], [], [], [], [], 0
-    for shape, base in it['bodies']:
+    for shape, base, mat in it['bodies']:
         mesh = tessellate(shape, colors, base, lin_defl, **kw)
         if mesh is None:
             continue
-        P.append(mesh[0]); N.append(mesh[1]); C.append(mesh[2]); I.append(mesh[3] + n); n += len(mesh[0])
+        r, t = mat[:3, :3], mat[:3, 3]
+        P.append(mesh[0] @ r.T + t); N.append(mesh[1] @ r.T); C.append(mesh[2]); I.append(mesh[3] + n); n += len(mesh[0])
         if len(mesh[4]):
-            E.append(mesh[4])
+            E.append(mesh[4] @ r.T + t)
     if not P:
         return None
     return np.vstack(P), np.vstack(N), np.vstack(C), np.vstack(I), np.vstack(E) if E else np.zeros((0, 3))
@@ -335,7 +342,7 @@ def tess_item(it, colors, lin_defl, **kw):
 def item_color(it, colors):
     """简化件的单一颜色：取体积最大的实体的颜色。"""
     best, best_v = DEFAULT_COLOR, -1.0
-    for shape, base in it['bodies']:
+    for shape, base, _ in it['bodies']:
         lo, hi = bbox(shape)
         v = float(np.prod(np.maximum(hi - lo, 1e-3)))
         if v > best_v:
@@ -353,20 +360,67 @@ def load_items(st, colors):
     items = []
 
     if free.Length() == 1 and st.IsAssembly_s(free.Value(1)):
-        comps = LabelSeq()
-        st.GetComponents_s(free.Value(1), comps)
-        for i in range(1, comps.Length() + 1):
-            comp = comps.Value(i)
-            ref = TDF_Label()
-            if not st.GetReferredShape_s(comp, ref):
-                continue
-            local = st.GetShape_s(ref)                 # 元件自身坐标系
-            placed = st.GetShape_s(comp)               # 带装配位置
-            llo, lhi = bbox(local)
-            wlo, whi = bbox(placed)
-            items.append({'name': label_name(ref) or label_name(comp), 'm': trsf_matrix(placed.Location()),
-                          'bodies': [(local, colors.of(ref) or DEFAULT_COLOR)],
-                          'llo': llo, 'lhi': lhi, 'wlo': wlo, 'whi': whi})
+        # 装配可以有多层（机械 CAD 的总装套着 PCB 子装配，或 位号 → 料号 → 实体）。
+        # 含有 PCB（大薄板）的子装配继续展开，里面的每个件各算一个元器件；其余子装配整个算一个元器件。
+        def children(label):
+            comps = LabelSeq()
+            st.GetComponents_s(label, comps)
+            out = []
+            for i in range(1, comps.Length() + 1):
+                comp, ref = comps.Value(i), TDF_Label()
+                if st.GetReferredShape_s(comp, ref):
+                    out.append((comp, ref))
+            return out
+
+        plate_cache = {}
+
+        def has_plate(ref):
+            key, l = [], ref
+            while not l.IsRoot():
+                key.append(l.Tag())
+                l = l.Father()
+            key = tuple(key)
+            if key not in plate_cache:
+                if st.IsAssembly_s(ref):
+                    plate_cache[key] = any(has_plate(r) for _, r in children(ref))
+                else:
+                    lo, hi = bbox(st.GetShape_s(ref))
+                    d = np.sort(hi - lo)
+                    plate_cache[key] = bool(d[0] <= 2.5 and d[1] >= 25)
+            return plate_cache[key]
+
+        def leaves(ref, mat, color, out):
+            """装配下的所有实体，带相对变换和颜色。"""
+            for comp, r in children(ref):
+                m = mat @ trsf_matrix(st.GetShape_s(comp).Location())
+                c = colors.of(r) or colors.of(comp) or color
+                if st.IsAssembly_s(r):
+                    leaves(r, m, c, out)
+                else:
+                    out.append((st.GetShape_s(r), c or DEFAULT_COLOR, m))
+
+        def walk(label, loc, parents):
+            for comp, ref in children(label):
+                placed = st.GetShape_s(comp)
+                cloc = loc.Multiplied(placed.Location())
+                name = label_name(ref) or label_name(comp)
+                kids = children(ref) if st.IsAssembly_s(ref) else []
+                if len(kids) > 1 and has_plate(ref):
+                    walk(ref, cloc, parents + [name])
+                    continue
+                local = st.GetShape_s(ref)
+                if kids:
+                    bodies = []
+                    leaves(ref, np.eye(4), colors.of(ref) or colors.of(comp), bodies)
+                else:
+                    bodies = [(local, colors.of(ref) or colors.of(comp) or DEFAULT_COLOR, np.eye(4))]
+                llo, lhi = bbox(local)
+                wlo, whi = bbox(local.Moved(cloc))
+                if not bodies or (whi - wlo).max() <= 0:
+                    continue
+                items.append({'name': name, 'parents': parents, 'm': trsf_matrix(cloc), 'bodies': bodies,
+                              'llo': llo, 'lhi': lhi, 'wlo': wlo, 'whi': whi})
+        walk(free.Value(1), TopLoc_Location(), [])
         return items
 
     # 平铺式：按“封装 + 实例号”归并实体
@@ -384,7 +438,7 @@ def load_items(st, colors):
     for key, bodies in groups.items():
         lo = np.min([b[2] for b in bodies], axis=0)
         hi = np.max([b[3] for b in bodies], axis=0)
-        items.append({'name': key, 'm': np.eye(4), 'bodies': [(b[0], b[1]) for b in bodies],
+        items.append({'name': key, 'parents': [], 'm': np.eye(4), 'bodies': [(b[0], b[1], np.eye(4)) for b in bodies],
                       'llo': lo, 'lhi': hi, 'wlo': lo, 'whi': hi})
     return items
 
@@ -660,7 +714,7 @@ def main():
     def is_split(it):
         if it is board:
             return False
-        if it is split_board or (split_prefixes and it['name'].startswith(split_prefixes)):
+        if it is split_board or (split_prefixes and any(n.startswith(split_prefixes) for n in [it['name']] + it['parents'])):
             return True
         return split_board is not None and touches(it, split_board) and not touches(it, board)
 

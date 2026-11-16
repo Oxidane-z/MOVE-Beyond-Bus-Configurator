@@ -1,0 +1,112 @@
+{
+ "source": "040300_001_SBandSB.STEP",
+ "bounds": {
+  "min": [
+   -29.94,
+   0.0,
+   -6.758
+  ],
+  "max": [
+   62.1,
+   83.88,
+   2.878
+  ]
+ },
+ "board": {
+  "min": [
+   -29.94,
+   3.308,
+   -0.783
+  ],
+  "max": [
+   62.1,
+   83.88,
+   0.783
+  ]
+ },
+ "frame": {
+  "front": -1,
+  "mateSlots": 1
+ },
+ "slots": null,
+ "counts": {
+  "board": 1,
+  "parts": 4,
+  "blocks": 0,
+  "bits": 0,
+  "decals": 0,
+  "interface": 0
+ },
+ "triangles": {
+  "board": 12994,
+  "parts": 26856,
+  "blocks": 0,
+  "bits": 0,
+  "decals": 0,
+  "interface": 0,
+  "instanced": 0
+ },
+ "split": null,
+ "components": [
+  {
+   "name": "040300_ELE_001_SBandPCB_Standard",
+   "side": "bottom",
+   "size": [
+    92.039,
+    80.573,
+    1.566
+   ],
+   "kind": "board",
+   "triangles": 12994,
+   "edgeSegments": 3737
+  },
+  {
+   "name": "040300_STR_002_SBandShielding_Standard",
+   "side": "top",
+   "size": [
+    46.22,
+    43.7,
+    6.0
+   ],
+   "kind": "parts",
+   "triangles": 628,
+   "edgeSegments": 303
+  },
+  {
+   "name": "CoaxConnectorPCb_Standard",
+   "side": "top",
+   "size": [
+    3.5,
+    3.5,
+    5.0
+   ],
+   "kind": "parts",
+   "triangles": 616,
+   "edgeSegments": 294
+  },
+  {
+   "name": "CoaxConnectorPCb_Standard",
+   "side": "top",
+   "size": [
+    3.5,
+    3.5,
+    5.0
+   ],
+   "kind": "parts",
+   "triangles": 616,
+   "edgeSegments": 294
+  },
+  {
+   "name": "SB_2_Standard",
+   "side": "bottom",
+   "size": [
+    33.001,
+    12.951,
+    5.601
+   ],
+   "kind": "parts",
+   "triangles": 24996,
+   "edgeSegments": 3712
+  }
+ ]
+}

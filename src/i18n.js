@@ -3,6 +3,8 @@ const STRINGS = {
   en: {
     'title': 'MOVE Beyond Bus Configurator',
     'library': 'Boards',
+    'layouts': 'Default layout',
+    'aria.layouts': 'Default layout',
     'interfacesOf': '{name} interfaces',
     'meta.slots.1': '1 slot',
     'meta.slots.n': '{n} slots',
