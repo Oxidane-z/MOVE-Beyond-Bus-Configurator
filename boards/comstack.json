@@ -1,0 +1,8 @@
+{
+  "interfaces": [
+    {"ref": "BUS-COM", "match": ["SAMTEC_ERM8*"], "label": "Backplane connector (COM SB)", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot."},
+    {"ref": "UHF-ANT", "match": ["MCX-J-P-H-ST-EM1*"], "label": "UHF antenna", "type": "rf", "connector": "MCX", "desc": "Antenna port of the NanoCom AX100 UHF transceiver."},
+    {"ref": "DBG4", "match": ["53261-04*"], "label": "AX100 debug (4P)", "type": "debug", "connector": "Molex PicoBlade 4P", "desc": "Debug connector on the NanoCom AX100."},
+    {"ref": "DBG8", "match": ["53261-08*"], "label": "AX100 debug (8P)", "type": "debug", "connector": "Molex PicoBlade 8P", "desc": "Debug connector on the NanoCom AX100."}
+  ]
+}

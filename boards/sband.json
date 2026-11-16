@@ -1,0 +1,7 @@
+{
+  "interfaces": [
+    {"ref": "BUS-SB", "match": ["SB_2*"], "label": "Backplane connector (S-Band SB)", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot."},
+    {"ref": "SB-TX", "match": ["CoaxConnectorPCb*"], "cluster": 0, "label": "S-Band TX", "type": "rf", "connector": "MMCX", "desc": "S-Band transmit antenna. Which of the two MMCX connectors is TX and which is RX is not confirmed yet."},
+    {"ref": "SB-RX", "match": ["CoaxConnectorPCb*"], "cluster": 1, "label": "S-Band RX", "type": "rf", "connector": "MMCX", "desc": "S-Band receive antenna. Which of the two MMCX connectors is TX and which is RX is not confirmed yet."}
+  ]
+}

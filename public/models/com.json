@@ -31,19 +31,19 @@
  "slots": null,
  "counts": {
   "board": 1,
-  "parts": 32,
+  "parts": 28,
   "blocks": 0,
   "bits": 0,
   "decals": 0,
-  "interface": 0
+  "interface": 4
  },
  "triangles": {
   "board": 656,
-  "parts": 40824,
+  "parts": 12748,
   "blocks": 0,
   "bits": 0,
   "decals": 0,
-  "interface": 0,
+  "interface": 28076,
   "instanced": 1206
  },
  "split": null,
@@ -80,7 +80,7 @@
     5.2,
     3.4
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 884,
    "edgeSegments": 372
   },
@@ -92,7 +92,7 @@
     5.2,
     3.4
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1220,
    "edgeSegments": 516
   },
@@ -248,7 +248,7 @@
     6.7,
     5.154
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 976,
    "edgeSegments": 418
   },
@@ -404,7 +404,7 @@
     12.951,
     5.601
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 24996,
    "edgeSegments": 3712
   },
