@@ -27,7 +27,7 @@
     "adcs": {"name": "ADCS V2.1 REXUS edition", "level": "iter2", "w": 1, "model": "models/adcs.glb", "color": "#2c2d31", "front": -1, "seat": -4.4, "bracket": "bracket-iter2"},
     "obdh": {"name": "Rexus OBDH (CM5)", "level": "iter2", "w": 2, "connectorSlot": 1, "model": "models/obdh.glb", "color": "#ecece9", "front": 1, "seat": -4.4, "expansionSites": [{"name": "Expansion", "options": ["obdh-expansion"], "default": "obdh-expansion"}]},
     "recovery": {"name": "Recovery V2", "level": "iter2", "w": 1, "model": "models/recovery.glb", "color": "#4d6c9e", "front": -1, "seat": -4.8, "bracket": "bracket-iter2", "expansionSites": [{"name": "Expansion 1", "options": [], "default": null}, {"name": "Expansion 2", "options": [], "default": null}]},
-    "phileas": {"name": "PHILEAS SB", "level": "iter2", "w": 1, "model": "models/phileas.glb", "color": "#6fae8f", "front": -1, "seat": -4.4},
+    "phileas": {"name": "PHILEAS SB", "level": "iter2", "w": 1, "model": "models/phileas.glb", "color": "#4d6c9e", "front": -1, "seat": -4.4},
     "comstack": {"name": "COM Stack", "level": "iter1", "w": 2, "connectorSlot": 1, "model": "models/com.glb", "color": "#6fae8f", "front": -1, "seat": -4.4, "expansionSites": [{"name": "S-Band", "options": ["sband"], "default": "sband", "fixed": true}]},
     "cdh": {"name": "CDH SB", "level": "iter1", "w": 1, "model": "models/cdh.glb", "color": "#6fae8f", "front": -1, "seat": -4.4},
     "battery1": {"name": "Battery Pack", "level": "iter1", "w": 2, "model": "models/battery1.glb", "color": "#6fae8f", "front": 1, "seat": -4.4, "wh": 64.8, "expansionSites": [{"name": "Heater board", "options": ["battery-heater"], "default": "battery-heater", "fixed": true}]},
