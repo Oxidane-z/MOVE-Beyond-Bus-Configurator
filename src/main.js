@@ -139,13 +139,15 @@ const LIFT = 118;
 const marks = document.getElementById('marks'), libPanel = document.getElementById('libPanel'),
       ifacePanel = document.getElementById('ifacePanel'), ifaceTitle = document.getElementById('ifaceTitle'),
       ifaceList = document.getElementById('ifaceList');
-let inspect = null;   // { p, s: { spin, flip }, zoom, hover, pinned, marks: [], items: [] }
+let inspect = null;   // { p, s: { spin, turn }, zoom, hover, pinned, marks: [], items: [] }；turn 是板卡自转角，0 为正面朝镜头
+const TAU = Math.PI * 2;
+const showsFront = turn => Math.cos(turn) > 0;
 const typeOf = i => sys.interfaceTypes[i.note.type] || { label: i.note.type, color: '#cccccc' };
 
 function enterInspect(p) {
   if (inspect || p.busy || !p.interfaces.length) return;
   sel = null; showGhost(1, -1);
-  inspect = { p, s: { spin: 0, flip: 0 }, zoom: view.zoom, hover: null, pinned: null, marks: [], items: [] };
+  inspect = { p, s: { spin: 0, turn: 0 }, zoom: view.zoom, hover: null, pinned: null, marks: [], items: [] };
   p.busy = true; p.spin = inspect.s;
 
   marks.textContent = ''; ifaceList.textContent = '';
@@ -176,7 +178,7 @@ function enterInspect(p) {
       el.addEventListener('click', () => {
         inspect.pinned = inspect.pinned === i.n ? null : i.n;
         // 从列表点到另一面的接口时自动翻面
-        if (inspect.pinned && i.side !== 0 && (i.side > 0) === (inspect.s.flip > 0.5)) flipInspect();
+        if (inspect.pinned && i.side !== 0 && (i.side > 0) !== showsFront(inspect.s.turn)) flipInspect();
         syncActive();
       });
     });
@@ -191,7 +193,7 @@ function enterInspect(p) {
   renderUI();
 }
 function flipInspect() {
-  if (inspect) tween(inspect.s, 'flip', inspect.s.flip > 0.5 ? 0 : 1, 520, easeInOut);
+  if (inspect) tween(inspect.s, 'turn', (Math.round(inspect.s.turn / Math.PI) + 1) * Math.PI, 520, easeInOut);
 }
 function exitInspect() {
   if (!inspect) return;
@@ -200,7 +202,7 @@ function exitInspect() {
   p.interfaces.forEach(i => tween(i.mat.uniforms.uMix, 'value', 0, 300, easeOut));
   tween(view, 'tx', HOME.tx, 620, easeInOut); tween(view, 'ty', HOME.ty, 620, easeInOut);
   tween(view, 'tz', HOME.tz, 620, easeInOut); tween(view, 'zoom', zoom, 620, easeInOut);
-  tween(p.spin, 'flip', 0, 360, easeInOut);
+  tween(p.spin, 'turn', Math.round(p.spin.turn / TAU) * TAU, 360, easeInOut);
   tween(p.spin, 'spin', 0, 360, easeInOut)
     .then(() => tween(p.group.position, 'y', SEAT_Y + 7, 380, easeOut))
     .then(() => tween(p.group.position, 'y', SEAT_Y, 200, easeIn))
@@ -221,7 +223,7 @@ function syncActive() {
 const _v = new THREE.Vector3(), _n = new THREE.Vector3();
 function updateInspect() {
   placements.forEach(p => {
-    if (p.spin) p.group.rotation.y = p.spin.spin * Math.atan2(Math.sin(view.yaw), Math.cos(view.yaw)) + p.spin.flip * Math.PI;
+    if (p.spin) p.group.rotation.y = p.spin.spin * Math.atan2(Math.sin(view.yaw), Math.cos(view.yaw)) + p.spin.turn;
   });
   if (!inspect) return;
   const p = inspect.p, w = stage.clientWidth, h = stage.clientHeight;
@@ -350,21 +352,26 @@ function pick(e) {
 }
 let pd = null, dragging = false;
 const snapYaw = () => tween(view, 'yaw', Math.round((view.yaw - Math.PI / 4) / (Math.PI / 2)) * (Math.PI / 2) + Math.PI / 4, 300, easeOut);
-cv.addEventListener('pointerdown', e => { pd = { x: e.clientX, yaw: view.yaw }; dragging = false; try { cv.setPointerCapture(e.pointerId); } catch (_) {} });
+cv.addEventListener('pointerdown', e => { pd = { x: e.clientX, yaw: view.yaw, turn: inspect ? inspect.s.turn : 0 }; dragging = false; try { cv.setPointerCapture(e.pointerId); } catch (_) {} });
 cv.addEventListener('pointermove', e => {
   if (pd) {
     const dx = e.clientX - pd.x;
-    if (!dragging && Math.abs(dx) > 6) { dragging = true; killTween(view, 'yaw'); showGhost(1, -1); cv.style.cursor = 'grabbing'; }
-    if (dragging) view.yaw = pd.yaw - dx * 0.008;
+    if (!dragging && Math.abs(dx) > 6) { dragging = true; killTween(view, 'yaw'); if (inspect) killTween(inspect.s, 'turn'); showGhost(1, -1); cv.style.cursor = 'grabbing'; }
+    // 查看接口时拖动的是被查看的板卡本身，镜头和背后的堆叠不动
+    if (dragging && inspect) inspect.s.turn = pd.turn + dx * 0.01;
+    else if (dragging) view.yaw = pd.yaw - dx * 0.008;
   } else if (!inspect) {
     const h = pick(e);
     if (h.a) showGhost(h.a.w, h.slot);
     cv.style.cursor = h.slot >= 0 || h.card ? 'pointer' : 'grab';
   }
 });
+// 松手后吸附到最近的正面或背面
+const snapTurn = () => tween(inspect.s, 'turn', Math.round(inspect.s.turn / Math.PI) * Math.PI, 300, easeOut);
 cv.addEventListener('pointerup', e => {
   if (!pd) return;
-  if (dragging) snapYaw();
+  if (dragging && inspect) snapTurn();
+  else if (dragging) snapYaw();
   else if (!inspect) {
     const h = pick(e);
     if (h.slot >= 0) applyAt(h.slot);
@@ -373,11 +380,11 @@ cv.addEventListener('pointerup', e => {
   }
   pd = null; dragging = false; cv.style.cursor = 'grab';
 });
-cv.addEventListener('pointercancel', () => { if (dragging) snapYaw(); pd = null; dragging = false; });
+cv.addEventListener('pointercancel', () => { if (dragging && inspect) snapTurn(); else if (dragging) snapYaw(); pd = null; dragging = false; });
 cv.addEventListener('pointerleave', () => { if (!pd) showGhost(1, -1); });
 cv.addEventListener('wheel', e => { e.preventDefault(); view.zoom = Math.min(2.5, Math.max(0.6, view.zoom * (e.deltaY < 0 ? 1.08 : 0.926))); }, { passive: false });
-document.getElementById('rotL').addEventListener('click', () => tween(view, 'yaw', Math.round((view.yaw - Math.PI / 4) / (Math.PI / 2) - 1) * (Math.PI / 2) + Math.PI / 4, 420, easeInOut));
-document.getElementById('rotR').addEventListener('click', () => tween(view, 'yaw', Math.round((view.yaw - Math.PI / 4) / (Math.PI / 2) + 1) * (Math.PI / 2) + Math.PI / 4, 420, easeInOut));
+document.getElementById('rotL').addEventListener('click', () => inspect ? flipInspect() : tween(view, 'yaw', Math.round((view.yaw - Math.PI / 4) / (Math.PI / 2) - 1) * (Math.PI / 2) + Math.PI / 4, 420, easeInOut));
+document.getElementById('rotR').addEventListener('click', () => inspect ? flipInspect() : tween(view, 'yaw', Math.round((view.yaw - Math.PI / 4) / (Math.PI / 2) + 1) * (Math.PI / 2) + Math.PI / 4, 420, easeInOut));
 const frameBtn = document.getElementById('frameBtn');
 frameBtn.addEventListener('click', () => { frame.visible = !frame.visible; frameBtn.setAttribute('aria-pressed', String(frame.visible)); });
 window.addEventListener('keydown', e => {
