@@ -26,15 +26,17 @@
  },
  "counts": {
   "board": 1,
-  "parts": 15,
+  "parts": 3,
   "blocks": 26,
-  "decals": 118
+  "decals": 118,
+  "interface": 12
  },
  "triangles": {
   "board": 580,
-  "parts": 88562,
+  "parts": 45892,
   "blocks": 312,
-  "decals": 236
+  "decals": 236,
+  "interface": 42670
  },
  "components": [
   {
@@ -975,7 +977,7 @@
   },
   {
    "name": "HDRM1",
-   "kind": "parts",
+   "kind": "interface",
    "side": "top",
    "size": [
     8.6,
@@ -987,7 +989,7 @@
   },
   {
    "name": "HDRM2",
-   "kind": "parts",
+   "kind": "interface",
    "side": "top",
    "size": [
     8.6,
@@ -999,7 +1001,7 @@
   },
   {
    "name": "HDRM3",
-   "kind": "parts",
+   "kind": "interface",
    "side": "top",
    "size": [
     8.6,
@@ -1011,7 +1013,7 @@
   },
   {
    "name": "HDRM4",
-   "kind": "parts",
+   "kind": "interface",
    "side": "top",
    "size": [
     8.6,
@@ -1023,7 +1025,7 @@
   },
   {
    "name": "J-DS-Y+1",
-   "kind": "parts",
+   "kind": "interface",
    "side": "top",
    "size": [
     7.6,
@@ -1035,7 +1037,7 @@
   },
   {
    "name": "J-DS-Y-1",
-   "kind": "parts",
+   "kind": "interface",
    "side": "top",
    "size": [
     7.6,
@@ -1047,7 +1049,7 @@
   },
   {
    "name": "J2",
-   "kind": "parts",
+   "kind": "interface",
    "side": "bottom",
    "size": [
     33.0,
@@ -1059,7 +1061,7 @@
   },
   {
    "name": "J3",
-   "kind": "parts",
+   "kind": "interface",
    "side": "top",
    "size": [
     8.89,
@@ -1791,7 +1793,7 @@
   },
   {
    "name": "RCVR Bridge",
-   "kind": "parts",
+   "kind": "interface",
    "side": "top",
    "size": [
     8.6,
@@ -1839,7 +1841,7 @@
   },
   {
    "name": "To PIKLAS1_Horizon1",
-   "kind": "parts",
+   "kind": "interface",
    "side": "bottom",
    "size": [
     17.65,
@@ -1851,7 +1853,7 @@
   },
   {
    "name": "To PIKLAS1_Horizon2",
-   "kind": "parts",
+   "kind": "interface",
    "side": "bottom",
    "size": [
     17.65,
@@ -1863,7 +1865,7 @@
   },
   {
    "name": "To PIKLAS1_Horizon3",
-   "kind": "parts",
+   "kind": "interface",
    "side": "bottom",
    "size": [
     17.65,

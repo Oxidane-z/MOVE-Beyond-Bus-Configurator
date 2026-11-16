@@ -9,7 +9,10 @@
 输出 <out>.glb（网格与线段）和 <out>.json（板尺寸与元器件清单）。
 
 用法：
-  python pipeline/step2glb.py cad/board.step public/models/board
+  python pipeline/step2glb.py cad/board.step public/models/board --annotations boards/board.json
+
+--annotations 指向板卡标注文件。其中 interfaces[].ref 列出的位号会各自输出成独立节点
+（extras.interface 为位号），供查看器单独高亮。
 """
 import argparse
 import json
@@ -321,21 +324,24 @@ class Glb:
         self.accessors.append(acc)
         return len(self.accessors) - 1
 
-    def add_mesh(self, name, P, N, C, I):
+    def add_mesh(self, name, P, N, C, I, extras=None):
         attrs = {'POSITION': self._accessor(P.astype('<f4'), 5126, 'VEC3', 34962, minmax=True),
                  'NORMAL': self._accessor(N.astype('<f4'), 5126, 'VEC3', 34962)}
         rgba = np.hstack([np.clip(C, 0, 1), np.ones((len(C), 1))])
         attrs['COLOR_0'] = self._accessor((rgba * 255 + 0.5).astype('u1'), 5121, 'VEC4', 34962, normalized=True)
         idx = self._accessor(I.reshape(-1).astype('<u4'), 5125, 'SCALAR', 34963)
-        self._node(name, {'attributes': attrs, 'indices': idx, 'mode': 4})
+        self._node(name, {'attributes': attrs, 'indices': idx, 'mode': 4}, extras)
 
-    def add_lines(self, name, segs):
+    def add_lines(self, name, segs, extras=None):
         attrs = {'POSITION': self._accessor(segs.astype('<f4'), 5126, 'VEC3', 34962, minmax=True)}
-        self._node(name, {'attributes': attrs, 'mode': 1})
+        self._node(name, {'attributes': attrs, 'mode': 1}, extras)
 
-    def _node(self, name, prim):
+    def _node(self, name, prim, extras=None):
         self.meshes.append({'name': name, 'primitives': [prim]})
-        self.nodes.append({'name': name, 'mesh': len(self.meshes) - 1})
+        node = {'name': name, 'mesh': len(self.meshes) - 1}
+        if extras:
+            node['extras'] = extras
+        self.nodes.append(node)
 
     def write(self, path):
         while len(self.bin) % 4:
@@ -369,12 +375,12 @@ class Bucket:
     def tris(self):
         return sum(len(i) for i in self.I)
 
-    def emit(self, glb, name, xf, edges_name=None):
+    def emit(self, glb, name, xf, edges_name=None, extras=None):
         if self.P:
             P = np.vstack(self.P) @ xf[:3, :3].T + xf[:3, 3]
-            glb.add_mesh(name, P, np.vstack(self.N) @ xf[:3, :3].T, np.vstack(self.C), np.vstack(self.I))
+            glb.add_mesh(name, P, np.vstack(self.N) @ xf[:3, :3].T, np.vstack(self.C), np.vstack(self.I), extras)
         if edges_name and self.E:
-            glb.add_lines(edges_name, np.vstack(self.E) @ xf[:3, :3].T + xf[:3, 3])
+            glb.add_lines(edges_name, np.vstack(self.E) @ xf[:3, :3].T + xf[:3, 3], extras)
 
 
 # ---------- 主流程 ----------
@@ -387,6 +393,7 @@ def main():
     ap.add_argument('--small', type=float, default=2.2, help='占板最大边小于此值（mm）压平成色块')
     ap.add_argument('--large', type=float, default=6.0, help='占板最大边不小于此值（mm）保留完整几何')
     ap.add_argument('--tall', type=float, default=3.0, help='高度不小于此值（mm）也保留完整几何')
+    ap.add_argument('--annotations', help='板卡标注 JSON，其中 interfaces[].ref 的位号单独输出')
     ap.add_argument('--deflection', type=float, default=0.12, help='三角化线性偏差（mm）')
     args = ap.parse_args()
 
@@ -424,6 +431,16 @@ def main():
     b_lo, b_hi = board['wlo'], board['whi']
     z_top, z_bot = b_hi[2], b_lo[2]
 
+    refs = []
+    if args.annotations:
+        with open(args.annotations, encoding='utf-8') as f:
+            refs = [i['ref'] for i in json.load(f).get('interfaces', [])]
+    found = {it['name'] for it in items}
+    for r in refs:
+        if r not in found:
+            print('警告：标注里的位号在 STEP 中找不到: ' + r, file=sys.stderr)
+    ifaces = {}
+
     buckets = {k: Bucket() for k in ('board', 'parts', 'blocks', 'decals')}
     manifest = []
     all_lo, all_hi = b_lo.copy(), b_hi.copy()
@@ -439,6 +456,9 @@ def main():
         if it is board:
             kind = 'board'
             mesh = tessellate(it['local'], colors, base, args.deflection, hole_edge=MIN_HOLE_EDGE)
+        elif it['name'] in refs:
+            kind = 'interface'      # 接口件不论大小都保留完整几何，并单独成节点
+            mesh = tessellate(it['local'], colors, base, args.deflection, skip_small=MIN_SOLID)
         elif foot >= args.large or height >= args.tall:
             kind = 'parts'
             mesh = tessellate(it['local'], colors, base, args.deflection, skip_small=MIN_SOLID)
@@ -462,7 +482,8 @@ def main():
                 P = P @ m[:3, :3].T + m[:3, 3]
                 N = N @ m[:3, :3].T
                 E = E @ m[:3, :3].T + m[:3, 3] if len(E) else E
-            buckets[kind].add(P, N, C, I, E)
+            target = ifaces.setdefault(it['name'], Bucket()) if kind == 'interface' else buckets[kind]
+            target.add(P, N, C, I, E)
         manifest.append({'name': it['name'], 'kind': kind, 'side': side,
                          'size': [round(float(v), 3) for v in size],
                          'triangles': int(len(mesh[3])) if mesh is not None else 2,
@@ -477,6 +498,8 @@ def main():
     buckets['parts'].emit(glb, 'parts', xf, 'parts_edges')
     buckets['blocks'].emit(glb, 'blocks', xf, 'blocks_edges')
     buckets['decals'].emit(glb, 'decals', xf)
+    for n, ref in enumerate(r for r in refs if r in ifaces):
+        ifaces[ref].emit(glb, 'if_%d' % n, xf, 'if_%d_edges' % n, extras={'interface': ref})
     glb.write(args.out + '.glb')
 
     def tx(p):
@@ -484,8 +507,8 @@ def main():
     meta = {'source': args.step.replace('\\', '/').split('/')[-1],
             'bounds': {'min': tx(all_lo), 'max': tx(all_hi)},
             'board': {'min': tx(b_lo), 'max': tx(b_hi)},
-            'counts': {k: sum(1 for c in manifest if c['kind'] == k) for k in buckets},
-            'triangles': {k: b.tris() for k, b in buckets.items()},
+            'counts': {k: sum(1 for c in manifest if c['kind'] == k) for k in list(buckets) + ['interface']},
+            'triangles': {**{k: b.tris() for k, b in buckets.items()}, 'interface': sum(b.tris() for b in ifaces.values())},
             'components': sorted(manifest, key=lambda c: c['name'])}
     with open(args.out + '.json', 'w', encoding='utf-8') as f:
         json.dump(meta, f, ensure_ascii=False, indent=1)

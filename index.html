@@ -15,14 +15,21 @@
   </header>
 
   <aside class="lib">
-    <h2>板卡库</h2>
-    <div id="libList" style="display:flex;flex-direction:column;gap:6px"></div>
-    <p class="note">几何、尺寸和功耗都是示例数据，真实 STEP 模型到位后替换。</p>
+    <div id="libPanel" class="panel">
+      <h2>板卡库</h2>
+      <div id="libList" class="list"></div>
+      <p class="note">几何、尺寸和功耗都是示例数据，真实 STEP 模型到位后替换。</p>
+    </div>
+    <div id="ifacePanel" class="panel" hidden>
+      <h2 id="ifaceTitle">接口</h2>
+      <div id="ifaceList" class="list"></div>
+    </div>
   </aside>
 
   <main class="main">
     <div class="stage" id="stage">
       <canvas id="cv" aria-label="卫星 slot card 系统的等轴测视图"></canvas>
+      <div id="marks" class="marks"></div>
       <div class="tools">
         <button id="rotL" type="button" aria-label="向左旋转 90 度">⟲</button>
         <button id="rotR" type="button" aria-label="向右旋转 90 度">⟳</button>

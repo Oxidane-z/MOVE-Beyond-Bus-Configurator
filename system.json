@@ -4,6 +4,14 @@
   "seatY": 11.6,
   "initial": [["eps2", 0], ["bat2", 1], ["piklas", 3], ["cm5", 4]],
   "levels": { "proto": "Prototype", "iter1": "Iteration 1", "iter2": "Iteration 2" },
+  "interfaceTypes": {
+    "bus":      { "label": "背板总线", "color": "#8fb0ee" },
+    "debug":    { "label": "调试",     "color": "#c3c6cf" },
+    "sensor":   { "label": "传感器",   "color": "#7fd0c6" },
+    "actuator": { "label": "执行机构", "color": "#f2a57e" },
+    "switch":   { "label": "开关",     "color": "#ecd06a" },
+    "trigger":  { "label": "触发",     "color": "#e59ac9" }
+  },
   "boards": {
     "piklas": { "name": "Piklas", "level": "iter2", "w": 1, "kind": "model", "model": "models/piklas.glb", "color": "#6a3fa8" },
     "obc2":  { "name": "主控板 OBC",     "level": "iter2", "w": 1, "kind": "std", "color": "#7cc4b8", "typ": 0.8,  "peak": 1.5 },

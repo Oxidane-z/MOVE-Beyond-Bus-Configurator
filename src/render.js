@@ -28,6 +28,8 @@ uniform vec3 uColor;
 uniform vec3 uShade;
 uniform vec3 uDark;
 uniform vec3 uLight;
+uniform vec3 uTint;
+uniform float uMix;
 varying vec3 vN;
 #ifdef USE_COLOR
 varying vec3 vC;
@@ -42,6 +44,7 @@ void main() {
   float l = dot(vC, vec3(0.2126, 0.7152, 0.0722));
   base = mix(mix(uDark, uLight, smoothstep(0.02, 0.45, l)), vC, 0.3);
   #endif
+  base = mix(base, uTint, uMix);   // 接口高亮
   gl_FragColor = vec4(mix(uShade, base, s), 1.0);
   #include <colorspace_fragment>
 }`;
@@ -50,7 +53,8 @@ const matCache = new Map();
 export function flatMat(color) {
   if (!matCache.has(color)) {
     matCache.set(color, new THREE.ShaderMaterial({
-      uniforms: { uColor: { value: new THREE.Color(color) }, uShade, uDark: { value: new THREE.Color() }, uLight: { value: new THREE.Color() } },
+      uniforms: { uColor: { value: new THREE.Color(color) }, uShade, uDark: { value: new THREE.Color() }, uLight: { value: new THREE.Color() },
+                  uTint: { value: new THREE.Color() }, uMix: { value: 0 } },
       vertexShader: VERT, fragmentShader: FRAG,
       polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1
     }));
@@ -59,12 +63,17 @@ export function flatMat(color) {
 }
 
 // CAD 模型用：颜色来自顶点色
-export const cadMat = new THREE.ShaderMaterial({
-  uniforms: { uColor: { value: new THREE.Color('#ffffff') }, uShade,
-              uDark: { value: new THREE.Color('#4a4664') }, uLight: { value: new THREE.Color('#e4e1ef') } },
-  vertexShader: VERT, fragmentShader: FRAG, vertexColors: true,
-  polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1
-});
+const uDark = { value: new THREE.Color('#4a4664') }, uLight = { value: new THREE.Color('#e4e1ef') };
+// 每次调用得到一个可单独着色的材质（uTint、uMix 各自独立，其余 uniform 共享）
+export function makeCadMat() {
+  return new THREE.ShaderMaterial({
+    uniforms: { uColor: { value: new THREE.Color('#ffffff') }, uShade, uDark, uLight,
+                uTint: { value: new THREE.Color('#ffffff') }, uMix: { value: 0 } },
+    vertexShader: VERT, fragmentShader: FRAG, vertexColors: true,
+    polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1
+  });
+}
+export const cadMat = makeCadMat();
 
 // 把 GLB 里的线段图元换成可设线宽的粗线
 export function fatLines(positions, mat = lineMat) {

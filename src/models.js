@@ -1,7 +1,7 @@
 // 占位几何：真实 STEP 转换出 GLB 后，这个文件由模型加载器取代。
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { box, wireBox, cylinder, hitMat, flatMat, cadMat, fatLines } from './render.js';
+import { box, wireBox, cylinder, hitMat, flatMat, cadMat, makeCadMat, fatLines } from './render.js';
 
 // 预加载 system.json 里所有带 model 字段的板卡，返回 key → 模板
 const templates = new Map();
@@ -13,7 +13,7 @@ export async function loadModels(boards) {
     const parts = [];
     gltf.scene.traverse(o => {
       if (o.isLineSegments) parts.push({ lines: o.geometry.attributes.position.array });
-      else if (o.isMesh) parts.push({ name: o.name, geometry: o.geometry });
+      else if (o.isMesh) parts.push({ name: o.name, geometry: o.geometry, iface: o.userData.interface || null });
     });
     const bounds = new THREE.Box3().setFromObject(gltf.scene);
     templates.set(key, { parts, bounds });
@@ -21,9 +21,20 @@ export async function loadModels(boards) {
 }
 
 function buildModelCard(key, T, pitch) {
-  const tpl = templates.get(key), g = new THREE.Group();
+  const tpl = templates.get(key), g = new THREE.Group(), interfaces = [];
   for (const p of tpl.parts) {
     if (p.lines) g.add(fatLines(p.lines));
+    else if (p.iface) {
+      // 接口件：独立材质，便于单独高亮；记录中心点和所在板面
+      const mat = makeCadMat();
+      g.add(new THREE.Mesh(p.geometry, mat));
+      if (!p.geometry.boundingBox) p.geometry.computeBoundingBox();
+      const center = p.geometry.boundingBox.getCenter(new THREE.Vector3());
+      // 跨在板边、正反两面都露出的连接器记为 0，两面都显示标记
+      const bb = p.geometry.boundingBox;
+      const side = bb.min.z < -1.2 && bb.max.z > 1.2 ? 0 : center.z >= 0 ? 1 : -1;
+      interfaces.push({ ref: p.iface, mat, center, side });
+    }
     // 基板用板卡自己的主色，元器件用顶点色
     else g.add(new THREE.Mesh(p.geometry, p.name === 'board' ? flatMat(T.color) : cadMat));
   }
@@ -31,7 +42,7 @@ function buildModelCard(key, T, pitch) {
   const hit = new THREE.Mesh(new THREE.BoxGeometry(size.x + 4, size.y + 4, pitch * T.w), hitMat);
   hit.position.set(c.x, c.y, T.w === 2 ? pitch / 2 : 0);
   g.add(hit);
-  return { group: g, hit, shared: true };
+  return { group: g, hit, shared: true, interfaces };
 }
 
 const C = { base: '#d9d5e8', post: '#c9c4de', backplane: '#6fae8f', conn: '#3a3652', stiff: '#e4e1ef',

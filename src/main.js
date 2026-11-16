@@ -8,14 +8,22 @@ const slotZ = i => (i - (SLOTS - 1) / 2) * PITCH;
 const buildCard = key => buildCardGeo(key, TYPES[key], PITCH);
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// 每块板的人工标注（boards/<板卡 key>.json），目前只有接口
+const NOTES = {};
+for (const [path, mod] of Object.entries(import.meta.glob('../boards/*.json', { eager: true }))) {
+  NOTES[path.split('/').pop().replace('.json', '')] = mod.default;
+}
+const ifaceNotes = key => (NOTES[key] && NOTES[key].interfaces) || [];
+
 /* ---------- 渲染器与相机 ---------- */
 const stage = document.getElementById('stage'), cv = document.getElementById('cv');
 const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 1, 2000);
-const view = { yaw: Math.PI / 4, zoom: 1 };
-const TARGET = new THREE.Vector3(0, 52, 0), PITCH_A = Math.atan(1 / Math.SQRT2);
+const HOME = { tx: 0, ty: 52, tz: 0 };
+const view = { yaw: Math.PI / 4, zoom: 1, tx: HOME.tx, ty: HOME.ty, tz: HOME.tz };
+const TARGET = new THREE.Vector3(), PITCH_A = Math.atan(1 / Math.SQRT2);
 
 const frame = buildStructure(scene, sys, slotZ);
 
@@ -73,7 +81,12 @@ function occupy(p, v) { for (let k = 0; k < TYPES[p.type].w; k++) slots[p.slot +
 
 function place(type, slot, animate) {
   const built = buildCard(type);
-  const p = { id: nextId++, type: type, slot: slot, group: built.group, hit: built.hit, busy: false, shared: !!built.shared };
+  const p = { id: nextId++, type: type, slot: slot, group: built.group, hit: built.hit, busy: false, shared: !!built.shared, interfaces: [] };
+  // 把标注和模型里的接口件按位号对上；编号沿用标注文件里的顺序
+  ifaceNotes(type).forEach((note, n) => {
+    const geo = (built.interfaces || []).find(i => i.ref === note.ref);
+    if (geo) p.interfaces.push({ n: n + 1, note, mat: geo.mat, center: geo.center, side: geo.side });
+  });
   built.hit.userData.id = p.id;
   p.group.position.set(0, SEAT_Y, slotZ(slot));
   placements.set(p.id, p);
@@ -121,6 +134,110 @@ function setSel(next) {
   showGhost(1, -1);
   renderUI();
 }
+/* ---------- 单板查看 ---------- */
+const LIFT = 118;
+const marks = document.getElementById('marks'), libPanel = document.getElementById('libPanel'),
+      ifacePanel = document.getElementById('ifacePanel'), ifaceTitle = document.getElementById('ifaceTitle'),
+      ifaceList = document.getElementById('ifaceList');
+let inspect = null;   // { p, s: { spin, flip }, zoom, hover, pinned, marks: [], items: [] }
+const typeOf = i => sys.interfaceTypes[i.note.type] || { label: i.note.type, color: '#cccccc' };
+
+function enterInspect(p) {
+  if (inspect || p.busy || !p.interfaces.length) return;
+  sel = null; showGhost(1, -1);
+  inspect = { p, s: { spin: 0, flip: 0 }, zoom: view.zoom, hover: null, pinned: null, marks: [], items: [] };
+  p.busy = true; p.spin = inspect.s;
+
+  marks.textContent = ''; ifaceList.textContent = '';
+  ifaceTitle.textContent = TYPES[p.type].name + ' 的接口';
+  p.interfaces.forEach(i => {
+    const T = typeOf(i);
+    i.mat.uniforms.uTint.value.set(T.color);
+    tween(i.mat.uniforms.uMix, 'value', 0.85, 400, easeOut);
+
+    const m = document.createElement('button');
+    m.type = 'button'; m.className = 'mark'; m.style.background = T.color; m.hidden = true;
+    m.setAttribute('aria-label', i.n + '：' + i.note.label);
+    m.innerHTML = '<span></span><span class="t"></span>';
+    m.firstChild.textContent = i.n; m.lastChild.textContent = i.note.label;
+
+    const it = document.createElement('button');
+    it.type = 'button'; it.className = 'iface'; it.id = 'iface-' + i.n;
+    it.innerHTML = '<span class="no"></span><span><span class="nm"></span><span class="sd"></span><br><span class="mt"></span><br><span class="ds"></span></span>';
+    it.querySelector('.no').textContent = i.n; it.querySelector('.no').style.background = T.color;
+    it.querySelector('.nm').textContent = i.note.label;
+    it.querySelector('.sd').textContent = i.side === 0 ? '两面' : i.side > 0 ? '正面' : '背面';
+    it.querySelector('.mt').textContent = [T.label, i.note.connector, i.note.ref].filter(Boolean).join(' · ');
+    it.querySelector('.ds').textContent = i.note.desc || '';
+
+    [m, it].forEach(el => {
+      el.addEventListener('mouseenter', () => { inspect.hover = i.n; syncActive(); });
+      el.addEventListener('mouseleave', () => { inspect.hover = null; syncActive(); });
+      el.addEventListener('click', () => {
+        inspect.pinned = inspect.pinned === i.n ? null : i.n;
+        // 从列表点到另一面的接口时自动翻面
+        if (inspect.pinned && i.side !== 0 && (i.side > 0) === (inspect.s.flip > 0.5)) flipInspect();
+        syncActive();
+      });
+    });
+    marks.appendChild(m); ifaceList.appendChild(it);
+    inspect.marks.push(m); inspect.items.push(it);
+  });
+
+  tween(view, 'tx', 0, 520, easeInOut); tween(view, 'tz', slotZ(p.slot), 520, easeInOut);
+  tween(view, 'ty', SEAT_Y + LIFT + 42, 520, easeInOut); tween(view, 'zoom', Math.max(view.zoom, 1.9), 520, easeInOut);
+  tween(p.group.position, 'y', SEAT_Y + LIFT, 420, easeInOut)
+    .then(() => tween(p.spin, 'spin', 1, 420, easeInOut));
+  renderUI();
+}
+function flipInspect() {
+  if (inspect) tween(inspect.s, 'flip', inspect.s.flip > 0.5 ? 0 : 1, 520, easeInOut);
+}
+function exitInspect() {
+  if (!inspect) return;
+  const { p, zoom } = inspect;
+  inspect = null; marks.textContent = '';
+  p.interfaces.forEach(i => tween(i.mat.uniforms.uMix, 'value', 0, 300, easeOut));
+  tween(view, 'tx', HOME.tx, 620, easeInOut); tween(view, 'ty', HOME.ty, 620, easeInOut);
+  tween(view, 'tz', HOME.tz, 620, easeInOut); tween(view, 'zoom', zoom, 620, easeInOut);
+  tween(p.spin, 'flip', 0, 360, easeInOut);
+  tween(p.spin, 'spin', 0, 360, easeInOut)
+    .then(() => tween(p.group.position, 'y', SEAT_Y + 7, 380, easeOut))
+    .then(() => tween(p.group.position, 'y', SEAT_Y, 200, easeIn))
+    .then(() => { p.spin = null; p.group.rotation.y = 0; p.busy = false; });
+  renderUI();
+}
+function syncActive() {
+  if (!inspect) return;
+  const act = inspect.hover || inspect.pinned;
+  inspect.p.interfaces.forEach((i, k) => {
+    const on = act === i.n;
+    inspect.marks[k].classList.toggle('on', on);
+    inspect.items[k].classList.toggle('on', on);
+    tween(i.mat.uniforms.uMix, 'value', act ? (on ? 1 : 0.35) : 0.85, 160, easeOut);
+  });
+}
+// 每帧：让被查看的板正对镜头，并把接口标记投影到屏幕上
+const _v = new THREE.Vector3(), _n = new THREE.Vector3();
+function updateInspect() {
+  placements.forEach(p => {
+    if (p.spin) p.group.rotation.y = p.spin.spin * Math.atan2(Math.sin(view.yaw), Math.cos(view.yaw)) + p.spin.flip * Math.PI;
+  });
+  if (!inspect) return;
+  const p = inspect.p, w = stage.clientWidth, h = stage.clientHeight;
+  p.group.updateMatrixWorld();
+  p.interfaces.forEach((i, k) => {
+    _n.set(0, 0, i.side).applyQuaternion(p.group.quaternion);
+    const facing = i.side === 0 || _n.x * (camera.position.x - TARGET.x) + _n.z * (camera.position.z - TARGET.z) > 0;
+    const m = inspect.marks[k];
+    m.hidden = !(facing && p.spin.spin > 0.6);
+    if (m.hidden) return;
+    _v.copy(i.center).applyMatrix4(p.group.matrixWorld).project(camera);
+    m.style.left = ((_v.x * 0.5 + 0.5) * w).toFixed(1) + 'px';
+    m.style.top = ((-_v.y * 0.5 + 0.5) * h).toFixed(1) + 'px';
+  });
+}
+
 function applyAt(slot) {
   if (!sel || slot < 0) return;
   if (sel.kind === 'lib') place(sel.type, slot, true);
@@ -137,12 +254,14 @@ Object.keys(TYPES).forEach(key => {
   b.type = 'button'; b.className = 'item'; b.id = 'lib-' + key; b.dataset.type = key;
   b.innerHTML = '<span class="sw" style="background:' + T.color + '"></span><span><span class="nm"></span><br><span class="mt"></span></span>';
   b.querySelector('.nm').textContent = T.name;
-  b.querySelector('.mt').textContent = (sys.levels[T.level] || T.level) + ' · 占 ' + T.w + ' 槽 · ' + (T.wh ? T.wh + ' Wh' : T.typ == null ? '功耗未填' : T.typ.toFixed(1) + ' W');
+  b.querySelector('.mt').textContent = (sys.levels[T.level] || T.level) + ' · 占 ' + T.w + ' 槽 · ' + (T.wh ? T.wh + ' Wh' : T.typ == null ? '功耗未填' : T.typ.toFixed(1) + ' W')
+    + (ifaceNotes(key).length ? ' · ' + ifaceNotes(key).length + ' 个接口' : '');
   b.addEventListener('click', () => setSel(sel && sel.kind === 'lib' && sel.type === key ? null : { kind: 'lib', type: key }));
   libList.appendChild(b);
 });
 
 function renderUI() {
+  libPanel.hidden = !!inspect; ifacePanel.hidden = !inspect;
   libList.querySelectorAll('.item').forEach(b => b.setAttribute('aria-pressed', String(!!sel && sel.kind === 'lib' && sel.type === b.dataset.type)));
 
   strip.textContent = '';
@@ -161,11 +280,11 @@ function renderUI() {
       lb.textContent = T.name + (T.level === 'iter1' ? ' (Iter 1)' : T.level === 'proto' ? ' (Proto)' : '');
       c.appendChild(lb);
       c.setAttribute('aria-label', '槽位 ' + no.textContent + '：' + lb.textContent);
-      c.addEventListener('click', () => { if (!p.busy) setSel(sel && sel.id === p.id ? null : { kind: 'placed', id: p.id }); });
+      c.addEventListener('click', () => { if (!p.busy && !inspect) setSel(sel && sel.id === p.id ? null : { kind: 'placed', id: p.id }); });
     } else {
       no.textContent = String(i + 1);
       c.setAttribute('aria-label', '槽位 ' + (i + 1) + '：空');
-      c.addEventListener('click', () => { const a = armed(); if (a) applyAt(fit(a.w, i, a.ignore)); });
+      c.addEventListener('click', () => { const a = armed(); if (a && !inspect) applyAt(fit(a.w, i, a.ignore)); });
       c.addEventListener('mouseenter', () => { const a = armed(); if (a) showGhost(a.w, fit(a.w, i, a.ignore)); });
       c.addEventListener('mouseleave', () => showGhost(1, -1));
     }
@@ -176,7 +295,12 @@ function renderUI() {
   hint.textContent = '';
   const span = document.createElement('span');
   const btn = (label, cls, fn) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = label; if (cls) b.className = cls; b.addEventListener('click', fn); return b; };
-  if (!sel) {
+  if (inspect) {
+    span.textContent = '正在查看「' + TYPES[inspect.p.type].name + '」的接口。悬停或点击编号查看说明。';
+    hint.appendChild(span);
+    hint.appendChild(btn('翻面', '', flipInspect));
+    hint.appendChild(btn('返回', 'ghost', exitInspect));
+  } else if (!sel) {
     span.textContent = '从板卡库选一块板，再点一个空槽位。拖动画面可旋转。';
     hint.appendChild(span);
   } else if (sel.kind === 'lib') {
@@ -190,10 +314,11 @@ function renderUI() {
     const p = placements.get(sel.id);
     span.textContent = '已选中「' + TYPES[p.type].name + '」。点击其他空槽位可移动。';
     hint.appendChild(span);
-    hint.appendChild(btn('拔出', '', () => removeCard(p)));
+    if (p.interfaces.length) hint.appendChild(btn('查看接口', '', () => enterInspect(p)));
+    hint.appendChild(btn('拔出', p.interfaces.length ? 'ghost' : '', () => removeCard(p)));
     hint.appendChild(btn('取消', 'ghost', () => setSel(null)));
   }
-  if (placements.size) hint.appendChild(btn('清空', 'ghost', () => { [...placements.values()].forEach(removeCard); }));
+  if (placements.size && !inspect) hint.appendChild(btn('清空', 'ghost', () => { [...placements.values()].forEach(removeCard); }));
 
   let typ = 0, peak = 0, wh = 0;
   let missing = 0;
@@ -231,7 +356,7 @@ cv.addEventListener('pointermove', e => {
     const dx = e.clientX - pd.x;
     if (!dragging && Math.abs(dx) > 6) { dragging = true; killTween(view, 'yaw'); showGhost(1, -1); cv.style.cursor = 'grabbing'; }
     if (dragging) view.yaw = pd.yaw - dx * 0.008;
-  } else {
+  } else if (!inspect) {
     const h = pick(e);
     if (h.a) showGhost(h.a.w, h.slot);
     cv.style.cursor = h.slot >= 0 || h.card ? 'pointer' : 'grab';
@@ -240,7 +365,7 @@ cv.addEventListener('pointermove', e => {
 cv.addEventListener('pointerup', e => {
   if (!pd) return;
   if (dragging) snapYaw();
-  else {
+  else if (!inspect) {
     const h = pick(e);
     if (h.slot >= 0) applyAt(h.slot);
     else if (h.card && !h.card.busy) setSel(sel && sel.id === h.card.id ? null : { kind: 'placed', id: h.card.id });
@@ -256,7 +381,8 @@ document.getElementById('rotR').addEventListener('click', () => tween(view, 'yaw
 const frameBtn = document.getElementById('frameBtn');
 frameBtn.addEventListener('click', () => { frame.visible = !frame.visible; frameBtn.setAttribute('aria-pressed', String(frame.visible)); });
 window.addEventListener('keydown', e => {
-  if (e.key === 'Escape') setSel(null);
+  if (e.key === 'Escape') { if (inspect) exitInspect(); else setSel(null); }
+  if (inspect) return;
   if ((e.key === 'Delete' || e.key === 'Backspace') && sel && sel.kind === 'placed') { const p = placements.get(sel.id); if (p && !p.busy) removeCard(p); }
 });
 
@@ -285,10 +411,13 @@ function frameLoop() {
   if (aspect >= 1) { camera.top = S; camera.bottom = -S; camera.right = S * aspect; camera.left = -S * aspect; }
   else { camera.right = S; camera.left = -S; camera.top = S / aspect; camera.bottom = -S / aspect; }
   camera.zoom = view.zoom;
+  TARGET.set(view.tx, view.ty, view.tz);
   const cp = Math.cos(PITCH_A);
   camera.position.set(TARGET.x + 600 * cp * Math.sin(view.yaw), TARGET.y + 600 * Math.sin(PITCH_A), TARGET.z + 600 * cp * Math.cos(view.yaw));
   camera.lookAt(TARGET);
   camera.updateProjectionMatrix();
+  camera.updateMatrixWorld();
+  updateInspect();
   renderer.render(scene, camera);
   requestAnimationFrame(frameLoop);
 }
