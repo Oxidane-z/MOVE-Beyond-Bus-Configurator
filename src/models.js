@@ -178,13 +178,13 @@ export function setBracket(bracket, mode) {
   if (mode !== 'none') bracket.obj.scale.z = (mode === 'front' ? 1 : -1) * bracket.front * bracket.zsign;
 }
 
-// 背板。返回结构中心、半宽、板面高度，以及背板的模型组和接口件；背板上的槽位连接器不在板宽正中
+// 背板。返回结构中心、半宽（X）和半长（Z）、板面高度，以及背板的模型组和接口件；背板上的槽位连接器不在板宽正中
 export function buildStructure(scene, key, B) {
   const tpl = templates.get('bp:' + key), interfaces = [], topY = B.y + 1.6;
-  if (!tpl) return { cx: 0, cz: 0, hx: 52, topY, group: null, interfaces };
+  if (!tpl) return { cx: 0, cz: 0, hx: 52, hz: 52, topY, group: null, interfaces };
   const bp = instantiate(tpl, B.color, collect(interfaces, 1, { mid: 0.8 }));
   bp.position.y = B.y;
   scene.add(bp);
   const c = tpl.bounds.getCenter(new THREE.Vector3()), size = tpl.bounds.getSize(new THREE.Vector3());
-  return { cx: c.x, cz: c.z, hx: size.x / 2, topY, group: bp, interfaces };
+  return { cx: c.x, cz: c.z, hx: size.x / 2, hz: size.z / 2, topY, group: bp, interfaces };
 }

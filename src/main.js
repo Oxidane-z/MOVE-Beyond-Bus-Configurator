@@ -47,7 +47,7 @@ const HOME = { tx: 0, ty: 48, tz: 0 };
 const HOME_YAW = Math.PI * 5 / 4;
 const view = { yaw: HOME_YAW, pitch: ISO, zoom: 1, tx: HOME.tx, ty: HOME.ty, tz: HOME.tz };
 const TARGET = new THREE.Vector3();
-let S = { cx: 0, cz: 0, hx: 52, topY: 7 };   // 结构尺寸，模型加载完后由 buildStructure 给出
+let S = { cx: 0, cz: 0, hx: 52, hz: 52, topY: 7 };   // 结构尺寸，模型加载完后由 buildStructure 给出
 
 /* ---------- 落位预览 ---------- */
 // 光标指向可落位的槽时：背景里浮出槽位号，对应的编号标记变成强调色
@@ -625,69 +625,135 @@ function renderPower(B) {
 }
 
 /* ---------- 电源分布图 ---------- */
-// 功耗层里叠在压暗的模型上：电池经充电芯片接到 VSYS 干线，VSYS 经背板上的两路降压分出 5V 和 3V3 干线，
-// 三条干线沿背板靠镜头一侧的边缘排开；每块板从它用到的干线上各分出一条支线，沿板卡靠镜头的那条边升到板的上角。
-// 线宽随当前功率变化；没有电流的支路画成虚线。线走在模型外侧，不钻进板卡之间
-const DIM = 0.72, dim = { a: 0 };
+// 功耗层里叠在压暗的模型上，固定在结构上（不随镜头换边）：
+//   干线  三条电源轨并排铺在背板上表面，沿槽位排列方向贯穿，从板卡底下穿过；在连接器长度方向上各占一条车道
+//   降压  干线在 7 号槽外侧的一端，VSYS 横着接到 5V 和 3V3 的起点
+//   支线  每块板从它实际插着的那个槽的连接器位置垂直升进板内，用到哪条轨就从哪条车道升起，停在板的中上部
+//   电池  从它的连接器向下汇入 VSYS 干线，汇入点是充电芯片；外部充电口是向下的一条虚线
+//   标签  板卡的功率挂在支线顶端；干线的标签在干线伸出背板的那一端（1 号槽外侧）
+// 线宽随当前功率变化，没有电流的支路是虚线。光点从电池出发沿线路流动，只表示方向（flow.js）；
+// 系统开了“减少动态效果”时不动，改成静态的箭头
+const DIM = 0.8, dim = { a: 0 };
+const LANE = 10, PULSE_S = 1.6;   // 车道间距（mm）；脉动周期（秒）
 const flow = makeFlow(), flowMarks = document.getElementById('flowMarks');
-let flowNodes = [], flowDirty = true, flowSide = 0;
+let flowNodes = [], flowDirty = true, flowOn = false;
 const RAIL_KEYS = Object.keys(RAILS);
-function rebuildFlow(side) {
+function rebuildFlow() {
   flow.clear(); flowMarks.textContent = ''; flowNodes = [];
   const list = [...placements.values()].filter(p => !p.leaving && !p.busy);
   const B = budget(list.map(p => ({ T: TYPES[p.type], sel: p.loads })), sys.power);
-  const max = Math.max(B.draw.now, 1e-6), wOf = w => 1.4 + 5 * Math.sqrt(Math.max(w, 0) / max);
+  const max = Math.max(B.draw.now, 1e-6), wOf = w => 1.6 + 5 * Math.sqrt(Math.max(w, 0) / max);
   const colorOf = k => (RAILS[k] && RAILS[k].color) || '#cccccc';
+  const casing = getComputedStyle(document.documentElement).getPropertyValue('--line3d').trim() || '#000000';
   const node = (x, y, z, text, bg) => {
     const e = document.createElement('span');
     e.className = 'fnode' + (bg ? '' : ' plain'); e.textContent = text;
     if (bg) { e.style.background = bg; e.style.color = inkOn(bg); }
-    flowMarks.appendChild(e); flowNodes.push({ e, pos: new THREE.Vector3(x, y, z) });
+    flowMarks.appendChild(e); flowNodes.push({ e, pos: new THREE.Vector3(x, y, z), w: 0, h: 0, x: 0, y: 0 });
   };
-  const edge = S.cx + side * S.hx, y = S.topY + 0.6, riserX = edge + side * 2;
-  const xr = k => edge + side * (8 + 6 * k);                 // 第 k 条干线的位置，VSYS 最靠里
-  const zA = slotZ(0) - PITCH * 0.9, zB = slotZ(SLOTS - 1) + PITCH * 0.6;
-  // 干线。VSYS 上走的是电池端的总功率（含降压损耗），其余两条是各自的合计
+  const NV = Math.max(0, RAIL_KEYS.indexOf('vsys'));
+  const y = S.topY + 0.6;                                              // 干线贴着背板上表面
+  const lane = n => (n - (RAIL_KEYS.length - 1) / 2) * LANE;          // 第 n 条轨的车道；槽位连接器的中心在 X = 0
+  const zFace = p => p.group.position.z + p.front * 1.1;               // 支线贴在 PCB 正面外一点，不埋在板子里
+  // 支线顶端按槽位错开三档高度，相邻板卡的标签才不会压在一起
+  const topOf = p => SEAT_Y + p.top * (0.5 + 0.16 * (Math.round(p.group.position.z / PITCH + (SLOTS - 1) / 2) % 3));
+  const zBuck = Math.min(slotZ(SLOTS - 1) + PITCH * 0.5, S.cz + S.hz - 2);
+  const zLink = n => zBuck + Math.max(0, Math.abs(n - NV) - 1) * 3.5;  // 各路降压的横线错开
+  const zTail = n => S.cz - S.hz - 7 - n * 18;                         // 干线伸出背板的末端，三条错开，标签才排得开
+
+  // 离电池的线路距离。有几块电池就取最近的那块；没有电池就没有脉动
+  const bats = list.filter(p => TYPES[p.type].wh).map(p => ({ p, z: p.group.position.z, zf: zFace(p), top: topOf(p) }));
+  bats.forEach(b => { b.len = (b.top - y) + Math.abs(b.zf - b.z); });
+  const pulse = bats.length > 0 && !reduced;
+  const dV = z => bats.length ? Math.min(...bats.map(b => b.len + Math.abs(z - b.z))) : 0;
+  const dTrunk = (n, z) => n === NV ? dV(z) : dV(zLink(n)) + Math.abs(lane(n) - lane(NV)) + (zLink(n) - z);
+  const opt = (w, dead) => ({ width: wOf(w), casing, dead: dead != null ? dead : w <= 0, pulse });
+  // 静态的方向箭头（减少动态效果时代替脉动）：在 at 处画一个指向 dir 的小尖角，两翼沿 perp 张开
+  const arrow = (at, dir, perp, color) => {
+    if (!reduced || !bats.length) return;
+    const tip = at.map((v, i) => v + dir[i] * 2.6);
+    [1, -1].forEach(sgn => flow.line([at.map((v, i) => v - dir[i] * 2.6 + perp[i] * 3 * sgn), tip], [0, 0], color, { width: 1.8, casing, dead: false, pulse: false }));
+  };
+
+  // 干线和降压。VSYS 上走的是电池端的总功率（含降压损耗），其余两条是各自的合计
+  const stops = [...new Set([...Array.from({ length: SLOTS }, (_, i) => slotZ(i)), ...bats.map(b => b.z)])].sort((a, b) => a - b);
   RAIL_KEYS.forEach((k, n) => {
-    const w = k === 'vsys' ? B.draw.now : B.rails[k] ? B.rails[k].now : 0, z0 = zA - (n ? (n - 1) * 5 : 5 * (RAIL_KEYS.length - 2));
-    const zEnd = zB + n * 9;   // 三条干线的末端错开，标签才不会叠在一起
-    flow.line([[xr(n), y, z0], [xr(n), y, zEnd]], colorOf(k), wOf(w), w <= 0);
-    // 降压：从 VSYS 干线的起点一侧接到这条干线的起点
-    if (n) flow.line([[xr(0), y, z0], [xr(n), y, z0]], colorOf(k), wOf(w), w <= 0);
-    node(xr(n), y, zEnd + 4, railLabel(k) + ' ' + fmtW(w), colorOf(k));
-  });
-  list.forEach(p => {
-    const T = TYPES[p.type], zc = p.group.position.z, top = SEAT_Y + p.top + 3;
-    if (T.wh) {
-      // 电池：经充电芯片并入 VSYS；外部充电口在背板背面，画成向下的一条虚线
-      const share = B.wh > 0 ? B.draw.now * T.wh / B.wh : 0;
-      flow.line([[xr(0), y, zc], [riserX, y, zc], [riserX, top, zc]], colorOf('vsys'), wOf(share), share <= 0);
-      node(riserX, top, zc, t('flow.battery') + ' ' + (T.wh * (B.wh > 0 ? B.usable / B.wh : 1)).toFixed(1) + ' Wh', tagColor(T));
-      if (sys.power.charger) node(xr(0), y, zc, sys.power.charger, null);
-      if (sys.power.external) {
-        flow.line([[xr(0), y, zc], [xr(0), y - 26, zc]], colorOf('vsys'), wOf(0), true);
-        node(xr(0), y - 26, zc, sys.power.external, null);
-      }
-      return;
+    const w = k === 'vsys' ? B.draw.now : B.rails[k] ? B.rails[k].now : 0, color = colorOf(k);
+    const zEnd = n === NV ? Math.max(...RAIL_KEYS.map((_, m) => zLink(m))) : zLink(n);
+    const zs = [zTail(n), ...stops, zEnd];
+    flow.line(zs.map(z => [lane(n), y, z]), zs.map(z => dTrunk(n, z)), color, opt(w));
+    if (n !== NV) {
+      flow.line([[lane(NV), y, zLink(n)], [lane(n), y, zLink(n)]], [dV(zLink(n)), dTrunk(n, zLink(n))], color, opt(w));
+      if (w > 0) arrow([(lane(NV) + lane(n)) / 2, y, zLink(n)], [Math.sign(lane(n) - lane(NV)), 0, 0], [0, 0, 1], color);
     }
-    const bp = powerOf(p);
-    if (!bp) return;
-    const used = RAIL_KEYS.filter(k => bp.rails[k]);
-    used.forEach(k => {
-      const n = RAIL_KEYS.indexOf(k), z = zc + (n - (RAIL_KEYS.length - 1) / 2) * 1.8, w = bp.rails[k].now;
-      flow.line([[xr(n), y, z], [riserX, y, z], [riserX, top, z]], colorOf(k), wOf(w), w <= 0);
-    });
-    if (used.length) node(riserX, top, zc, fmtW(bp.now), tagColor(T));
+    if (w > 0) for (let i = 0; i + 1 < zs.length; i++) {
+      const zm = (zs[i] + zs[i + 1]) / 2, dir = dTrunk(n, zs[i + 1]) >= dTrunk(n, zs[i]) ? 1 : -1;
+      if (i > 0) arrow([lane(n), y, zm], [0, 0, dir], [1, 0, 0], color);
+    }
+    node(lane(n), y, zTail(n) - 3, railLabel(k) + ' ' + fmtW(w), color);
   });
+
+  // 电池：从板里向下汇入 VSYS 干线，汇入点是充电芯片；外部充电口在背板背面
+  bats.forEach(b => {
+    const T = TYPES[b.p.type], share = B.wh > 0 ? B.draw.now * T.wh / B.wh : 0, x = lane(NV), color = colorOf(RAIL_KEYS[NV]);
+    flow.line([[x, b.top, b.zf], [x, y, b.zf], [x, y, b.z]], [0, b.top - y, b.len], color, opt(share));
+    if (share > 0) arrow([x, (b.top + y) / 2, b.zf], [0, -1, 0], [1, 0, 0], color);
+    node(x, b.top + 4, b.zf, t('flow.battery') + ' ' + (T.wh * (B.wh > 0 ? B.usable / B.wh : 1)).toFixed(1) + ' Wh', tagColor(T));
+    if (sys.power.charger) node(x, y, b.z, sys.power.charger, null);
+    if (sys.power.external) {
+      flow.line([[x, y - 24, b.z], [x, y, b.z]], [0, 24], color, opt(0, true));
+      node(x, y - 24, b.z, sys.power.external, null);
+    }
+  });
+
+  // 板卡：从它插着的那个槽的连接器位置，沿各自的车道升进板内
+  list.forEach(p => {
+    const T = TYPES[p.type], bp = T.wh ? null : powerOf(p);
+    if (!bp) return;
+    const used = RAIL_KEYS.filter(k => bp.rails[k]), zc = p.group.position.z, zf = zFace(p), top = topOf(p);
+    if (!used.length) return;
+    used.forEach(k => {
+      const n = RAIL_KEYS.indexOf(k), w = bp.rails[k].now, x = lane(n), d0 = dTrunk(n, zc), jog = Math.abs(zf - zc);
+      flow.line([[x, y, zc], [x, y, zf], [x, top, zf]], [d0, d0 + jog, d0 + jog + top - y], colorOf(k), opt(w));
+      if (w > 0) arrow([x, (top + y) / 2, zf], [0, 1, 0], [1, 0, 0], colorOf(k));
+    });
+    node(used.reduce((a, k) => a + lane(RAIL_KEYS.indexOf(k)), 0) / used.length, top + 4, zf, fmtW(bp.now), tagColor(T));
+  });
+  flowNodes.forEach(n => { n.w = n.e.offsetWidth; n.h = n.e.offsetHeight; });   // 标签的尺寸只在重建时量一次
 }
-// 重画时：配置或负载变了、或者镜头转到了背板的另一侧，就重建；然后把节点标签投影到屏幕上
+// 重画时：配置、负载或主题变了就重建；然后推进脉动的相位，把节点标签投影到屏幕上
 function updateFlow() {
   const on = layer === 'power' && !inspect && ready && !bpBusy;
   flowMarks.hidden = !on;
+  flowOn = on;
   if (!on) return false;
-  const side = Math.sin(view.yaw) >= 0 ? 1 : -1;
-  if (flowDirty || side !== flowSide) { rebuildFlow(side); flowDirty = false; flowSide = side; }
-  flowNodes.forEach(n => toScreen(_v.copy(n.pos), n.e));
+  if (flowDirty) { rebuildFlow(); flowDirty = false; }
+  flow.setPhase((performance.now() / 1000 / PULSE_S) % 1);
+  // 标签先投影到各自的位置，不进右上角工具栏那一条；从某些角度看（或者屏幕很窄时）会有标签落在一起，
+  // 这时从上往下排，把压住的那个往下推开，推到不压住为止
+  const W = stage.clientWidth, H = stage.clientHeight;
+  flowNodes.forEach(n => { _v.copy(n.pos).project(camera); n.x = clamp((_v.x * 0.5 + 0.5) * W, n.w / 2 + 4, W - n.w / 2 - 4); n.y = Math.max((-_v.y * 0.5 + 0.5) * H, 52 + n.h / 2); });
+  const placed = [];
+  [...flowNodes].sort((a, b) => a.y - b.y).forEach(n => {
+    for (let guard = 0; guard < 12; guard++) {
+      const hit = placed.find(m => Math.abs(m.x - n.x) < (m.w + n.w) / 2 + 2 && Math.abs(m.y - n.y) < (m.h + n.h) / 2 + 1);
+      if (!hit) break;
+      n.y = hit.y + (hit.h + n.h) / 2 + 2;
+    }
+    placed.push(n);
+  });
+  // 往下推可能把最底下的几个推出舞台：再从下往上排一遍，贴住下边缘，压住的往上顶
+  const fixed = [];
+  placed.sort((a, b) => b.y - a.y).forEach(n => {
+    n.y = Math.min(n.y, H - n.h / 2 - 4);
+    for (let guard = 0; guard < 12; guard++) {
+      const hit = fixed.find(m => Math.abs(m.x - n.x) < (m.w + n.w) / 2 + 2 && Math.abs(m.y - n.y) < (m.h + n.h) / 2 + 1);
+      if (!hit) break;
+      n.y = hit.y - (hit.h + n.h) / 2 - 2;
+    }
+    fixed.push(n);
+    n.e.style.left = n.x.toFixed(1) + 'px'; n.e.style.top = n.y.toFixed(1) + 'px';
+  });
   return true;
 }
 
@@ -1080,7 +1146,7 @@ themeBtn.addEventListener('click', () => {
   syncThemeBtn();
 });
 syncThemeBtn();
-new MutationObserver(() => { applyTheme(); dirty = true; }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+new MutationObserver(() => { applyTheme(); dirty = true; flowDirty = true; }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
 let aspect = 1;
 function resize() {
@@ -1096,7 +1162,8 @@ new ResizeObserver(resize).observe(stage);
 
 function frameLoop() {
   const now = performance.now();   // 与补间起点用同一个时钟
-  const active = dirty || tweens.size > 0;
+  // 电源分布图的脉动需要持续重画：只在它正显示着、有线在脉动、而且标签页可见的时候
+  const active = dirty || tweens.size > 0 || (flowOn && flow.live > 0 && !reduced && !document.hidden);
   dirty = false;
   for (const w of tweens) {
     const u = Math.min(1, (now - w.t0) / w.ms);
