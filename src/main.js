@@ -231,7 +231,7 @@ function applyAt(slot) {
 }
 // 点槽位（3D 里的编号标记或下方槽位条）：选了板卡就落位，否则选中槽里的板
 function slotClick(i) {
-  if (inspect) return;
+  if (inspect || layer === 'power') return;
   if (sel && sel.swap) {
     const q = slots[i] === null ? null : placements.get(slots[i]), me = placements.get(sel.id);
     if (q && q !== me && !q.busy && !me.busy) swap(me, q);
@@ -242,7 +242,7 @@ function slotClick(i) {
   const p = slots[i] === null ? null : placements.get(slots[i]);
   if (p && !p.busy) setSel(sel && sel.id === p.id ? null : { kind: 'placed', id: p.id });
 }
-function slotHover(i) { const a = armed(); if (a && !inspect) showTarget(a.w, fit(a.w, i, a.ignore)); }
+function slotHover(i) { const a = armed(); if (a && !inspect && layer !== 'power') showTarget(a.w, fit(a.w, i, a.ignore)); }
 
 /* ---------- 查看接口 ---------- */
 // 被查看的板卡升到堆叠上方、转到正面朝镜头后固定不动，拖动是镜头绕着它转（可以上下俯仰）。
@@ -476,7 +476,7 @@ function updateSlotMarks() {
   _v.set(x, S.topY, slotZ(1)).project(camera);
   const crowded = Math.max(Math.abs(_v.x - ax) * w, Math.abs(_v.y - ay) * h) / 2 < 16;
   slotMarks.forEach((b, i) => {
-    b.hidden = !!inspect || !ready || crowded || bpBusy;
+    b.hidden = !!inspect || !ready || crowded || bpBusy || layer === 'power';
     if (!b.hidden) toScreen(_v.set(x, S.topY, slotZ(i)), b);
   });
 }
@@ -551,7 +551,16 @@ applyFilters();
 
 /* ---------- 功耗预算面板 ---------- */
 const powerPanel = document.getElementById('powerPanel'), layerBtn = document.getElementById('layerToggle');
-layerBtn.addEventListener('click', () => { layer = layer === 'power' ? 'layout' : 'power'; renderUI(); });
+const appEl = document.getElementById('app');
+// 功耗层里配置是锁住的：不能选板、落位、互换、移除，也不能换布局和背板，只能切换负载的状态
+function setLayer(next) {
+  if (inspect || layer === next) return;
+  layer = next;
+  appEl.classList.toggle('power', layer === 'power');
+  setHover(null);
+  setSel(null);   // 里面会 renderUI
+}
+layerBtn.addEventListener('click', () => setLayer(layer === 'power' ? 'layout' : 'power'));
 const powerOf = p => boardPower(TYPES[p.type], p.loads);
 // 左侧面板的功耗层：每块已放置的板一行——当前功耗，下面是待机 / 典型 / 峰值的范围和各电源轨上的当前值，
 // 再下面是这块板的负载，各有一组按钮切换状态；最后是合计、各轨合计、电池和续航
@@ -589,7 +598,8 @@ function renderPower(B) {
         Object.keys(L.states).forEach(st => {
           const b = el('button', '', st);
           b.type = 'button'; b.title = fmtW(L.states[st]); b.setAttribute('aria-pressed', String(st === L.state));
-          b.addEventListener('click', () => { if (st === L.state) return; touched(); p.loads = { ...p.loads, [L.key]: st }; renderUI(); });
+          // 负载状态不进撤销记录，也不算改了布局（预设仍然是那套预设）；它会跟着分享链接走
+          b.addEventListener('click', () => { if (st === L.state) return; p.loads = { ...p.loads, [L.key]: st }; renderUI(); });
           seg.appendChild(b);
         });
         row.appendChild(left); row.appendChild(seg); r.appendChild(row);
@@ -707,7 +717,10 @@ function renderUI() {
   const span = document.createElement('span');
   const btn = (label, cls, fn, act) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = label; b.dataset.act = act; if (cls) b.className = cls; b.addEventListener('click', fn); return b; };
   hint.appendChild(span);
-  if (inspect) {
+  if (layer === 'power' && !inspect) {
+    span.textContent = t('hint.power');
+    hint.appendChild(btn(t('btn.back'), 'ghost', () => setLayer('layout'), 'back'));
+  } else if (inspect) {
     span.textContent = t('hint.inspect', { name: nameOf(inspect.p) });
     hint.appendChild(btn(t('btn.flip'), '', flipInspect, 'flip'));
     hint.appendChild(btn(t('btn.back'), 'ghost', exitInspect, 'back'));
@@ -758,11 +771,11 @@ function renderUI() {
     hint.appendChild(btn(t('btn.remove'), 'ghost', () => { touched(); removeCard(p); }, 'remove'));
     hint.appendChild(btn(t('btn.cancel'), 'ghost', () => setSel(null), 'cancel'));
   }
-  if (placements.size && !inspect) hint.appendChild(btn(t('btn.clear'), 'ghost', () => { touched(); clearAll(); }, 'clear'));
-  if (failed.size && !inspect) hint.appendChild(btn(t('btn.retry'), 'ghost', () => [...failed].forEach(fetchBoard), 'retry'));
+  if (placements.size && !inspect && layer !== 'power') hint.appendChild(btn(t('btn.clear'), 'ghost', () => { touched(); clearAll(); }, 'clear'));
+  if (failed.size && !inspect && layer !== 'power') hint.appendChild(btn(t('btn.retry'), 'ghost', () => [...failed].forEach(fetchBoard), 'retry'));
   span.title = span.textContent;   // 提示只有一行，放不下会截断，鼠标停上去能看到全文
-  undoBtn.disabled = !undoStack.length || !!inspect;
-  redoBtn.disabled = !redoStack.length || !!inspect;
+  undoBtn.disabled = !undoStack.length || !!inspect || layer === 'power';
+  redoBtn.disabled = !redoStack.length || !!inspect || layer === 'power';
 
   const used = slots.filter(s => s !== null).length, showP = hasPower || layer === 'power';
   const watts = v => v > 0 ? fmtW(v) : '—';
@@ -803,7 +816,7 @@ function pick(e) {
 const slotAtX = x => { const r = strip.getBoundingClientRect(); return clamp(Math.floor((x - r.left) / r.width * SLOTS), 0, SLOTS - 1); };
 strip.addEventListener('pointerdown', e => {
   const c = e.target.closest('.cell.full');
-  if (!c || inspect || e.button) return;
+  if (!c || inspect || e.button || layer === 'power') return;
   const p = placements.get(slots[+c.dataset.slot]);
   if (p && !p.busy) cellDrag = { id: p.id, x: e.clientX, y: e.clientY, active: false };
 });
@@ -893,14 +906,14 @@ cv.addEventListener('pointermove', e => {
     const h = pick(e);
     if (h.a) showTarget(h.a.w, h.slot);
     setHover(e.pointerType === 'mouse' && h.card && h.slot < 0 && !h.card.busy ? h.card : null);
-    cv.style.cursor = h.slot >= 0 || h.card ? 'pointer' : 'grab';
+    cv.style.cursor = layer !== 'power' && (h.slot >= 0 || h.card) ? 'pointer' : 'grab';
   }
 });
 const release = e => { pts.delete(e.pointerId); if (pts.size < 2) pinch = null; };
 cv.addEventListener('pointerup', e => {
   release(e);
   if (!pd) return;
-  if (!dragging && !inspect && !pd.pan) {
+  if (!dragging && !inspect && !pd.pan && layer !== 'power') {
     const h = pick(e), now = performance.now();
     // 双击（或双点）同一块板：之前选着另一块板就和它互换，否则查看这块板的接口；双击背板是查看背板的接口。
     // 第一下点击已经把选中换成了这块板，所以要记住第一下之前选的是谁
@@ -972,16 +985,16 @@ document.getElementById('resetView').addEventListener('click', () => {
   tween(view, 'tx', g[0], 420, easeInOut); tween(view, 'ty', g[1], 420, easeInOut); tween(view, 'tz', g[2], 420, easeInOut);
 });
 window.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { if (inspect) exitInspect(); else setSel(null); }
+  if (e.key === 'Escape') { if (inspect) exitInspect(); else if (layer === 'power') setLayer('layout'); else setSel(null); }
   if (inspect) return;
-  if ((e.ctrlKey || e.metaKey) && !e.altKey && (e.key.toLowerCase() === 'z' || e.key.toLowerCase() === 'y')) {
+  if (layer !== 'power' && (e.ctrlKey || e.metaKey) && !e.altKey && (e.key.toLowerCase() === 'z' || e.key.toLowerCase() === 'y')) {
     e.preventDefault();
     if (e.shiftKey || e.key.toLowerCase() === 'y') redo(); else undo();
     return;
   }
   // 数字键 1–7 等于点对应的槽位：选了板卡就落位，否则选中槽里的板
   if (!e.ctrlKey && !e.metaKey && !e.altKey && e.key.length === 1 && e.key >= '1' && e.key <= String(SLOTS)) { slotClick(+e.key - 1); return; }
-  if ((e.key === 'Delete' || e.key === 'Backspace') && sel && sel.kind === 'placed') { const p = placements.get(sel.id); if (p && !p.busy) { touched(); removeCard(p); } }
+  if (layer !== 'power' && (e.key === 'Delete' || e.key === 'Backspace') && sel && sel.kind === 'placed') { const p = placements.get(sel.id); if (p && !p.busy) { touched(); removeCard(p); } }
 });
 
 /* ---------- 主题、尺寸、循环 ---------- */
@@ -1126,7 +1139,7 @@ function syncHash() {
 }
 // 布局选择器跟着配置走：和哪套预设一样就选中哪套，都不一样是 Custom
 function setLayoutFor(cfg) {
-  const s = serialize(sys, { bp: '', boards: cfg.boards });
+  const s = serialize(sys, { bp: '', boards: cfg.boards.map(b => ({ ...b, loads: {} })) });   // 负载状态不影响它算哪套预设
   const match = Object.keys(LAYOUTS).find(k => serialize(sys, presetCfg(sys, k, '')) === s);
   layout = match || (LAYOUTS.custom ? 'custom' : layout);
   renderLayouts();
