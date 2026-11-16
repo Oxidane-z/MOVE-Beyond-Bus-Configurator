@@ -31,20 +31,20 @@
  "slots": null,
  "counts": {
   "board": 1,
-  "parts": 28,
+  "parts": 16,
   "blocks": 34,
   "bits": 0,
   "decals": 225,
-  "interface": 0
+  "interface": 12
  },
  "triangles": {
   "board": 608,
-  "parts": 88290,
+  "parts": 61850,
   "blocks": 408,
   "bits": 0,
   "decals": 450,
-  "interface": 0,
-  "instanced": 11426
+  "interface": 38960,
+  "instanced": 7994
  },
  "split": null,
  "components": [
@@ -91,9 +91,9 @@
     5.19,
     1.5
    ],
-   "kind": "parts",
-   "instanceOf": "503763-0491-Footprint-1_CMP-015-000052-1",
-   "triangles": 1024
+   "kind": "interface",
+   "triangles": 1024,
+   "edgeSegments": 282
   },
   {
    "name": "503763-0491-Footprint-1_CMP-015-000052-1",
@@ -103,9 +103,9 @@
     5.19,
     1.5
    ],
-   "kind": "parts",
-   "instanceOf": "503763-0491-Footprint-1_CMP-015-000052-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 1024,
+   "edgeSegments": 282
   },
   {
    "name": "999999_COTS_ISO_7380-1_M2.5x06",
@@ -977,9 +977,9 @@
     5.19,
     1.5
    ],
-   "kind": "parts",
-   "instanceOf": "CONN_5037630000-SD_02_MOL_CMP-015-000038-3",
-   "triangles": 784
+   "kind": "interface",
+   "triangles": 784,
+   "edgeSegments": 212
   },
   {
    "name": "CONN_5037630000-SD_02_MOL_CMP-015-000038-3",
@@ -989,9 +989,9 @@
     5.19,
     1.5
    ],
-   "kind": "parts",
-   "instanceOf": "CONN_5037630000-SD_02_MOL_CMP-015-000038-3",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 784,
+   "edgeSegments": 212
   },
   {
    "name": "CONN_5037630000-SD_02_MOL_CMP-015-000038-3",
@@ -1001,9 +1001,9 @@
     5.19,
     1.5
    ],
-   "kind": "parts",
-   "instanceOf": "CONN_5037630000-SD_02_MOL_CMP-015-000038-3",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 784,
+   "edgeSegments": 212
   },
   {
    "name": "FP-503763-0691-MFG_CMP-015-000026-2_Standard",
@@ -1013,9 +1013,9 @@
     5.191,
     1.704
    ],
-   "kind": "parts",
-   "instanceOf": "FP-503763-0691-MFG_CMP-015-000026-2_Standard",
-   "triangles": 1624
+   "kind": "interface",
+   "triangles": 1624,
+   "edgeSegments": 296
   },
   {
    "name": "FP-503763-0691-MFG_CMP-015-000026-2_Standard",
@@ -1025,9 +1025,9 @@
     5.191,
     1.704
    ],
-   "kind": "parts",
-   "instanceOf": "FP-503763-0691-MFG_CMP-015-000026-2_Standard",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 1624,
+   "edgeSegments": 296
   },
   {
    "name": "FP-503763-0691-MFG_CMP-015-000026-2_Standard",
@@ -1037,9 +1037,9 @@
     5.191,
     1.704
    ],
-   "kind": "parts",
-   "instanceOf": "FP-503763-0691-MFG_CMP-015-000026-2_Standard",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 1624,
+   "edgeSegments": 296
   },
   {
    "name": "FP-503763-0691-MFG_CMP-015-000026-2_Standard",
@@ -1049,9 +1049,9 @@
     5.191,
     1.704
    ],
-   "kind": "parts",
-   "instanceOf": "FP-503763-0691-MFG_CMP-015-000026-2_Standard",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 1624,
+   "edgeSegments": 296
   },
   {
    "name": "FP-503763-0691-MFG_CMP-015-000026-2_Standard",
@@ -1061,9 +1061,9 @@
     5.191,
     1.704
    ],
-   "kind": "parts",
-   "instanceOf": "FP-503763-0691-MFG_CMP-015-000026-2_Standard",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 1624,
+   "edgeSegments": 296
   },
   {
    "name": "FP-8MA2-IPC_A_CMP-047-000003-1",
@@ -2444,7 +2444,7 @@
     12.951,
     5.601
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 24996,
    "edgeSegments": 3712
   },
@@ -2456,7 +2456,7 @@
     5.842,
     6.985
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1444,
    "edgeSegments": 774
   },

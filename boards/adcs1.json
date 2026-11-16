@@ -1,0 +1,16 @@
+{
+  "interfaces": [
+    {"ref": "BUS", "match": ["SAMTEC_ERM8*"], "label": "Backplane connector", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot."},
+    {"ref": "DEBUG", "match": ["SAMTEC_FTSH-107*"], "label": "ST-Link", "type": "debug", "connector": "Samtec FTSH-107 (2×7, 1.27 mm)", "desc": "Programming and debug port."},
+    {"ref": "MAGA", "match": ["503763-0491*"], "cluster": 0, "label": "Magnetometer A", "type": "sensor", "connector": "Molex Pico-Lock 4P", "desc": "Connects the external magnetometer."},
+    {"ref": "MAGB", "match": ["503763-0491*"], "cluster": 1, "label": "Magnetometer B", "type": "sensor", "connector": "Molex Pico-Lock 4P", "desc": "Connects the external magnetometer."},
+    {"ref": "MTQ1", "match": ["CONN_5037630000-SD_02*"], "cluster": 0, "label": "Magnetorquer 1", "type": "actuator", "connector": "Molex Pico-Lock 2P", "desc": "Connects a magnetorquer coil."},
+    {"ref": "MTQ2", "match": ["CONN_5037630000-SD_02*"], "cluster": 1, "label": "Magnetorquer 2", "type": "actuator", "connector": "Molex Pico-Lock 2P", "desc": "Connects a magnetorquer coil."},
+    {"ref": "MTQ3", "match": ["CONN_5037630000-SD_02*"], "cluster": 2, "label": "Magnetorquer 3", "type": "actuator", "connector": "Molex Pico-Lock 2P", "desc": "Connects a magnetorquer coil."},
+    {"ref": "SS1", "match": ["FP-503763-0691*"], "cluster": 0, "label": "Sun sensor 1", "type": "sensor", "connector": "Molex Pico-Lock 6P", "desc": "Connects a sun sensor."},
+    {"ref": "SS2", "match": ["FP-503763-0691*"], "cluster": 1, "label": "Sun sensor 2", "type": "sensor", "connector": "Molex Pico-Lock 6P", "desc": "Connects a sun sensor."},
+    {"ref": "SS3", "match": ["FP-503763-0691*"], "cluster": 2, "label": "Sun sensor 3", "type": "sensor", "connector": "Molex Pico-Lock 6P", "desc": "Connects a sun sensor."},
+    {"ref": "SS4", "match": ["FP-503763-0691*"], "cluster": 3, "label": "Sun sensor 4", "type": "sensor", "connector": "Molex Pico-Lock 6P", "desc": "Connects a sun sensor."},
+    {"ref": "SS5", "match": ["FP-503763-0691*"], "cluster": 4, "label": "Sun sensor 5", "type": "sensor", "connector": "Molex Pico-Lock 6P", "desc": "Connects a sun sensor."}
+  ]
+}
