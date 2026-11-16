@@ -1053,11 +1053,13 @@ async function setBackplane(key) {
     renderUI();
     await Promise.all(lifted.map(q => tween(q.group.position, 'y', SEAT_Y + BP_LIFT, 240, easeOut)));
   }
-  // 滑动方向：画面的水平方向落到背板平面上；距离取够滑出画面
-  _r.set(1, 0, 0).applyQuaternion(camera.quaternion); _r.y = 0;
-  if (_r.lengthSq() < 1e-6) _r.set(1, 0, 0);
-  _r.normalize();
-  const dist = 2 * camera.right / view.zoom + 140, dx = _r.x * dist, dz = _r.z * dist;
+  // 滑动方向固定在结构上：沿槽位连接器的长度方向（X 轴，和板卡的板面平行），像从板卡底下抽出一个托盘。
+  // 旧背板朝 +X 抽走，新背板从 -X 推进来；视图怎么转，这个方向相对背板都不变。
+  // 距离取够滑出画面：看这个方向在屏幕上横向、纵向各占多少，哪边先出画面就按哪边算
+  _r.set(1, 0, 0).applyQuaternion(camera.quaternion); _u.set(0, 1, 0).applyQuaternion(camera.quaternion);
+  const halfW = camera.right / view.zoom, halfH = camera.top / view.zoom, reach = S.hx * 2 + 40;
+  const dist = Math.min(900, (halfW + reach) / Math.max(Math.abs(_r.x), 0.05), (halfH + reach) / Math.max(Math.abs(_u.x), 0.05));
+  const dx = dist, dz = 0;
   S = buildStructure(scene, key, B);
   bpKey = key; bpCard = null;
   if (S.group) {
