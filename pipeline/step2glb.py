@@ -17,7 +17,7 @@
   python pipeline/step2glb.py cad/board.step public/models/board --annotations boards/board.json
 
 --mate PREFIX 指出插入背板的连接器（按名称前缀匹配）。给了它，脚本会自动定向：
-连接器朝下，板卡主体偏向 +X 一侧（Iteration 2 的连接器不在板宽正中），原点落在连接器上。
+连接器朝下，板卡主体偏向 +X 一侧（Revision 2 的连接器不在板宽正中），原点落在连接器上。
 占两个槽的板卡以 Z 较小的那个连接器为原点。STEP 原本朝哪个方向都可以。
 --split NAME=PREFIX|PREFIX 把名称匹配的零件拆出去，单独写成同目录下的 NAME.glb（坐标系相同），
 用于支架这类可选件。

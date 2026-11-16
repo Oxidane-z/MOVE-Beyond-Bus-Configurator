@@ -47,7 +47,7 @@
   "instanced": 11896
  },
  "split": {
-  "name": "bracket-iter2",
+  "name": "bracket-rev2",
   "board": null,
   "counts": {
    "board": 0,
@@ -8505,7 +8505,7 @@
     76.009,
     5.009
    ],
-   "in": "bracket-iter2",
+   "in": "bracket-rev2",
    "kind": "parts",
    "triangles": 476,
    "edgeSegments": 228
@@ -8518,7 +8518,7 @@
     76.009,
     5.009
    ],
-   "in": "bracket-iter2",
+   "in": "bracket-rev2",
    "kind": "parts",
    "triangles": 476,
    "edgeSegments": 228
@@ -10294,7 +10294,7 @@
     4.5,
     7.5
    ],
-   "in": "bracket-iter2",
+   "in": "bracket-rev2",
    "kind": "parts",
    "triangles": 357,
    "edgeSegments": 98
@@ -10307,7 +10307,7 @@
     4.5,
     7.5
    ],
-   "in": "bracket-iter2",
+   "in": "bracket-rev2",
    "kind": "parts",
    "triangles": 357,
    "edgeSegments": 98
@@ -10320,7 +10320,7 @@
     4.5,
     7.5
    ],
-   "in": "bracket-iter2",
+   "in": "bracket-rev2",
    "kind": "parts",
    "triangles": 357,
    "edgeSegments": 98
@@ -10333,7 +10333,7 @@
     4.5,
     7.5
    ],
-   "in": "bracket-iter2",
+   "in": "bracket-rev2",
    "kind": "parts",
    "triangles": 357,
    "edgeSegments": 98

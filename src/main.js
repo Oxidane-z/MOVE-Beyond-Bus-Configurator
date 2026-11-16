@@ -21,7 +21,7 @@ function inkOn(hex) {
 // 槽位条和编号标记用分系统颜色（PCB 颜色在 MOVE-IIIa 里几乎都是绿的，区分不了板卡）；没写分系统的退回 PCB 颜色
 const SUBS = sys.subsystems || {};
 const tagColor = T => (SUBS[T.subsystem] || T).color;
-const levelSuffix = T => T.level === 'iter1' ? t('level.iter1') : T.level === 'proto' ? t('level.proto') : '';
+const levelSuffix = T => T.level === 'rev1' ? t('level.rev1') : T.level === 'proto' ? t('level.proto') : '';
 
 // 每块板的人工标注（boards/<板卡 key>.json），目前只有接口
 const NOTES = {};
@@ -629,6 +629,7 @@ function resize() {
   renderer.setSize(w, h, false);
   aspect = w / h;
   setResolution(w, h);
+  draw();   // 改尺寸会清空画布，当场重画一帧，否则会闪一下
 }
 new ResizeObserver(resize).observe(stage);
 
@@ -639,6 +640,10 @@ function frameLoop() {
     w.o[w.k] = w.from + (w.to - w.from) * w.ease(u);
     if (u >= 1) { tweens.delete(w); w.res(); }
   }
+  draw();
+  requestAnimationFrame(frameLoop);
+}
+function draw() {
   const half = 100;
   if (aspect >= 1) { camera.top = half; camera.bottom = -half; camera.right = half * aspect; camera.left = -half * aspect; }
   else { camera.right = half; camera.left = -half; camera.top = half / aspect; camera.bottom = -half / aspect; }
@@ -652,7 +657,6 @@ function frameLoop() {
   updateInspect();
   updateSlotMarks();
   renderer.render(scene, camera);
-  requestAnimationFrame(frameLoop);
 }
 
 applyStatic(document);
@@ -664,11 +668,24 @@ requestAnimationFrame(frameLoop);
 const wait = ms => new Promise(res => setTimeout(res, reduced ? 0 : ms));
 let run = 0, layout = sys.initial;   // run：每次换布局或清空加一，用来中止还在进行的逐块插入
 const fetchBoard = type => loadBoard(sys, type).then(() => { loaded.add(type); renderUI(); });
-async function playLayout(key) {
+const orderSign = key => LAYOUTS[key] && LAYOUTS[key].order === 'desc' ? -1 : 1;
+// 原地轻轻抬一下再落回：换布局时位置没变的板卡用它代替拔出重插
+function bump(p) {
+  if (p.busy || !placements.has(p.id)) return;
+  p.busy = true;
+  tween(p.group.position, 'y', SEAT_Y + 12, 170, easeOut)
+    .then(() => tween(p.group.position, 'y', SEAT_Y, 230, easeIn))
+    .then(() => { p.busy = false; });
+}
+// keep：布局里第 k 项 → 已经在位的板卡。这些不重新插，只依次起伏一下，连起来像一道波
+async function playLayout(key, keep = new Map()) {
   const mine = ++run, list = LAYOUTS[key].boards;
   layout = key; renderLayouts();
   const jobs = list.map(c => fetchBoard(c[0]));
-  for (let k = 0; k < list.length; k++) {
+  // 插入顺序由布局的 order 决定：asc 从 1 号槽往后，desc 从最后一个槽往前
+  const seq = list.map((_, k) => k).sort((a, b) => (list[a][1] - list[b][1]) * orderSign(key));
+  for (const k of seq) {
+    if (keep.has(k)) { bump(keep.get(k)); await wait(90); if (run !== mine) return; continue; }
     await jobs[k];
     if (run !== mine) return;
     place(list[k][0], list[k][1], true);
@@ -688,13 +705,24 @@ function clearAll() {
   });
   return reduced || !list.length ? 0 : (list.length - 1) * 170 + 700;
 }
-// 换成另一套默认布局：先清空，等板卡都拔出后再逐块插入
+// 换成另一套布局：类型和槽位都对得上的板卡留在原位，其余的先依次拔出，再把缺的逐块插入
 const layoutsEl = document.getElementById('layouts');
 function loadLayout(key) {
   if (!ready || inspect) return;
-  const ms = clearAll(), mine = ++run;
+  const mine = ++run, list = LAYOUTS[key].boards, keep = new Map(), drop = [], from = layout;
+  setSel(null);
   layout = key; renderLayouts();
-  setTimeout(() => { if (run === mine) playLayout(key); }, ms);
+  placements.forEach(p => {
+    const k = list.findIndex(c => c[0] === p.type && c[1] === p.slot);
+    if (k >= 0) keep.set(k, p); else drop.push(p);
+  });
+  // 拔出顺序跟着原来那套布局的 order 走；从 Custom 换过来时从最后一个槽开始
+  drop.sort((a, b) => (a.slot - b.slot) * (LAYOUTS[from].order ? orderSign(from) : -1)).forEach((p, k) => {
+    p.busy = true;
+    setTimeout(() => removeCard(p), reduced ? 0 : k * 170);
+  });
+  const ms = reduced || !drop.length ? 0 : (drop.length - 1) * 170 + 700;
+  setTimeout(() => { if (run === mine) playLayout(key, keep); }, ms);
 }
 // 手动改动过板卡后，当前配置就不再是某套预设，选择器切到 Custom
 function touched() { if (LAYOUTS.custom && layout !== 'custom') { layout = 'custom'; renderLayouts(); } }

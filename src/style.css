@@ -60,10 +60,14 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .tools button:hover { border-color: var(--muted); }
 
 .dock { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
-.hint { display: flex; align-items: center; gap: 10px; min-height: 30px; flex-wrap: wrap; }
-.hint span { color: var(--muted); }
-.hint button { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 6px; padding: 4px 12px; cursor: pointer; font-weight: 500; }
-.hint button.ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--rule); }
+/* 操作栏和统计栏的高度固定，三维视图的大小不随按钮数量或文字长短变化。
+   这是桌面和手机共用的规则：手机的媒体查询里只改尺寸，不改结构；以后调整这两栏时两边一起改。
+   操作栏 = 一行提示文字（放不下就截断）+ 两行按钮；极少数情况下按钮超过两行，在栏内上下滚动 */
+.hint { --btn: 30px; --txt: 21px; --gap: 8px; display: flex; flex-wrap: wrap; align-items: center; align-content: flex-start; gap: var(--gap);
+  height: calc(var(--txt) + 2 * var(--btn) + 2 * var(--gap)); overflow-y: auto; }
+.hint span { flex: 0 0 100%; min-width: 0; height: var(--txt); line-height: var(--txt); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hint button { flex: none; height: var(--btn); background: var(--accent); color: var(--accent-ink); border: 1.5px solid var(--accent); border-radius: 6px; padding: 0 12px; cursor: pointer; font-weight: 500; }
+.hint button.ghost { background: transparent; color: var(--ink); border-color: var(--rule); }
 .strip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
 .cell { position: relative; height: 48px; border: 1.5px dashed var(--rule); border-radius: 4px; background: transparent; cursor: pointer;
   display: flex; align-items: center; justify-content: center; padding: 0 4px; overflow: hidden; }
@@ -72,8 +76,9 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .cell.full .no { color: inherit; opacity: 0.6; }
 .cell.sel { outline: 2px solid var(--accent); outline-offset: 1px; }
 .cell .lb { font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.stats { display: flex; flex-wrap: wrap; gap: 6px 24px; align-items: baseline; border-top: 1.5px solid var(--rule); padding-top: 8px; }
-.stats div { display: flex; gap: 8px; align-items: baseline; }
+.stats { display: flex; flex-wrap: nowrap; gap: 6px 24px; align-items: baseline; border-top: 1.5px solid var(--rule); padding-top: 8px;
+  overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+.stats div { flex: none; display: flex; gap: 8px; align-items: baseline; }
 .stats dt { color: var(--muted); font-size: 12px; }
 .stats dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; font-weight: 500; }
 .stats .tag { font-size: 11px; color: var(--muted); border: 1px solid var(--rule); border-radius: 3px; padding: 0 5px; }
@@ -93,12 +98,9 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .stage { min-height: 160px; }
   .dock { gap: 6px; }
   /* 提示文字单独一行（放不下就截断），按钮在下面换行排开，不用横向滚动 */
-  /* 高度固定为一行文字加两行按钮，三维视图的大小不随按钮数量变化；极少数情况下按钮超过两行，在栏内上下滚动 */
-  .hint { gap: 6px; height: 78px; min-height: 0; align-content: flex-start; overflow-y: auto; }
-  .hint span { flex: 0 0 100%; min-width: 0; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .hint button { padding: 3px 9px; font-size: 12px; }
-  .stats { flex-wrap: nowrap; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
-  .stats div { flex: none; }
+  .hint { --btn: 26px; --txt: 18px; --gap: 6px; }
+  .hint span { font-size: 12px; }
+  .hint button { padding: 0 9px; font-size: 12px; }
   .cell { height: 40px; }
   .lib { overflow-y: auto; overscroll-behavior: contain; padding-right: 0; }
   .libhead { position: static; }   /* 标签多了以后占好几行，手机上让它跟着列表一起滚走 */

@@ -2,7 +2,7 @@
 
 MOVE Beyond 卫星 slot card 总线系统的三维交互配置器。正交等轴测视角、平面着色加描边，可在 7 槽背板上自由安排板卡。
 
-当前状态：所有板卡都来自真实 STEP。标题下方可以切换布局：Custom（空背板，自由搭配，打开时的默认项）、REXUS（Iteration 2 的板卡）和 MOVE-IIIa（Iteration 1 的板卡：COM Stack、CDH、Battery Pack、Payload、ADCS）。布局写在 `system.json` 的 `layouts` 里，`initial` 是打开时用的那一套。OBDH 的扩展板是可单独更换的部件。板卡的功耗数据还没有填，统计栏里对应的项显示为空。界面文案在 `src/i18n.js`，目前只有英文。
+当前状态：所有板卡都来自真实 STEP。标题下方可以切换布局：Custom（空背板，自由搭配，打开时的默认项）、REXUS（Revision 2 的板卡）和 MOVE-IIIa（Revision 1 的板卡：COM Stack、CDH、Battery Pack、Payload、ADCS）。布局写在 `system.json` 的 `layouts` 里，每套可以带 `order`（`asc` 从 1 号槽开始逐块插拔，`desc` 从最后一个槽开始），`initial` 是打开时用的那一套。OBDH 的扩展板是可单独更换的部件。板卡的功耗数据还没有填，统计栏里对应的项显示为空。界面文案在 `src/i18n.js`，目前只有英文。
 
 ## 运行
 
@@ -64,7 +64,7 @@ python pipeline/step2glb.py "cad/STEP_[No Variations] for PiklasRework.PcbDoc.st
 其余板卡的转换命令（`cad/` 里的 zip 需要先解压）：
 
 ```bash
-python pipeline/step2glb.py "ADCS board.step" public/models/adcs --mate ERM8 --split "bracket-iter2=PCB mounting beam|Socket button head screw" --annotations boards/adcs.json
+python pipeline/step2glb.py "ADCS board.step" public/models/adcs --mate ERM8 --split "bracket-rev2=PCB mounting beam|Socket button head screw" --annotations boards/adcs.json
 ```
 
 ```bash
@@ -79,11 +79,11 @@ python pipeline/step2glb.py "Pi board.step" public/models/obdh --mate ERM8 --boa
 python pipeline/step2glb.py cad/RecoveryRework.step public/models/recovery --mate J2 --split "recovery-bracket=Free-Models" --full MP --annotations boards/recovery.json
 ```
 
-Recovery 的支架和 `bracket-iter2` 是同一个件，拆出来的 `recovery-bracket.glb` 不用，可以删掉。
+Recovery 的支架和 `bracket-rev2` 是同一个件，拆出来的 `recovery-bracket.glb` 不用，可以删掉。
 
 `--full 前缀|前缀` 让匹配的元器件不论大小都保留完整几何（Recovery 的 `MP` 是扩展卡的螺母柱，否则会被简化成方块）。`--material 前缀=材质` 覆盖 CAD 原色，材质取 `dark`、`light`、`gold`、`kapton`。
 
-Iteration 1 的板卡和 PHILEAS（`cad/Iter1/` 和 `cad/PHILEAS_SB.zip`，先解压）。这些 STEP 是多层装配：含有 PCB 的子装配会被展开，里面每个件算一个元器件；其余子装配（一个位号下的几个实体、一节电芯）整个算一个元器件。Iteration 1 的支架和板卡是配死的，留在板卡模型里，不拆成可选件。
+Revision 1 的板卡和 PHILEAS（`cad/Rev1/` 和 `cad/PHILEAS_SB.zip`，先解压）。这些 STEP 是多层装配：含有 PCB 的子装配会被展开，里面每个件算一个元器件；其余子装配（一个位号下的几个实体、一节电芯）整个算一个元器件。Revision 1 的支架和板卡是配死的，留在板卡模型里，不拆成可选件。
 
 ```bash
 python pipeline/step2glb.py 040100_001_ADCSSB.STEP public/models/adcs1 --board 040100_ELE_001_ADCS-SB-V2.1_BOARD --mate SAMTEC_ERM8 --annotations boards/adcs1.json --deflection 0.2 --angular 1.2
@@ -140,4 +140,4 @@ python pipeline/step2glb.py Backplane_V8.step public/models/backplane --frame ba
 
 转换时带上 `--annotations`，这些接口各自输出成独立节点，查看器的"查看接口"模式据此高亮和编号。只改说明文字不用重新转换；新增接口或改 `ref`、`match`、`cluster` 需要重新转换。
 
-ADCS、Battery、OBDH 和扩展板的接口目前是按料号认出来的，名称是通用的（Port A1 等），用途还没有填。Iteration 1 的所有板卡都已标注；PHILEAS 的接口是按原理图推断的。S-Band 板的 CAD 缺元器件（导出时丢失），两个 MMCX 哪个发哪个收是暂定的。
+ADCS、Battery、OBDH 和扩展板的接口目前是按料号认出来的，名称是通用的（Port A1 等），用途还没有填。Revision 1 的所有板卡都已标注；PHILEAS 的接口是按原理图推断的。S-Band 板的 CAD 缺元器件（导出时丢失），两个 MMCX 哪个发哪个收是暂定的。

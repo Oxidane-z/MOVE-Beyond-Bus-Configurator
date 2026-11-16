@@ -57,7 +57,7 @@ const STRINGS = {
     'aria.rotL': 'Rotate left 90°',
     'aria.rotR': 'Rotate right 90°',
     'aria.reset': 'Reset view',
-    'level.iter1': ' (Iter 1)',
+    'level.rev1': ' (Rev 1)',
     'level.proto': ' (Proto)'
   }
 };
