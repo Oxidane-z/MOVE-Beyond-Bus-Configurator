@@ -18,6 +18,9 @@ function inkOn(hex) {
   const n = parseInt(hex.slice(1), 16), l = 0.2126 * (n >> 16 & 255) + 0.7152 * (n >> 8 & 255) + 0.0722 * (n & 255);
   return l < 140 ? '#ffffff' : '#25262b';
 }
+// 槽位条和编号标记用分系统颜色（PCB 颜色在 MOVE-IIIa 里几乎都是绿的，区分不了板卡）；没写分系统的退回 PCB 颜色
+const SUBS = sys.subsystems || {};
+const tagColor = T => (SUBS[T.subsystem] || T).color;
 const levelSuffix = T => T.level === 'iter1' ? t('level.iter1') : T.level === 'proto' ? t('level.proto') : '';
 
 // 每块板的人工标注（boards/<板卡 key>.json），目前只有接口
@@ -389,7 +392,7 @@ Object.keys(TYPES).forEach(key => {
   b.innerHTML = '<span class="sw"></span><span><span class="nm"></span><br><span class="mt"></span></span>';
   b.querySelector('.sw').style.background = T.color;
   b.querySelector('.nm').textContent = T.name;
-  const meta = [sys.levels[T.level] || T.level, T.w === 1 ? t('meta.slots.1') : t('meta.slots.n', { n: T.w }),
+  const meta = [...(SUBS[T.subsystem] ? [SUBS[T.subsystem].label] : []), sys.levels[T.level] || T.level, T.w === 1 ? t('meta.slots.1') : t('meta.slots.n', { n: T.w }),
                 T.wh ? T.wh + ' Wh' : T.typ == null ? t('meta.noPower') : T.typ.toFixed(1) + ' W'];
   if (ifaceNotes(key).length) meta.push(t('meta.interfaces', { n: ifaceNotes(key).length }));
   b.querySelector('.mt').textContent = meta.join(' · ');
@@ -400,6 +403,7 @@ Object.keys(TYPES).forEach(key => {
 /* ---------- 板卡库过滤 ---------- */
 // 标签分组：代际、所属默认布局、占槽数，以及 system.json 里板卡自带的 tags。同组内任选其一即可，各组之间要同时满足
 const filterGroups = [
+  { id: 'subsystem', of: T => [T.subsystem], chips: Object.keys(SUBS).map(k => [k, SUBS[k].label]) },
   { id: 'level', of: T => [T.level], chips: Object.keys(sys.levels).map(k => [k, sys.levels[k]]) },
   { id: 'layout', of: (T, key) => Object.keys(LAYOUTS).filter(l => LAYOUTS[l].boards.some(c => c[0] === key)),
     chips: Object.keys(LAYOUTS).map(k => [k, LAYOUTS[k].name]) },
@@ -424,6 +428,8 @@ filterGroups.forEach(g => g.chips.forEach(([value, label]) => {
   if (!Object.keys(TYPES).some(key => g.of(TYPES[key], key).includes(value))) return;
   const c = document.createElement('button');
   c.type = 'button'; c.className = 'chip'; c.dataset.group = g.id; c.dataset.value = value; c.textContent = label;
+  // 分系统标签带一个色点，兼作槽位颜色的图例
+  if (g.id === 'subsystem') { const d = document.createElement('span'); d.className = 'dot'; d.style.background = SUBS[value].color; c.prepend(d); }
   c.addEventListener('click', () => { const on = filters.get(g.id); if (!on.delete(value)) on.add(value); applyFilters(); });
   libFilters.appendChild(c);
 }));
@@ -450,7 +456,7 @@ function renderUI() {
     // 3D 里的编号标记与槽位条同步
     const mk = slotMarks[i];
     mk.className = 'slotmark' + (p ? ' full' : '') + (selected ? ' sel' : '') + (a && fit(a.w, i, a.ignore) >= 0 ? ' ok' : '');
-    mk.style.background = p ? TYPES[p.type].color : ''; mk.style.color = p ? inkOn(TYPES[p.type].color) : '';
+    mk.style.background = p ? tagColor(TYPES[p.type]) : ''; mk.style.color = p ? inkOn(tagColor(TYPES[p.type])) : '';
     mk.setAttribute('aria-label', t('aria.slot', { n: i + 1, what: p ? TYPES[p.type].name : t('aria.empty') }));
 
     if (p && p.slot !== i) continue;
@@ -459,7 +465,7 @@ function renderUI() {
     const no = document.createElement('span'); no.className = 'no';
     if (p) {
       const T = TYPES[p.type];
-      c.classList.add('full'); c.style.gridColumn = 'span ' + T.w; c.style.background = T.color; c.style.color = inkOn(T.color);
+      c.classList.add('full'); c.style.gridColumn = 'span ' + T.w; c.style.background = tagColor(T); c.style.color = inkOn(tagColor(T));
       if (selected) c.classList.add('sel');
       no.textContent = T.w === 2 ? (i + 1) + '–' + (i + 2) : String(i + 1);
       const lb = document.createElement('span'); lb.className = 'lb';

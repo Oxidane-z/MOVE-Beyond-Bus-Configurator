@@ -101,10 +101,12 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .stats div { flex: none; }
   .cell { height: 40px; }
   .lib { overflow-y: auto; overscroll-behavior: contain; padding-right: 0; }
+  .libhead { position: static; }   /* 标签多了以后占好几行，手机上让它跟着列表一起滚走 */
 }
 .libhead { position: sticky; top: 0; z-index: 1; background: var(--bg); display: flex; flex-direction: column; gap: 6px; padding-bottom: 6px; }
 .chips { display: flex; flex-wrap: wrap; gap: 4px; }
 .chip { background: transparent; border: 1.5px solid var(--rule); border-radius: 999px; padding: 1px 10px; font-size: 12px; cursor: pointer; }
+.chip .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; border: 1px solid var(--line3d); }
 .chip:hover { border-color: var(--muted); }
 .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .chip.clear { border-color: transparent; color: var(--muted); text-decoration: underline; }
