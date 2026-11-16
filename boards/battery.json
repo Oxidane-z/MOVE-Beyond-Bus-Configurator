@@ -1,11 +1,9 @@
 {
   "interfaces": [
-    {"ref": "BUS1", "match": ["SAMTEC_ERM8*"], "cluster": 0, "label": "Backplane connector 1", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot."},
-    {"ref": "BUS2", "match": ["SAMTEC_ERM8*"], "cluster": 1, "label": "Backplane connector 2", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot."},
-    {"ref": "P1", "match": ["PICOLOCK_4*"], "cluster": 0, "label": "Port 1", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "P2", "match": ["PICOLOCK_4*"], "cluster": 1, "label": "Port 2", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "P3", "match": ["FP-503763-0691*"], "label": "Port 3", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "SW1", "match": ["450404015514*"], "cluster": 0, "label": "Switch 1", "type": "switch", "connector": "Würth 450404015514", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "SW2", "match": ["450404015514*"], "cluster": 1, "label": "Switch 2", "type": "switch", "connector": "Würth 450404015514", "desc": "Identified from the part number in the CAD model. Function not documented yet."}
+    {"ref": "BUS1", "match": ["SAMTEC_ERM8*"], "cluster": 0, "label": "Backplane connector 1", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot. Both backplane connectors are identical."},
+    {"ref": "BUS2", "match": ["SAMTEC_ERM8*"], "cluster": 1, "label": "Backplane connector 2", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot. Both backplane connectors are identical."},
+    {"ref": "P1", "match": ["PICOLOCK_4*"], "cluster": 0, "label": "Battery output", "type": "power", "connector": "Molex Pico-Lock 4P", "desc": "External battery interface. Provides the battery voltage."},
+    {"ref": "P2", "match": ["PICOLOCK_4*"], "cluster": 1, "label": "Heater 1", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "Connects the heater board of the pack. The heater board is not in the CAD model yet."},
+    {"ref": "P3", "match": ["FP-503763-0691*"], "label": "Heater 2", "type": "actuator", "connector": "Molex Pico-Lock 6P", "desc": "Connects the heater board of the pack. The heater board is not in the CAD model yet."}
   ]
 }
