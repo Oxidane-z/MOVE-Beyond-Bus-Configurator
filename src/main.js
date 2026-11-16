@@ -397,6 +397,44 @@ Object.keys(TYPES).forEach(key => {
   libList.appendChild(b);
 });
 
+/* ---------- 板卡库过滤 ---------- */
+// 标签分组：代际、所属默认布局、占槽数，以及 system.json 里板卡自带的 tags。同组内任选其一即可，各组之间要同时满足
+const filterGroups = [
+  { id: 'level', of: T => [T.level], chips: Object.keys(sys.levels).map(k => [k, sys.levels[k]]) },
+  { id: 'layout', of: (T, key) => Object.keys(LAYOUTS).filter(l => LAYOUTS[l].boards.some(c => c[0] === key)),
+    chips: Object.keys(LAYOUTS).map(k => [k, LAYOUTS[k].name]) },
+  { id: 'slots', of: T => [String(T.w)], chips: [['1', t('meta.slots.1')], ['2', t('meta.slots.n', { n: 2 })]] },
+  { id: 'tag', of: T => T.tags || [], chips: [...new Set(Object.values(TYPES).flatMap(T => T.tags || []))].map(k => [k, k]) }
+];
+const filters = new Map(filterGroups.map(g => [g.id, new Set()]));
+const libFilters = document.getElementById('libFilters'), libEmpty = document.getElementById('libEmpty');
+function applyFilters() {
+  let shown = 0;
+  libList.querySelectorAll('.item').forEach(b => {
+    const T = TYPES[b.dataset.type];
+    const ok = filterGroups.every(g => { const on = filters.get(g.id); return !on.size || g.of(T, b.dataset.type).some(v => on.has(v)); });
+    b.hidden = !ok; if (ok) shown++;
+  });
+  libEmpty.hidden = shown > 0;
+  libFilters.querySelectorAll('.chip[data-group]').forEach(c => c.setAttribute('aria-pressed', String(filters.get(c.dataset.group).has(c.dataset.value))));
+  libFilters.querySelector('.clear').hidden = ![...filters.values()].some(s => s.size);
+}
+filterGroups.forEach(g => g.chips.forEach(([value, label]) => {
+  // 没有任何板卡带这个标签的不列出
+  if (!Object.keys(TYPES).some(key => g.of(TYPES[key], key).includes(value))) return;
+  const c = document.createElement('button');
+  c.type = 'button'; c.className = 'chip'; c.dataset.group = g.id; c.dataset.value = value; c.textContent = label;
+  c.addEventListener('click', () => { const on = filters.get(g.id); if (!on.delete(value)) on.add(value); applyFilters(); });
+  libFilters.appendChild(c);
+}));
+{
+  const c = document.createElement('button');
+  c.type = 'button'; c.className = 'chip clear'; c.textContent = t('filter.clear');
+  c.addEventListener('click', () => { filters.forEach(s => s.clear()); applyFilters(); });
+  libFilters.appendChild(c);
+}
+applyFilters();
+
 function renderUI() {
   libPanel.hidden = !!inspect; ifacePanel.hidden = !inspect;
   libList.querySelectorAll('.item').forEach(b => {

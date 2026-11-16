@@ -19,8 +19,12 @@
 
   <aside class="lib">
     <div id="libPanel" class="panel">
-      <h2 data-i18n="library">Boards</h2>
+      <div class="libhead">
+        <h2 data-i18n="library">Boards</h2>
+        <div id="libFilters" class="chips" role="group" data-i18n-aria="aria.filters"></div>
+      </div>
       <div id="libList" class="list"></div>
+      <p id="libEmpty" class="note" data-i18n="filter.empty" hidden></p>
     </div>
     <div id="ifacePanel" class="panel" hidden>
       <h2 id="ifaceTitle"></h2>
