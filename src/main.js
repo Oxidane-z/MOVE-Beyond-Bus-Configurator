@@ -132,13 +132,15 @@ function setExpansion(p, i, key) {
 // 重建接口列表：主板的接口在前，各扩展板的依次接在后面
 function rebuildInterfaces(p) {
   p.interfaces = [];
-  // 把标注和模型里的接口件按 ref 对上；编号沿用标注文件里的顺序
-  const add = (notes, geos) => notes.forEach(note => {
+  addInterfaces(p.interfaces, ifaceNotes(p.type), p.ownInterfaces);
+  p.exps.forEach(e => { if (e.exp) addInterfaces(p.interfaces, ifaceNotes(e.key), e.exp.interfaces); });
+}
+// 把标注和模型里的接口件按 ref 对上；编号沿用标注文件里的顺序
+function addInterfaces(list, notes, geos) {
+  notes.forEach(note => {
     const geo = geos.find(i => i.ref === note.ref);
-    if (geo) p.interfaces.push({ n: p.interfaces.length + 1, note, mat: geo.mat, center: geo.center, side: geo.side, face: geo.face });
+    if (geo) list.push({ n: list.length + 1, note, mat: geo.mat, center: geo.center, side: geo.side, face: geo.face, normal: geo.normal });
   });
-  add(ifaceNotes(p.type), p.ownInterfaces);
-  p.exps.forEach(e => { if (e.exp) add(ifaceNotes(e.key), e.exp.interfaces); });
 }
 // 抬起、平移到新槽位、落下。lift 是抬起的高度，互换时两块板用不同高度错开
 function fly(p, lift) {
@@ -216,24 +218,32 @@ function slotClick(i) {
 }
 function slotHover(i) { const a = armed(); if (a && !inspect) showTarget(a.w, fit(a.w, i, a.ignore)); }
 
-/* ---------- 单板查看 ---------- */
-const LIFT = 118, TAU = Math.PI * 2;
+/* ---------- 查看接口 ---------- */
+// 被查看的板卡升到堆叠上方、转到正面朝镜头后固定不动，拖动是镜头绕着它转（可以上下俯仰）。
+// 背板原地不动，查看时把板卡都藏起来。
+const LIFT = 118, TAU = Math.PI * 2, BP_PITCH = 1.1;
 const marks = document.getElementById('marks'), libPanel = document.getElementById('libPanel'),
       ifacePanel = document.getElementById('ifacePanel'), ifaceTitle = document.getElementById('ifaceTitle'),
       ifaceList = document.getElementById('ifaceList');
-let inspect = null;   // { p, s: { spin, turn }, zoom, hover, pinned, marks: [], items: [] }；turn 是板卡自转角，0 为正面朝镜头
-const showsFront = turn => Math.cos(turn) > 0;
+let inspect = null;   // { p, back: 进入前的镜头, home: 查看时的初始镜头, hover, pinned, marks: [], items: [] }
+let bpCard = null;    // 背板，形状上和板卡一样，供查看接口用
 const typeOf = i => sys.interfaceTypes[i.note.type] || { label: i.note.type, color: '#cccccc' };
 const normYaw = () => Math.atan2(Math.sin(view.yaw), Math.cos(view.yaw));
+const nameOf = p => p.isBackplane ? t('backplane') : TYPES[p.type].name;
+// 离当前角度最近的等价角，避免补间时多转一整圈
+const nearAngle = (to, from) => to + Math.round((from - to) / TAU) * TAU;
+const worldNormal = (p, i) => _n.copy(i.normal).applyQuaternion(p.pivot.quaternion);
+const camDir = () => _v.copy(camera.position).sub(TARGET);
 
 function enterInspect(p) {
   if (inspect || p.busy || !p.interfaces.length) return;
   sel = null; showTarget(1, -1);
-  inspect = { p, s: { spin: 0, turn: 0 }, zoom: view.zoom, hover: null, pinned: null, marks: [], items: [] };
-  p.busy = true; p.spin = inspect.s;
+  const back = { yaw: view.yaw, pitch: view.pitch, zoom: view.zoom };
+  inspect = { p, back, home: null, hover: null, pinned: null, marks: [], items: [] };
+  cv.style.touchAction = 'none';   // 查看时触屏也能上下俯仰
 
   marks.textContent = ''; ifaceList.textContent = '';
-  ifaceTitle.textContent = t('interfacesOf', { name: TYPES[p.type].name });
+  ifaceTitle.textContent = t('interfacesOf', { name: nameOf(p) });
   p.interfaces.forEach(i => {
     const T = typeOf(i);
     i.mat.uniforms.uTint.value.set(T.color);
@@ -250,7 +260,7 @@ function enterInspect(p) {
     it.innerHTML = '<span class="no"></span><span><span class="nm"></span><span class="sd"></span><br><span class="mt"></span><br><span class="ds"></span></span>';
     it.querySelector('.no').textContent = i.n; it.querySelector('.no').style.background = T.color;
     it.querySelector('.nm').textContent = i.note.label;
-    it.querySelector('.sd').textContent = t(i.face === 0 ? 'face.both' : i.face > 0 ? 'face.front' : 'face.back');
+    it.querySelector('.sd').textContent = t(i.face === 0 ? 'face.both' : p.isBackplane ? (i.face > 0 ? 'face.top' : 'face.bottom') : i.face > 0 ? 'face.front' : 'face.back');
     it.querySelector('.mt').textContent = [T.label, i.note.connector, i.note.ref].filter(Boolean).join(' · ');
     it.querySelector('.ds').textContent = i.note.desc || '';
 
@@ -259,8 +269,7 @@ function enterInspect(p) {
       el.addEventListener('mouseleave', () => { inspect.hover = null; syncActive(); });
       el.addEventListener('click', () => {
         inspect.pinned = inspect.pinned === i.n ? null : i.n;
-        // 从列表点到另一面的接口时自动翻面
-        if (inspect.pinned && i.face !== 0 && (i.face > 0) !== showsFront(inspect.s.turn)) flipInspect();
+        if (inspect.pinned) faceTo(i);
         syncActive();
       });
     });
@@ -268,24 +277,46 @@ function enterInspect(p) {
     inspect.marks.push(m); inspect.items.push(it);
   });
 
-  tween(view, 'tx', p.cx, 520, easeInOut); tween(view, 'tz', cardZ(p.type, p.slot), 520, easeInOut);
-  tween(view, 'ty', SEAT_Y + LIFT + p.cy, 520, easeInOut); tween(view, 'zoom', Math.max(view.zoom, 1.9), 520, easeInOut);
-  tween(p.group.position, 'y', SEAT_Y + LIFT, 420, easeInOut)
-    .then(() => tween(p.spin, 'spin', 1, 420, easeInOut));
+  if (p.isBackplane) {
+    placements.forEach(q => { q.group.visible = false; });
+    inspect.home = { yaw: view.yaw, pitch: BP_PITCH, zoom: Math.max(view.zoom, 1.5) };
+    tween(view, 'tx', S.cx, 520, easeInOut); tween(view, 'tz', S.cz, 520, easeInOut); tween(view, 'ty', S.topY, 520, easeInOut);
+  } else {
+    p.busy = true; p.spin = { spin: 0, yaw: normYaw() };
+    inspect.home = { yaw: view.yaw, pitch: back.pitch, zoom: Math.max(view.zoom, 1.9) };
+    tween(view, 'tx', p.cx, 520, easeInOut); tween(view, 'tz', cardZ(p.type, p.slot), 520, easeInOut);
+    tween(view, 'ty', SEAT_Y + LIFT + p.cy, 520, easeInOut);
+    tween(p.group.position, 'y', SEAT_Y + LIFT, 420, easeInOut)
+      .then(() => tween(p.spin, 'spin', 1, 420, easeInOut));
+  }
+  tween(view, 'pitch', inspect.home.pitch, 520, easeInOut); tween(view, 'zoom', inspect.home.zoom, 520, easeInOut);
   renderUI();
 }
+// 把镜头转到能看见这个接口的一面；已经看得见就不动
+function faceTo(i) {
+  if (i.side === 0) return;
+  const p = inspect.p, n = worldNormal(p, i).clone();
+  if (n.dot(camDir()) > 0) return;
+  if (p.isBackplane) tween(view, 'pitch', n.y > 0 ? BP_PITCH : -BP_PITCH, 520, easeInOut);
+  else tween(view, 'yaw', nearAngle(Math.atan2(n.x, n.z), view.yaw), 520, easeInOut);
+}
+// 翻到另一面：板卡是镜头绕到背后，背板是镜头转到板底
 function flipInspect() {
-  if (inspect) tween(inspect.s, 'turn', (Math.round(inspect.s.turn / Math.PI) + 1) * Math.PI, 520, easeInOut);
+  if (!inspect) return;
+  if (inspect.p.isBackplane) tween(view, 'pitch', view.pitch > 0 ? -BP_PITCH : BP_PITCH, 520, easeInOut);
+  else tween(view, 'yaw', view.yaw + Math.PI, 520, easeInOut);
 }
 function exitInspect() {
   if (!inspect) return;
-  const { p, zoom } = inspect;
+  const { p, back } = inspect;
   inspect = null; marks.textContent = '';
+  cv.style.touchAction = '';
   p.interfaces.forEach(i => tween(i.mat.uniforms.uMix, 'value', 0, 300, easeOut));
-  tween(view, 'tx', HOME.tx, 620, easeInOut); tween(view, 'ty', HOME.ty, 620, easeInOut);
-  tween(view, 'tz', HOME.tz, 620, easeInOut); tween(view, 'zoom', zoom, 620, easeInOut);
-  tween(p.spin, 'turn', Math.round(p.spin.turn / TAU) * TAU, 360, easeInOut);
-  tween(p.spin, 'spin', 0, 360, easeInOut)
+  tween(view, 'tx', HOME.tx, 620, easeInOut); tween(view, 'ty', HOME.ty, 620, easeInOut); tween(view, 'tz', HOME.tz, 620, easeInOut);
+  tween(view, 'yaw', nearAngle(back.yaw, view.yaw), 620, easeInOut);
+  tween(view, 'pitch', back.pitch, 620, easeInOut); tween(view, 'zoom', back.zoom, 620, easeInOut);
+  if (p.isBackplane) placements.forEach(q => { q.group.visible = true; });
+  else tween(p.spin, 'spin', 0, 360, easeInOut)
     .then(() => tween(p.group.position, 'y', SEAT_Y + 7, 380, easeOut))
     .then(() => tween(p.group.position, 'y', SEAT_Y, 200, easeIn))
     .then(() => { p.spin = null; p.pivot.rotation.y = 0; p.busy = false; });
@@ -301,8 +332,8 @@ function syncActive() {
     tween(i.mat.uniforms.uMix, 'value', act ? (on ? 1 : 0.35) : 0.85, 160, easeOut);
   });
 }
-// 每帧：让被查看的板正对镜头，并把接口标记投影到屏幕上
-const _v = new THREE.Vector3(), _n = new THREE.Vector3();
+// 每帧：保持被查看的板卡的朝向，并把接口标记投影到屏幕上
+const _v = new THREE.Vector3(), _n = new THREE.Vector3(), _c = new THREE.Vector3();
 function toScreen(v, el) {
   v.project(camera);
   el.style.left = ((v.x * 0.5 + 0.5) * stage.clientWidth).toFixed(1) + 'px';
@@ -310,17 +341,17 @@ function toScreen(v, el) {
 }
 function updateInspect() {
   placements.forEach(p => {
-    if (p.spin) p.pivot.rotation.y = p.spin.spin * (normYaw() + p.faceOffset) + p.spin.turn;
+    if (p.spin) p.pivot.rotation.y = p.spin.spin * (p.spin.yaw + p.faceOffset);
   });
   if (!inspect) return;
   const p = inspect.p;
   p.group.updateMatrixWorld();
-  const pq = p.pivot.quaternion, pm = p.pivot.matrixWorld;
+  const pm = p.pivot.matrixWorld, settled = p.isBackplane || p.spin.spin > 0.6;
+  _c.copy(camera.position).sub(TARGET);
   p.interfaces.forEach((i, k) => {
-    _n.set(0, 0, i.side).applyQuaternion(pq);
-    const facing = i.side === 0 || _n.x * (camera.position.x - TARGET.x) + _n.z * (camera.position.z - TARGET.z) > 0;
+    const facing = i.side === 0 || worldNormal(p, i).dot(_c) > 0;
     const m = inspect.marks[k];
-    m.hidden = !(facing && p.spin.spin > 0.6);
+    m.hidden = !(facing && settled);
     if (!m.hidden) toScreen(_v.copy(i.center).applyMatrix4(pm), m);
   });
 }
@@ -411,11 +442,12 @@ function renderUI() {
   const btn = (label, cls, fn) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = label; if (cls) b.className = cls; b.addEventListener('click', fn); return b; };
   hint.appendChild(span);
   if (inspect) {
-    span.textContent = t('hint.inspect', { name: TYPES[inspect.p.type].name });
+    span.textContent = t('hint.inspect', { name: nameOf(inspect.p) });
     hint.appendChild(btn(t('btn.flip'), '', flipInspect));
     hint.appendChild(btn(t('btn.back'), 'ghost', exitInspect));
   } else if (!sel) {
     span.textContent = t(ready ? 'hint.idle' : 'hint.loading');
+    if (bpCard && bpCard.interfaces.length) hint.appendChild(btn(t('btn.backplane'), 'ghost', () => enterInspect(bpCard)));
   } else if (sel.kind === 'lib') {
     const T = TYPES[sel.type];
     span.textContent = t((anyFit(T.w, null) ? 'hint.place' : 'hint.noRoom') + (T.w === 2 ? '2' : ''), { name: T.name });
@@ -480,28 +512,23 @@ function pick(e) {
   return { card: ch ? placements.get(ch.object.userData.id) : null, slot, a };
 }
 let pd = null, dragging = false;
-// 查看接口时松手后吸附到最近的正面或背面
-const snapTurn = () => tween(inspect.s, 'turn', Math.round(inspect.s.turn / Math.PI) * Math.PI, 300, easeOut);
 cv.addEventListener('pointerdown', e => {
-  pd = { x: e.clientX, y: e.clientY, yaw: view.yaw, pitch: view.pitch, turn: inspect ? inspect.s.turn : 0 };
+  pd = { x: e.clientX, y: e.clientY, yaw: view.yaw, pitch: view.pitch };
   dragging = false;
   try { cv.setPointerCapture(e.pointerId); } catch (_) {}
 });
 cv.addEventListener('pointermove', e => {
   if (pd) {
     const dx = e.clientX - pd.x, dy = e.clientY - pd.y, mouse = e.pointerType === 'mouse';
-    if (!dragging && (Math.abs(dx) > 6 || (mouse && Math.abs(dy) > 6))) {
-      dragging = true; killTween(view, 'yaw'); killTween(view, 'pitch'); if (inspect) killTween(inspect.s, 'turn');
+    const tilt = mouse || !!inspect;
+    if (!dragging && (Math.abs(dx) > 6 || (tilt && Math.abs(dy) > 6))) {
+      dragging = true; killTween(view, 'yaw'); killTween(view, 'pitch');
       showTarget(1, -1); cv.style.cursor = 'grabbing';
     }
     if (!dragging) return;
-    // 查看接口时拖动的是被查看的板卡本身，镜头和背后的堆叠不动
-    if (inspect) inspect.s.turn = pd.turn + dx * 0.01;
-    else {
-      view.yaw = pd.yaw - dx * 0.008;
-      // 触屏上竖向滑动留给页面滚动，只有鼠标可以改俯仰角
-      if (mouse) view.pitch = clamp(pd.pitch + dy * 0.006, 0.12, 1.5);
-    }
+    view.yaw = pd.yaw - dx * 0.008;
+    // 平时触屏上竖向滑动留给页面滚动，只有鼠标可以改俯仰角；查看接口时都可以，而且能转到板子下方
+    if (tilt) view.pitch = clamp(pd.pitch + dy * 0.006, inspect ? -1.5 : 0.12, 1.5);
   } else if (!inspect) {
     const h = pick(e);
     if (h.a) showTarget(h.a.w, h.slot);
@@ -510,8 +537,7 @@ cv.addEventListener('pointermove', e => {
 });
 cv.addEventListener('pointerup', e => {
   if (!pd) return;
-  if (dragging) { if (inspect) snapTurn(); }
-  else if (!inspect) {
+  if (!dragging && !inspect) {
     const h = pick(e);
     if (sel && sel.swap) {
       const me = placements.get(sel.id);
@@ -524,16 +550,16 @@ cv.addEventListener('pointerup', e => {
   }
   pd = null; dragging = false; cv.style.cursor = 'grab';
 });
-cv.addEventListener('pointercancel', () => { if (dragging && inspect) snapTurn(); pd = null; dragging = false; });
+cv.addEventListener('pointercancel', () => { pd = null; dragging = false; });
 cv.addEventListener('pointerleave', () => { if (!pd) showTarget(1, -1); });
 cv.addEventListener('wheel', e => { e.preventDefault(); view.zoom = clamp(view.zoom * (e.deltaY < 0 ? 1.08 : 0.926), 0.6, 3); }, { passive: false });
-const turnBy = d => inspect ? flipInspect() : tween(view, 'yaw', view.yaw + d, 420, easeInOut);
+const turnBy = d => tween(view, 'yaw', view.yaw + d, 420, easeInOut);
 document.getElementById('rotL').addEventListener('click', () => turnBy(-Math.PI / 2));
 document.getElementById('rotR').addEventListener('click', () => turnBy(Math.PI / 2));
 document.getElementById('resetView').addEventListener('click', () => {
-  if (inspect) return;
-  view.yaw = normYaw();
-  tween(view, 'yaw', Math.PI / 4, 420, easeInOut); tween(view, 'pitch', ISO, 420, easeInOut); tween(view, 'zoom', 1, 420, easeInOut);
+  // 查看接口时回到进入查看时的视角
+  const h = inspect ? inspect.home : { yaw: Math.PI / 4, pitch: ISO, zoom: 1 };
+  tween(view, 'yaw', nearAngle(h.yaw, view.yaw), 420, easeInOut); tween(view, 'pitch', h.pitch, 420, easeInOut); tween(view, 'zoom', h.zoom, 420, easeInOut);
 });
 window.addEventListener('keydown', e => {
   if (e.key === 'Escape') { if (inspect) exitInspect(); else setSel(null); }
@@ -585,6 +611,10 @@ renderUI();
 requestAnimationFrame(frameLoop);
 loadModels(sys).then(() => {
   S = buildStructure(scene, sys);
+  if (S.group) {
+    bpCard = { isBackplane: true, busy: false, interfaces: [], pivot: S.group, group: S.group };
+    addInterfaces(bpCard.interfaces, ifaceNotes('backplane'), S.interfaces);
+  }
   // 镜头对准结构中心
   HOME.tx = view.tx = S.cx; HOME.tz = view.tz = S.cz;
   ready = true;

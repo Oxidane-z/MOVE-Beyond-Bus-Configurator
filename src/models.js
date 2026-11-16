@@ -93,12 +93,14 @@ function instantiate(tpl, boardColor, onInterface) {
   return g;
 }
 
-// 收集接口件：side 是接口朝模型的 +Z 还是 -Z（0 表示跨在板边两面都露出）；face 换算成 PCB 的正面（1）或背面（-1）
-const collect = (list, front) => (p, mesh) => {
+// 收集接口件：side 是接口朝模型的 +Z 还是 -Z（0 表示跨在板边两面都露出）；face 换算成 PCB 的正面（1）或背面（-1）；
+// normal 是接口朝向，用来判断它是否对着镜头。背板是平放的（flat），板面朝上，正反面沿 Y 分
+const collect = (list, front, flat) => (p, mesh) => {
   if (!p.geometry.boundingBox) p.geometry.computeBoundingBox();
   const bb = p.geometry.boundingBox, center = bb.getCenter(new THREE.Vector3());
-  const side = bb.min.z < -1.2 && bb.max.z > 1.2 ? 0 : center.z >= 0 ? 1 : -1;
-  list.push({ ref: p.iface, mat: mesh.material, center, side, face: side * front });
+  const side = flat ? (center.y >= flat.mid ? 1 : -1) : bb.min.z < -1.2 && bb.max.z > 1.2 ? 0 : center.z >= 0 ? 1 : -1;
+  list.push({ ref: p.iface, mat: mesh.material, center, side, face: side * front,
+              normal: flat ? new THREE.Vector3(0, side, 0) : new THREE.Vector3(0, 0, side) });
 };
 
 // 板卡原点在背板连接器顶面、连接器所在槽的中心。
@@ -150,13 +152,13 @@ export function setBracket(bracket, mode) {
   if (mode !== 'none') bracket.obj.scale.z = (mode === 'front' ? 1 : -1) * bracket.front * bracket.zsign;
 }
 
-// 背板。返回结构中心、半宽和板面高度；背板上的槽位连接器不在板宽正中
+// 背板。返回结构中心、半宽、板面高度，以及背板的模型组和接口件；背板上的槽位连接器不在板宽正中
 export function buildStructure(scene, sys) {
-  const tpl = templates.get('backplane');
-  if (!tpl) return { cx: 0, cz: 0, hx: 52, topY: sys.backplane.y + 1.6 };
-  const bp = instantiate(tpl, sys.backplane.color);
+  const tpl = templates.get('backplane'), interfaces = [], topY = sys.backplane.y + 1.6;
+  if (!tpl) return { cx: 0, cz: 0, hx: 52, topY, group: null, interfaces };
+  const bp = instantiate(tpl, sys.backplane.color, collect(interfaces, 1, { mid: 0.8 }));
   bp.position.y = sys.backplane.y;
   scene.add(bp);
   const c = tpl.bounds.getCenter(new THREE.Vector3()), size = tpl.bounds.getSize(new THREE.Vector3());
-  return { cx: c.x, cz: c.z, hx: size.x / 2, topY: sys.backplane.y + 1.6 };
+  return { cx: c.x, cz: c.z, hx: size.x / 2, topY, group: bp, interfaces };
 }
