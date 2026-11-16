@@ -5,18 +5,20 @@ import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js
 import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
 
 export const uShade = { value: new THREE.Color() };
-export const lineMat = new LineMaterial({ color: 0x000000, linewidth: 1.6 });
+// 粗线是屏幕空间里的四边形，镜像（支架换面）会让它们变成背面，所以要双面渲染
+export const lineMat = new LineMaterial({ color: 0x000000, linewidth: 1.6, side: THREE.DoubleSide });
 // 深色表面上的描边用浅色，否则深色元器件在深色板上糊成一片
-export const lineMatLight = new LineMaterial({ color: 0xffffff, linewidth: 1.3 });
+export const lineMatLight = new LineMaterial({ color: 0xffffff, linewidth: 1.3, side: THREE.DoubleSide });
 export const hitMat = new THREE.MeshBasicMaterial({ visible: false });
 
-// 元器件只用三种材质色，不带 CAD 原色
-export const MATERIALS = { dark: 0, light: 1, gold: 2 };
+// 元器件只用这几种材质色，不带 CAD 原色
+export const MATERIALS = { dark: 0, light: 1, kapton: 2, gold: 3 };
 const uDark = { value: new THREE.Color('#383a40') };    // 深色塑料
 const uLight = { value: new THREE.Color('#d6d8dc') };   // 浅色金属
-const uGold = { value: new THREE.Color('#c9a35a') };    // 铜、金
+const uKapton = { value: new THREE.Color('#9a7836') };  // 暗金：铜线圈、缠了 Kapton 胶带的电芯
+const uGold = { value: new THREE.Color('#c9a35a') };    // 金
 
-// CAD 原色（线性空间，0–1）归到三种材质之一
+// CAD 原色（线性空间，0–1）归到几种材质之一
 export function classifyColor(r, g, b) {
   const max = Math.max(r, g, b), min = Math.min(r, g, b), lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
   if (max - min >= 0.25 * max && max > 0.08) {
@@ -25,8 +27,9 @@ export function classifyColor(r, g, b) {
     else if (max === g) hue = (b - r) / (max - min) + 2;
     else hue = (r - g) / (max - min) + 4;
     hue *= 60;
-    // 黄到棕是铜和金；饱和的亮橙红是 CAD 给外壳的默认色，不算
-    if (hue >= 20 && hue <= 70 && !(hue < 35 && max > 0.85)) return MATERIALS.gold;
+    // 黄是金，棕是暗金；饱和的亮橙红是 CAD 给外壳的默认色，不算
+    if (hue >= 40 && hue <= 70) return MATERIALS.gold;
+    if (hue >= 20 && hue < 40 && max <= 0.85) return MATERIALS.kapton;
     // 蓝色是 CAD 给结构件（支架、散热器）的默认色，按金属处理
     if (hue >= 190 && hue <= 260) return MATERIALS.light;
   }
@@ -55,6 +58,7 @@ uniform vec3 uColor;
 uniform vec3 uShade;
 uniform vec3 uDark;
 uniform vec3 uLight;
+uniform vec3 uKapton;
 uniform vec3 uGold;
 uniform vec3 uTint;
 uniform float uMix;
@@ -68,8 +72,8 @@ void main() {
   float s = w.y * (n.y > 0.0 ? 1.0 : 0.45) + w.z * 0.84 + w.x * 0.62;
   vec3 base = uColor;
   #ifdef USE_COLOR
-  // 顶点色的红色通道存的是材质编号（见 models.js），0 深色塑料、0.5 浅色金属、1 铜金
-  base = vMat < 0.25 ? uDark : vMat < 0.75 ? uLight : uGold;
+  // 顶点色的红色通道存的是材质编号除以 3（见 models.js）
+  base = vMat < 0.17 ? uDark : vMat < 0.5 ? uLight : vMat < 0.83 ? uKapton : uGold;
   #endif
   base = mix(base, uTint, uMix);   // 接口高亮
   gl_FragColor = vec4(mix(uShade, base, s), 1.0);
@@ -78,7 +82,7 @@ void main() {
 
 function shaderMat(color, vertexColors) {
   return new THREE.ShaderMaterial({
-    uniforms: { uColor: { value: new THREE.Color(color) }, uShade, uDark, uLight, uGold,
+    uniforms: { uColor: { value: new THREE.Color(color) }, uShade, uDark, uLight, uKapton, uGold,
                 uTint: { value: new THREE.Color('#ffffff') }, uMix: { value: 0 } },
     vertexShader: VERT, fragmentShader: FRAG, vertexColors,
     polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1

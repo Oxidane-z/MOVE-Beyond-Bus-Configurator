@@ -1,0 +1,18 @@
+{
+  "interfaces": [
+    {"ref": "BUS", "match": ["ERM8-030*"], "label": "Backplane connector", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot."},
+    {"ref": "DEBUG", "match": ["FTSH-107*"], "label": "Debug header", "type": "debug", "connector": "Samtec FTSH-107 (2×7, 1.27 mm)", "desc": "Programming and debug port."},
+    {"ref": "A1", "match": ["5037630491*", "Open CASCADE STEP translator 7.5 1.95.1.1*"], "cluster": 0, "label": "Port A1", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "A2", "match": ["5037630491*", "Open CASCADE STEP translator 7.5 1.95.1.1*"], "cluster": 1, "label": "Port A2", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "A3", "match": ["5037630491*", "Open CASCADE STEP translator 7.5 1.95.1.1*"], "cluster": 2, "label": "Port A3", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "A4", "match": ["5037630491*", "Open CASCADE STEP translator 7.5 1.95.1.1*"], "cluster": 3, "label": "Port A4", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "A5", "match": ["5037630491*", "Open CASCADE STEP translator 7.5 1.95.1.1*"], "cluster": 4, "label": "Port A5", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "B1", "match": ["body*"], "cluster": 9, "label": "Port B1", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "B2", "match": ["body*"], "cluster": 14, "label": "Port B2", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "C1", "match": ["body*"], "cluster": 0, "label": "Port C1", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "C2", "match": ["body*"], "cluster": 1, "label": "Port C2", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "C3", "match": ["body*"], "cluster": 3, "label": "Port C3", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "C4", "match": ["body*"], "cluster": 8, "label": "Port C4", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "C5", "match": ["body*"], "cluster": 12, "label": "Port C5", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "Identified from the part number in the CAD model. Function not documented yet."}
+  ]
+}

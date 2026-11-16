@@ -1,0 +1,11 @@
+{
+  "interfaces": [
+    {"ref": "X-EXP", "match": ["QSE-*"], "label": "Expansion connector", "type": "expansion", "connector": "Samtec QSE-020", "desc": "Board-to-board connector to the OBDH board."},
+    {"ref": "X1", "match": ["5037630491*"], "cluster": 0, "label": "Port X1", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "X2", "match": ["5037630491*"], "cluster": 1, "label": "Port X2", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "X3", "match": ["5037630491*"], "cluster": 2, "label": "Port X3", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "X4", "match": ["5037630491*"], "cluster": 3, "label": "Port X4", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "X5", "match": ["5037630491*"], "cluster": 4, "label": "Port X5", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "X6", "match": ["5037630491*"], "cluster": 5, "label": "Port X6", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."}
+  ]
+}

@@ -3,7 +3,7 @@
   "pitch": 14.5,
   "seatY": 11.94,
   "backplane": {"model": "models/backplane.glb", "y": 5, "color": "#2c2d31"},
-  "initial": [["battery", 0], ["piklas", 2], ["obdh", 3], ["adcs", 5]],
+  "initial": [["battery", 0], ["piklas", 2], ["obdh", 3], ["adcs", 5], ["recovery", 6]],
   "levels": {"proto": "Prototype", "iter1": "Iteration 1", "iter2": "Iteration 2"},
   "interfaceTypes": {
     "bus": {"label": "Backplane bus", "color": "#8fb0ee"},
@@ -11,15 +11,21 @@
     "sensor": {"label": "Sensor", "color": "#7fd0c6"},
     "actuator": {"label": "Actuator", "color": "#f2a57e"},
     "switch": {"label": "Switch", "color": "#ecd06a"},
-    "trigger": {"label": "Trigger", "color": "#e59ac9"}
+    "trigger": {"label": "Trigger", "color": "#e59ac9"},
+    "expansion": {"label": "Expansion", "color": "#b9a2ee"},
+    "io": {"label": "I/O", "color": "#a6d08c"}
   },
   "boards": {
-    "piklas": {"name": "Piklas", "level": "iter2", "w": 1, "model": "models/piklas.glb", "color": "#6a3fa8", "front": -1, "seat": -3, "bracket": "bracket-iter2"},
+    "piklas": {"name": "Piklas", "level": "iter2", "w": 1, "model": "models/piklas.glb", "color": "#6a5796", "front": -1, "seat": -3, "bracket": "bracket-iter2"},
     "battery": {"name": "Battery Pack v4.3", "level": "iter2", "w": 2, "model": "models/battery.glb", "color": "#6fae8f", "front": 1, "seat": -3, "wh": 64.8},
     "adcs": {"name": "ADCS V2.1 REXUS edition", "level": "iter2", "w": 1, "model": "models/adcs.glb", "color": "#2c2d31", "front": -1, "seat": -3, "bracket": "bracket-iter2"},
-    "obdh": {"name": "Rexus OBDH (CM5)", "level": "iter2", "w": 2, "connectorSlot": 1, "model": "models/obdh.glb", "color": "#ecece9", "front": 1, "seat": -3}
+    "obdh": {"name": "Rexus OBDH (CM5)", "level": "iter2", "w": 2, "connectorSlot": 1, "model": "models/obdh.glb", "color": "#ecece9", "front": 1, "seat": -3, "expansion": {"options": ["obdh-expansion"], "default": "obdh-expansion"}},
+    "recovery": {"name": "Recovery V2", "level": "iter2", "w": 1, "model": "models/recovery.glb", "color": "#4d6c9e", "front": -1, "seat": -3, "bracket": "bracket-iter2", "expansion": {"options": [], "default": null}}
   },
   "accessories": {
     "bracket-iter2": {"label": "Iter 2 standard bracket", "model": "models/bracket-iter2.glb"}
+  },
+  "expansions": {
+    "obdh-expansion": {"name": "OBDH expansion board", "model": "models/obdh-expansion.glb", "color": "#6fae8f"}
   }
 }

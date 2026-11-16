@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { hitMat, flatMat, cadMat, makeCadMat, fatLines, lineMat, lineMatLight, classifyColor, isDark, MATERIALS } from './render.js';
 
-const templates = new Map();   // 板卡 key、'backplane' 或 'acc:<附件 key>' → { parts, bounds }
+const templates = new Map();   // 板卡 key、'backplane'、'acc:<附件 key>' 或 'exp:<扩展板 key>' → { parts, bounds }
 export const hasModel = key => templates.has(key);
 
 const posKey = (a, i) => a[i] + ',' + a[i + 1] + ',' + a[i + 2];
@@ -17,7 +17,7 @@ function classifyMesh(geometry) {
     const scale = col.normalized ? 255 : 1, n = col.itemSize;
     for (let i = 0; i < col.count; i++) {
       const m = classifyColor(col.getX(i), col.getY(i), col.getZ(i));
-      col.array[i * n] = (m === MATERIALS.dark ? 0 : m === MATERIALS.light ? 0.5 : 1) * scale;
+      col.array[i * n] = Math.round(m / 3 * scale * 1000) / 1000;
       const k = posKey(pos, i * 3), e = dark.get(k) || 0;
       dark.set(k, e + (m === MATERIALS.dark ? 1 : -1));
     }
@@ -72,6 +72,7 @@ export async function loadModels(sys) {
   const jobs = Object.entries(sys.boards).map(([key, T]) => [key, T.model]);
   jobs.push(['backplane', sys.backplane.model]);
   Object.entries(sys.accessories || {}).forEach(([key, A]) => jobs.push(['acc:' + key, A.model]));
+  Object.entries(sys.expansions || {}).forEach(([key, E]) => jobs.push(['exp:' + key, E.model]));
   await Promise.all(jobs.map(async ([key, url]) => {
     try { templates.set(key, await loadGlb(loader, url)); }
     catch (err) { console.error('模型加载失败: ' + url, err); }
@@ -92,6 +93,14 @@ function instantiate(tpl, boardColor, onInterface) {
   return g;
 }
 
+// 收集接口件：side 是接口朝模型的 +Z 还是 -Z（0 表示跨在板边两面都露出）；face 换算成 PCB 的正面（1）或背面（-1）
+const collect = (list, front) => (p, mesh) => {
+  if (!p.geometry.boundingBox) p.geometry.computeBoundingBox();
+  const bb = p.geometry.boundingBox, center = bb.getCenter(new THREE.Vector3());
+  const side = bb.min.z < -1.2 && bb.max.z > 1.2 ? 0 : center.z >= 0 ? 1 : -1;
+  list.push({ ref: p.iface, mat: mesh.material, center, side, face: side * front });
+};
+
 // 板卡原点在背板连接器顶面、连接器所在槽的中心。
 // 结构：group 是整张卡（落在槽位上），pivot 以板卡中心为轴（查看接口时绕它自转），body 是模型本身
 export function buildCard(key, T, pitch) {
@@ -100,13 +109,7 @@ export function buildCard(key, T, pitch) {
   // front：PCB 正面朝模型的 +Z（1）还是 -Z（-1），由转换脚本给出
   const front = T.front || 1, seat = T.seat || 0, cx = c.x;
 
-  const body = instantiate(tpl, T.color, (p, mesh) => {
-    if (!p.geometry.boundingBox) p.geometry.computeBoundingBox();
-    const bb = p.geometry.boundingBox, center = bb.getCenter(new THREE.Vector3());
-    // side：接口朝模型的 +Z 还是 -Z（0 表示跨在板边两面都露出）；face：换算成 PCB 的正面（1）或背面（-1）
-    const side = bb.min.z < -1.2 && bb.max.z > 1.2 ? 0 : center.z >= 0 ? 1 : -1;
-    interfaces.push({ ref: p.iface, mat: mesh.material, center, side, face: side * front });
-  });
+  const body = instantiate(tpl, T.color, collect(interfaces, front));
   body.position.set(-cx, seat, 0);
   body.updateMatrix();
   interfaces.forEach(i => i.center.applyMatrix4(body.matrix));   // 换算到 pivot 坐标，用于投影标记
@@ -127,7 +130,18 @@ export function buildCard(key, T, pitch) {
   // 占两个槽的板卡，连接器可能在靠后的那个槽（connectorSlot 为 1）
   hit.position.set(cx, c.y + seat, T.w === 2 ? (T.connectorSlot ? -pitch / 2 : pitch / 2) : 0);
   g.add(hit);
-  return { group: g, hit, interfaces, pivot, bracket, faceOffset: front < 0 ? Math.PI : 0, cx, cy: c.y + seat };
+  return { group: g, hit, interfaces, pivot, body, front, bracket, faceOffset: front < 0 ? Math.PI : 0, cx, cy: c.y + seat };
+}
+
+// 扩展板：模型和主板同一坐标系，直接挂在主板的 body 下。返回 { obj, interfaces }
+export function buildExpansion(card, key, E) {
+  const tpl = templates.get('exp:' + key);
+  if (!tpl) return null;
+  const interfaces = [];
+  const obj = instantiate(tpl, E.color, collect(interfaces, card.front));
+  card.body.add(obj);
+  interfaces.forEach(i => i.center.applyMatrix4(card.body.matrix));
+  return { obj, interfaces };
 }
 
 // 支架装在 PCB 的哪一面：'back'、'front' 或 'none'

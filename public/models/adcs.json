@@ -31,22 +31,40 @@
  "slots": null,
  "counts": {
   "board": 1,
-  "parts": 29,
+  "parts": 11,
   "blocks": 83,
   "bits": 301,
   "decals": 896,
-  "split": 6,
-  "interface": 0
+  "interface": 18
  },
  "triangles": {
-  "board": 472,
-  "parts": 30128,
+  "board": 560,
+  "parts": 4696,
   "blocks": 996,
   "bits": 3612,
   "decals": 1792,
-  "split": 1860,
-  "interface": 0,
-  "instanced": 14700
+  "interface": 37312,
+  "instanced": 11896
+ },
+ "split": {
+  "name": "bracket-iter2",
+  "board": null,
+  "counts": {
+   "board": 0,
+   "parts": 6,
+   "blocks": 0,
+   "bits": 0,
+   "decals": 0,
+   "interface": 0
+  },
+  "triangles": {
+   "board": 0,
+   "parts": 2380,
+   "blocks": 0,
+   "bits": 0,
+   "decals": 0,
+   "interface": 0
+  }
  },
  "components": [
   {
@@ -444,7 +462,7 @@
    ],
    "kind": "parts",
    "instanceOf": "2",
-   "triangles": 188
+   "triangles": 260
   },
   {
    "name": "2_1",
@@ -565,9 +583,9 @@
     5.19,
     1.5
    ],
-   "kind": "parts",
-   "instanceOf": "5037630491",
-   "triangles": 920
+   "kind": "interface",
+   "triangles": 984,
+   "edgeSegments": 244
   },
   {
    "name": "5037630491_1",
@@ -577,9 +595,9 @@
     5.19,
     1.5
    ],
-   "kind": "parts",
-   "instanceOf": "5037630491",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 984,
+   "edgeSegments": 244
   },
   {
    "name": "5037630491_2",
@@ -589,9 +607,9 @@
     5.19,
     1.5
    ],
-   "kind": "parts",
-   "instanceOf": "5037630491",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 984,
+   "edgeSegments": 244
   },
   {
    "name": "566832320",
@@ -2130,8 +2148,8 @@
     5.354,
     3.201
    ],
-   "kind": "parts",
-   "triangles": 10112,
+   "kind": "interface",
+   "triangles": 10352,
    "edgeSegments": 500
   },
   {
@@ -2142,9 +2160,9 @@
     3.884,
     3.234
    ],
-   "kind": "parts",
-   "triangles": 10952,
-   "edgeSegments": 1460
+   "kind": "interface",
+   "triangles": 12632,
+   "edgeSegments": 1700
   },
   {
    "name": "ERM8-030-01-D-EM2tl",
@@ -2154,9 +2172,9 @@
     12.95,
     5.6
    ],
-   "kind": "parts",
-   "triangles": 4028,
-   "edgeSegments": 1920
+   "kind": "interface",
+   "triangles": 4212,
+   "edgeSegments": 1996
   },
   {
    "name": "Extruded",
@@ -2342,9 +2360,9 @@
     5.08,
     6.985
    ],
-   "kind": "parts",
-   "triangles": 556,
-   "edgeSegments": 330
+   "kind": "interface",
+   "triangles": 588,
+   "edgeSegments": 346
   },
   {
    "name": "FTSH-107-01-L-DV-K-A_pins1",
@@ -2354,7 +2372,7 @@
     1.676,
     4.293
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 384,
    "edgeSegments": 159
   },
@@ -2366,7 +2384,7 @@
     5.842,
     2.017
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 496,
    "edgeSegments": 281
   },
@@ -2555,8 +2573,8 @@
     4.757
    ],
    "kind": "parts",
-   "triangles": 624,
-   "edgeSegments": 46
+   "triangles": 920,
+   "edgeSegments": 56
   },
   {
    "name": "MANIFOLD_SOLID_BREP_2784",
@@ -5251,8 +5269,8 @@
     1.536
    ],
    "kind": "board",
-   "triangles": 472,
-   "edgeSegments": 154
+   "triangles": 560,
+   "edgeSegments": 186
   },
   {
    "name": "Open CASCADE STEP translator 7.5 1.91.1.2.1",
@@ -5658,9 +5676,9 @@
     5.19,
     1.5
    ],
-   "kind": "parts",
-   "instanceOf": "Open CASCADE STEP translator 7.5 1.95.1.1_1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 1112,
+   "edgeSegments": 280
   },
   {
    "name": "Open CASCADE STEP translator 7.5 1.95.1.1_1",
@@ -5670,9 +5688,9 @@
     5.19,
     1.5
    ],
-   "kind": "parts",
-   "instanceOf": "Open CASCADE STEP translator 7.5 1.95.1.1_1",
-   "triangles": 1024
+   "kind": "interface",
+   "triangles": 1112,
+   "edgeSegments": 280
   },
   {
    "name": "Open CASCADE STEP translator 7.5 15.2.1",
@@ -8487,9 +8505,10 @@
     76.009,
     5.009
    ],
-   "kind": "split",
-   "triangles": 404,
-   "edgeSegments": 192
+   "in": "bracket-iter2",
+   "kind": "parts",
+   "triangles": 476,
+   "edgeSegments": 228
   },
   {
    "name": "PCB mounting beam",
@@ -8499,9 +8518,10 @@
     76.009,
     5.009
    ],
-   "kind": "split",
-   "triangles": 404,
-   "edgeSegments": 192
+   "in": "bracket-iter2",
+   "kind": "parts",
+   "triangles": 476,
+   "edgeSegments": 228
   },
   {
    "name": "PIN1 dot",
@@ -8622,8 +8642,8 @@
     2.237
    ],
    "kind": "parts",
-   "triangles": 698,
-   "edgeSegments": 85
+   "triangles": 894,
+   "edgeSegments": 92
   },
   {
    "name": "PNI-Sen-XY_1",
@@ -8645,8 +8665,8 @@
     2.237
    ],
    "kind": "parts",
-   "triangles": 698,
-   "edgeSegments": 85
+   "triangles": 894,
+   "edgeSegments": 92
   },
   {
    "name": "PNI-Sen-XY_1",
@@ -8668,8 +8688,8 @@
     6.3
    ],
    "kind": "parts",
-   "triangles": 300,
-   "edgeSegments": 34
+   "triangles": 420,
+   "edgeSegments": 40
   },
   {
    "name": "PNI-Sen-Z",
@@ -10274,9 +10294,10 @@
     4.5,
     7.5
    ],
-   "kind": "split",
-   "triangles": 263,
-   "edgeSegments": 87
+   "in": "bracket-iter2",
+   "kind": "parts",
+   "triangles": 357,
+   "edgeSegments": 98
   },
   {
    "name": "Socket button head screw M2.5x0.45 x 6",
@@ -10286,9 +10307,10 @@
     4.5,
     7.5
    ],
-   "kind": "split",
-   "triangles": 263,
-   "edgeSegments": 87
+   "in": "bracket-iter2",
+   "kind": "parts",
+   "triangles": 357,
+   "edgeSegments": 98
   },
   {
    "name": "Socket button head screw M2.5x0.45 x 6",
@@ -10298,9 +10320,10 @@
     4.5,
     7.5
    ],
-   "kind": "split",
-   "triangles": 263,
-   "edgeSegments": 87
+   "in": "bracket-iter2",
+   "kind": "parts",
+   "triangles": 357,
+   "edgeSegments": 98
   },
   {
    "name": "Socket button head screw M2.5x0.45 x 6",
@@ -10310,9 +10333,10 @@
     4.5,
     7.5
    ],
-   "kind": "split",
-   "triangles": 263,
-   "edgeSegments": 87
+   "in": "bracket-iter2",
+   "kind": "parts",
+   "triangles": 357,
+   "edgeSegments": 98
   },
   {
    "name": "Sticker",
@@ -10335,8 +10359,8 @@
     1.877
    ],
    "kind": "parts",
-   "triangles": 1268,
-   "edgeSegments": 586
+   "triangles": 1556,
+   "edgeSegments": 714
   },
   {
    "name": "TI_Logo_1mm",
@@ -11758,7 +11782,7 @@
    ],
    "kind": "parts",
    "instanceOf": "User Library-TQFP144_0_1",
-   "triangles": 11624
+   "triangles": 11636
   },
   {
    "name": "Vishay logo",
@@ -12747,9 +12771,9 @@
     4.85,
     1.66
    ],
-   "kind": "parts",
-   "instanceOf": "body_1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 496,
+   "edgeSegments": 160
   },
   {
    "name": "body",
@@ -12781,9 +12805,9 @@
     4.85,
     1.66
    ],
-   "kind": "parts",
-   "instanceOf": "body_1",
-   "triangles": 472
+   "kind": "interface",
+   "triangles": 496,
+   "edgeSegments": 160
   },
   {
    "name": "body_1",
@@ -12826,9 +12850,9 @@
     4.85,
     1.66
    ],
-   "kind": "parts",
-   "instanceOf": "body_4",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 496,
+   "edgeSegments": 162
   },
   {
    "name": "body_2",
@@ -12871,9 +12895,9 @@
     4.85,
     1.66
    ],
-   "kind": "parts",
-   "instanceOf": "body_4",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 496,
+   "edgeSegments": 162
   },
   {
    "name": "body_4",
@@ -12894,9 +12918,9 @@
     4.85,
     1.66
    ],
-   "kind": "parts",
-   "instanceOf": "body_4",
-   "triangles": 472
+   "kind": "interface",
+   "triangles": 496,
+   "edgeSegments": 162
   },
   {
    "name": "body_5",
@@ -12917,9 +12941,9 @@
     4.85,
     1.66
    ],
-   "kind": "parts",
-   "instanceOf": "body_4",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 496,
+   "edgeSegments": 162
   },
   {
    "name": "body_6",
@@ -12929,9 +12953,9 @@
     4.85,
     1.66
    ],
-   "kind": "parts",
-   "instanceOf": "body_4",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 496,
+   "edgeSegments": 162
   },
   {
    "name": "contact",

@@ -1,0 +1,20 @@
+{
+  "interfaces": [
+    {"ref": "J2", "label": "Backplane connector", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot."},
+    {"ref": "JTAG", "label": "JTAG", "type": "debug", "connector": "Molex Pico-Lock 4P", "desc": "Programming and debug port."},
+    {"ref": "P1", "label": "Expansion connector 1", "type": "expansion", "connector": "", "desc": "Board-to-board connector for an expansion card. No expansion card exists yet."},
+    {"ref": "P2", "label": "Expansion connector 2", "type": "expansion", "connector": "", "desc": "Board-to-board connector for an expansion card. No expansion card exists yet."},
+    {"ref": "TEMP1", "label": "Temperature 1", "type": "sensor", "connector": "Molex Pico-Lock 4P", "desc": "Connects a temperature sensor."},
+    {"ref": "TEMP2", "label": "Temperature 2", "type": "sensor", "connector": "Molex Pico-Lock 4P", "desc": "Connects a temperature sensor."},
+    {"ref": "J1", "label": "J1", "type": "io", "connector": "", "desc": "Named after its designator in the CAD model. Function not documented yet."},
+    {"ref": "J4", "label": "J4", "type": "io", "connector": "", "desc": "Named after its designator in the CAD model. Function not documented yet."},
+    {"ref": "J5", "label": "J5", "type": "io", "connector": "", "desc": "Named after its designator in the CAD model. Function not documented yet."},
+    {"ref": "J6", "label": "J6", "type": "io", "connector": "", "desc": "Named after its designator in the CAD model. Function not documented yet."},
+    {"ref": "J7", "label": "J7", "type": "io", "connector": "", "desc": "Named after its designator in the CAD model. Function not documented yet."},
+    {"ref": "J3", "label": "J3", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "Named after its designator in the CAD model. Function not documented yet."},
+    {"ref": "J8", "label": "J8", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "Named after its designator in the CAD model. Function not documented yet."},
+    {"ref": "J9", "label": "J9", "type": "io", "connector": "Molex Pico-Lock 6P", "desc": "Named after its designator in the CAD model. Function not documented yet."},
+    {"ref": "P3", "label": "P3", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Named after its designator in the CAD model. Function not documented yet."},
+    {"ref": "P4", "label": "P4", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Named after its designator in the CAD model. Function not documented yet."}
+  ]
+}

@@ -31,23 +31,22 @@
  "slots": null,
  "counts": {
   "board": 1,
-  "parts": 32,
-  "blocks": 43,
-  "bits": 73,
+  "parts": 17,
+  "blocks": 23,
+  "bits": 67,
   "decals": 225,
-  "split": 0,
-  "interface": 0
+  "interface": 36
  },
  "triangles": {
-  "board": 976,
-  "parts": 44564,
-  "blocks": 516,
-  "bits": 876,
+  "board": 1176,
+  "parts": 9674,
+  "blocks": 276,
+  "bits": 804,
   "decals": 450,
-  "split": 0,
-  "interface": 0,
-  "instanced": 7880
+  "interface": 46736,
+  "instanced": 11692
  },
+ "split": null,
  "components": [
   {
    "name": "0402_CMP-00000-7__Importiert1",
@@ -1740,9 +1739,9 @@
     1.9,
     2.7
    ],
-   "kind": "parts",
-   "triangles": 464,
-   "edgeSegments": 154
+   "kind": "interface",
+   "triangles": 512,
+   "edgeSegments": 170
   },
   {
    "name": "450404015514_CMP-011-00006-1__Importiert1_1",
@@ -1752,9 +1751,9 @@
     1.9,
     2.7
    ],
-   "kind": "parts",
-   "triangles": 464,
-   "edgeSegments": 154
+   "kind": "interface",
+   "triangles": 512,
+   "edgeSegments": 170
   },
   {
    "name": "450404015514_CMP-011-00006-1__Importiert2",
@@ -1764,7 +1763,7 @@
     0.15,
     2.5
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 60,
    "edgeSegments": 32
   },
@@ -1776,7 +1775,7 @@
     0.15,
     2.5
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 60,
    "edgeSegments": 32
   },
@@ -1788,8 +1787,9 @@
     0.15,
     2.0
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 172,
+   "edgeSegments": 34
   },
   {
    "name": "450404015514_CMP-011-00006-1__Importiert3_1",
@@ -1799,8 +1799,9 @@
     0.15,
     2.0
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 172,
+   "edgeSegments": 34
   },
   {
    "name": "450404015514_CMP-011-00006-1__Importiert4",
@@ -1810,8 +1811,9 @@
     0.3,
     2.93
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 82,
+   "edgeSegments": 18
   },
   {
    "name": "450404015514_CMP-011-00006-1__Importiert4_1",
@@ -1821,8 +1823,9 @@
     0.3,
     2.93
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 82,
+   "edgeSegments": 18
   },
   {
    "name": "450404015514_CMP-011-00006-1__Importiert5",
@@ -1832,8 +1835,9 @@
     0.3,
     2.93
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 82,
+   "edgeSegments": 18
   },
   {
    "name": "450404015514_CMP-011-00006-1__Importiert5_1",
@@ -1843,8 +1847,9 @@
     0.3,
     2.93
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 82,
+   "edgeSegments": 18
   },
   {
    "name": "450404015514_CMP-011-00006-1__Importiert6",
@@ -1854,8 +1859,9 @@
     0.3,
     2.93
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 104,
+   "edgeSegments": 14
   },
   {
    "name": "450404015514_CMP-011-00006-1__Importiert6_1",
@@ -1865,8 +1871,9 @@
     0.3,
     2.93
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 104,
+   "edgeSegments": 14
   },
   {
    "name": "450404015514_CMP-011-00006-1__Importiert7",
@@ -1876,8 +1883,9 @@
     0.386,
     1.55
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 708,
+   "edgeSegments": 132
   },
   {
    "name": "450404015514_CMP-011-00006-1__Importiert7_1",
@@ -1887,8 +1895,9 @@
     0.386,
     1.55
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 708,
+   "edgeSegments": 132
   },
   {
    "name": "450404015514_CMP-011-00006-1__Importiert8",
@@ -1898,8 +1907,9 @@
     1.1,
     3.85
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 380,
+   "edgeSegments": 104
   },
   {
    "name": "450404015514_CMP-011-00006-1__Importiert8_1",
@@ -1909,8 +1919,9 @@
     1.1,
     3.85
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 380,
+   "edgeSegments": 104
   },
   {
    "name": "450404015514_CMP-011-00006-1__Importiert9",
@@ -1920,9 +1931,9 @@
     1.125,
     2.7
    ],
-   "kind": "parts",
-   "triangles": 508,
-   "edgeSegments": 78
+   "kind": "interface",
+   "triangles": 604,
+   "edgeSegments": 82
   },
   {
    "name": "450404015514_CMP-011-00006-1__Importiert9_1",
@@ -1932,9 +1943,9 @@
     1.125,
     2.7
    ],
-   "kind": "parts",
-   "triangles": 508,
-   "edgeSegments": 78
+   "kind": "interface",
+   "triangles": 604,
+   "edgeSegments": 82
   },
   {
    "name": "BatteryHolderBack",
@@ -1945,8 +1956,8 @@
     6.904
    ],
    "kind": "parts",
-   "triangles": 688,
-   "edgeSegments": 352
+   "triangles": 946,
+   "edgeSegments": 421
   },
   {
    "name": "BatteryHolderBottom",
@@ -1957,8 +1968,8 @@
     27.0
    ],
    "kind": "parts",
-   "triangles": 2303,
-   "edgeSegments": 1160
+   "triangles": 2929,
+   "edgeSegments": 1396
   },
   {
    "name": "BatteryHolderTop",
@@ -1969,8 +1980,8 @@
     27.0
    ],
    "kind": "parts",
-   "triangles": 1811,
-   "edgeSegments": 953
+   "triangles": 2249,
+   "edgeSegments": 1123
   },
   {
    "name": "Battery_Board_V4_BOARD__#1 (0.228) Durchmesser Bohrung10",
@@ -1981,8 +1992,8 @@
     26.3
    ],
    "kind": "board",
-   "triangles": 976,
-   "edgeSegments": 106
+   "triangles": 1176,
+   "edgeSegments": 194
   },
   {
    "name": "CAP_0402_CMP-00624-2__Importiert1",
@@ -2058,42 +2069,9 @@
     1.66,
     4.85
    ],
-   "kind": "parts",
-   "triangles": 472,
+   "kind": "interface",
+   "triangles": 496,
    "edgeSegments": 164
-  },
-  {
-   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert10",
-   "side": "bottom",
-   "size": [
-    0.497,
-    0.135,
-    0.46
-   ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert11",
-   "side": "bottom",
-   "size": [
-    0.472,
-    0.101,
-    0.46
-   ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert12",
-   "side": "bottom",
-   "size": [
-    0.149,
-    0.003,
-    0.588
-   ],
-   "kind": "bits",
-   "triangles": 12
   },
   {
    "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert13",
@@ -2103,30 +2081,9 @@
     0.004,
     0.419
    ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert14",
-   "side": "bottom",
-   "size": [
-    0.46,
-    0.094,
-    0.411
-   ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert15",
-   "side": "bottom",
-   "size": [
-    0.4,
-    0.003,
-    0.4
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 288,
+   "edgeSegments": 2
   },
   {
    "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert2",
@@ -2136,8 +2093,9 @@
     1.21,
     3.3
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 356,
+   "edgeSegments": 32
   },
   {
    "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert3",
@@ -2147,8 +2105,9 @@
     0.76,
     3.74
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 36,
+   "edgeSegments": 12
   },
   {
    "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert4",
@@ -2158,8 +2117,9 @@
     0.76,
     3.74
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 36,
+   "edgeSegments": 12
   },
   {
    "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert5",
@@ -2169,8 +2129,9 @@
     0.76,
     3.74
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 36,
+   "edgeSegments": 12
   },
   {
    "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert6",
@@ -2180,8 +2141,9 @@
     0.76,
     3.74
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 36,
+   "edgeSegments": 12
   },
   {
    "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert7",
@@ -2191,8 +2153,9 @@
     0.76,
     3.74
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 36,
+   "edgeSegments": 12
   },
   {
    "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert8",
@@ -2202,8 +2165,9 @@
     0.76,
     3.74
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 36,
+   "edgeSegments": 12
   },
   {
    "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert9",
@@ -2213,8 +2177,9 @@
     1.21,
     3.3
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 356,
+   "edgeSegments": 32
   },
   {
    "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert1",
@@ -3392,7 +3357,7 @@
    ],
    "kind": "parts",
    "instanceOf": "Molicel 21700 P45B <1>",
-   "triangles": 3940
+   "triangles": 5846
   },
   {
    "name": "Molicel 21700 P45B <2>",
@@ -3416,7 +3381,7 @@
    ],
    "kind": "parts",
    "instanceOf": "Molicel 21700 P45B <3>",
-   "triangles": 3940
+   "triangles": 5846
   },
   {
    "name": "Molicel 21700 P45B <4>",
@@ -3438,8 +3403,8 @@
     1.5,
     8.6
    ],
-   "kind": "parts",
-   "triangles": 1024,
+   "kind": "interface",
+   "triangles": 1112,
    "edgeSegments": 282
   },
   {
@@ -3450,8 +3415,8 @@
     1.5,
     5.19
    ],
-   "kind": "parts",
-   "triangles": 1024,
+   "kind": "interface",
+   "triangles": 1112,
    "edgeSegments": 278
   },
   {
@@ -3463,8 +3428,8 @@
     6.009
    ],
    "kind": "parts",
-   "triangles": 295,
-   "edgeSegments": 86
+   "triangles": 355,
+   "edgeSegments": 97
   },
   {
    "name": "PZ Countersunk flat head screw M2x0.40 x 6",
@@ -3475,8 +3440,8 @@
     6.009
    ],
    "kind": "parts",
-   "triangles": 295,
-   "edgeSegments": 86
+   "triangles": 355,
+   "edgeSegments": 97
   },
   {
    "name": "PZ Countersunk flat head screw M2x0.40 x 6",
@@ -3487,8 +3452,8 @@
     6.009
    ],
    "kind": "parts",
-   "triangles": 295,
-   "edgeSegments": 86
+   "triangles": 355,
+   "edgeSegments": 97
   },
   {
    "name": "PZ Countersunk flat head screw M2x0.40 x 6",
@@ -3499,8 +3464,8 @@
     6.009
    ],
    "kind": "parts",
-   "triangles": 295,
-   "edgeSegments": 86
+   "triangles": 355,
+   "edgeSegments": 97
   },
   {
    "name": "PZ Countersunk flat head screw M2x0.40 x 6",
@@ -3511,8 +3476,8 @@
     6.009
    ],
    "kind": "parts",
-   "triangles": 295,
-   "edgeSegments": 86
+   "triangles": 355,
+   "edgeSegments": 97
   },
   {
    "name": "PZ Countersunk flat head screw M2x0.40 x 6",
@@ -3523,8 +3488,8 @@
     6.009
    ],
    "kind": "parts",
-   "triangles": 295,
-   "edgeSegments": 86
+   "triangles": 355,
+   "edgeSegments": 97
   },
   {
    "name": "PowerDI-123_CMP-011-000011-1__Importiert1",
@@ -3666,9 +3631,9 @@
     8.03,
     5.6
    ],
-   "kind": "parts",
-   "triangles": 2918,
-   "edgeSegments": 1457
+   "kind": "interface",
+   "triangles": 3152,
+   "edgeSegments": 1530
   },
   {
    "name": "SAMTEC_ERM8-030-XX.X-X-DV-P-XX_CMP-015-000047-2__Importiert1_1",
@@ -3678,9 +3643,9 @@
     8.03,
     5.6
    ],
-   "kind": "parts",
-   "triangles": 2918,
-   "edgeSegments": 1457
+   "kind": "interface",
+   "triangles": 3152,
+   "edgeSegments": 1530
   },
   {
    "name": "SAMTEC_ERM8-030-XX.X-X-DV-P-XX_CMP-015-000047-2__Importiert2",
@@ -3690,9 +3655,9 @@
     1.0,
     4.67
    ],
-   "kind": "parts",
-   "triangles": 3392,
-   "edgeSegments": 972
+   "kind": "interface",
+   "triangles": 3872,
+   "edgeSegments": 1212
   },
   {
    "name": "SAMTEC_ERM8-030-XX.X-X-DV-P-XX_CMP-015-000047-2__Importiert2_1",
@@ -3702,9 +3667,9 @@
     1.0,
     4.67
    ],
-   "kind": "parts",
-   "triangles": 3392,
-   "edgeSegments": 972
+   "kind": "interface",
+   "triangles": 3872,
+   "edgeSegments": 1212
   },
   {
    "name": "SAMTEC_ERM8-030-XX.X-X-DV-P-XX_CMP-015-000047-2__Importiert3",
@@ -3714,8 +3679,8 @@
     4.723,
     3.214
    ],
-   "kind": "parts",
-   "triangles": 9872,
+   "kind": "interface",
+   "triangles": 11672,
    "edgeSegments": 492
   },
   {
@@ -3726,8 +3691,8 @@
     4.723,
     3.214
    ],
-   "kind": "parts",
-   "triangles": 9872,
+   "kind": "interface",
+   "triangles": 11672,
    "edgeSegments": 492
   },
   {
@@ -3915,8 +3880,8 @@
     3.5
    ],
    "kind": "parts",
-   "triangles": 261,
-   "edgeSegments": 79
+   "triangles": 355,
+   "edgeSegments": 90
   },
   {
    "name": "Socket button head screw M2x0.4 x 4",
@@ -3927,8 +3892,8 @@
     3.5
    ],
    "kind": "parts",
-   "triangles": 261,
-   "edgeSegments": 79
+   "triangles": 355,
+   "edgeSegments": 90
   },
   {
    "name": "Socket button head screw M2x0.4 x 4",
@@ -3939,8 +3904,8 @@
     3.5
    ],
    "kind": "parts",
-   "triangles": 261,
-   "edgeSegments": 79
+   "triangles": 355,
+   "edgeSegments": 90
   },
   {
    "name": "Socket button head screw M2x0.4 x 4",
@@ -3951,8 +3916,8 @@
     3.5
    ],
    "kind": "parts",
-   "triangles": 261,
-   "edgeSegments": 79
+   "triangles": 355,
+   "edgeSegments": 90
   },
   {
    "name": "TQFN-24_CMP-111-000000-2__Importiert1",

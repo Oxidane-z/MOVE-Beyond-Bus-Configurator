@@ -21,13 +21,20 @@
 占两个槽的板卡以 Z 较小的那个连接器为原点。STEP 原本朝哪个方向都可以。
 --split NAME=PREFIX|PREFIX 把名称匹配的零件拆出去，单独写成同目录下的 NAME.glb（坐标系相同），
 用于支架这类可选件。
+--split-board PREFIX 配合 --split：拆出去的是一块扩展板（第二块 PCB）。PREFIX 是那块 PCB 的元件名前缀，
+装在它上面的元器件按位置自动跟着拆出去，并和主板一样分三档简化。
 --frame backplane --slots PREFIX 用于背板：板面水平，槽位沿 Z 排列，原点在槽位连接器中心，
 并在 JSON 里写出各槽位的位置。
 
---annotations 指向板卡标注文件。其中 interfaces[].ref 列出的位号会各自输出成独立节点
-（extras.interface 为位号），供查看器单独高亮。
+--annotations 指向板卡标注文件（可以给多个）。interfaces[] 里每个接口各自输出成独立节点
+（extras.interface 为 ref），供查看器单独高亮。接口默认对应名称等于 ref 的元器件；
+STEP 里没有位号时用 match 列出名称通配符，同名的多个连接器再用 cluster 按序号区分
+（转换时会打印每个通配符匹配到的各组位置）。
+
+--material PREFIX=NAME 指定名称匹配的元器件的材质（dark、light、gold、kapton），覆盖 CAD 原色。可重复。
 """
 import argparse
+import fnmatch
 import json
 import math
 import re
@@ -71,6 +78,8 @@ MIN_HOLE_EDGE = 2.2               # 板上小于此尺寸的闭合棱（过孔�
 MIN_EDGE = 0.35                   # 短于此长度的棱不画线，屏幕上不足一两个像素
 THIN_SOLID = 0.45                 # 第二长边小于此值的实体（引脚）简化成不描边的包围盒
 ANGULAR_DEFL = 0.9                # 三角化角度偏差（弧度），可用 --angular 覆盖
+# --material 用的标准色。查看器按颜色把元器件归成这几种材质（src/render.js 的 classifyColor）
+MATERIAL_COLORS = {'dark': (0.02, 0.02, 0.02), 'light': (0.6, 0.6, 0.6), 'gold': (1.0, 1.0, 0.0), 'kapton': (0.6, 0.3, 0.0)}
 
 
 # ---------- XCAF 辅助 ----------
@@ -560,6 +569,32 @@ class Bucket:
 
 # ---------- 主流程 ----------
 
+def cluster_items(items, gap=0.6):
+    """把包围盒相距不超过 gap 的元器件并成组（一个连接器常由外壳、引脚等多个件组成）。
+    各组按中心的 STEP 坐标排序，顺序是确定的。"""
+    parent = list(range(len(items)))
+
+    def find(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+    for i, a in enumerate(items):
+        for j in range(i):
+            b = items[j]
+            if np.all(a['wlo'] <= b['whi'] + gap) and np.all(b['wlo'] <= a['whi'] + gap):
+                parent[find(i)] = find(j)
+    groups = {}
+    for i, it in enumerate(items):
+        groups.setdefault(find(i), []).append(it)
+
+    def center(g):
+        lo = np.min([it['wlo'] for it in g], axis=0)
+        hi = np.max([it['whi'] for it in g], axis=0)
+        return tuple(round(float(v), 1) for v in (lo + hi) / 2)
+    return sorted(groups.values(), key=center), center
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('step')
@@ -567,12 +602,14 @@ def main():
     ap.add_argument('--board', default='Board', help='PCB 基板的元件名前缀；找不到时取面积最大的薄板')
     ap.add_argument('--mate', help='插入背板的连接器的元件名前缀；给出后自动定向并以它为原点')
     ap.add_argument('--split', help='NAME=前缀|前缀：把匹配的零件拆到同目录的 NAME.glb')
+    ap.add_argument('--split-board', help='拆出去的那块 PCB 的元件名前缀；装在它上面的元器件自动跟着拆出去')
     ap.add_argument('--frame', choices=['card', 'backplane'], default='card', help='输出坐标系')
     ap.add_argument('--slots', help='背板上槽位连接器的元件名前缀（配合 --frame backplane）')
     ap.add_argument('--small', type=float, default=2.2, help='占板最大边小于此值（mm）压平成色块')
     ap.add_argument('--large', type=float, default=6.0, help='占板最大边不小于此值（mm）保留完整几何')
     ap.add_argument('--tall', type=float, default=3.0, help='高度不小于此值（mm）也保留完整几何')
-    ap.add_argument('--annotations', help='板卡标注 JSON，其中 interfaces[].ref 的位号单独输出')
+    ap.add_argument('--annotations', nargs='*', default=[], help='板卡标注 JSON（可多个），其中的接口单独输出')
+    ap.add_argument('--material', action='append', default=[], help='前缀=材质：覆盖匹配元器件的颜色，可重复')
     ap.add_argument('--deflection', type=float, default=0.12, help='三角化线性偏差（mm）')
     ap.add_argument('--angular', type=float, help='三角化角度偏差（弧度），默认 0.9，越大越粗')
     args = ap.parse_args()
@@ -594,38 +631,88 @@ def main():
     if not items:
         sys.exit('STEP 里没有找到实体')
 
-    board = next((it for it in items if it['name'].startswith(args.board)), None) or \
-        max(items, key=lambda it: np.sort(it['whi'] - it['wlo'])[1:].prod())
+    def plate_area(it):
+        return np.sort(it['whi'] - it['wlo'])[1:].prod()
+    board = max((it for it in items if it['name'].startswith(args.board)), key=plate_area, default=None) or \
+        max(items, key=plate_area)
     b_lo, b_hi = board['wlo'], board['whi']
     na = int(np.argmin(b_hi - b_lo))               # 板法线所在的轴
     u, v = [a for a in range(3) if a != na]
-    n_top, n_bot = b_hi[na], b_lo[na]
 
-    refs = []
-    if args.annotations:
-        with open(args.annotations, encoding='utf-8') as f:
-            refs = [i['ref'] for i in json.load(f).get('interfaces', [])]
-    found = {it['name'] for it in items}
-    for r in refs:
-        if r not in found:
-            print('警告：标注里的位号在 STEP 中找不到: ' + r, file=sys.stderr)
-
-    split_name, split_prefixes = None, ()
+    # 拆出去的部分：按名称前缀，以及（给了 --split-board 时）装在扩展板上的元器件
+    split_name, split_prefixes, split_board = None, (), None
     if args.split:
         split_name, _, pat = args.split.partition('=')
         split_prefixes = tuple(x for x in pat.split('|') if x)
+    if args.split_board:
+        split_board = max((it for it in items if it is not board and it['name'].startswith(args.split_board)),
+                          key=plate_area, default=None)
+        if split_board is None:
+            sys.exit('--split-board 指定的元件找不到: ' + args.split_board)
+
+    def touches(it, plate, tol=0.4):
+        """元器件是否装在这块板上：沿板法线与板相接或穿过，且在板的范围内。"""
+        return it['wlo'][na] <= plate['whi'][na] + tol and it['whi'][na] >= plate['wlo'][na] - tol and \
+            all(it['wlo'][a] >= plate['wlo'][a] - 1 and it['whi'][a] <= plate['whi'][a] + 1 for a in (u, v))
+
+    def is_split(it):
+        if it is board:
+            return False
+        if it is split_board or (split_prefixes and it['name'].startswith(split_prefixes)):
+            return True
+        return split_board is not None and touches(it, split_board) and not touches(it, board)
+
+    # 接口：标注里的每一项对应一个或多个元器件
+    iface_of, refs = {}, []
+    for path in args.annotations:
+        with open(path, encoding='utf-8') as f:
+            entries = json.load(f).get('interfaces', [])
+        for e in entries:
+            ref = e['ref']
+            if 'match' in e:
+                found = [it for it in items if it is not board and it is not split_board and
+                         any(fnmatch.fnmatchcase(it['name'], p) for p in e['match'])]
+            else:
+                found = [it for it in items if it['name'] == ref]
+            if found and 'match' in e:
+                groups, center = cluster_items(found)
+                if len(groups) > 1 or 'cluster' in e:
+                    print('%s: %s 匹配到 %d 组: %s' % (ref, e['match'], len(groups),
+                          ', '.join('%d@%s' % (k, center(g)) for k, g in enumerate(groups))), file=sys.stderr)
+                if 'cluster' in e:
+                    found = groups[e['cluster']] if e['cluster'] < len(groups) else []
+            if not found:
+                print('警告：标注里的接口在 STEP 中找不到: ' + ref, file=sys.stderr)
+                continue
+            refs.append(ref)
+            for it in found:
+                iface_of[id(it)] = ref
+
+    overrides = []
+    for spec in args.material:
+        prefix, _, name = spec.rpartition('=')
+        if name not in MATERIAL_COLORS:
+            sys.exit('--material 的材质只能是 ' + '、'.join(MATERIAL_COLORS) + ': ' + spec)
+        overrides.append((prefix, MATERIAL_COLORS[name]))
+
+    def override(it):
+        return next((c for prefix, c in overrides if it['name'].startswith(prefix)), None)
+
+    def flat_color(it):
+        return override(it) or item_color(it, colors)
+
+    def recolor(it, C):
+        c = override(it)
+        return np.tile(c, (len(C), 1)) if c else C
 
     def dims(it):
         size = it['whi'] - it['wlo']
         return float(max(size[u], size[v])), float(size[na])
 
-    def is_split(it):
-        return bool(split_prefixes) and it['name'].startswith(split_prefixes)
-
     # 完整几何件里指纹相同的归为一组，只三角化第一个，其余作为平移实例
     def is_full(it):
         foot, height = dims(it)
-        return it is not board and it['name'] not in refs and not is_split(it) and (foot >= args.large or height >= args.tall)
+        return it is not board and id(it) not in iface_of and not is_split(it) and (foot >= args.large or height >= args.tall)
     by_sig = {}
     for it in items:
         if is_full(it):
@@ -636,29 +723,36 @@ def main():
             for it in group:
                 inst_of[id(it)] = group[0]
     instanced = {}                    # id(第一个) -> {'mesh':…, 'offsets': […]}
-    ifaces = {}
 
-    buckets = {k: Bucket() for k in ('board', 'parts', 'blocks', 'bits', 'decals', 'split')}
+    # 主板和拆出去的部分各有一套输出。plate 是各自的 PCB；拆出去的部分没有 PCB 时（支架）全部保留完整几何
+    def target(plate):
+        return {'plate': plate, 'ifaces': {},
+                'buckets': {k: Bucket() for k in ('board', 'parts', 'blocks', 'bits', 'decals')}}
+    main_t, split_t = target(board), target(split_board)
     manifest = []
     all_lo, all_hi = b_lo.copy(), b_hi.copy()
     for it in items:
         foot, height = dims(it)
         size = it['whi'] - it['wlo']
+        split = is_split(it)
+        tgt = split_t if split else main_t
+        plate, buckets = tgt['plate'], tgt['buckets']
+        ref_plate = plate or board
+        n_top, n_bot = ref_plate['whi'][na], ref_plate['wlo'][na]
         mid = (it['wlo'][na] + it['whi'][na]) / 2
         side = 'top' if mid > (n_top + n_bot) / 2 else 'bottom'
-        if not is_split(it):
+        if not split:
             all_lo, all_hi = np.minimum(all_lo, it['wlo']), np.maximum(all_hi, it['whi'])
         m = it['m']
         mesh = None
         entry = {'name': it['name'], 'side': side, 'size': [round(float(x), 3) for x in size]}
+        if split:
+            entry['in'] = split_name
 
-        if it is board:
+        if it is plate:
             kind = 'board'
             mesh = tess_item(it, colors, args.deflection, hole_edge=MIN_HOLE_EDGE)
-        elif is_split(it):
-            kind = 'split'
-            mesh = tess_item(it, colors, args.deflection, skip_small=MIN_SOLID)
-        elif it['name'] in refs:
+        elif id(it) in iface_of:
             kind = 'interface'      # 接口件不论大小都保留完整几何，并单独成节点
             mesh = tess_item(it, colors, args.deflection, skip_small=MIN_SOLID)
         elif id(it) in inst_of:
@@ -669,20 +763,20 @@ def main():
                 tm = tess_item(it, colors, args.deflection, skip_small=MIN_SOLID)
                 if tm is not None:
                     P, N, C, I, E = tm
-                    inst['mesh'] = (P @ m[:3, :3].T + m[:3, 3], N @ m[:3, :3].T, C, I,
+                    inst['mesh'] = (P @ m[:3, :3].T + m[:3, 3], N @ m[:3, :3].T, recolor(it, C), I,
                                     E @ m[:3, :3].T + m[:3, 3] if len(E) else E)
             inst['offsets'].append(it['wlo'] - first['wlo'])
             entry.update(kind=kind, instanceOf=first['name'],
                          triangles=int(len(inst['mesh'][3])) if it is first and inst['mesh'] else 0)
             manifest.append(entry)
             continue
-        elif foot >= args.large or height >= args.tall:
+        elif plate is None or foot >= args.large or height >= args.tall:
             kind = 'parts'
             mesh = tess_item(it, colors, args.deflection, skip_small=MIN_SOLID)
         elif foot >= args.small:
             kind = 'blocks'
             lo, hi, bm = axis_box(it, na)
-            P, N, C, I, E = box_mesh(lo, hi, bm, item_color(it, colors))
+            P, N, C, I, E = box_mesh(lo, hi, bm, flat_color(it))
             buckets[kind].add(P, N, C, I, E)
             entry.update(kind=kind, triangles=12)
             manifest.append(entry)
@@ -691,9 +785,8 @@ def main():
             # 小件：紧贴板面且在板的范围内的压平成色块，其余（不在这块板上的）留成不描边的小盒子
             on_top = abs(it['wlo'][na] - n_top) < 0.4
             on_bot = abs(it['whi'][na] - n_bot) < 0.4
-            inside = it['wlo'][u] >= b_lo[u] - 0.5 and it['whi'][u] <= b_hi[u] + 0.5 and \
-                it['wlo'][v] >= b_lo[v] - 0.5 and it['whi'][v] <= b_hi[v] + 0.5
-            color = item_color(it, colors)
+            inside = all(it['wlo'][a] >= plate['wlo'][a] - 0.5 and it['whi'][a] <= plate['whi'][a] + 0.5 for a in (u, v))
+            color = flat_color(it)
             if inside and (on_top or on_bot):
                 kind = 'decals'
                 P, N, C, I = decal_quad(it['wlo'], it['whi'], na, 1 if on_top else -1,
@@ -714,11 +807,12 @@ def main():
         P = P @ m[:3, :3].T + m[:3, 3]
         N = N @ m[:3, :3].T
         E = E @ m[:3, :3].T + m[:3, 3] if len(E) else E
-        target = ifaces.setdefault(it['name'], Bucket()) if kind == 'interface' else buckets[kind]
-        target.add(P, N, C, I, E)
+        dest = tgt['ifaces'].setdefault(iface_of[id(it)], Bucket()) if kind == 'interface' else buckets[kind]
+        dest.add(P, N, recolor(it, C), I, E)
         entry.update(kind=kind, triangles=int(len(I)), edgeSegments=int(len(E) // 2))
         manifest.append(entry)
 
+    n_top, n_bot = b_hi[na], b_lo[na]
     xf = np.eye(4)
     slots_meta, frame_meta = None, None
     if args.frame == 'backplane':
@@ -759,45 +853,60 @@ def main():
             xf[:3, 3] = [-(b_lo[0] + b_hi[0]) / 2, -all_lo[1], -(b_lo[2] + b_hi[2]) / 2]
 
     R = xf[:3, :3]
+
+    def emit(glb, tgt):
+        b = tgt['buckets']
+        b['board'].emit(glb, 'board', xf, 'board_edges')
+        b['parts'].emit(glb, 'parts', xf, 'parts_edges')
+        b['blocks'].emit(glb, 'blocks', xf, 'blocks_edges')
+        b['bits'].emit(glb, 'bits', xf)
+        b['decals'].emit(glb, 'decals', xf)
+        for n, ref in enumerate(r for r in refs if r in tgt['ifaces']):
+            tgt['ifaces'][ref].emit(glb, 'if_%d' % n, xf, 'if_%d_edges' % n, extras={'interface': ref})
+
     glb = Glb()
-    buckets['board'].emit(glb, 'board', xf, 'board_edges')
-    buckets['parts'].emit(glb, 'parts', xf, 'parts_edges')
-    buckets['blocks'].emit(glb, 'blocks', xf, 'blocks_edges')
-    buckets['bits'].emit(glb, 'bits', xf)
-    buckets['decals'].emit(glb, 'decals', xf)
+    emit(glb, main_t)
     for n, inst in enumerate(instanced.values()):
         if inst['mesh'] is None:
             continue
         P, N, C, I, E = inst['mesh']
         glb.add_instances('inst_%d' % n, P @ R.T + xf[:3, 3], N @ R.T, C, I,
                           E @ R.T + xf[:3, 3] if len(E) else E, [R @ off for off in inst['offsets']])
-    for n, ref in enumerate(r for r in refs if r in ifaces):
-        ifaces[ref].emit(glb, 'if_%d' % n, xf, 'if_%d_edges' % n, extras={'interface': ref})
     glb.write(args.out + '.glb')
 
-    if split_name and buckets['split'].P:
+    if split_name and any(b.P for b in split_t['buckets'].values()):
         extra = Glb()
-        buckets['split'].emit(extra, 'parts', xf, 'parts_edges')
+        emit(extra, split_t)
         extra.write(args.out.rsplit('/', 1)[0] + '/' + split_name + '.glb' if '/' in args.out else split_name + '.glb')
 
     def box_tx(lo, hi):
         c = np.array([R @ np.array([x, y, z]) + xf[:3, 3] for x in (lo[0], hi[0]) for y in (lo[1], hi[1]) for z in (lo[2], hi[2])])
         return {'min': [round(float(x), 3) for x in c.min(axis=0)], 'max': [round(float(x), 3) for x in c.max(axis=0)]}
-    kinds = list(buckets) + ['interface']
-    tri = {k: b.tris() for k, b in buckets.items()}
-    tri['interface'] = sum(b.tris() for b in ifaces.values())
+
+    def tris(tgt):
+        t = {k: b.tris() for k, b in tgt['buckets'].items()}
+        t['interface'] = sum(b.tris() for b in tgt['ifaces'].values())
+        return t
+    kinds = list(main_t['buckets']) + ['interface']
+    tri = tris(main_t)
     tri['instanced'] = sum(len(i['mesh'][3]) for i in instanced.values() if i['mesh'])
     meta = {'source': args.step.replace('\\', '/').split('/')[-1],
             'bounds': box_tx(all_lo, all_hi),
             'board': box_tx(b_lo, b_hi),
             'frame': frame_meta,
             'slots': slots_meta,
-            'counts': {k: sum(1 for c in manifest if c['kind'] == k) for k in kinds},
+            'counts': {k: sum(1 for c in manifest if c['kind'] == k and 'in' not in c) for k in kinds},
             'triangles': tri,
+            'split': None,
             'components': sorted(manifest, key=lambda c: c['name'])}
+    if split_name:
+        meta['split'] = {'name': split_name,
+                         'board': box_tx(split_board['wlo'], split_board['whi']) if split_board else None,
+                         'counts': {k: sum(1 for c in manifest if c['kind'] == k and 'in' in c) for k in kinds},
+                         'triangles': tris(split_t)}
     with open(args.out + '.json', 'w', encoding='utf-8') as f:
         json.dump(meta, f, ensure_ascii=False, indent=1)
-    print(json.dumps({k: meta[k] for k in ('bounds', 'board', 'frame', 'slots', 'counts', 'triangles')}, ensure_ascii=False))
+    print(json.dumps({k: meta[k] for k in ('bounds', 'board', 'frame', 'slots', 'counts', 'triangles', 'split')}, ensure_ascii=False))
 
 
 if __name__ == '__main__':

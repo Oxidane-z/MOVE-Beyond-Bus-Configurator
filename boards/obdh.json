@@ -1,0 +1,14 @@
+{
+  "interfaces": [
+    {"ref": "BUS", "match": ["ERM8-030*"], "label": "Backplane connector", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot."},
+    {"ref": "EXP", "match": ["QTE-*", "P2T-*", "PT-1S39*"], "label": "Expansion connector", "type": "expansion", "connector": "Samtec QTE-020", "desc": "Board-to-board connector for the expansion board."},
+    {"ref": "ETH", "match": ["Shielding", "Insulator"], "label": "Ethernet", "type": "io", "connector": "RJ45", "desc": "Identified from the shape in the CAD model. Function not documented yet."},
+    {"ref": "USB-A", "match": ["692121030100*"], "label": "USB-A", "type": "io", "connector": "Würth 692121030100", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "USB", "match": ["629722000214*"], "label": "USB", "type": "io", "connector": "Würth 629722000214", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "HDMI1", "match": ["685219134123*"], "cluster": 0, "label": "HDMI 1", "type": "io", "connector": "Würth 685219134123", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "HDMI2", "match": ["685219134123*"], "cluster": 1, "label": "HDMI 2", "type": "io", "connector": "Würth 685219134123", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "M2", "match": ["Conn_TE_1-2199230-6*"], "label": "M.2 socket", "type": "io", "connector": "TE 1-2199230-6", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "ARF1", "match": ["ARF6-08*", "C-49?-08*", "IM-C-49?-08*"], "cluster": 0, "label": "ARF6 socket 1", "type": "io", "connector": "Samtec ARF6-08", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "ARF2", "match": ["ARF6-08*", "C-49?-08*", "IM-C-49?-08*"], "cluster": 1, "label": "ARF6 socket 2", "type": "io", "connector": "Samtec ARF6-08", "desc": "Identified from the part number in the CAD model. Function not documented yet."}
+  ]
+}

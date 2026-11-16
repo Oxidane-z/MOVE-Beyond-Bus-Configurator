@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import sys from '../system.json';
 import { t, applyStatic } from './i18n.js';
 import { applyTheme, setResolution } from './render.js';
-import { buildStructure, buildCard as buildCardGeo, loadModels, hasModel, setBracket } from './models.js';
+import { buildStructure, buildCard as buildCardGeo, buildExpansion, loadModels, hasModel, setBracket } from './models.js';
 
 const SLOTS = sys.slots, PITCH = sys.pitch, SEAT_Y = sys.seatY, TYPES = sys.boards, INITIAL = sys.initial;
 const slotZ = i => (i - (SLOTS - 1) / 2) * PITCH;
@@ -75,7 +75,7 @@ function fit(w, i, ignore) {
 }
 function anyFit(w, ignore) { for (let i = 0; i < SLOTS; i++) if (fit(w, i, ignore) >= 0) return true; return false; }
 function armed() {
-  if (!sel) return null;
+  if (!sel || sel.swap) return null;
   if (sel.kind === 'lib') return { w: TYPES[sel.type].w, ignore: null };
   const p = placements.get(sel.id);
   return p ? { w: TYPES[p.type].w, ignore: p.id } : null;
@@ -85,15 +85,11 @@ function occupy(p, v) { for (let k = 0; k < TYPES[p.type].w; k++) slots[p.slot +
 function place(type, slot, animate) {
   if (!hasModel(type)) return;   // 模型没加载出来
   const built = buildCard(type);
-  const p = { id: nextId++, type, slot, group: built.group, hit: built.hit, busy: false, interfaces: [],
-              pivot: built.pivot, faceOffset: built.faceOffset, cx: built.cx, cy: built.cy,
-              bracket: built.bracket, bracketMode: TYPES[type].bracketSide || 'back' };
+  const p = { id: nextId++, type, slot, group: built.group, hit: built.hit, busy: false, interfaces: [], ownInterfaces: built.interfaces,
+              pivot: built.pivot, body: built.body, front: built.front, faceOffset: built.faceOffset, cx: built.cx, cy: built.cy,
+              bracket: built.bracket, bracketMode: TYPES[type].bracketSide || 'back', expKey: null, exp: null };
   if (p.bracket) setBracket(p.bracket, p.bracketMode);
-  // 把标注和模型里的接口件按位号对上；编号沿用标注文件里的顺序
-  ifaceNotes(type).forEach((note, n) => {
-    const geo = built.interfaces.find(i => i.ref === note.ref);
-    if (geo) p.interfaces.push({ n: n + 1, note, mat: geo.mat, center: geo.center, side: geo.side, face: geo.face });
-  });
+  setExpansion(p, (TYPES[type].expansion && TYPES[type].expansion.default) || null);
   built.hit.userData.id = p.id;
   p.group.position.set(0, SEAT_Y, cardZ(type, slot));
   placements.set(p.id, p);
@@ -108,15 +104,54 @@ function place(type, slot, animate) {
   }
   renderUI();
 }
-function move(p, slot) {
-  if (slot === p.slot) return;
-  occupy(p, null); p.slot = slot; occupy(p, p.id);
-  p.busy = true; sel = null;
-  tween(p.group.position, 'y', SEAT_Y + 110, 320, easeInOut)
-    .then(() => tween(p.group.position, 'z', cardZ(p.type, slot), 360, easeInOut))
+// 换上或取下扩展板（key 为 null 是取下），并重建接口列表：主板的接口在前，扩展板的接在后面
+function setExpansion(p, key) {
+  if (p.exp) p.body.remove(p.exp.obj);
+  p.exp = key ? buildExpansion(p, key, sys.expansions[key]) : null;
+  p.expKey = p.exp ? key : null;
+  p.interfaces = [];
+  // 把标注和模型里的接口件按 ref 对上；编号沿用标注文件里的顺序
+  const add = (notes, geos) => notes.forEach(note => {
+    const geo = geos.find(i => i.ref === note.ref);
+    if (geo) p.interfaces.push({ n: p.interfaces.length + 1, note, mat: geo.mat, center: geo.center, side: geo.side, face: geo.face });
+  });
+  add(ifaceNotes(p.type), p.ownInterfaces);
+  if (p.exp) add(ifaceNotes(p.expKey), p.exp.interfaces);
+}
+// 抬起、平移到新槽位、落下。lift 是抬起的高度，互换时两块板用不同高度错开
+function fly(p, lift) {
+  p.busy = true;
+  tween(p.group.position, 'y', SEAT_Y + lift, 320, easeInOut)
+    .then(() => tween(p.group.position, 'z', cardZ(p.type, p.slot), 360, easeInOut))
     .then(() => tween(p.group.position, 'y', SEAT_Y + 7, 380, easeOut))
     .then(() => tween(p.group.position, 'y', SEAT_Y, 200, easeIn))
     .then(() => { p.busy = false; });
+}
+// 两块板互换后各自的起始槽位：靠前的位置给原来靠后的板，两块板合起来占的范围两端不变。放不下时返回 null
+function swapPlan(A, B) {
+  const [L, R] = A.slot < B.slot ? [A, B] : [B, A], wl = TYPES[L.type].w, wr = TYPES[R.type].w;
+  const newR = L.slot, newL = R.slot + wr - wl;
+  const free = i => i >= 0 && i < SLOTS && (slots[i] === null || slots[i] === A.id || slots[i] === B.id);
+  for (let k = 0; k < wr; k++) if (!free(newR + k)) return null;
+  for (let k = 0; k < wl; k++) if (!free(newL + k)) return null;
+  if (newR + wr > newL) return null;
+  return new Map([[L, newL], [R, newR]]);
+}
+function swap(A, B) {
+  const plan = swapPlan(A, B);
+  if (!plan) { sel = { kind: 'placed', id: A.id, swap: true, failed: TYPES[B.type].name }; renderUI(); return; }
+  occupy(A, null); occupy(B, null);
+  A.slot = plan.get(A); B.slot = plan.get(B);
+  occupy(A, A.id); occupy(B, B.id);
+  sel = null;
+  fly(A, 205); fly(B, 110);
+  renderUI();
+}
+function move(p, slot) {
+  if (slot === p.slot) return;
+  occupy(p, null); p.slot = slot; occupy(p, p.id);
+  sel = null;
+  fly(p, 110);
   renderUI();
 }
 function removeCard(p) {
@@ -147,6 +182,11 @@ function applyAt(slot) {
 // 点槽位（3D 里的编号标记或下方槽位条）：选了板卡就落位，否则选中槽里的板
 function slotClick(i) {
   if (inspect) return;
+  if (sel && sel.swap) {
+    const q = slots[i] === null ? null : placements.get(slots[i]), me = placements.get(sel.id);
+    if (q && q !== me && !q.busy && !me.busy) swap(me, q);
+    return;
+  }
   const a = armed();
   if (a) { const f = fit(a.w, i, a.ignore); if (f >= 0) { applyAt(f); return; } }
   const p = slots[i] === null ? null : placements.get(slots[i]);
@@ -355,10 +395,24 @@ function renderUI() {
     const T = TYPES[sel.type];
     span.textContent = t((anyFit(T.w, null) ? 'hint.place' : 'hint.noRoom') + (T.w === 2 ? '2' : ''), { name: T.name });
     hint.appendChild(btn(t('btn.cancel'), 'ghost', () => setSel(null)));
+  } else if (sel.swap) {
+    const name = TYPES[placements.get(sel.id).type].name;
+    span.textContent = sel.failed ? t('hint.swapNoRoom', { name, other: sel.failed }) : t('hint.swap', { name });
+    hint.appendChild(btn(t('btn.cancel'), 'ghost', () => setSel(null)));
   } else {
-    const p = placements.get(sel.id);
+    const p = placements.get(sel.id), X = TYPES[p.type].expansion;
     span.textContent = t('hint.selected', { name: TYPES[p.type].name });
     if (p.interfaces.length) hint.appendChild(btn(t('btn.interfaces'), '', () => enterInspect(p)));
+    if (placements.size > 1) hint.appendChild(btn(t('btn.swap'), 'ghost', () => { sel = { kind: 'placed', id: p.id, swap: true }; renderUI(); }));
+    if (X) {
+      // 依次切换：各个可用的扩展板，然后是不装
+      const cycle = [...X.options, null];
+      const b = btn(t('btn.expansion', { name: p.expKey ? sys.expansions[p.expKey].name : t(X.options.length ? 'expansion.none' : 'expansion.unavailable') }), 'ghost', () => {
+        setExpansion(p, cycle[(cycle.indexOf(p.expKey) + 1) % cycle.length]); renderUI();
+      });
+      b.disabled = !X.options.length;
+      hint.appendChild(b);
+    }
     if (p.bracket) hint.appendChild(btn(t('btn.bracket', { mode: t('bracket.' + p.bracketMode) }), 'ghost', () => {
       p.bracketMode = BRACKET_MODES[(BRACKET_MODES.indexOf(p.bracketMode) + 1) % BRACKET_MODES.length];
       setBracket(p.bracket, p.bracketMode); renderUI();
@@ -433,7 +487,12 @@ cv.addEventListener('pointerup', e => {
   if (dragging) { if (inspect) snapTurn(); }
   else if (!inspect) {
     const h = pick(e);
-    if (h.slot >= 0) applyAt(h.slot);
+    if (sel && sel.swap) {
+      const me = placements.get(sel.id);
+      if (!h.card) setSel(null);
+      else if (h.card !== me && !h.card.busy && !me.busy) swap(me, h.card);
+    }
+    else if (h.slot >= 0) applyAt(h.slot);
     else if (h.card && !h.card.busy) setSel(sel && sel.id === h.card.id ? null : { kind: 'placed', id: h.card.id });
     else if (!h.card) setSel(null);
   }

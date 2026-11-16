@@ -9,7 +9,7 @@
   "max": [
    62.325,
    84.005,
-   9.15
+   5.807
   ]
  },
  "board": {
@@ -31,22 +31,51 @@
  "slots": null,
  "counts": {
   "board": 1,
-  "parts": 157,
-  "blocks": 41,
-  "bits": 1565,
-  "decals": 345,
-  "split": 0,
-  "interface": 0
+  "parts": 45,
+  "blocks": 37,
+  "bits": 1417,
+  "decals": 276,
+  "interface": 238
  },
  "triangles": {
-  "board": 3308,
-  "parts": 120796,
-  "blocks": 492,
-  "bits": 18780,
-  "decals": 690,
-  "split": 0,
-  "interface": 0,
-  "instanced": 20632
+  "board": 4052,
+  "parts": 40297,
+  "blocks": 444,
+  "bits": 17004,
+  "decals": 552,
+  "interface": 122502,
+  "instanced": 504
+ },
+ "split": {
+  "name": "obdh-expansion",
+  "board": {
+   "min": [
+    -22.015,
+    12.55,
+    5.807
+   ],
+   "max": [
+    61.085,
+    79.95,
+    7.8
+   ]
+  },
+  "counts": {
+   "board": 1,
+   "parts": 5,
+   "blocks": 2,
+   "bits": 0,
+   "decals": 64,
+   "interface": 11
+  },
+  "triangles": {
+   "board": 836,
+   "parts": 1775,
+   "blocks": 24,
+   "bits": 0,
+   "decals": 128,
+   "interface": 17602
+  }
  },
  "components": [
   {
@@ -620,8 +649,8 @@
     12.001
    ],
    "kind": "parts",
-   "triangles": 423,
-   "edgeSegments": 156
+   "triangles": 553,
+   "edgeSegments": 176
   },
   {
    "name": "1",
@@ -643,8 +672,8 @@
     12.001
    ],
    "kind": "parts",
-   "triangles": 423,
-   "edgeSegments": 156
+   "triangles": 553,
+   "edgeSegments": 176
   },
   {
    "name": "1",
@@ -655,8 +684,8 @@
     12.001
    ],
    "kind": "parts",
-   "triangles": 423,
-   "edgeSegments": 156
+   "triangles": 553,
+   "edgeSegments": 176
   },
   {
    "name": "1",
@@ -678,8 +707,8 @@
     12.001
    ],
    "kind": "parts",
-   "triangles": 423,
-   "edgeSegments": 156
+   "triangles": 553,
+   "edgeSegments": 176
   },
   {
    "name": "1",
@@ -756,8 +785,8 @@
     1.157
    ],
    "kind": "parts",
-   "triangles": 7798,
-   "edgeSegments": 56
+   "triangles": 7838,
+   "edgeSegments": 58
   },
   {
    "name": "10164228-1001A1RLF.stp_1",
@@ -768,8 +797,8 @@
     1.157
    ],
    "kind": "parts",
-   "triangles": 7798,
-   "edgeSegments": 64
+   "triangles": 7838,
+   "edgeSegments": 68
   },
   {
    "name": "1_1",
@@ -1026,190 +1055,207 @@
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.304,
     0.508,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.305,
     0.508,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.508,
     0.305,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.305,
     0.508,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.304,
     0.508,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.305,
     0.508,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.508,
     0.304,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     1.752,
     1.752,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.508,
     0.304,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.304,
     0.508,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.508,
     0.305,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.508,
     0.304,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.508,
     0.305,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     3.098,
     3.098,
     1.6
    ],
+   "in": "obdh-expansion",
    "kind": "blocks",
    "triangles": 12
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.508,
     0.304,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.304,
     0.508,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.305,
     0.508,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "231806528",
@@ -1224,14 +1270,15 @@
   },
   {
    "name": "231806528",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.508,
     0.305,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "2712 v2 STEP.STEP",
@@ -1266,8 +1313,8 @@
     1.35
    ],
    "kind": "parts",
-   "triangles": 88,
-   "edgeSegments": 58
+   "triangles": 100,
+   "edgeSegments": 64
   },
   {
    "name": "2_1",
@@ -1689,74 +1736,80 @@
   },
   {
    "name": "5037630491",
-   "side": "top",
+   "side": "bottom",
    "size": [
     8.945,
     8.945,
     1.5
    ],
-   "kind": "parts",
-   "triangles": 920,
+   "in": "obdh-expansion",
+   "kind": "interface",
+   "triangles": 984,
    "edgeSegments": 212
   },
   {
    "name": "5037630491_1",
-   "side": "top",
+   "side": "bottom",
    "size": [
     8.6,
     5.19,
     1.5
    ],
-   "kind": "parts",
-   "triangles": 920,
+   "in": "obdh-expansion",
+   "kind": "interface",
+   "triangles": 984,
    "edgeSegments": 242
   },
   {
    "name": "5037630491_2",
-   "side": "top",
+   "side": "bottom",
    "size": [
     8.6,
     5.19,
     1.5
    ],
-   "kind": "parts",
-   "triangles": 920,
+   "in": "obdh-expansion",
+   "kind": "interface",
+   "triangles": 984,
    "edgeSegments": 242
   },
   {
    "name": "5037630491_3",
-   "side": "top",
+   "side": "bottom",
    "size": [
     8.6,
     5.19,
     1.5
    ],
-   "kind": "parts",
-   "triangles": 920,
+   "in": "obdh-expansion",
+   "kind": "interface",
+   "triangles": 984,
    "edgeSegments": 242
   },
   {
    "name": "5037630491_4",
-   "side": "top",
+   "side": "bottom",
    "size": [
     8.6,
     5.19,
     1.5
    ],
-   "kind": "parts",
-   "triangles": 920,
+   "in": "obdh-expansion",
+   "kind": "interface",
+   "triangles": 984,
    "edgeSegments": 242
   },
   {
    "name": "5037630491_5",
-   "side": "top",
+   "side": "bottom",
    "size": [
     8.6,
     5.19,
     1.5
    ],
-   "kind": "parts",
-   "triangles": 920,
+   "in": "obdh-expansion",
+   "kind": "interface",
+   "triangles": 984,
    "edgeSegments": 246
   },
   {
@@ -1789,9 +1842,9 @@
     8.306,
     3.546
    ],
-   "kind": "parts",
-   "triangles": 1208,
-   "edgeSegments": 460
+   "kind": "interface",
+   "triangles": 1292,
+   "edgeSegments": 492
   },
   {
    "name": "629722000214_Pin1_Bottom",
@@ -1801,8 +1854,8 @@
     0.62,
     1.448
    ],
-   "kind": "parts",
-   "triangles": 100,
+   "kind": "interface",
+   "triangles": 116,
    "edgeSegments": 22
   },
   {
@@ -1813,8 +1866,8 @@
     0.62,
     1.448
    ],
-   "kind": "parts",
-   "triangles": 100,
+   "kind": "interface",
+   "triangles": 116,
    "edgeSegments": 20
   },
   {
@@ -1825,8 +1878,8 @@
     0.88,
     2.026
    ],
-   "kind": "parts",
-   "triangles": 100,
+   "kind": "interface",
+   "triangles": 116,
    "edgeSegments": 22
   },
   {
@@ -1837,8 +1890,8 @@
     0.88,
     2.026
    ],
-   "kind": "parts",
-   "triangles": 100,
+   "kind": "interface",
+   "triangles": 116,
    "edgeSegments": 20
   },
   {
@@ -1849,8 +1902,8 @@
     1.315,
     1.448
    ],
-   "kind": "parts",
-   "triangles": 100,
+   "kind": "interface",
+   "triangles": 116,
    "edgeSegments": 22
   },
   {
@@ -1861,8 +1914,8 @@
     1.315,
     1.448
    ],
-   "kind": "parts",
-   "triangles": 100,
+   "kind": "interface",
+   "triangles": 116,
    "edgeSegments": 22
   },
   {
@@ -1873,8 +1926,8 @@
     1.575,
     2.026
    ],
-   "kind": "parts",
-   "triangles": 100,
+   "kind": "interface",
+   "triangles": 116,
    "edgeSegments": 22
   },
   {
@@ -1885,8 +1938,8 @@
     1.575,
     2.026
    ],
-   "kind": "parts",
-   "triangles": 100,
+   "kind": "interface",
+   "triangles": 116,
    "edgeSegments": 24
   },
   {
@@ -1897,8 +1950,8 @@
     1.245,
     1.448
    ],
-   "kind": "parts",
-   "triangles": 100,
+   "kind": "interface",
+   "triangles": 116,
    "edgeSegments": 20
   },
   {
@@ -1909,8 +1962,8 @@
     1.245,
     1.448
    ],
-   "kind": "parts",
-   "triangles": 100,
+   "kind": "interface",
+   "triangles": 116,
    "edgeSegments": 20
   },
   {
@@ -1921,8 +1974,8 @@
     0.745,
     2.026
    ],
-   "kind": "parts",
-   "triangles": 100,
+   "kind": "interface",
+   "triangles": 116,
    "edgeSegments": 20
   },
   {
@@ -1933,8 +1986,8 @@
     0.745,
     2.026
    ],
-   "kind": "parts",
-   "triangles": 100,
+   "kind": "interface",
+   "triangles": 116,
    "edgeSegments": 20
   },
   {
@@ -1945,8 +1998,8 @@
     0.745,
     1.448
    ],
-   "kind": "parts",
-   "triangles": 100,
+   "kind": "interface",
+   "triangles": 116,
    "edgeSegments": 20
   },
   {
@@ -1957,8 +2010,8 @@
     0.745,
     1.448
    ],
-   "kind": "parts",
-   "triangles": 100,
+   "kind": "interface",
+   "triangles": 116,
    "edgeSegments": 20
   },
   {
@@ -1969,8 +2022,8 @@
     0.25,
     2.026
    ],
-   "kind": "parts",
-   "triangles": 100,
+   "kind": "interface",
+   "triangles": 116,
    "edgeSegments": 20
   },
   {
@@ -1981,8 +2034,8 @@
     0.25,
     2.026
    ],
-   "kind": "parts",
-   "triangles": 100,
+   "kind": "interface",
+   "triangles": 116,
    "edgeSegments": 20
   },
   {
@@ -1993,9 +2046,9 @@
     9.624,
     4.205
    ],
-   "kind": "parts",
-   "triangles": 3404,
-   "edgeSegments": 475
+   "kind": "interface",
+   "triangles": 3860,
+   "edgeSegments": 519
   },
   {
    "name": "629722000214_Shielding2",
@@ -2005,8 +2058,8 @@
     8.31,
     0.1
    ],
-   "kind": "parts",
-   "triangles": 236,
+   "kind": "interface",
+   "triangles": 276,
    "edgeSegments": 30
   },
   {
@@ -2017,9 +2070,9 @@
     15.0,
     5.945
    ],
-   "kind": "parts",
-   "triangles": 3620,
-   "edgeSegments": 582
+   "kind": "interface",
+   "triangles": 3736,
+   "edgeSegments": 590
   },
   {
    "name": "685219134123_Housing_1",
@@ -2029,9 +2082,9 @@
     15.0,
     5.945
    ],
-   "kind": "parts",
-   "triangles": 3620,
-   "edgeSegments": 581
+   "kind": "interface",
+   "triangles": 3736,
+   "edgeSegments": 589
   },
   {
    "name": "685219134123_Pin1",
@@ -2041,9 +2094,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_1",
@@ -2053,9 +2106,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_10",
@@ -2065,9 +2118,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_11",
@@ -2077,9 +2130,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_12",
@@ -2089,9 +2142,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_13",
@@ -2101,9 +2154,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_14",
@@ -2113,9 +2166,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_15",
@@ -2125,9 +2178,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_16",
@@ -2137,9 +2190,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_17",
@@ -2149,9 +2202,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_18",
@@ -2161,9 +2214,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_19",
@@ -2173,9 +2226,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_2",
@@ -2185,9 +2238,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_3",
@@ -2197,9 +2250,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_4",
@@ -2209,9 +2262,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_5",
@@ -2221,9 +2274,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_6",
@@ -2233,9 +2286,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_7",
@@ -2245,9 +2298,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_8",
@@ -2257,9 +2310,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin1_9",
@@ -2269,9 +2322,9 @@
     0.45,
     3.9
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2",
@@ -2281,9 +2334,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_1",
@@ -2293,9 +2346,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_10",
@@ -2305,9 +2358,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_11",
@@ -2317,9 +2370,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_12",
@@ -2329,9 +2382,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_13",
@@ -2341,9 +2394,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_14",
@@ -2353,9 +2406,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_15",
@@ -2365,9 +2418,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_16",
@@ -2377,9 +2430,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_17",
@@ -2389,9 +2442,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_2",
@@ -2401,9 +2454,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_3",
@@ -2413,9 +2466,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_4",
@@ -2425,9 +2478,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_5",
@@ -2437,9 +2490,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_6",
@@ -2449,9 +2502,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_7",
@@ -2461,9 +2514,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_8",
@@ -2473,9 +2526,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Pin2_9",
@@ -2485,9 +2538,9 @@
     0.45,
     3.55
    ],
-   "kind": "parts",
-   "triangles": 172,
-   "edgeSegments": 24
+   "kind": "interface",
+   "triangles": 184,
+   "edgeSegments": 26
   },
   {
    "name": "685219134123_Shielding_oa_0",
@@ -2497,9 +2550,9 @@
     15.019,
     8.41
    ],
-   "kind": "parts",
-   "triangles": 2600,
-   "edgeSegments": 554
+   "kind": "interface",
+   "triangles": 3072,
+   "edgeSegments": 626
   },
   {
    "name": "685219134123_Shielding_oa_0_1",
@@ -2509,9 +2562,9 @@
     15.019,
     8.41
    ],
-   "kind": "parts",
-   "triangles": 2600,
-   "edgeSegments": 556
+   "kind": "interface",
+   "triangles": 3072,
+   "edgeSegments": 628
   },
   {
    "name": "692121030100_Housing",
@@ -2521,9 +2574,9 @@
     13.103,
     6.693
    ],
-   "kind": "parts",
-   "triangles": 1366,
-   "edgeSegments": 647
+   "kind": "interface",
+   "triangles": 1394,
+   "edgeSegments": 653
   },
   {
    "name": "692121030100_Housing2",
@@ -2533,7 +2586,7 @@
     11.1,
     4.0
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 336,
    "edgeSegments": 182
   },
@@ -2545,9 +2598,9 @@
     1.7,
     7.35
    ],
-   "kind": "parts",
-   "triangles": 272,
-   "edgeSegments": 70
+   "kind": "interface",
+   "triangles": 324,
+   "edgeSegments": 80
   },
   {
    "name": "692121030100_Pin1",
@@ -2557,9 +2610,9 @@
     1.6,
     8.506
    ],
-   "kind": "parts",
-   "triangles": 168,
-   "edgeSegments": 42
+   "kind": "interface",
+   "triangles": 180,
+   "edgeSegments": 44
   },
   {
    "name": "692121030100_Pin1_1",
@@ -2569,9 +2622,9 @@
     1.6,
     8.506
    ],
-   "kind": "parts",
-   "triangles": 168,
-   "edgeSegments": 42
+   "kind": "interface",
+   "triangles": 180,
+   "edgeSegments": 44
   },
   {
    "name": "692121030100_Pin1_2",
@@ -2581,9 +2634,9 @@
     1.6,
     8.506
    ],
-   "kind": "parts",
-   "triangles": 168,
-   "edgeSegments": 42
+   "kind": "interface",
+   "triangles": 180,
+   "edgeSegments": 44
   },
   {
    "name": "692121030100_Pin1_3",
@@ -2593,9 +2646,9 @@
     1.6,
     8.506
    ],
-   "kind": "parts",
-   "triangles": 168,
-   "edgeSegments": 42
+   "kind": "interface",
+   "triangles": 180,
+   "edgeSegments": 44
   },
   {
    "name": "692121030100_Pin1_4",
@@ -2605,9 +2658,9 @@
     1.6,
     8.506
    ],
-   "kind": "parts",
-   "triangles": 168,
-   "edgeSegments": 42
+   "kind": "interface",
+   "triangles": 180,
+   "edgeSegments": 44
   },
   {
    "name": "692121030100_Pin2",
@@ -2617,9 +2670,9 @@
     1.7,
     7.36
    ],
-   "kind": "parts",
-   "triangles": 292,
-   "edgeSegments": 62
+   "kind": "interface",
+   "triangles": 344,
+   "edgeSegments": 72
   },
   {
    "name": "692121030100_Pin2_1",
@@ -2629,9 +2682,9 @@
     1.7,
     7.36
    ],
-   "kind": "parts",
-   "triangles": 292,
-   "edgeSegments": 66
+   "kind": "interface",
+   "triangles": 344,
+   "edgeSegments": 76
   },
   {
    "name": "692121030100_Pin_1",
@@ -2641,9 +2694,9 @@
     1.7,
     7.35
    ],
-   "kind": "parts",
-   "triangles": 272,
-   "edgeSegments": 70
+   "kind": "interface",
+   "triangles": 324,
+   "edgeSegments": 80
   },
   {
    "name": "692121030100_Shielding",
@@ -2653,9 +2706,9 @@
     15.504,
     11.233
    ],
-   "kind": "parts",
-   "triangles": 2550,
-   "edgeSegments": 550
+   "kind": "interface",
+   "triangles": 3172,
+   "edgeSegments": 648
   },
   {
    "name": "710978896",
@@ -2744,7 +2797,7 @@
    ],
    "kind": "parts",
    "instanceOf": "9774025243",
-   "triangles": 132
+   "triangles": 168
   },
   {
    "name": "9774025243_1",
@@ -2768,7 +2821,7 @@
    ],
    "kind": "parts",
    "instanceOf": "9774050243",
-   "triangles": 132
+   "triangles": 168
   },
   {
    "name": "9774050243_1",
@@ -2780,7 +2833,7 @@
    ],
    "kind": "parts",
    "instanceOf": "9774050243_1",
-   "triangles": 132
+   "triangles": 168
   },
   {
    "name": "9774050243_2",
@@ -2836,9 +2889,9 @@
     5.235,
     6.835
    ],
-   "kind": "parts",
-   "instanceOf": "ARF6-08_socket_1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 3288,
+   "edgeSegments": 713
   },
   {
    "name": "ARF6-08_socket_1",
@@ -2848,9 +2901,9 @@
     5.235,
     6.835
    ],
-   "kind": "parts",
-   "instanceOf": "ARF6-08_socket_1",
-   "triangles": 2876
+   "kind": "interface",
+   "triangles": 3288,
+   "edgeSegments": 709
   },
   {
    "name": "AVX",
@@ -3347,9 +3400,9 @@
     6.086,
     1.783
    ],
-   "kind": "parts",
-   "instanceOf": "C-494-08_1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 6974,
+   "edgeSegments": 572
   },
   {
    "name": "C-494-08_1",
@@ -3359,9 +3412,9 @@
     6.086,
     1.783
    ],
-   "kind": "parts",
-   "instanceOf": "C-494-08_1",
-   "triangles": 6506
+   "kind": "interface",
+   "triangles": 6974,
+   "edgeSegments": 572
   },
   {
    "name": "C-495-08",
@@ -3371,9 +3424,9 @@
     8.492,
     3.951
    ],
-   "kind": "parts",
-   "instanceOf": "C-495-08",
-   "triangles": 8326
+   "kind": "interface",
+   "triangles": 8976,
+   "edgeSegments": 962
   },
   {
    "name": "C-495-08_1",
@@ -3383,9 +3436,9 @@
     8.492,
     3.951
    ],
-   "kind": "parts",
-   "instanceOf": "C-495-08",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 8976,
+   "edgeSegments": 962
   },
   {
    "name": "CAP0201.step",
@@ -6493,23 +6546,13 @@
    "name": "Conn_TE_1-2199230-6_eec",
    "side": "top",
    "size": [
-    0.476,
-    0.313,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "Conn_TE_1-2199230-6_eec",
-   "side": "top",
-   "size": [
     0.791,
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6519,8 +6562,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6530,8 +6574,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6541,8 +6586,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6552,8 +6598,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6563,8 +6610,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6574,8 +6622,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6585,8 +6634,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6596,8 +6646,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6607,8 +6658,9 @@
     1.82,
     0.005
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6618,8 +6670,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6629,8 +6682,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6640,8 +6694,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6651,8 +6706,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6662,8 +6718,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6673,8 +6730,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6684,8 +6742,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6695,8 +6754,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6706,8 +6766,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6717,8 +6778,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6728,8 +6790,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6739,8 +6802,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6750,8 +6814,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6761,8 +6826,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6772,8 +6838,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6783,8 +6850,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6794,8 +6862,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6805,8 +6874,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6816,8 +6886,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6827,8 +6898,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6838,8 +6910,9 @@
     1.329,
     0.005
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 32,
+   "edgeSegments": 12
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6849,8 +6922,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6860,8 +6934,9 @@
     1.821,
     0.006
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6871,8 +6946,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6882,8 +6958,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6893,8 +6970,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6904,8 +6982,9 @@
     1.82,
     0.005
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6915,8 +6994,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6926,8 +7006,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6937,8 +7018,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6948,19 +7030,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "Conn_TE_1-2199230-6_eec",
-   "side": "top",
-   "size": [
-    0.476,
-    0.448,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6970,8 +7042,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6981,8 +7054,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -6992,8 +7066,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7003,8 +7078,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7014,8 +7090,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7025,8 +7102,9 @@
     1.524,
     0.005
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 48,
+   "edgeSegments": 14
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7036,8 +7114,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7047,8 +7126,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7058,8 +7138,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7069,8 +7150,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7080,8 +7162,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7091,8 +7174,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7102,8 +7186,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7113,8 +7198,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7124,8 +7210,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7135,8 +7222,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7146,8 +7234,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7157,8 +7246,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7168,19 +7258,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "Conn_TE_1-2199230-6_eec",
-   "side": "top",
-   "size": [
-    0.054,
-    0.177,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7190,8 +7270,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7201,8 +7282,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7212,19 +7294,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
-  },
-  {
-   "name": "Conn_TE_1-2199230-6_eec",
-   "side": "top",
-   "size": [
-    0.476,
-    0.177,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7234,8 +7306,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7245,8 +7318,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7256,8 +7330,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7267,8 +7342,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7278,8 +7354,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7289,8 +7366,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7300,20 +7378,9 @@
     21.913,
     4.896
    ],
-   "kind": "parts",
-   "triangles": 686,
-   "edgeSegments": 302
-  },
-  {
-   "name": "Conn_TE_1-2199230-6_eec",
-   "side": "top",
-   "size": [
-    0.475,
-    0.326,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 818,
+   "edgeSegments": 327
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7323,8 +7390,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7334,19 +7402,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "Conn_TE_1-2199230-6_eec",
-   "side": "top",
-   "size": [
-    0.476,
-    0.313,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7356,8 +7414,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7367,8 +7426,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7378,8 +7438,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7389,8 +7450,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7400,8 +7462,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7411,8 +7474,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7422,8 +7486,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7433,8 +7498,9 @@
     0.752,
     0.332
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 248,
+   "edgeSegments": 6
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7444,8 +7510,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7455,19 +7522,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "Conn_TE_1-2199230-6_eec",
-   "side": "top",
-   "size": [
-    0.054,
-    0.177,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7477,8 +7534,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7488,8 +7546,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7499,8 +7558,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7510,8 +7570,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7521,8 +7582,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7532,8 +7594,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7543,8 +7606,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7554,8 +7618,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7565,8 +7630,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7576,8 +7642,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7587,8 +7654,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7598,8 +7666,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7609,8 +7678,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7620,8 +7690,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7631,8 +7702,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7642,19 +7714,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
-  },
-  {
-   "name": "Conn_TE_1-2199230-6_eec",
-   "side": "top",
-   "size": [
-    0.476,
-    0.312,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7664,8 +7726,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7675,8 +7738,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7686,8 +7750,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7697,8 +7762,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7708,8 +7774,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7719,8 +7786,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7730,8 +7798,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7741,8 +7810,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7752,8 +7822,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7763,8 +7834,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7774,8 +7846,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7785,8 +7858,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7796,8 +7870,9 @@
     0.752,
     0.332
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 248,
+   "edgeSegments": 6
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7807,8 +7882,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7818,8 +7894,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7829,8 +7906,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7840,8 +7918,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7851,8 +7930,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7862,8 +7942,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7873,8 +7954,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7884,8 +7966,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7895,8 +7978,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7906,8 +7990,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7917,19 +8002,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "Conn_TE_1-2199230-6_eec",
-   "side": "top",
-   "size": [
-    0.476,
-    0.312,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7939,8 +8014,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7950,8 +8026,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7961,8 +8038,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7972,8 +8050,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7983,8 +8062,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -7994,8 +8074,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -8005,19 +8086,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "Conn_TE_1-2199230-6_eec",
-   "side": "top",
-   "size": [
-    0.475,
-    0.312,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -8027,8 +8098,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -8038,8 +8110,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -8049,19 +8122,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "Conn_TE_1-2199230-6_eec",
-   "side": "top",
-   "size": [
-    0.476,
-    0.177,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -8071,8 +8134,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -8082,8 +8146,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -8093,8 +8158,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -8104,8 +8170,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -8115,8 +8182,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -8126,8 +8194,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -8137,19 +8206,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "Conn_TE_1-2199230-6_eec",
-   "side": "top",
-   "size": [
-    0.475,
-    0.312,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -8159,8 +8218,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -8170,8 +8230,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "Conn_TE_1-2199230-6_eec",
@@ -8181,8 +8242,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 52,
+   "edgeSegments": 8
   },
   {
    "name": "Crys_Abracon_ASEK1-32_768KHZ-LRT_eec",
@@ -8831,8 +8893,8 @@
     1.076
    ],
    "kind": "parts",
-   "triangles": 268,
-   "edgeSegments": 128
+   "triangles": 316,
+   "edgeSegments": 152
   },
   {
    "name": "Diodes Incorporated",
@@ -9194,8 +9256,8 @@
     5.354,
     3.201
    ],
-   "kind": "parts",
-   "triangles": 10112,
+   "kind": "interface",
+   "triangles": 10352,
    "edgeSegments": 500
   },
   {
@@ -9206,9 +9268,9 @@
     3.884,
     3.234
    ],
-   "kind": "parts",
-   "triangles": 10952,
-   "edgeSegments": 1460
+   "kind": "interface",
+   "triangles": 12632,
+   "edgeSegments": 1700
   },
   {
    "name": "ERM8-030-01-D-EM2tl",
@@ -9218,9 +9280,9 @@
     12.95,
     5.6
    ],
-   "kind": "parts",
-   "triangles": 4028,
-   "edgeSegments": 1918
+   "kind": "interface",
+   "triangles": 4212,
+   "edgeSegments": 1994
   },
   {
    "name": "Electrode",
@@ -9430,8 +9492,8 @@
     11.368
    ],
    "kind": "parts",
-   "triangles": 5937,
-   "edgeSegments": 880
+   "triangles": 7957,
+   "edgeSegments": 1060
   },
   {
    "name": "Fusion",
@@ -9529,9 +9591,9 @@
     2.08,
     1.65
    ],
-   "kind": "parts",
-   "instanceOf": "IM-C-494-08",
-   "triangles": 904
+   "kind": "interface",
+   "triangles": 928,
+   "edgeSegments": 448
   },
   {
    "name": "IM-C-494-08_1",
@@ -9541,9 +9603,9 @@
     2.08,
     1.65
    ],
-   "kind": "parts",
-   "instanceOf": "IM-C-494-08",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 928,
+   "edgeSegments": 448
   },
   {
    "name": "IM-C-495-08",
@@ -9553,9 +9615,9 @@
     0.8,
     1.2
    ],
-   "kind": "parts",
-   "instanceOf": "IM-C-495-08_1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 720,
+   "edgeSegments": 228
   },
   {
    "name": "IM-C-495-08-BODY1",
@@ -9565,9 +9627,9 @@
     2.08,
     1.65
    ],
-   "kind": "parts",
-   "instanceOf": "IM-C-495-08-BODY1_1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 928,
+   "edgeSegments": 452
   },
   {
    "name": "IM-C-495-08-BODY1_1",
@@ -9577,9 +9639,9 @@
     2.08,
     1.65
    ],
-   "kind": "parts",
-   "instanceOf": "IM-C-495-08-BODY1_1",
-   "triangles": 904
+   "kind": "interface",
+   "triangles": 928,
+   "edgeSegments": 452
   },
   {
    "name": "IM-C-495-08_1",
@@ -9589,9 +9651,9 @@
     0.8,
     1.2
    ],
-   "kind": "parts",
-   "instanceOf": "IM-C-495-08_1",
-   "triangles": 720
+   "kind": "interface",
+   "triangles": 720,
+   "edgeSegments": 228
   },
   {
    "name": "Insulator",
@@ -9601,8 +9663,9 @@
     4.041,
     1.6
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 236,
+   "edgeSegments": 4
   },
   {
    "name": "Insulator",
@@ -9612,9 +9675,9 @@
     22.318,
     11.138
    ],
-   "kind": "parts",
-   "triangles": 2270,
-   "edgeSegments": 656
+   "kind": "interface",
+   "triangles": 2592,
+   "edgeSegments": 662
   },
   {
    "name": "Insulator",
@@ -9624,8 +9687,9 @@
     4.041,
     1.6
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 236,
+   "edgeSegments": 4
   },
   {
    "name": "JST Logo",
@@ -10982,14 +11046,15 @@
   },
   {
    "name": "Mark",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.85,
     0.035
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Mark",
@@ -11004,124 +11069,135 @@
   },
   {
    "name": "Mark_1",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.85,
     0.035
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Mark_2",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.85,
     0.035
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Mark_3",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.85,
     0.035
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Mark_4",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.85,
     0.035
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Mark_5",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.85,
     0.035
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Mid Body",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.98,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Mid Body_1",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.98,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Mid Body_2",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.98,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Mid Body_3",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.98,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Mid Body_4",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.98,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Mid Body_5",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.98,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Mid_Body",
@@ -11180,15 +11256,16 @@
   },
   {
    "name": "Open CASCADE STEP translator 7.5 1.1.1",
-   "side": "top",
+   "side": "bottom",
    "size": [
     83.1,
     67.4,
     1.993
    ],
-   "kind": "parts",
-   "triangles": 724,
-   "edgeSegments": 350
+   "in": "obdh-expansion",
+   "kind": "board",
+   "triangles": 836,
+   "edgeSegments": 266
   },
   {
    "name": "Open CASCADE STEP translator 7.5 1.76.1.1.1.1.1.1",
@@ -13404,14 +13481,15 @@
   },
   {
    "name": "Open CASCADE STEP translator 7.5 24.1.1",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.95,
     0.2,
     0.9
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 24.1.1",
@@ -13437,25 +13515,27 @@
   },
   {
    "name": "Open CASCADE STEP translator 7.5 24.1.2",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.95,
     0.2,
     0.9
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 24.2.1",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.95,
     1.35,
     0.9
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 24.2.1",
@@ -13470,168 +13550,183 @@
   },
   {
    "name": "Open CASCADE STEP translator 7.5 30.1.1",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.6,
     0.1,
     0.6
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 30.1.2",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.6,
     0.1,
     0.6
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 30.2.1",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.6,
     0.9,
     0.6
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 4.2.1",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.1,
     0.35
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 4.2.1_1",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.1,
     0.35
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 4.2.1_10",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.1,
     0.35
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 4.2.1_11",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.1,
     0.35
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 4.2.1_2",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.1,
     0.35
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 4.2.1_3",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.1,
     0.35
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 4.2.1_4",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.1,
     0.35
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 4.2.1_5",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.1,
     0.35
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 4.2.1_6",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.1,
     0.35
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 4.2.1_7",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.1,
     0.35
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 4.2.1_8",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.1,
     0.35
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "Open CASCADE STEP translator 7.5 4.2.1_9",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.55,
     0.1,
     0.35
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "P2T-1S39-01(020-01-D-F)",
@@ -13641,8 +13736,8 @@
     15.416,
     3.288
    ],
-   "kind": "parts",
-   "triangles": 1596,
+   "kind": "interface",
+   "triangles": 1916,
    "edgeSegments": 320
   },
   {
@@ -13665,8 +13760,8 @@
     15.405,
     0.889
    ],
-   "kind": "parts",
-   "triangles": 2076,
+   "kind": "interface",
+   "triangles": 2236,
    "edgeSegments": 640
   },
   {
@@ -13942,8 +14037,8 @@
     1.611
    ],
    "kind": "board",
-   "triangles": 3308,
-   "edgeSegments": 870
+   "triangles": 4052,
+   "edgeSegments": 1030
   },
   {
    "name": "Part_18370",
@@ -14064,8 +14159,8 @@
     15.0
    ],
    "kind": "parts",
-   "triangles": 2176,
-   "edgeSegments": 1089
+   "triangles": 2690,
+   "edgeSegments": 1290
   },
   {
    "name": "Pin1_Dot",
@@ -14378,91 +14473,99 @@
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.304,
     0.508,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.508,
     0.305,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.508,
     0.304,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     1.752,
     1.752,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.304,
     0.508,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.508,
     0.305,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     3.098,
     3.098,
     1.6
    ],
+   "in": "obdh-expansion",
    "kind": "blocks",
    "triangles": 12
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.508,
     0.304,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QFN_24RGTR_TEX",
@@ -14477,173 +14580,188 @@
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.508,
     0.305,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.304,
     0.508,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.305,
     0.508,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.305,
     0.508,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.508,
     0.304,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.508,
     0.304,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.305,
     0.508,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.508,
     0.305,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.304,
     0.508,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QFN_24RGTR_TEX",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.305,
     0.508,
     0.051
    ],
-   "kind": "bits",
-   "triangles": 12
+   "in": "obdh-expansion",
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "QSE-020-01-L-D-A-S_terminal",
-   "side": "top",
+   "side": "bottom",
    "size": [
     7.239,
     21.285,
     4.013
    ],
-   "kind": "parts",
-   "triangles": 1970,
-   "edgeSegments": 835
+   "in": "obdh-expansion",
+   "kind": "interface",
+   "triangles": 2046,
+   "edgeSegments": 841
   },
   {
    "name": "QSE-C-126-21-020-D-S-L",
-   "side": "top",
+   "side": "bottom",
    "size": [
     7.493,
     15.354,
     0.686
    ],
-   "kind": "parts",
-   "triangles": 2952,
+   "in": "obdh-expansion",
+   "kind": "interface",
+   "triangles": 3112,
    "edgeSegments": 480
   },
   {
    "name": "QSE-C-126-21-020-D-S2",
-   "side": "top",
+   "side": "bottom",
    "size": [
     1.321,
     15.354,
     2.311
    ],
-   "kind": "parts",
-   "triangles": 2556,
-   "edgeSegments": 800
+   "in": "obdh-expansion",
+   "kind": "interface",
+   "triangles": 3116,
+   "edgeSegments": 1000
   },
   {
    "name": "QSE-C-126-21-020-D-S3",
-   "side": "top",
+   "side": "bottom",
    "size": [
     1.321,
     15.354,
     2.311
    ],
-   "kind": "parts",
-   "triangles": 2556,
-   "edgeSegments": 800
+   "in": "obdh-expansion",
+   "kind": "interface",
+   "triangles": 3116,
+   "edgeSegments": 1000
   },
   {
    "name": "QSE-T-1G2-01-020",
-   "side": "top",
+   "side": "bottom",
    "size": [
     0.604,
     18.445,
     3.182
    ],
-   "kind": "parts",
-   "triangles": 292,
-   "edgeSegments": 144
+   "in": "obdh-expansion",
+   "kind": "interface",
+   "triangles": 308,
+   "edgeSegments": 152
   },
   {
    "name": "QTE-020-01-D-At",
@@ -14653,9 +14771,9 @@
     20.015,
     4.978
    ],
-   "kind": "parts",
-   "triangles": 964,
-   "edgeSegments": 530
+   "kind": "interface",
+   "triangles": 1016,
+   "edgeSegments": 536
   },
   {
    "name": "QTE-T-1G1-01_imp",
@@ -14665,7 +14783,7 @@
     18.929,
     3.765
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 140,
    "edgeSegments": 56
   },
@@ -17295,9 +17413,9 @@
     21.879,
     13.329
    ],
-   "kind": "parts",
-   "triangles": 3364,
-   "edgeSegments": 683
+   "kind": "interface",
+   "triangles": 3918,
+   "edgeSegments": 712
   },
   {
    "name": "Socket button head screw M2.5x0.45 x 4",
@@ -17308,8 +17426,8 @@
     5.5
    ],
    "kind": "parts",
-   "triangles": 263,
-   "edgeSegments": 87
+   "triangles": 357,
+   "edgeSegments": 98
   },
   {
    "name": "Socket button head screw M2.5x0.45 x 4",
@@ -17320,8 +17438,8 @@
     5.5
    ],
    "kind": "parts",
-   "triangles": 263,
-   "edgeSegments": 87
+   "triangles": 357,
+   "edgeSegments": 98
   },
   {
    "name": "Socket button head screw M2.5x0.45 x 4",
@@ -17332,8 +17450,8 @@
     5.5
    ],
    "kind": "parts",
-   "triangles": 263,
-   "edgeSegments": 87
+   "triangles": 357,
+   "edgeSegments": 98
   },
   {
    "name": "Socket button head screw M2.5x0.45 x 4",
@@ -17344,8 +17462,8 @@
     5.5
    ],
    "kind": "parts",
-   "triangles": 263,
-   "edgeSegments": 87
+   "triangles": 357,
+   "edgeSegments": 98
   },
   {
    "name": "Socket button head screw M2.5x0.45 x 4",
@@ -17356,8 +17474,8 @@
     5.5
    ],
    "kind": "parts",
-   "triangles": 263,
-   "edgeSegments": 87
+   "triangles": 357,
+   "edgeSegments": 98
   },
   {
    "name": "Socket button head screw M2.5x0.45 x 4",
@@ -17368,8 +17486,8 @@
     5.5
    ],
    "kind": "parts",
-   "triangles": 263,
-   "edgeSegments": 87
+   "triangles": 357,
+   "edgeSegments": 98
   },
   {
    "name": "Socket button head screw M2.5x0.45 x 4",
@@ -17380,8 +17498,8 @@
     5.5
    ],
    "kind": "parts",
-   "triangles": 263,
-   "edgeSegments": 87
+   "triangles": 357,
+   "edgeSegments": 98
   },
   {
    "name": "Socket button head screw M2.5x0.45 x 4",
@@ -17392,68 +17510,73 @@
     5.5
    ],
    "kind": "parts",
-   "triangles": 263,
-   "edgeSegments": 87
+   "triangles": 357,
+   "edgeSegments": 98
   },
   {
    "name": "Socket button head screw M2x0.4 x 4",
-   "side": "top",
+   "side": "bottom",
    "size": [
     3.5,
     3.5,
     5.35
    ],
+   "in": "obdh-expansion",
    "kind": "parts",
-   "triangles": 261,
-   "edgeSegments": 79
+   "triangles": 355,
+   "edgeSegments": 90
   },
   {
    "name": "Socket button head screw M2x0.4 x 4",
-   "side": "top",
+   "side": "bottom",
    "size": [
     3.5,
     3.5,
     5.35
    ],
+   "in": "obdh-expansion",
    "kind": "parts",
-   "triangles": 261,
-   "edgeSegments": 79
+   "triangles": 355,
+   "edgeSegments": 90
   },
   {
    "name": "Socket button head screw M2x0.4 x 4",
-   "side": "top",
+   "side": "bottom",
    "size": [
     3.5,
     3.5,
     5.35
    ],
+   "in": "obdh-expansion",
    "kind": "parts",
-   "triangles": 261,
-   "edgeSegments": 79
+   "triangles": 355,
+   "edgeSegments": 90
   },
   {
    "name": "Socket button head screw M2x0.4 x 4",
-   "side": "top",
+   "side": "bottom",
    "size": [
     3.5,
     3.5,
     5.35
    ],
+   "in": "obdh-expansion",
    "kind": "parts",
-   "triangles": 261,
-   "edgeSegments": 79
+   "triangles": 355,
+   "edgeSegments": 90
   },
   {
    "name": "Socket button head screw M2x0.4 x 4",
-   "side": "top",
+   "side": "bottom",
    "size": [
     3.5,
     3.5,
     5.35
    ],
+   "in": "obdh-expansion",
    "kind": "parts",
-   "triangles": 261,
-   "edgeSegments": 79
+   "triangles": 355,
+   "edgeSegments": 90
   },
   {
    "name": "TE connectivity Logo 1",
@@ -20677,8 +20800,8 @@
     4.06
    ],
    "kind": "parts",
-   "triangles": 1262,
-   "edgeSegments": 307
+   "triangles": 1350,
+   "edgeSegments": 311
   },
   {
    "name": "body",
@@ -20689,7 +20812,7 @@
     4.088
    ],
    "kind": "parts",
-   "triangles": 792,
+   "triangles": 842,
    "edgeSegments": 224
   },
   {
@@ -20800,8 +20923,8 @@
     10.57
    ],
    "kind": "parts",
-   "triangles": 1532,
-   "edgeSegments": 365
+   "triangles": 1944,
+   "edgeSegments": 446
   },
   {
    "name": "circle",
@@ -21109,8 +21232,8 @@
     10.7
    ],
    "kind": "parts",
-   "triangles": 1062,
-   "edgeSegments": 305
+   "triangles": 1228,
+   "edgeSegments": 350
   },
   {
    "name": "housing",
@@ -22430,7 +22553,7 @@
     3.8
    ],
    "kind": "parts",
-   "triangles": 76,
+   "triangles": 80,
    "edgeSegments": 22
   },
   {
@@ -22442,7 +22565,7 @@
     3.8
    ],
    "kind": "parts",
-   "triangles": 40,
+   "triangles": 44,
    "edgeSegments": 10
   },
   {
@@ -22454,7 +22577,7 @@
     3.8
    ],
    "kind": "parts",
-   "triangles": 76,
+   "triangles": 80,
    "edgeSegments": 22
   },
   {
@@ -22466,7 +22589,7 @@
     3.8
    ],
    "kind": "parts",
-   "triangles": 40,
+   "triangles": 44,
    "edgeSegments": 10
   },
   {
@@ -22973,8 +23096,8 @@
     4.36
    ],
    "kind": "parts",
-   "triangles": 1072,
-   "edgeSegments": 198
+   "triangles": 1256,
+   "edgeSegments": 228
   },
   {
    "name": "shell_ext",
@@ -22985,8 +23108,8 @@
     4.73
    ],
    "kind": "parts",
-   "triangles": 1004,
-   "edgeSegments": 282
+   "triangles": 1350,
+   "edgeSegments": 344
   },
   {
    "name": "term1",

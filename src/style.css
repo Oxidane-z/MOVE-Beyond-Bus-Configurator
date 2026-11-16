@@ -112,3 +112,4 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .slotmark.target { background: var(--accent) !important; color: var(--accent-ink) !important; border: 2px solid var(--accent); }
 .slotmark.sel { outline: 2px solid var(--accent); outline-offset: 1px; }
 .stage canvas { touch-action: pan-y; }
+.hint button:disabled { opacity: 0.5; cursor: default; }
