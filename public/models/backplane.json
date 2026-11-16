@@ -1,0 +1,7274 @@
+{
+ "source": "Backplane_V8.step",
+ "bounds": {
+  "min": [
+   -27.386,
+   -1.395,
+   -50.75
+  ],
+  "max": [
+   59.614,
+   8.512,
+   60.75
+  ]
+ },
+ "board": {
+  "min": [
+   -27.386,
+   0.0,
+   -50.75
+  ],
+  "max": [
+   59.614,
+   1.633,
+   60.75
+  ]
+ },
+ "slots": {
+  "z": [
+   -43.5,
+   -29.0,
+   -14.5,
+   0.0,
+   14.5,
+   29.0,
+   43.5
+  ],
+  "top": 6.936,
+  "length": 30.0,
+  "pitch": 14.5
+ },
+ "counts": {
+  "board": 1,
+  "parts": 21,
+  "blocks": 76,
+  "decals": 502,
+  "interface": 0
+ },
+ "triangles": {
+  "board": 1244,
+  "parts": 64928,
+  "blocks": 912,
+  "decals": 1004,
+  "interface": 0
+ },
+ "components": [
+  {
+   "name": "0402_CMP-00000-7",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#1",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#10",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#100",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#101",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#102",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#103",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#104",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#105",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#106",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#107",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#108",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#109",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#11",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#110",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#111",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#112",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#113",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#114",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#115",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#116",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#117",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#118",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#119",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#12",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#120",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#121",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#122",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#123",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#124",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#125",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#126",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#127",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#128",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#129",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#13",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#130",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#131",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#132",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#133",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#134",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#135",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#136",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#137",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#138",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#139",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#14",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#140",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#141",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#142",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#143",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#144",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#145",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#146",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#147",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#148",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#149",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#15",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#150",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#151",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#152",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#153",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#154",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#155",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#156",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#157",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#158",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#159",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#16",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#160",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#161",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#162",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#163",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#164",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#165",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#166",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#167",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#168",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#169",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#17",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#170",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#171",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#172",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#173",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#174",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#175",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#176",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#177",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#178",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#179",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#18",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#180",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#181",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#182",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#183",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#184",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#185",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#186",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#187",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#188",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#189",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#19",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#190",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#191",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#192",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#193",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#194",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#195",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#196",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#197",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#198",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#199",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#2",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#20",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#200",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#201",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#202",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#203",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#204",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#205",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#206",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#207",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#208",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#209",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#21",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#210",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#211",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#212",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#213",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#214",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#215",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#216",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#217",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#218",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#22",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#23",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#24",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#25",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#26",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#27",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#28",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#29",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#3",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#30",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#31",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#32",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#33",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#34",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#35",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#36",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#37",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#38",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#39",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#4",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#40",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#41",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#42",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#43",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#44",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#45",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#46",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#47",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#48",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#49",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#5",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#50",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#51",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#52",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#53",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#54",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#55",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#56",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#57",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#58",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#59",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#6",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#60",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#61",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#62",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#63",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#64",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#65",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#66",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#67",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#68",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#69",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#7",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#70",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#71",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#72",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#73",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#74",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#75",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#76",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#77",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#78",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#79",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#8",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#80",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#81",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#82",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#83",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#84",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#85",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#86",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#87",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#88",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#89",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#9",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#90",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#91",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#92",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#93",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#94",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#95",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#96",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#97",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#98",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-7#99",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#1",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#10",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#11",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#12",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.131,
+    1.131,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#13",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#14",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#15",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#16",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#17",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#18",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#19",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#2",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#20",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#21",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#22",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#23",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#24",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#25",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.131,
+    1.131,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#26",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#27",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#3",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#4",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#5",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#6",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#7",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#8",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00000-8#9",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#1",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#10",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#11",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#12",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#13",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#14",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#15",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#16",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#17",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#18",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#19",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#2",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#20",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#21",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#22",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#23",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#24",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#25",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#26",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#27",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#28",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#29",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#3",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#30",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#31",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#32",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#33",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#34",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#35",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#36",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#37",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#38",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#4",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#5",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#6",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#7",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#8",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-4#9",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#1",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#10",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#11",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#12",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#13",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#14",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#15",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#16",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#17",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#18",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#19",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#2",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.131,
+    1.131,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#20",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#21",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#22",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#23",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#24",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#25",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#26",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.131,
+    1.131,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#27",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#28",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#3",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#4",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#5",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#6",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#7",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.131,
+    1.131,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#8",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0402_CMP-00001-5#9",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.131,
+    1.131,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#1",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#10",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.7,
+    0.9,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#11",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#12",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#13",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.7,
+    0.9,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#14",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#15",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.7,
+    0.9,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#16",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#17",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#18",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#19",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#2",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#20",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.7,
+    0.9,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#21",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#22",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#23",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#24",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.7,
+    0.9,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#25",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#26",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#27",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.7,
+    0.9,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#3",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#4",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#5",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.7,
+    0.9,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#6",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#7",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#8",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_(TE_CRGP_Series)_CMP-00000-7#9",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00000-8",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.55
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#1",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#10",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#11",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#12",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#13",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#14",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#15",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#16",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#17",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#18",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#19",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#2",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#20",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#21",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#22",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#23",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#24",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#25",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#26",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#27",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#28",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#29",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#3",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#30",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#31",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#32",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#33",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#34",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#35",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#36",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#37",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#38",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#39",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#4",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#40",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#41",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#42",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#43",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#5",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#6",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#7",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#8",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-4#9",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-5",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-7",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-00001-7#1",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.9
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.6,
+    0.801,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#1",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#10",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#11",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#12",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#13",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.6,
+    0.801,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#14",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#15",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#16",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#17",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#18",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#19",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#2",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#20",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#21",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.6,
+    0.801,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#22",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#23",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#24",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#25",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#26",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#27",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#3",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.6,
+    0.801,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#4",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#5",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#6",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#7",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#8",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00007-1#9",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#1",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#10",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#11",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#12",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#13",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#14",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#15",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#16",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#17",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#18",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#19",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#2",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#20",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.6,
+    0.801,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#21",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#22",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#23",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#24",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#25",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#26",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#27",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#28",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.6,
+    0.801,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#29",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#3",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#30",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#31",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#4",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#5",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#6",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#7",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.6,
+    0.801,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#8",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0603_CMP-004-00008-1#9",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.801,
+    1.6,
+    0.7
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "0805_CMP-00001-5",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    2.54,
+    2.54,
+    1.0
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "0805_CMP-00001-5#1",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    2.2,
+    1.45,
+    1.0
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "1206_CMP-00000-8",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    3.465,
+    3.465,
+    0.65
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "1206_CMP-00000-9",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.7,
+    3.2,
+    0.65
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "30L-FC2QFB_CMP-019-00021-1",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    4.0,
+    4.0,
+    0.6
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "ABS05_CMP-00007-1",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.1,
+    1.7,
+    0.5
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "Backplane_V8_BOARD__#1 (0.228) Durchmesser Bohrung18",
+   "kind": "board",
+   "side": "bottom",
+   "size": [
+    111.5,
+    87.0,
+    1.633
+   ],
+   "triangles": 1244,
+   "edgeSegments": 202
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#1",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#10",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#11",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#12",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#13",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#14",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#15",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#16",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#17",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#18",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#19",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#2",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#20",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#21",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#3",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#4",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#5",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#6",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#7",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#8",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAPC3216X19N_CMP-00715-1#9",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.8,
+    3.4,
+    1.9
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2#1",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2#10",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2#11",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2#2",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2#3",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2#4",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2#5",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2#6",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2#7",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2#8",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2#9",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "CONN_5037630000-SD_03_MOL_CMP-015-000043-2",
+   "kind": "parts",
+   "side": "bottom",
+   "size": [
+    5.19,
+    7.6,
+    1.5
+   ],
+   "triangles": 852,
+   "edgeSegments": 0,
+   "instanceOf": "CONN_5037630000-SD_03_MOL_CMP-015-000043-2"
+  },
+  {
+   "name": "CONN_5037630000-SD_03_MOL_CMP-015-000043-2#1",
+   "kind": "parts",
+   "side": "bottom",
+   "size": [
+    5.19,
+    7.6,
+    1.5
+   ],
+   "triangles": 0,
+   "edgeSegments": 0,
+   "instanceOf": "CONN_5037630000-SD_03_MOL_CMP-015-000043-2"
+  },
+  {
+   "name": "FAIR-SOT23-3_V_CMP-00068-1",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    3.12,
+    2.7,
+    1.2
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FAIR-SOT23-3_V_CMP-00068-1#1",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    3.12,
+    2.7,
+    1.2
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-205338-0002-MFG_CMP-04776-000388-1",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    7.95,
+    8.75,
+    2.887
+   ],
+   "triangles": 1368,
+   "edgeSegments": 342
+  },
+  {
+   "name": "FP-2053380006-MFG_CMP-00257-108204701-1",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    7.95,
+    16.75,
+    2.875
+   ],
+   "triangles": 0,
+   "edgeSegments": 0,
+   "instanceOf": "FP-2053380006-MFG_CMP-00257-108204701-1#1"
+  },
+  {
+   "name": "FP-2053380006-MFG_CMP-00257-108204701-1#1",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    7.95,
+    16.75,
+    2.875
+   ],
+   "triangles": 5412,
+   "edgeSegments": 0,
+   "instanceOf": "FP-2053380006-MFG_CMP-00257-108204701-1#1"
+  },
+  {
+   "name": "FP-8MA2-MFG_CMP-06355-000002-1",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    3.02,
+    2.0,
+    0.622
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-8MA2-MFG_CMP-06355-000002-1#1",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    3.02,
+    2.0,
+    0.622
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-8MA2-MFG_CMP-06355-000002-1#2",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    3.02,
+    2.0,
+    0.622
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-C1210C476M4PACTU-IPC_B_CMP-001-00017-1",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    3.906,
+    3.906,
+    2.8
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-C1210C476M4PACTU-IPC_B_CMP-001-00017-1#1",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    3.906,
+    3.906,
+    2.8
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-LQFN-16-05-08-1683-MFG_CMP-09131-000107-1",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    2.0,
+    3.0,
+    0.863
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-LQFN-16-05-08-1683-MFG_CMP-09131-000107-1#1",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    2.0,
+    3.0,
+    0.863
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-LQFN-16-05-08-1683-MFG_CMP-09131-000107-1#10",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    2.0,
+    3.0,
+    0.863
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-LQFN-16-05-08-1683-MFG_CMP-09131-000107-1#11",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    2.0,
+    3.0,
+    0.863
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-LQFN-16-05-08-1683-MFG_CMP-09131-000107-1#12",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    2.0,
+    3.0,
+    0.863
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-LQFN-16-05-08-1683-MFG_CMP-09131-000107-1#2",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    2.0,
+    3.0,
+    0.863
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-LQFN-16-05-08-1683-MFG_CMP-09131-000107-1#3",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    2.0,
+    3.0,
+    0.863
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-LQFN-16-05-08-1683-MFG_CMP-09131-000107-1#4",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    2.0,
+    3.0,
+    0.863
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-LQFN-16-05-08-1683-MFG_CMP-09131-000107-1#5",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    2.0,
+    3.0,
+    0.863
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-LQFN-16-05-08-1683-MFG_CMP-09131-000107-1#6",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    2.0,
+    3.0,
+    0.863
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-LQFN-16-05-08-1683-MFG_CMP-09131-000107-1#7",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    2.0,
+    3.0,
+    0.863
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-LQFN-16-05-08-1683-MFG_CMP-09131-000107-1#8",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    2.0,
+    3.0,
+    0.863
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-LQFN-16-05-08-1683-MFG_CMP-09131-000107-1#9",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    2.0,
+    3.0,
+    0.863
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#1",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#10",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.6,
+    0.8,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#11",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#12",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.6,
+    0.8,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#13",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.6,
+    0.8,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#14",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#15",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.6,
+    0.8,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#16",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#17",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#18",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#19",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#2",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#20",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#21",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#22",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#23",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#24",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#25",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#26",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#27",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#3",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.6,
+    0.8,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#4",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#5",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.6,
+    0.8,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#6",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#7",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#8",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00053-1#9",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    0.8,
+    1.6,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3#1",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.6,
+    0.8,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3#2",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.6,
+    0.8,
+    1.28
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "FP-SMA-MFG_CMP-00069-1",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    5.195,
+    2.605,
+    2.555
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-SZSMF-MFG_CMP-08607-000050-1",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    3.182,
+    3.182,
+    0.98
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-SZSMF-MFG_CMP-08607-000050-1#1",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.684,
+    3.6,
+    0.98
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "FP-SZSMF-MFG_CMP-08607-000050-1#2",
+   "kind": "blocks",
+   "side": "top",
+   "size": [
+    1.684,
+    3.6,
+    0.98
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "Fiducial-Footprint-1_CMP-00026-2",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.0,
+    1.0,
+    0.1
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "Fiducial-Footprint-1_CMP-00026-2#1",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.0,
+    1.0,
+    0.1
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "Fiducial-Footprint-1_CMP-00026-2#2",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.0,
+    1.0,
+    0.1
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "Fiducial-Footprint-1_CMP-00026-2#3",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.0,
+    1.0,
+    0.1
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "Fiducial-Footprint-1_CMP-00026-2#4",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.0,
+    1.0,
+    0.1
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "Fiducial-Footprint-1_CMP-00026-2#5",
+   "kind": "decals",
+   "side": "bottom",
+   "size": [
+    1.0,
+    1.0,
+    0.1
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "G125-MS12605L3R-Footprint-1_CMP-015-000049-1",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    5.809,
+    20.39,
+    6.92
+   ],
+   "triangles": 28688,
+   "edgeSegments": 749
+  },
+  {
+   "name": "IND_CMLE063T_36_CYN-L_CMLE063T-2R2MS-1",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    6.808,
+    7.29,
+    2.997
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "INF-SC79_V_CMP-00070-1",
+   "kind": "decals",
+   "side": "top",
+   "size": [
+    1.2,
+    0.8,
+    0.59
+   ],
+   "triangles": 2,
+   "edgeSegments": 0
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#1",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    3.845,
+    1.78,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#10",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#11",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#12",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#13",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    3.845,
+    1.78,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#14",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    3.845,
+    1.78,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#15",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#16",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    3.845,
+    1.78,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#17",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#18",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#19",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#2",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#20",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#21",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#22",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#23",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#3",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#4",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#5",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#6",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    3.845,
+    1.78,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#7",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#8",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1#9",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    1.78,
+    3.845,
+    1.1
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "SAMTEC_ERF8-030-05.0-L-DV-TR_CMP-002-00051-4-1",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    5.6,
+    30.0,
+    6.375
+   ],
+   "triangles": 0,
+   "edgeSegments": 0,
+   "instanceOf": "SAMTEC_ERF8-030-05.0-L-DV-TR_CMP-002-00051-4-1#4"
+  },
+  {
+   "name": "SAMTEC_ERF8-030-05.0-L-DV-TR_CMP-002-00051-4-1#1",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    5.6,
+    30.0,
+    6.375
+   ],
+   "triangles": 0,
+   "edgeSegments": 0,
+   "instanceOf": "SAMTEC_ERF8-030-05.0-L-DV-TR_CMP-002-00051-4-1#4"
+  },
+  {
+   "name": "SAMTEC_ERF8-030-05.0-L-DV-TR_CMP-002-00051-4-1#2",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    5.6,
+    30.0,
+    6.375
+   ],
+   "triangles": 0,
+   "edgeSegments": 0,
+   "instanceOf": "SAMTEC_ERF8-030-05.0-L-DV-TR_CMP-002-00051-4-1#4"
+  },
+  {
+   "name": "SAMTEC_ERF8-030-05.0-L-DV-TR_CMP-002-00051-4-1#3",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    5.6,
+    30.0,
+    6.375
+   ],
+   "triangles": 0,
+   "edgeSegments": 0,
+   "instanceOf": "SAMTEC_ERF8-030-05.0-L-DV-TR_CMP-002-00051-4-1#4"
+  },
+  {
+   "name": "SAMTEC_ERF8-030-05.0-L-DV-TR_CMP-002-00051-4-1#4",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    5.6,
+    30.0,
+    6.375
+   ],
+   "triangles": 20068,
+   "edgeSegments": 0,
+   "instanceOf": "SAMTEC_ERF8-030-05.0-L-DV-TR_CMP-002-00051-4-1#4"
+  },
+  {
+   "name": "SAMTEC_ERF8-030-05.0-L-DV-TR_CMP-002-00051-4-1#5",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    5.6,
+    30.0,
+    6.375
+   ],
+   "triangles": 0,
+   "edgeSegments": 0,
+   "instanceOf": "SAMTEC_ERF8-030-05.0-L-DV-TR_CMP-002-00051-4-1#4"
+  },
+  {
+   "name": "SAMTEC_ERF8-030-05.0-L-DV-TR_CMP-002-00051-4-1#6",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    5.6,
+    30.0,
+    6.375
+   ],
+   "triangles": 0,
+   "edgeSegments": 0,
+   "instanceOf": "SAMTEC_ERF8-030-05.0-L-DV-TR_CMP-002-00051-4-1#4"
+  },
+  {
+   "name": "SON8_DRB_TEX_TCAN3404DRBRQ1-1",
+   "kind": "blocks",
+   "side": "bottom",
+   "size": [
+    3.098,
+    3.098,
+    0.991
+   ],
+   "triangles": 12,
+   "edgeSegments": 12
+  },
+  {
+   "name": "TPSM86837RCGR-Footprint-1_CMP-095-000014-1",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    5.5,
+    5.0,
+    4.1
+   ],
+   "triangles": 0,
+   "edgeSegments": 0,
+   "instanceOf": "TPSM86837RCGR-Footprint-1_CMP-095-000014-1#3"
+  },
+  {
+   "name": "TPSM86837RCGR-Footprint-1_CMP-095-000014-1#1",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    5.5,
+    5.0,
+    4.1
+   ],
+   "triangles": 0,
+   "edgeSegments": 0,
+   "instanceOf": "TPSM86837RCGR-Footprint-1_CMP-095-000014-1#3"
+  },
+  {
+   "name": "TPSM86837RCGR-Footprint-1_CMP-095-000014-1#2",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    5.5,
+    5.0,
+    4.1
+   ],
+   "triangles": 2896,
+   "edgeSegments": 0,
+   "instanceOf": "TPSM86837RCGR-Footprint-1_CMP-095-000014-1#2"
+  },
+  {
+   "name": "TPSM86837RCGR-Footprint-1_CMP-095-000014-1#3",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    5.5,
+    5.0,
+    4.1
+   ],
+   "triangles": 2896,
+   "edgeSegments": 0,
+   "instanceOf": "TPSM86837RCGR-Footprint-1_CMP-095-000014-1#3"
+  },
+  {
+   "name": "TPSM86837RCGR-Footprint-1_CMP-095-000014-1#4",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    5.5,
+    5.0,
+    4.1
+   ],
+   "triangles": 0,
+   "edgeSegments": 0,
+   "instanceOf": "TPSM86837RCGR-Footprint-1_CMP-095-000014-1#2"
+  },
+  {
+   "name": "TPSM86837RCGR-Footprint-1_CMP-095-000014-1#5",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    5.5,
+    5.0,
+    4.1
+   ],
+   "triangles": 0,
+   "edgeSegments": 0,
+   "instanceOf": "TPSM86837RCGR-Footprint-1_CMP-095-000014-1#2"
+  },
+  {
+   "name": "TSQFP50P2200X2200X160-144N_CMP-020-00000-7",
+   "kind": "parts",
+   "side": "top",
+   "size": [
+    22.0,
+    22.0,
+    1.6
+   ],
+   "triangles": 34860,
+   "edgeSegments": 3636
+  }
+ ]
+}

@@ -2,28 +2,29 @@
  "source": "STEP_[No Variations] for PiklasRework.PcbDoc.step",
  "bounds": {
   "min": [
-   -46.092,
+   -62.194,
    0.0,
    -4.396
   ],
   "max": [
-   46.092,
+   29.989,
    83.883,
    6.961
   ]
  },
  "board": {
   "min": [
-   -46.092,
+   -62.194,
    4.803,
    -0.796
   ],
   "max": [
-   46.092,
+   29.989,
    83.883,
    0.796
   ]
  },
+ "slots": null,
  "counts": {
   "board": 1,
   "parts": 3,

@@ -2,7 +2,7 @@
 
 MOVE Beyond 卫星 slot card 总线系统的三维交互配置器。正交等轴测视角、平面着色加描边，可在 7 槽背板上自由安排板卡。
 
-当前状态：Piklas 板来自真实 STEP，其余板卡、框架和背板仍是占位几何，功耗都是示例数据。
+当前状态：背板和 Piklas 板来自真实 STEP，其余板卡、框架和底板仍是占位几何，功耗都是示例数据。
 
 ## 运行
 
@@ -48,6 +48,20 @@ python pipeline/step2glb.py "cad/板卡.step" public/models/板卡名 --annotati
 脚本按占板尺寸把元器件分三档：不小于 6 mm 或高于 3 mm 的保留完整几何和棱线，2.2 到 6 mm 的简化成盒体，更小的压平成板面色块。阈值可用 `--small`、`--large`、`--tall` 调整。
 
 转换后在 `system.json` 的 `boards` 里加一条 `"kind": "model"`、`"model": "models/板卡名.glb"` 的记录。
+
+板卡加 `--mate 位号` 指定插入背板的连接器，板卡就以它为原点对准槽位，例如 Piklas：
+
+```bash
+python pipeline/step2glb.py "cad/STEP_[No Variations] for PiklasRework.PcbDoc.step" public/models/piklas --annotations boards/piklas.json --mate J2
+```
+
+背板用背板坐标系，并指出槽位连接器的名称前缀。`cad/Backplane_V8.zip` 需要先解压：
+
+```bash
+python pipeline/step2glb.py Backplane_V8.step public/models/backplane --frame backplane --slots SAMTEC_ERF8 --deflection 0.25 --angular 1.3
+```
+
+脚本会在输出的 JSON 里写出各槽位的位置和槽距，`system.json` 里的 `pitch` 和 `seatY` 要与之一致。几何完全相同的元器件（比如 7 个槽位连接器）只存一份网格。
 
 ## 标注接口
 

@@ -25,7 +25,7 @@ const HOME = { tx: 0, ty: 52, tz: 0 };
 const view = { yaw: Math.PI / 4, zoom: 1, tx: HOME.tx, ty: HOME.ty, tz: HOME.tz };
 const TARGET = new THREE.Vector3(), PITCH_A = Math.atan(1 / Math.SQRT2);
 
-const frame = buildStructure(scene, sys, slotZ);
+let frame = null;   // 模型加载完后由 buildStructure 建立
 
 /* ---------- 槽位拾取体与落位预览 ---------- */
 const slotHits = [];
@@ -81,11 +81,12 @@ function occupy(p, v) { for (let k = 0; k < TYPES[p.type].w; k++) slots[p.slot +
 
 function place(type, slot, animate) {
   const built = buildCard(type);
-  const p = { id: nextId++, type: type, slot: slot, group: built.group, hit: built.hit, busy: false, shared: !!built.shared, interfaces: [] };
+  const p = { id: nextId++, type: type, slot: slot, group: built.group, hit: built.hit, busy: false, shared: !!built.shared, interfaces: [],
+              pivot: built.pivot || null, faceOffset: built.faceOffset || 0, cx: built.cx || 0, cy: built.cy || 42 };
   // 把标注和模型里的接口件按位号对上；编号沿用标注文件里的顺序
   ifaceNotes(type).forEach((note, n) => {
     const geo = (built.interfaces || []).find(i => i.ref === note.ref);
-    if (geo) p.interfaces.push({ n: n + 1, note, mat: geo.mat, center: geo.center, side: geo.side });
+    if (geo) p.interfaces.push({ n: n + 1, note, mat: geo.mat, center: geo.center, side: geo.side, face: geo.face });
   });
   built.hit.userData.id = p.id;
   p.group.position.set(0, SEAT_Y, slotZ(slot));
@@ -168,7 +169,7 @@ function enterInspect(p) {
     it.innerHTML = '<span class="no"></span><span><span class="nm"></span><span class="sd"></span><br><span class="mt"></span><br><span class="ds"></span></span>';
     it.querySelector('.no').textContent = i.n; it.querySelector('.no').style.background = T.color;
     it.querySelector('.nm').textContent = i.note.label;
-    it.querySelector('.sd').textContent = i.side === 0 ? '两面' : i.side > 0 ? '正面' : '背面';
+    it.querySelector('.sd').textContent = i.face === 0 ? '两面' : i.face > 0 ? '正面' : '背面';
     it.querySelector('.mt').textContent = [T.label, i.note.connector, i.note.ref].filter(Boolean).join(' · ');
     it.querySelector('.ds').textContent = i.note.desc || '';
 
@@ -178,7 +179,7 @@ function enterInspect(p) {
       el.addEventListener('click', () => {
         inspect.pinned = inspect.pinned === i.n ? null : i.n;
         // 从列表点到另一面的接口时自动翻面
-        if (inspect.pinned && i.side !== 0 && (i.side > 0) !== showsFront(inspect.s.turn)) flipInspect();
+        if (inspect.pinned && i.face !== 0 && (i.face > 0) !== showsFront(inspect.s.turn)) flipInspect();
         syncActive();
       });
     });
@@ -186,8 +187,8 @@ function enterInspect(p) {
     inspect.marks.push(m); inspect.items.push(it);
   });
 
-  tween(view, 'tx', 0, 520, easeInOut); tween(view, 'tz', slotZ(p.slot), 520, easeInOut);
-  tween(view, 'ty', SEAT_Y + LIFT + 42, 520, easeInOut); tween(view, 'zoom', Math.max(view.zoom, 1.9), 520, easeInOut);
+  tween(view, 'tx', p.cx, 520, easeInOut); tween(view, 'tz', slotZ(p.slot), 520, easeInOut);
+  tween(view, 'ty', SEAT_Y + LIFT + p.cy, 520, easeInOut); tween(view, 'zoom', Math.max(view.zoom, 1.9), 520, easeInOut);
   tween(p.group.position, 'y', SEAT_Y + LIFT, 420, easeInOut)
     .then(() => tween(p.spin, 'spin', 1, 420, easeInOut));
   renderUI();
@@ -206,7 +207,7 @@ function exitInspect() {
   tween(p.spin, 'spin', 0, 360, easeInOut)
     .then(() => tween(p.group.position, 'y', SEAT_Y + 7, 380, easeOut))
     .then(() => tween(p.group.position, 'y', SEAT_Y, 200, easeIn))
-    .then(() => { p.spin = null; p.group.rotation.y = 0; p.busy = false; });
+    .then(() => { p.spin = null; p.pivot.rotation.y = 0; p.busy = false; });
   renderUI();
 }
 function syncActive() {
@@ -223,18 +224,19 @@ function syncActive() {
 const _v = new THREE.Vector3(), _n = new THREE.Vector3();
 function updateInspect() {
   placements.forEach(p => {
-    if (p.spin) p.group.rotation.y = p.spin.spin * Math.atan2(Math.sin(view.yaw), Math.cos(view.yaw)) + p.spin.turn;
+    if (p.spin) p.pivot.rotation.y = p.spin.spin * (Math.atan2(Math.sin(view.yaw), Math.cos(view.yaw)) + p.faceOffset) + p.spin.turn;
   });
   if (!inspect) return;
   const p = inspect.p, w = stage.clientWidth, h = stage.clientHeight;
   p.group.updateMatrixWorld();
+  const pq = p.pivot.quaternion, pm = p.pivot.matrixWorld;
   p.interfaces.forEach((i, k) => {
-    _n.set(0, 0, i.side).applyQuaternion(p.group.quaternion);
+    _n.set(0, 0, i.side).applyQuaternion(pq);
     const facing = i.side === 0 || _n.x * (camera.position.x - TARGET.x) + _n.z * (camera.position.z - TARGET.z) > 0;
     const m = inspect.marks[k];
     m.hidden = !(facing && p.spin.spin > 0.6);
     if (m.hidden) return;
-    _v.copy(i.center).applyMatrix4(p.group.matrixWorld).project(camera);
+    _v.copy(i.center).applyMatrix4(pm).project(camera);
     m.style.left = ((_v.x * 0.5 + 0.5) * w).toFixed(1) + 'px';
     m.style.top = ((-_v.y * 0.5 + 0.5) * h).toFixed(1) + 'px';
   });
@@ -386,7 +388,7 @@ cv.addEventListener('wheel', e => { e.preventDefault(); view.zoom = Math.min(2.5
 document.getElementById('rotL').addEventListener('click', () => inspect ? flipInspect() : tween(view, 'yaw', Math.round((view.yaw - Math.PI / 4) / (Math.PI / 2) - 1) * (Math.PI / 2) + Math.PI / 4, 420, easeInOut));
 document.getElementById('rotR').addEventListener('click', () => inspect ? flipInspect() : tween(view, 'yaw', Math.round((view.yaw - Math.PI / 4) / (Math.PI / 2) + 1) * (Math.PI / 2) + Math.PI / 4, 420, easeInOut));
 const frameBtn = document.getElementById('frameBtn');
-frameBtn.addEventListener('click', () => { frame.visible = !frame.visible; frameBtn.setAttribute('aria-pressed', String(frame.visible)); });
+frameBtn.addEventListener('click', () => { if (!frame) return; frame.visible = !frame.visible; frameBtn.setAttribute('aria-pressed', String(frame.visible)); });
 window.addEventListener('keydown', e => {
   if (e.key === 'Escape') { if (inspect) exitInspect(); else setSel(null); }
   if (inspect) return;
@@ -433,6 +435,12 @@ applyTheme();
 resize();
 renderUI();
 requestAnimationFrame(frameLoop);
-loadModels(TYPES)
-  .catch(err => { console.error(err); hint.textContent = '模型加载失败：' + err.message; })
-  .then(() => { INITIAL.forEach(c => { if (TYPES[c[0]].kind !== 'model' || hasModel(c[0])) place(c[0], c[1], false); }); });
+loadModels(sys).then(() => {
+  const st = buildStructure(scene, sys, slotZ);
+  frame = st.frame;
+  // 镜头、槽位拾取体和落位预览都对准结构中心
+  HOME.tx = view.tx = st.cx; HOME.tz = view.tz = st.cz;
+  slotHits.forEach(m => { m.position.x = st.cx; });
+  ghosts[1].position.x = ghosts[2].position.x = st.cx;
+  INITIAL.forEach(c => { if (TYPES[c[0]].kind !== 'model' || hasModel(c[0])) place(c[0], c[1], false); });
+});

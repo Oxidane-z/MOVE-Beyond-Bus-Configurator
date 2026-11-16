@@ -75,10 +75,15 @@ export function makeCadMat() {
 }
 export const cadMat = makeCadMat();
 
-// 把 GLB 里的线段图元换成可设线宽的粗线
-export function fatLines(positions, mat = lineMat) {
-  const lg = new LineSegmentsGeometry();
-  lg.setPositions(positions);
+// 把 GLB 里的线段图元换成可设线宽的粗线；同一份几何只转换一次
+const fatCache = new WeakMap();
+export function fatLines(geometry, mat = lineMat) {
+  let lg = fatCache.get(geometry);
+  if (!lg) {
+    lg = new LineSegmentsGeometry();
+    lg.setPositions(geometry.attributes.position.array);
+    fatCache.set(geometry, lg);
+  }
   return new LineSegments2(lg, mat);
 }
 
