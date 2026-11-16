@@ -30,9 +30,13 @@
   </header>
 
   <aside class="lib">
+    <div id="libTabs" class="seg tabs" role="group" data-i18n-aria="aria.view">
+      <button type="button" data-layer="layout" data-i18n="library">Boards</button>
+      <button type="button" data-layer="power" data-i18n="power">Power</button>
+    </div>
+    <div id="powerPanel" class="panel" hidden></div>
     <div id="libPanel" class="panel">
       <div class="libhead">
-        <h2 data-i18n="library">Boards</h2>
         <div id="libFilters" class="chips" role="group" data-i18n-aria="aria.filters"></div>
       </div>
       <div id="libList" class="list"></div>

@@ -12,6 +12,14 @@
     "move3a": {"name": "MOVE-IIIa", "boards": [["comstack", 0], ["cdh", 2], ["battery1", 3], ["payload", 5], ["adcs1", 6]]}
   },
   "initial": "custom",
+  "power": {
+    "rails": {
+      "vsys": {"label": "VSYS", "efficiency": 1},
+      "5v": {"label": "5V", "efficiency": 1},
+      "3v3": {"label": "3V3", "efficiency": 1}
+    },
+    "usable": 1
+  },
   "levels": {"proto": "Prototype", "rev1": "Revision 1", "rev2": "Revision 2"},
   "subsystems": {
     "power": {"label": "Power", "color": "#e2b93b"},

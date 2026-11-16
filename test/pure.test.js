@@ -95,3 +95,26 @@ describe('config text form', () => {
     expect(cfg.boards[0].exps).toEqual(['battery-heater']);
   });
 });
+
+import { boardPower, budget } from '../src/power.js';
+
+describe('power', () => {
+  const P = { rails: { vsys: { efficiency: 1 }, '5v': { efficiency: 0.8 }, '3v3': { efficiency: 1 } }, usable: 0.5 };
+  it('sums rails into idle / typ / peak', () => {
+    const bp = boardPower({ power: { rails: { '3v3': [0.1, 0.2, 0.3], '5v': [0, 1, 2] }, source: 'measured' } });
+    expect([bp.idle, bp.typ, bp.peak].map(v => +v.toFixed(3))).toEqual([0.1, 1.2, 2.3]);
+    expect(bp.source).toBe('measured');
+  });
+  it('fills idle and peak from typ when only typ is given', () => {
+    expect(boardPower({ power: { typ: 0.4 } })).toMatchObject({ idle: 0.4, typ: 0.4, peak: 0.4, source: 'est' });
+    expect(boardPower({})).toBe(null);
+  });
+  it('applies rail efficiency and usable capacity to the runtime', () => {
+    const b = budget([{ wh: 10 }, { power: { rails: { '5v': [0.4, 0.8, 1.6] } } }, { power: { typ: 1 } }, {}], P);
+    expect(b.typ).toBeCloseTo(1.8);
+    expect(b.draw.typ).toBeCloseTo(2);       // 0.8 / 0.8 + 1
+    expect(b.runtime.typ).toBeCloseTo(2.5);  // 10 Wh × 0.5 ÷ 2 W
+    expect(b.missing).toBe(1);
+    expect(budget([{ power: { typ: 1 } }], P).runtime.typ).toBe(null);
+  });
+});
