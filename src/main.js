@@ -668,7 +668,17 @@ requestAnimationFrame(frameLoop);
 const wait = ms => new Promise(res => setTimeout(res, reduced ? 0 : ms));
 let run = 0, layout = sys.initial;   // run：每次换布局或清空加一，用来中止还在进行的逐块插入
 const fetchBoard = type => loadBoard(sys, type).then(() => { loaded.add(type); renderUI(); });
-const orderSign = key => LAYOUTS[key] && LAYOUTS[key].order === 'desc' ? -1 : 1;
+// 依次拔出一组板卡，从最后一个槽往前。记下每个槽位上方什么时候腾空（拔出动画走完），
+// 新板卡要等自己那几个槽腾空了才落下，这样拔出和插入的模型不会在同一个位置上重叠
+const EXIT_MS = 1150, clearAt = new Array(SLOTS).fill(0);
+function pullOut(list) {
+  list.sort((a, b) => b.slot - a.slot).forEach((p, k) => {
+    const delay = reduced ? 0 : k * 170;
+    p.busy = true;
+    if (!reduced) for (let i = 0; i < TYPES[p.type].w; i++) clearAt[p.slot + i] = performance.now() + delay + EXIT_MS;
+    setTimeout(() => removeCard(p), delay);
+  });
+}
 // 原地轻轻抬一下再落回：换布局时位置没变的板卡用它代替拔出重插
 function bump(p) {
   if (p.busy || !placements.has(p.id)) return;
@@ -682,11 +692,14 @@ async function playLayout(key, keep = new Map()) {
   const mine = ++run, list = LAYOUTS[key].boards;
   layout = key; renderLayouts();
   const jobs = list.map(c => fetchBoard(c[0]));
-  // 插入顺序由布局的 order 决定：asc 从 1 号槽往后，desc 从最后一个槽往前
-  const seq = list.map((_, k) => k).sort((a, b) => (list[a][1] - list[b][1]) * orderSign(key));
+  // 和拔出一样从最后一个槽往前：最先腾空的槽最先插入
+  const seq = list.map((_, k) => k).sort((a, b) => list[b][1] - list[a][1]);
   for (const k of seq) {
     if (keep.has(k)) { bump(keep.get(k)); await wait(90); if (run !== mine) return; continue; }
     await jobs[k];
+    let due = 0;
+    for (let i = 0; i < TYPES[list[k][0]].w; i++) due = Math.max(due, clearAt[list[k][1] + i] - performance.now());
+    if (due > 0) await wait(due);
     if (run !== mine) return;
     place(list[k][0], list[k][1], true);
     await wait(260);
@@ -694,35 +707,25 @@ async function playLayout(key, keep = new Map()) {
   }
   Object.keys(TYPES).forEach(fetchBoard);   // 布局里没有的板卡最后取
 }
-// 清空：从最后一个槽开始依次拔出。同时中止还没放完的布局。返回全部拔出所需的毫秒数
+// 清空：从最后一个槽开始依次拔出。同时中止还没放完的布局
 function clearAll() {
   run++;
   setSel(null);
-  const list = [...placements.values()].sort((a, b) => b.slot - a.slot);
-  list.forEach((p, k) => {
-    p.busy = true;
-    setTimeout(() => removeCard(p), reduced ? 0 : k * 170);
-  });
-  return reduced || !list.length ? 0 : (list.length - 1) * 170 + 700;
+  pullOut([...placements.values()]);
 }
-// 换成另一套布局：类型和槽位都对得上的板卡留在原位，其余的先依次拔出，再把缺的逐块插入
+// 换成另一套布局：类型和槽位都对得上的板卡留在原位，其余的依次拔出，缺的逐块插入（每块等自己的槽位腾空）
 const layoutsEl = document.getElementById('layouts');
 function loadLayout(key) {
   if (!ready || inspect) return;
-  const mine = ++run, list = LAYOUTS[key].boards, keep = new Map(), drop = [], from = layout;
+  const list = LAYOUTS[key].boards, keep = new Map(), drop = [];
   setSel(null);
   layout = key; renderLayouts();
   placements.forEach(p => {
     const k = list.findIndex(c => c[0] === p.type && c[1] === p.slot);
     if (k >= 0) keep.set(k, p); else drop.push(p);
   });
-  // 拔出顺序跟着原来那套布局的 order 走；从 Custom 换过来时从最后一个槽开始
-  drop.sort((a, b) => (a.slot - b.slot) * (LAYOUTS[from].order ? orderSign(from) : -1)).forEach((p, k) => {
-    p.busy = true;
-    setTimeout(() => removeCard(p), reduced ? 0 : k * 170);
-  });
-  const ms = reduced || !drop.length ? 0 : (drop.length - 1) * 170 + 700;
-  setTimeout(() => { if (run === mine) playLayout(key, keep); }, ms);
+  pullOut(drop);
+  playLayout(key, keep);
 }
 // 手动改动过板卡后，当前配置就不再是某套预设，选择器切到 Custom
 function touched() { if (LAYOUTS.custom && layout !== 'custom') { layout = 'custom'; renderLayouts(); } }
