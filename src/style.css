@@ -31,6 +31,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .seg button { background: var(--panel); border: 0; padding: 4px 12px; cursor: pointer; font-weight: 500; }
 .seg button + button { border-left: 1.5px solid var(--rule); }
 .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.seg button:disabled { opacity: 0.5; cursor: default; }
 
 .lib { grid-area: lib; overflow-y: auto; padding-right: 2px; }
 .lib h2 { margin: 4px 0 0; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--muted); }
@@ -47,6 +48,9 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .item:hover { border-color: var(--muted); }
 .item[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
 .item:disabled { opacity: 0.5; cursor: default; }
+/* 模型正在取：色块一明一暗 */
+.item.loading .sw, .cell.pending { animation: pulse 0.9s ease-in-out infinite alternate; }
+@keyframes pulse { from { opacity: 1; } to { opacity: 0.3; } }
 /* 色块是 PCB 颜色。边框用次要文字色，深色 PCB 在深色面板上也看得出轮廓 */
 .item .sw { width: 14px; height: 28px; border: 1.5px solid var(--muted); }
 .item .nm { font-weight: 500; }
@@ -62,10 +66,13 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   line-height: 1.1; letter-spacing: -0.03em; white-space: nowrap; color: var(--accent); opacity: 0; transform: translateY(6px);
   transition: opacity 0.16s ease, transform 0.16s ease; pointer-events: none; user-select: none; }
 .banner.on { opacity: 0.32; transform: none; }
-@media (prefers-reduced-motion: reduce) { .banner { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .banner, .toast { transition: none; } .mark, .item.loading .sw, .cell.pending { animation: none; } }
 .tools { position: absolute; top: 10px; right: 10px; display: flex; gap: 6px; }
-.tools button { min-width: 36px; min-height: 32px; background: var(--panel); border: 1.5px solid var(--rule); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+.tools button { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 32px; background: var(--panel); border: 1.5px solid var(--rule); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
 .tools button:hover { border-color: var(--muted); }
+.toast { position: absolute; top: 52px; left: 50%; transform: translate(-50%, -6px); max-width: calc(100% - 24px); background: var(--ink); color: var(--bg);
+  font-size: 12px; padding: 4px 10px; border-radius: 6px; opacity: 0; transition: opacity 0.15s ease, transform 0.15s ease; pointer-events: none; }
+.toast.on { opacity: 1; transform: translate(-50%, 0); }
 .tools button:disabled { opacity: 0.4; cursor: default; border-color: var(--rule); }
 
 .dock { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
@@ -78,13 +85,29 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .hint button { flex: none; height: var(--btn); background: var(--accent); color: var(--accent-ink); border: 1.5px solid var(--accent); border-radius: 6px; padding: 0 12px; cursor: pointer; font-weight: 500; }
 .hint button.ghost { background: transparent; color: var(--ink); border-color: var(--rule); }
 .hint button:disabled { opacity: 0.5; cursor: default; }
-.strip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+/* 一组互斥选项：标签加分段按钮 */
+.hint .grp { flex: none; display: flex; align-items: center; gap: 6px; }
+.hint .lbl { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.hint .seg { height: var(--btn); }
+.hint .seg button { height: 100%; background: transparent; color: var(--ink); border: 0; border-radius: 0; padding: 0 10px; }
+.hint .seg button + button { border-left: 1.5px solid var(--rule); }
+.hint .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.strip { user-select: none; -webkit-user-select: none; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
 .cell { position: relative; height: 48px; border: 1.5px dashed var(--rule); border-radius: 4px; background: transparent; cursor: pointer;
   display: flex; align-items: center; justify-content: center; padding: 0 4px; overflow: hidden; }
 .cell .no { position: absolute; top: 2px; left: 5px; font-family: var(--mono); font-size: 10px; color: var(--muted); }
 .cell.full { border: 1.5px solid var(--line3d); color: var(--on-card); }
 .cell.full .no { color: inherit; opacity: 0.8; }
 .cell.sel { outline: 2px solid var(--accent); outline-offset: 1px; }
+/* 可以落位（或互换）的槽、光标正指着的槽、换不了的板、等模型的占位、正被拖动的板 */
+.cell.ok { border-color: var(--accent); }
+.cell.full.ok { box-shadow: 0 0 0 2px var(--accent); }
+.cell.target { border: 1.5px solid var(--accent); background-color: var(--accent-soft); box-shadow: inset 0 0 0 2px var(--accent); }
+.cell.dim, .slotmark.dim { opacity: 0.4; }
+.cell.pending { border: 1.5px dashed var(--accent); color: var(--muted); }
+.cell.full { cursor: grab; touch-action: none; }
+.strip.dragging .cell { cursor: grabbing; }
+.cell.drag { opacity: 0.55; }
 .cell .lb { font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /* 统计项放不下一行就换行，不做看不见滚动条的横向滚动 */
 .stats { display: flex; flex-wrap: wrap; gap: 2px 24px; align-items: baseline; border-top: 1.5px solid var(--rule); padding-top: 8px; }
@@ -101,6 +124,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   border: 1.5px solid var(--line3d); color: var(--on-card); font: 600 11px/1 var(--mono); display: flex; align-items: center; justify-content: center;
   white-space: nowrap; cursor: pointer; pointer-events: auto; }
 /* 看上去还是 22px 的圆点，可点的范围向外多出一圈 */
+.mark { animation: markIn 0.15s ease-out; }
+@keyframes markIn { from { opacity: 0; transform: translate(-50%, -50%) scale(0.6); } }
 .mark::after { content: ""; position: absolute; inset: -5px; border-radius: 16px; }
 .mark .t { display: none; margin-left: 6px; font-family: var(--font); font-size: 12px; }
 .mark.on { z-index: 2; outline: 2px solid var(--accent); outline-offset: 1px; }
@@ -134,6 +159,9 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .layouts { margin-top: 0; }
   .layouts > span { display: none; }
   .seg button { min-height: 32px; }
+  .hint .seg button { min-height: 0; }
+  .tools { gap: 4px; }
+  .tools button { min-width: 32px; padding: 4px 6px; }
   .main { gap: 8px; }
   .stage { min-height: 160px; }
   .dock { gap: 6px; }

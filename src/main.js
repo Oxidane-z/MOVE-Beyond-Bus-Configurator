@@ -47,11 +47,14 @@ let S = { cx: 0, cz: 0, hx: 52, topY: 7 };   // 结构尺寸，模型加载完�
 /* ---------- 落位预览 ---------- */
 // 光标指向可落位的槽时：背景里浮出槽位号，对应的编号标记变成强调色
 const banner = document.getElementById('slotBanner'), slotMarks = [];
+const stripCells = [];   // 第 i 槽对应槽位条上的哪一格（占两槽的板卡两个槽指向同一格）
 function showTarget(w, slot) {
   const on = slot >= 0;
   banner.classList.toggle('on', on);
   if (on) banner.textContent = t('banner.slot', { n: w === 2 ? (slot + 1) + '–' + (slot + 2) : slot + 1 });
   slotMarks.forEach((b, i) => b.classList.toggle('target', on && i >= slot && i < slot + w));
+  stripCells.forEach(c => c.classList.remove('target'));
+  if (on) for (let i = slot; i < slot + w; i++) if (stripCells[i]) stripCells[i].classList.add('target');
 }
 
 /* ---------- 补间 ---------- */
@@ -74,6 +77,9 @@ const slots = new Array(SLOTS).fill(null);
 const placements = new Map();
 const loaded = new Set();   // 模型（连同支架和扩展板）已就绪的板卡
 let nextId = 1, sel = null;
+const loading = new Set();  // 模型正在取的板卡
+const pending = new Map();  // 槽位 → 已经指定要放在这里、模型还没取到的板卡
+const redoStack = [];       // 撤销掉的配置，可以重做
 const failed = new Set();   // 模型取不下来的板卡，可以重试
 const undoStack = [];       // 每次改动前的配置（config.js 的文字形式）
 let applying = false, targetSnap = '';   // 正在逐块换成另一套配置；targetSnap 是换完以后的样子
@@ -109,8 +115,8 @@ function place(type, slot, animate, opts) {
   if (animate) {
     p.busy = true;
     p.group.position.y = SEAT_Y + 140;
-    tween(p.group.position, 'y', SEAT_Y + 7, 520, easeOut)
-      .then(() => tween(p.group.position, 'y', SEAT_Y, 200, easeIn))
+    tween(p.group.position, 'y', SEAT_Y + 7, 440, easeOut)
+      .then(() => tween(p.group.position, 'y', SEAT_Y, 170, easeIn))
       .then(() => { p.busy = false; });
   }
   renderUI();
@@ -153,10 +159,10 @@ function addInterfaces(list, notes, geos) {
 // 抬起、平移到新槽位、落下。lift 是抬起的高度，互换时两块板用不同高度错开
 function fly(p, lift) {
   p.busy = true;
-  tween(p.group.position, 'y', SEAT_Y + lift, 320, easeInOut)
-    .then(() => tween(p.group.position, 'z', cardZ(p.type, p.slot), 360, easeInOut))
-    .then(() => tween(p.group.position, 'y', SEAT_Y + 7, 380, easeOut))
-    .then(() => tween(p.group.position, 'y', SEAT_Y, 200, easeIn))
+  tween(p.group.position, 'y', SEAT_Y + lift, 200, easeInOut)
+    .then(() => tween(p.group.position, 'z', cardZ(p.type, p.slot), 240, easeInOut))
+    .then(() => tween(p.group.position, 'y', SEAT_Y + 7, 220, easeOut))
+    .then(() => tween(p.group.position, 'y', SEAT_Y, 140, easeIn))
     .then(() => { p.busy = false; });
 }
 const swapPlan = (A, B) => swapPlanIn(slots, { id: A.id, slot: A.slot, w: TYPES[A.type].w }, { id: B.id, slot: B.slot, w: TYPES[B.type].w });
@@ -178,14 +184,15 @@ function move(p, slot) {
   fly(p, 110);
   renderUI();
 }
+// 板卡升到多高算离开了画面
+const exitY = () => SEAT_Y + 140 + Math.min(700, 2 * camera.top / view.zoom / Math.cos(Math.abs(view.pitch)));
 function removeCard(p) {
   if (!placements.has(p.id)) return;
   occupy(p, null); placements.delete(p.id);
   p.busy = true; if (sel && sel.id === p.id) sel = null;
-  // 先从连接器里拔出一小段，再加速上升直到离开画面
-  const exit = SEAT_Y + 140 + Math.min(700, 2 * camera.top / view.zoom / Math.cos(view.pitch));
-  tween(p.group.position, 'y', SEAT_Y + 7, 220, easeInOut)
-    .then(() => tween(p.group.position, 'y', exit, 900, easeIn))
+  // 先从连接器里拔出一小段，再加速上升直到离开画面。退出比进入快
+  tween(p.group.position, 'y', SEAT_Y + 7, 180, easeInOut)
+    .then(() => tween(p.group.position, 'y', exitY(), 420, easeIn))
     .then(() => {
       scene.remove(p.group);
       // 几何是各实例共享的模板，不释放；接口件的材质是这块板自己的
@@ -209,7 +216,15 @@ function applyAt(slot) {
   if (sel.kind === 'lib') {
     // 模型还在路上就先记下要放哪，取到了再落位
     const type = sel.type;
-    if (loaded.has(type)) place(type, slot, true); else fetchBoard(type).then(() => place(type, slot, true));
+    if (loaded.has(type)) place(type, slot, true);
+    else {
+      pending.set(slot, type);
+      fetchBoard(type).then(() => {
+        if (pending.get(slot) !== type) return;   // 这期间换了整套配置，或者这个槽改放了别的
+        pending.delete(slot); place(type, slot, true); renderUI();
+      });
+      renderUI();
+    }
   }
   else { const p = placements.get(sel.id); if (p && !p.busy) move(p, slot); }
   showTarget(1, -1);
@@ -246,6 +261,23 @@ const nearAngle = (to, from) => to + Math.round((from - to) / TAU) * TAU;
 const worldNormal = (p, i) => _n.copy(i.normal).applyQuaternion(p.pivot.quaternion);
 const camDir = () => _v.copy(camera.position).sub(TARGET);
 
+// 查看背板时板卡整体升出画面再藏起来，回来时落回原位
+function stashCards(away) {
+  placements.forEach(q => {
+    if (q.leaving) return;
+    q.busy = true;
+    if (away) tween(q.group.position, 'y', exitY(), 340, easeIn).then(() => { if (inspect && inspect.p.isBackplane) q.group.visible = false; });
+    else {
+      q.group.visible = true;
+      tween(q.group.position, 'y', SEAT_Y + 7, 320, easeOut)
+        .then(() => tween(q.group.position, 'y', SEAT_Y, 150, easeIn))
+        .then(() => { q.busy = false; });
+    }
+  });
+}
+// 镜头该对准哪里：平时是结构中心，查看接口时是被查看的板
+const homeTarget = () => !inspect ? [HOME.tx, HOME.ty, HOME.tz]
+  : inspect.p.isBackplane ? [S.cx, S.topY, S.cz] : [inspect.p.cx, SEAT_Y + LIFT + inspect.p.cy, cardZ(inspect.p.type, inspect.p.slot)];
 function enterInspect(p) {
   if (inspect || p.busy || !p.interfaces.length) return;
   sel = null; showTarget(1, -1);
@@ -283,12 +315,14 @@ function enterInspect(p) {
         syncActive();
       });
     });
+    // 点了板上的标记，左侧列表滚到对应的条目
+    m.addEventListener('click', () => it.scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' }));
     marks.appendChild(m); ifaceList.appendChild(it);
     inspect.marks.push(m); inspect.items.push(it);
   });
 
   if (p.isBackplane) {
-    placements.forEach(q => { q.group.visible = false; });
+    stashCards(true);
     inspect.home = { yaw: view.yaw, pitch: BP_PITCH, zoom: Math.max(view.zoom, 1.5) };
     tween(view, 'tx', S.cx, 520, easeInOut); tween(view, 'tz', S.cz, 520, easeInOut); tween(view, 'ty', S.topY, 520, easeInOut);
   } else {
@@ -296,8 +330,8 @@ function enterInspect(p) {
     inspect.home = { yaw: view.yaw, pitch: back.pitch, zoom: Math.max(view.zoom, 1.9) };
     tween(view, 'tx', p.cx, 520, easeInOut); tween(view, 'tz', cardZ(p.type, p.slot), 520, easeInOut);
     tween(view, 'ty', SEAT_Y + LIFT + p.cy, 520, easeInOut);
-    tween(p.group.position, 'y', SEAT_Y + LIFT, 420, easeInOut)
-      .then(() => tween(p.spin, 'spin', 1, 420, easeInOut));
+    tween(p.group.position, 'y', SEAT_Y + LIFT, 340, easeInOut)
+      .then(() => tween(p.spin, 'spin', 1, 340, easeInOut));
   }
   tween(view, 'pitch', inspect.home.pitch, 520, easeInOut); tween(view, 'zoom', inspect.home.zoom, 520, easeInOut);
   renderUI();
@@ -321,13 +355,13 @@ function exitInspect() {
   const { p, back } = inspect;
   inspect = null; marks.textContent = '';
   p.interfaces.forEach(i => tween(i.mat.uniforms.uMix, 'value', 0, 300, easeOut));
-  tween(view, 'tx', HOME.tx, 620, easeInOut); tween(view, 'ty', HOME.ty, 620, easeInOut); tween(view, 'tz', HOME.tz, 620, easeInOut);
-  tween(view, 'yaw', nearAngle(back.yaw, view.yaw), 620, easeInOut);
-  tween(view, 'pitch', back.pitch, 620, easeInOut); tween(view, 'zoom', back.zoom, 620, easeInOut);
-  if (p.isBackplane) placements.forEach(q => { q.group.visible = true; });
-  else tween(p.spin, 'spin', 0, 360, easeInOut)
-    .then(() => tween(p.group.position, 'y', SEAT_Y + 7, 380, easeOut))
-    .then(() => tween(p.group.position, 'y', SEAT_Y, 200, easeIn))
+  tween(view, 'tx', HOME.tx, 500, easeInOut); tween(view, 'ty', HOME.ty, 500, easeInOut); tween(view, 'tz', HOME.tz, 500, easeInOut);
+  tween(view, 'yaw', nearAngle(back.yaw, view.yaw), 500, easeInOut);
+  tween(view, 'pitch', back.pitch, 500, easeInOut); tween(view, 'zoom', back.zoom, 500, easeInOut);
+  if (p.isBackplane) stashCards(false);
+  else tween(p.spin, 'spin', 0, 260, easeInOut)
+    .then(() => tween(p.group.position, 'y', SEAT_Y + 7, 240, easeOut))
+    .then(() => tween(p.group.position, 'y', SEAT_Y, 140, easeIn))
     .then(() => { p.spin = null; p.pivot.rotation.y = 0; p.busy = false; });
   renderUI();
 }
@@ -392,7 +426,9 @@ function updateSlotMarks() {
 
 /* ---------- 界面 ---------- */
 const libList = document.getElementById('libList'), strip = document.getElementById('strip'),
-      hint = document.getElementById('hint'), stats = document.getElementById('stats'), undoBtn = document.getElementById('undo');
+      hint = document.getElementById('hint'), stats = document.getElementById('stats'), undoBtn = document.getElementById('undo'),
+      redoBtn = document.getElementById('redo'), shareBtn = document.getElementById('share'), toast = document.getElementById('toast');
+let cellDrag = null, suppressClick = false;   // 在槽位条上拖动板卡
 
 Object.keys(TYPES).forEach(key => {
   const T = TYPES[key], b = document.createElement('button');
@@ -463,42 +499,61 @@ function renderUI() {
   libPanel.hidden = !!inspect; ifacePanel.hidden = !inspect;
   libList.querySelectorAll('.item').forEach(b => {
     b.disabled = !ready;
+    b.classList.toggle('loading', loading.has(b.dataset.type));
     b.setAttribute('aria-pressed', String(!!sel && sel.kind === 'lib' && sel.type === b.dataset.type));
   });
   const a = inspect ? null : armed();
 
-  strip.textContent = '';
+  // 查看接口时不能换布局和背板
+  document.querySelectorAll('#layouts button, #backplanes button').forEach(b => { b.disabled = !!inspect; });
+  // 互换模式下，哪些板卡换得了
+  const me = !inspect && sel && sel.swap ? placements.get(sel.id) : null;
+  strip.textContent = ''; stripCells.length = 0;
+  let pendSpan = 0;
   for (let i = 0; i < SLOTS; i++) {
     const id = slots[i], p = id === null ? null : placements.get(id);
     const selected = !!p && !!sel && sel.kind === 'placed' && sel.id === p.id;
-    // 3D 里的编号标记与槽位条同步
+    // 可以落位（互换模式下是可以互换）的槽。3D 里的编号标记和槽位条用同一套状态，窄屏上编号标记会隐藏
+    const ok = me ? !!p && p !== me && !p.busy && !!swapPlan(me, p) : !!a && fit(a.w, i, a.ignore) >= 0;
+    const dim = !!me && !!p && p !== me && !ok;
     const mk = slotMarks[i];
-    mk.className = 'slotmark' + (p ? ' full' : '') + (selected ? ' sel' : '') + (a && fit(a.w, i, a.ignore) >= 0 ? ' ok' : '');
+    mk.className = 'slotmark' + (p ? ' full' : '') + (selected ? ' sel' : '') + (ok ? ' ok' : '') + (dim ? ' dim' : '');
     mk.style.background = p ? tagColor(TYPES[p.type]) : ''; mk.style.color = p ? inkOn(tagColor(TYPES[p.type])) : '';
     mk.setAttribute('aria-label', t('aria.slot', { n: i + 1, what: p ? TYPES[p.type].name : t('aria.empty') }));
 
-    if (p && p.slot !== i) continue;
+    if ((p && p.slot !== i) || pendSpan > 0) { if (!p) pendSpan--; stripCells[i] = stripCells[i - 1]; continue; }
     const c = document.createElement('button');
-    c.type = 'button'; c.className = 'cell'; c.id = 'slot-' + (i + 1);
+    c.type = 'button'; c.className = 'cell' + (ok ? ' ok' : '') + (dim ? ' dim' : ''); c.id = 'slot-' + (i + 1); c.dataset.slot = i;
     const no = document.createElement('span'); no.className = 'no';
+    const pend = !p && pending.has(i) ? TYPES[pending.get(i)] : null;
+    const label = (T, w, text, aria) => {
+      c.style.gridColumn = 'span ' + w;
+      no.textContent = w === 2 ? (i + 1) + '–' + (i + 2) : String(i + 1);
+      const lb = document.createElement('span'); lb.className = 'lb'; lb.textContent = text;
+      c.appendChild(lb);
+      c.setAttribute('aria-label', t(aria, { n: no.textContent, what: text }));
+    };
     if (p) {
       const T = TYPES[p.type];
-      c.classList.add('full'); c.style.gridColumn = 'span ' + T.w; c.style.background = tagColor(T); c.style.color = inkOn(tagColor(T));
+      c.classList.add('full'); c.style.background = tagColor(T); c.style.color = inkOn(tagColor(T));
       if (selected) c.classList.add('sel');
-      no.textContent = T.w === 2 ? (i + 1) + '–' + (i + 2) : String(i + 1);
-      const lb = document.createElement('span'); lb.className = 'lb';
-      lb.textContent = T.name + levelSuffix(T);
-      c.appendChild(lb);
-      c.setAttribute('aria-label', t('aria.slot', { n: no.textContent, what: lb.textContent }));
+      if (cellDrag && cellDrag.active && cellDrag.id === p.id) c.classList.add('drag');
+      label(T, T.w, T.name + levelSuffix(T), 'aria.slot');
+    } else if (pend) {
+      // 已经指定放在这里、模型还在路上：先占个位，免得点了以后一片空白
+      const w = pend.w === 2 && i + 1 < SLOTS && slots[i + 1] === null ? 2 : 1;
+      c.classList.add('pending'); pendSpan = w - 1;
+      label(pend, w, pend.name, 'aria.slotLoading');
     } else {
       no.textContent = String(i + 1);
       c.setAttribute('aria-label', t('aria.slot', { n: i + 1, what: t('aria.empty') }));
-      c.addEventListener('mouseenter', () => slotHover(i));
-      c.addEventListener('mouseleave', () => showTarget(1, -1));
     }
+    c.addEventListener('mouseenter', () => slotHover(i));
+    c.addEventListener('mouseleave', () => showTarget(1, -1));
     c.addEventListener('click', () => slotClick(i));
     c.appendChild(no);
     strip.appendChild(c);
+    stripCells[i] = c;
   }
 
   hint.textContent = '';
@@ -511,7 +566,7 @@ function renderUI() {
     hint.appendChild(btn(t('btn.back'), 'ghost', exitInspect, 'back'));
   } else if (!sel) {
     span.textContent = !ready ? t('hint.loading') : failed.size ? t('hint.failed', { names: [...failed].map(k => TYPES[k].name).join(', ') }) : t('hint.idle');
-    if (bpCard && bpCard.interfaces.length) hint.appendChild(btn(t('btn.backplane'), 'ghost', () => enterInspect(bpCard), 'backplane'));
+    if (bpCard && bpCard.interfaces.length && !applying) hint.appendChild(btn(t('btn.backplane'), 'ghost', () => enterInspect(bpCard), 'backplane'));
   } else if (sel.kind === 'lib') {
     const T = TYPES[sel.type];
     span.textContent = failed.has(sel.type) ? t('hint.loadFailed', { name: T.name })
@@ -529,28 +584,38 @@ function renderUI() {
     span.textContent = t(canMove ? 'hint.selected' : placements.size > 1 ? 'hint.selectedFull' : 'hint.selectedOnly', { name: TYPES[p.type].name });
     if (p.interfaces.length) hint.appendChild(btn(t('btn.interfaces'), '', () => enterInspect(p), 'interfaces'));
     if (placements.size > 1) hint.appendChild(btn(t('btn.swap'), 'ghost', () => { sel = { kind: 'placed', id: p.id, swap: true }; renderUI(); }, 'swap'));
+    // 一组互斥的选项排成分段按钮：标签加各个选项，当前的那个是按下的
+    const group = (label, options, current, pick, act) => {
+      const g = document.createElement('div'); g.className = 'grp'; g.setAttribute('role', 'group'); g.setAttribute('aria-label', label);
+      const l = document.createElement('div'); l.className = 'lbl'; l.textContent = label;
+      const seg = document.createElement('div'); seg.className = 'seg';
+      options.forEach(([value, text]) => {
+        const b = btn(text, '', () => { if (value === current) return; touched(); pick(value); renderUI(); }, act + '-' + value);
+        b.setAttribute('aria-pressed', String(value === current));
+        seg.appendChild(b);
+      });
+      g.appendChild(l); g.appendChild(seg); hint.appendChild(g);
+    };
     sitesOf(p.type).forEach((site, i) => {
       if (site.fixed) return;   // 固定装着的部件（电池的加热板、COM stack 的 S-Band 板）不提供切换
-      // 每个扩展位一个按钮，依次切换：各个可用的扩展板，然后是不装
-      const e = p.exps[i], cycle = [...site.options, null];
-      const state = e.key ? sys.expansions[e.key].name : t(site.options.length ? 'expansion.none' : 'expansion.unavailable');
-      const b = btn(t('btn.expansion', { site: site.name, name: state }), 'ghost', () => {
-        touched(); setExpansion(p, i, cycle[(cycle.indexOf(e.key) + 1) % cycle.length]); rebuildInterfaces(p); renderUI();
-      }, 'exp' + i);
-      b.disabled = !site.options.length || e.by >= 0;
-      hint.appendChild(b);
+      const e = p.exps[i];
+      if (!site.options.length || e.by >= 0) {   // 还没有可装的扩展板，或者被相邻位上的双位扩展板占着
+        const b = btn(t('btn.expansion', { site: site.name, name: t('expansion.unavailable') }), 'ghost', () => {}, 'exp' + i);
+        b.disabled = true; hint.appendChild(b); return;
+      }
+      group(site.name, [...site.options.map(k => [k, sys.expansions[k].name]), [null, t('expansion.none')]], e.key,
+        key => { setExpansion(p, i, key); rebuildInterfaces(p); }, 'exp' + i);
     });
-    if (p.bracket) hint.appendChild(btn(t('btn.bracket', { mode: t('bracket.' + p.bracketMode) }), 'ghost', () => {
-      touched();
-      p.bracketMode = BRACKET_MODES[(BRACKET_MODES.indexOf(p.bracketMode) + 1) % BRACKET_MODES.length];
-      setBracket(p.bracket, p.bracketMode); renderUI();
-    }, 'bracket'));
-    hint.appendChild(btn(t('btn.remove'), p.interfaces.length ? 'ghost' : '', () => { touched(); removeCard(p); }, 'remove'));
+    if (p.bracket) group(t('bracket'), BRACKET_MODES.map(m => [m, t('bracket.' + m)]), p.bracketMode,
+      mode => { p.bracketMode = mode; setBracket(p.bracket, mode); }, 'bracket');
+    hint.appendChild(btn(t('btn.remove'), 'ghost', () => { touched(); removeCard(p); }, 'remove'));
     hint.appendChild(btn(t('btn.cancel'), 'ghost', () => setSel(null), 'cancel'));
   }
   if (placements.size && !inspect) hint.appendChild(btn(t('btn.clear'), 'ghost', () => { touched(); clearAll(); }, 'clear'));
   if (failed.size && !inspect) hint.appendChild(btn(t('btn.retry'), 'ghost', () => [...failed].forEach(fetchBoard), 'retry'));
+  span.title = span.textContent;   // 提示只有一行，放不下会截断，鼠标停上去能看到全文
   undoBtn.disabled = !undoStack.length || !!inspect;
+  redoBtn.disabled = !redoStack.length || !!inspect;
 
   let typ = 0, peak = 0, wh = 0, missing = 0;
   placements.forEach(p => { const T = TYPES[p.type]; if (T.typ == null && !T.wh) missing++; typ += T.typ || 0; peak += T.peak || 0; wh += T.wh || 0; });
@@ -589,30 +654,92 @@ function pick(e) {
   }
   return { card: ch ? placements.get(ch.object.userData.id) : null, slot, a };
 }
+/* 在槽位条上拖动板卡：拖到空槽是移动，拖到另一块板上是互换。槽位条每次整体重建，所以按指针的横坐标算槽位，不依赖具体的格子 */
+const slotAtX = x => { const r = strip.getBoundingClientRect(); return clamp(Math.floor((x - r.left) / r.width * SLOTS), 0, SLOTS - 1); };
+strip.addEventListener('pointerdown', e => {
+  const c = e.target.closest('.cell.full');
+  if (!c || inspect || e.button) return;
+  const p = placements.get(slots[+c.dataset.slot]);
+  if (p && !p.busy) cellDrag = { id: p.id, x: e.clientX, y: e.clientY, active: false };
+});
+window.addEventListener('pointermove', e => {
+  if (!cellDrag) return;
+  const p = placements.get(cellDrag.id);
+  if (!p || p.busy || inspect) { cellDrag = null; strip.classList.remove('dragging'); return; }
+  if (!cellDrag.active) {
+    if (Math.hypot(e.clientX - cellDrag.x, e.clientY - cellDrag.y) < 8) return;
+    cellDrag.active = true; strip.classList.add('dragging');
+    setSel({ kind: 'placed', id: p.id });
+  }
+  const w = TYPES[p.type].w;
+  showTarget(w, fit(w, slotAtX(e.clientX), p.id));
+});
+function endCellDrag(e, cancel) {
+  if (!cellDrag) return;
+  const d = cellDrag, p = placements.get(d.id);
+  cellDrag = null; strip.classList.remove('dragging'); showTarget(1, -1);
+  if (!d.active) return;
+  suppressClick = true; setTimeout(() => { suppressClick = false; }, 0);   // 松手后浏览器补发的 click 不算数
+  const r = strip.getBoundingClientRect();
+  if (cancel || !p || p.busy || e.clientY < r.top - 48 || e.clientY > r.bottom + 48) { renderUI(); return; }   // 拖到槽位条外面松手是取消
+  const i = slotAtX(e.clientX), f = fit(TYPES[p.type].w, i, p.id), q = slots[i] === null ? null : placements.get(slots[i]);
+  if (f >= 0 && f !== p.slot) { touched(); move(p, f); }
+  else if (q && q !== p && !q.busy) swap(p, q);
+  else renderUI();
+}
+window.addEventListener('pointerup', e => endCellDrag(e, false));
+window.addEventListener('pointercancel', e => endCellDrag(e, true));
+strip.addEventListener('click', e => { if (suppressClick) { e.stopPropagation(); e.preventDefault(); } }, true);
+
 let pd = null, dragging = false, pinch = null;
-const pts = new Map();   // 按在画布上的指针，两个时是双指缩放
+const pts = new Map();   // 按在画布上的指针，两个时是双指缩放和平移
 const spread = () => { const [a, b] = [...pts.values()]; return Math.hypot(a.x - b.x, a.y - b.y); };
+const centroid = () => { const [a, b] = [...pts.values()]; return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }; };
+// 平移：镜头的注视点沿屏幕的左右、上下方向挪 (dx, dy) 像素。from 是开始拖动时的注视点；离默认位置不超过 PAN_MAX
+const PAN_MAX = 160, _r = new THREE.Vector3(), _u = new THREE.Vector3();
+function panBy(from, dx, dy) {
+  const k = (camera.top - camera.bottom) / view.zoom / stage.clientHeight, h = homeTarget();
+  _r.set(1, 0, 0).applyQuaternion(camera.quaternion); _u.set(0, 1, 0).applyQuaternion(camera.quaternion);
+  ['x', 'y', 'z'].forEach((ax, n) => {
+    const key = 't' + ax;
+    killTween(view, key);
+    view[key] = clamp(from[key] - dx * k * _r[ax] + dy * k * _u[ax], h[n] - PAN_MAX, h[n] + PAN_MAX);
+  });
+  dirty = true;
+}
+cv.addEventListener('contextmenu', e => e.preventDefault());   // 右键拖动是平移
 cv.addEventListener('pointerdown', e => {
   pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
   try { cv.setPointerCapture(e.pointerId); } catch (_) {}
-  if (pts.size === 2) { pinch = { d: spread() || 1, zoom: view.zoom }; pd = null; dragging = false; showTarget(1, -1); return; }
+  if (pts.size === 2) {
+    const c = centroid();
+    pinch = { d: spread() || 1, zoom: view.zoom, x: c.x, y: c.y, tx: view.tx, ty: view.ty, tz: view.tz };
+    pd = null; dragging = false; showTarget(1, -1); return;
+  }
   if (pts.size > 2) return;
-  pd = { x: e.clientX, y: e.clientY, yaw: view.yaw, pitch: view.pitch };
+  // 手指比鼠标抖，点按和拖动的分界放宽一些
+  pd = { x: e.clientX, y: e.clientY, yaw: view.yaw, pitch: view.pitch, tx: view.tx, ty: view.ty, tz: view.tz,
+         pan: e.button === 1 || e.button === 2 || e.shiftKey, th: e.pointerType === 'mouse' ? 6 : 10 };
   dragging = false;
 });
 cv.addEventListener('pointermove', e => {
   if (pts.has(e.pointerId)) pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
   if (pinch) {
-    if (pts.size === 2) { killTween(view, 'zoom'); view.zoom = clamp(pinch.zoom * spread() / pinch.d, 0.6, 3); dirty = true; }
+    if (pts.size === 2) {
+      const c = centroid();
+      killTween(view, 'zoom'); view.zoom = clamp(pinch.zoom * spread() / pinch.d, 0.6, 3);
+      panBy(pinch, c.x - pinch.x, c.y - pinch.y);
+    }
     return;
   }
   if (pd) {
     const dx = e.clientX - pd.x, dy = e.clientY - pd.y;
-    if (!dragging && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
+    if (!dragging && (Math.abs(dx) > pd.th || Math.abs(dy) > pd.th)) {
       dragging = true; killTween(view, 'yaw'); killTween(view, 'pitch');
       showTarget(1, -1); cv.style.cursor = 'grabbing';
     }
     if (!dragging) return;
+    if (pd.pan) { panBy(pd, dx, dy); return; }
     view.yaw = pd.yaw - dx * 0.008;
     // 页面本身不滚动（整页固定在一屏内），所以触屏和鼠标一样可以改俯仰角；查看接口时还能转到板子下方
     view.pitch = clamp(pd.pitch + dy * 0.006, inspect ? -1.5 : 0.12, 1.5);
@@ -627,7 +754,7 @@ const release = e => { pts.delete(e.pointerId); if (pts.size < 2) pinch = null; 
 cv.addEventListener('pointerup', e => {
   release(e);
   if (!pd) return;
-  if (!dragging && !inspect) {
+  if (!dragging && !inspect && !pd.pan) {
     const h = pick(e);
     if (sel && sel.swap) {
       const me = placements.get(sel.id);
@@ -642,20 +769,46 @@ cv.addEventListener('pointerup', e => {
 });
 cv.addEventListener('pointercancel', e => { release(e); pd = null; dragging = false; });
 cv.addEventListener('pointerleave', () => { if (!pd) showTarget(1, -1); });
-cv.addEventListener('wheel', e => { e.preventDefault(); killTween(view, 'zoom'); view.zoom = clamp(view.zoom * (e.deltaY < 0 ? 1.08 : 0.926), 0.6, 3); dirty = true; }, { passive: false });
+cv.addEventListener('wheel', e => {
+  e.preventDefault(); killTween(view, 'zoom');
+  // 按滚动量连续缩放：鼠标滚轮一格（约 100）是 8%，触控板一次滑动发很多个小增量，合起来幅度相当。
+  // 按着 ctrl 的滚轮事件是触控板捏合，增量小得多，放大十倍
+  const d = clamp(e.deltaY * (e.deltaMode === 1 ? 33 : 1) * (e.ctrlKey ? 10 : 1), -300, 300);
+  view.zoom = clamp(view.zoom * Math.exp(-d * 0.00077), 0.6, 3); dirty = true;
+}, { passive: false });
 const turnBy = d => tween(view, 'yaw', view.yaw + d, 420, easeInOut);
 document.getElementById('rotL').addEventListener('click', () => turnBy(-Math.PI / 2));
 document.getElementById('rotR').addEventListener('click', () => turnBy(Math.PI / 2));
 undoBtn.addEventListener('click', undo);
+redoBtn.addEventListener('click', redo);
+// 复制带当前配置的链接，结果用一条短提示告诉用户
+let toastTimer = 0;
+shareBtn.addEventListener('click', async () => {
+  const s = stateSnap(), url = location.origin + location.pathname + location.search + (s === defaultSnap ? '' : '#' + s);
+  let ok = true;
+  try { await navigator.clipboard.writeText(url); } catch (e) { ok = false; }
+  toast.textContent = t(ok ? 'share.copied' : 'share.failed');
+  toast.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('on'), ok ? 1600 : 4000);
+});
 document.getElementById('resetView').addEventListener('click', () => {
   // 查看接口时回到进入查看时的视角
   const h = inspect ? inspect.home : { yaw: HOME_YAW, pitch: ISO, zoom: 1 };
   tween(view, 'yaw', nearAngle(h.yaw, view.yaw), 420, easeInOut); tween(view, 'pitch', h.pitch, 420, easeInOut); tween(view, 'zoom', h.zoom, 420, easeInOut);
+  const g = homeTarget();
+  tween(view, 'tx', g[0], 420, easeInOut); tween(view, 'ty', g[1], 420, easeInOut); tween(view, 'tz', g[2], 420, easeInOut);
 });
 window.addEventListener('keydown', e => {
   if (e.key === 'Escape') { if (inspect) exitInspect(); else setSel(null); }
   if (inspect) return;
-  if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'z') { e.preventDefault(); undo(); return; }
+  if ((e.ctrlKey || e.metaKey) && !e.altKey && (e.key.toLowerCase() === 'z' || e.key.toLowerCase() === 'y')) {
+    e.preventDefault();
+    if (e.shiftKey || e.key.toLowerCase() === 'y') redo(); else undo();
+    return;
+  }
+  // 数字键 1–7 等于点对应的槽位：选了板卡就落位，否则选中槽里的板
+  if (!e.ctrlKey && !e.metaKey && !e.altKey && e.key.length === 1 && e.key >= '1' && e.key <= String(SLOTS)) { slotClick(+e.key - 1); return; }
   if ((e.key === 'Delete' || e.key === 'Backspace') && sel && sel.kind === 'placed') { const p = placements.get(sel.id); if (p && !p.busy) { touched(); removeCard(p); } }
 });
 
@@ -725,16 +878,20 @@ requestAnimationFrame(frameLoop);
 // 先取背板，界面随即可用。板卡的模型按需取：布局里用到的、在板卡库里点选的
 const wait = ms => new Promise(res => setTimeout(res, reduced ? 0 : ms));
 let run = 0, layout = sys.initial;   // run：每次换配置加一，用来中止还在进行的逐块插入
-const fetchBoard = type => loadBoard(sys, type).then(() => {
-  if (hasModel(type)) { loaded.add(type); failed.delete(type); } else failed.add(type);
-  renderUI();
-});
+const fetchBoard = type => {
+  if (!loaded.has(type) && !loading.has(type)) { loading.add(type); renderUI(); }
+  return loadBoard(sys, type).then(() => {
+    loading.delete(type);
+    if (hasModel(type)) { loaded.add(type); failed.delete(type); } else failed.add(type);
+    renderUI();
+  });
+};
 // 依次拔出一组板卡，从最后一个槽往前。记下每个槽位上方什么时候腾空（拔出动画走完），
 // 新板卡要等自己那几个槽腾空了才落下，这样拔出和插入的模型不会在同一个位置上重叠
-const EXIT_MS = 1150, clearAt = new Array(SLOTS).fill(0);
+const EXIT_MS = 650, clearAt = new Array(SLOTS).fill(0);
 function pullOut(list) {
   list.sort((a, b) => b.slot - a.slot).forEach((p, k) => {
-    const delay = reduced ? 0 : k * 170;
+    const delay = reduced ? 0 : k * 110;
     p.busy = true; p.leaving = true;
     if (!reduced) for (let i = 0; i < TYPES[p.type].w; i++) clearAt[p.slot + i] = performance.now() + delay + EXIT_MS;
     // 不用等的当场拔掉：槽位立刻空出来，紧接着的插入才放得进去
@@ -762,6 +919,7 @@ function checkpoint() {
   if (!ready) return;
   const s = stateSnap();
   if (undoStack[undoStack.length - 1] !== s) undoStack.push(s);
+  redoStack.length = 0;   // 有了新的改动，之前撤销掉的就不能重做了
   if (undoStack.length > 50) undoStack.shift();
 }
 function undo() {
@@ -771,6 +929,18 @@ function undo() {
   do { s = undoStack.pop(); } while (s !== undefined && s === cur);   // 没有实际改动的记录跳过
   const cfg = s === undefined ? null : parse(sys, s);
   if (!cfg) { renderUI(); return; }
+  redoStack.push(cur);
+  setLayoutFor(cfg);
+  applyConfig(cfg);
+}
+function redo() {
+  if (inspect || !ready) return;
+  const cur = stateSnap();
+  let s;
+  do { s = redoStack.pop(); } while (s !== undefined && s === cur);
+  const cfg = s === undefined ? null : parse(sys, s);
+  if (!cfg) { renderUI(); return; }
+  undoStack.push(cur);
   setLayoutFor(cfg);
   applyConfig(cfg);
 }
@@ -814,6 +984,8 @@ async function applyConfig(cfg) {
     if (k >= 0) keep.set(k, p); else drop.push(p);
   });
   pullOut(drop);
+  pending.clear();
+  list.forEach((c, k) => { if (!keep.has(k)) pending.set(c.slot, c.type); });
   const jobs = list.map((c, k) => keep.has(k) ? null : fetchBoard(c.type));
   // 和拔出一样从最后一个槽往前：最先腾空的槽最先插入
   const seq = list.map((_, k) => k).sort((a, b) => list[b].slot - list[a].slot);
@@ -826,8 +998,9 @@ async function applyConfig(cfg) {
     for (let i = -1; i <= TYPES[c.type].w; i++) due = Math.max(due, (clearAt[c.slot + i] || 0) - performance.now());
     if (due > 0) await wait(due);
     if (run !== mine) return;
+    pending.delete(c.slot);
     place(c.type, c.slot, true, c);
-    await wait(260);
+    await wait(170);
     if (run !== mine) return;
   }
   applying = false;
