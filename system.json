@@ -16,11 +16,11 @@
     "io": {"label": "I/O", "color": "#a6d08c"}
   },
   "boards": {
-    "piklas": {"name": "Piklas", "level": "iter2", "w": 1, "model": "models/piklas.glb", "color": "#6a5796", "front": -1, "seat": -3, "bracket": "bracket-iter2"},
-    "battery": {"name": "Battery Pack v4.3", "level": "iter2", "w": 2, "model": "models/battery.glb", "color": "#6fae8f", "front": 1, "seat": -3, "wh": 64.8},
-    "adcs": {"name": "ADCS V2.1 REXUS edition", "level": "iter2", "w": 1, "model": "models/adcs.glb", "color": "#2c2d31", "front": -1, "seat": -3, "bracket": "bracket-iter2"},
-    "obdh": {"name": "Rexus OBDH (CM5)", "level": "iter2", "w": 2, "connectorSlot": 1, "model": "models/obdh.glb", "color": "#ecece9", "front": 1, "seat": -3, "expansion": {"options": ["obdh-expansion"], "default": "obdh-expansion"}},
-    "recovery": {"name": "Recovery V2", "level": "iter2", "w": 1, "model": "models/recovery.glb", "color": "#4d6c9e", "front": -1, "seat": -3, "bracket": "bracket-iter2", "expansion": {"options": [], "default": null}}
+    "piklas": {"name": "Piklas", "level": "iter2", "w": 1, "model": "models/piklas.glb", "color": "#6a5796", "front": -1, "seat": -4.8, "bracket": "bracket-iter2"},
+    "battery": {"name": "Battery Pack v4.3", "level": "iter2", "w": 2, "model": "models/battery.glb", "color": "#6fae8f", "front": 1, "seat": -4.4, "wh": 64.8},
+    "adcs": {"name": "ADCS V2.1 REXUS edition", "level": "iter2", "w": 1, "model": "models/adcs.glb", "color": "#2c2d31", "front": -1, "seat": -4.4, "bracket": "bracket-iter2"},
+    "obdh": {"name": "Rexus OBDH (CM5)", "level": "iter2", "w": 2, "connectorSlot": 1, "model": "models/obdh.glb", "color": "#ecece9", "front": 1, "seat": -4.4, "expansion": {"options": ["obdh-expansion"], "default": "obdh-expansion"}},
+    "recovery": {"name": "Recovery V2", "level": "iter2", "w": 1, "model": "models/recovery.glb", "color": "#4d6c9e", "front": -1, "seat": -4.8, "bracket": "bracket-iter2", "expansion": {"options": [], "default": null}}
   },
   "accessories": {
     "bracket-iter2": {"label": "Iter 2 standard bracket", "model": "models/bracket-iter2.glb"}

@@ -31,19 +31,19 @@
  "slots": null,
  "counts": {
   "board": 1,
-  "parts": 45,
+  "parts": 37,
   "blocks": 37,
   "bits": 1417,
   "decals": 276,
-  "interface": 238
+  "interface": 246
  },
  "triangles": {
   "board": 4052,
-  "parts": 40297,
+  "parts": 35251,
   "blocks": 444,
   "bits": 17004,
   "decals": 552,
-  "interface": 122502,
+  "interface": 127548,
   "instanced": 504
  },
  "split": {
@@ -20799,7 +20799,7 @@
     13.26,
     4.06
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1350,
    "edgeSegments": 311
   },
@@ -20811,7 +20811,7 @@
     5.788,
     4.088
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 842,
    "edgeSegments": 224
   },
@@ -22552,7 +22552,7 @@
     0.2,
     3.8
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 80,
    "edgeSegments": 22
   },
@@ -22564,7 +22564,7 @@
     0.2,
     3.8
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 44,
    "edgeSegments": 10
   },
@@ -22576,7 +22576,7 @@
     0.2,
     3.8
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 80,
    "edgeSegments": 22
   },
@@ -22588,7 +22588,7 @@
     0.2,
     3.8
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 44,
    "edgeSegments": 10
   },
@@ -23095,7 +23095,7 @@
     9.2,
     4.36
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1256,
    "edgeSegments": 228
   },
@@ -23107,7 +23107,7 @@
     9.18,
     4.73
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1350,
    "edgeSegments": 344
   },

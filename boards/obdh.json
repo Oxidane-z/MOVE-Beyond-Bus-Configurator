@@ -9,6 +9,9 @@
     {"ref": "HDMI2", "match": ["685219134123*"], "cluster": 1, "label": "HDMI 2", "type": "io", "connector": "Würth 685219134123", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
     {"ref": "M2", "match": ["Conn_TE_1-2199230-6*"], "label": "M.2 socket", "type": "io", "connector": "TE 1-2199230-6", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
     {"ref": "ARF1", "match": ["ARF6-08*", "C-49?-08*", "IM-C-49?-08*"], "cluster": 0, "label": "ARF6 socket 1", "type": "io", "connector": "Samtec ARF6-08", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "ARF2", "match": ["ARF6-08*", "C-49?-08*", "IM-C-49?-08*"], "cluster": 1, "label": "ARF6 socket 2", "type": "io", "connector": "Samtec ARF6-08", "desc": "Identified from the part number in the CAD model. Function not documented yet."}
+    {"ref": "ARF2", "match": ["ARF6-08*", "C-49?-08*", "IM-C-49?-08*"], "cluster": 1, "label": "ARF6 socket 2", "type": "io", "connector": "Samtec ARF6-08", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
+    {"ref": "USB-C", "match": ["shell_ext*", "shell int*"], "label": "USB-C", "type": "io", "connector": "USB Type-C", "desc": "Function not documented yet."},
+    {"ref": "MLP1", "match": ["body*", "mtn*"], "cluster": 0, "label": "Micro-Lock Plus 1", "type": "io", "connector": "Molex Micro-Lock Plus", "desc": "Function not documented yet."},
+    {"ref": "MLP2", "match": ["body*", "mtn*"], "cluster": 1, "label": "Micro-Lock Plus 2", "type": "io", "connector": "Molex Micro-Lock Plus", "desc": "Function not documented yet."}
   ]
 }
