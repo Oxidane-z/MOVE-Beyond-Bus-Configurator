@@ -1,10 +1,10 @@
 {
   "interfaces": [
-    {"ref": "HARNESS", "match": ["G125-MS12605L3R*"], "label": "Gecko connector", "type": "io", "connector": "Harwin Gecko G125 (26-pin)", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "MLP-2P", "match": ["FP-205338-0002*"], "label": "Micro-Lock Plus 2P", "type": "io", "connector": "Molex Micro-Lock Plus 2P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "MLP-6P-1", "match": ["FP-2053380006*"], "cluster": 0, "label": "Micro-Lock Plus 6P (1)", "type": "io", "connector": "Molex Micro-Lock Plus 6P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "MLP-6P-2", "match": ["FP-2053380006*"], "cluster": 1, "label": "Micro-Lock Plus 6P (2)", "type": "io", "connector": "Molex Micro-Lock Plus 6P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "PL-1", "match": ["CONN_5037630000*"], "cluster": 0, "label": "Pico-Lock (1)", "type": "io", "connector": "Molex Pico-Lock", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "PL-2", "match": ["CONN_5037630000*"], "cluster": 1, "label": "Pico-Lock (2)", "type": "io", "connector": "Molex Pico-Lock", "desc": "Identified from the part number in the CAD model. Function not documented yet."}
+    {"ref": "HARNESS", "match": ["G125-MS12605L3R*"], "label": "GSE connector", "type": "debug", "connector": "Harwin Gecko G125 (26-pin)", "desc": "Ground support equipment interface. Breaks out all ST-Link pins, the CAN bus, the RBF trigger and a solar input that bypasses the RBF."},
+    {"ref": "MLP-2P", "match": ["FP-205338-0002*"], "label": "Solar panel input 1", "type": "power", "connector": "Molex Micro-Lock Plus 2P", "desc": "Connects one solar panel string."},
+    {"ref": "MLP-6P-1", "match": ["FP-2053380006*"], "cluster": 0, "label": "Solar panel input 2", "type": "power", "connector": "Molex Micro-Lock Plus 6P", "desc": "Connects up to three solar panel strings."},
+    {"ref": "MLP-6P-2", "match": ["FP-2053380006*"], "cluster": 1, "label": "Solar panel input 3", "type": "power", "connector": "Molex Micro-Lock Plus 6P", "desc": "Connects up to three solar panel strings."},
+    {"ref": "PL-1", "match": ["CONN_5037630000*"], "cluster": 0, "label": "Deployment switch 1", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "Deployment switch. Detects deployment of the CubeSat and works like the RBF: it cuts the power."},
+    {"ref": "PL-2", "match": ["CONN_5037630000*"], "cluster": 1, "label": "Deployment switch 2", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "Deployment switch. Detects deployment of the CubeSat and works like the RBF: it cuts the power."}
   ]
 }
