@@ -28,7 +28,7 @@ const STRINGS = {
     'btn.retry': 'Retry',
     'hint.swap': 'Pick the board to swap with {name}.',
     'hint.swapNoRoom': 'Not enough room to swap {name} with {other}. Pick another board.',
-    'hint.inspect': 'Inspecting {name}. Drag to look around, click a number for details.',
+    'hint.inspect': 'Inspecting {name}. Drag to look around, click a number for details. Double-click empty space to go back.',
     'banner.slot': 'Slot {n}',
     'hover.interfaces': 'Interfaces',
     'hover.capacity': 'Capacity',

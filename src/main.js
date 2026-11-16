@@ -815,13 +815,23 @@ cv.addEventListener('pointerup', e => {
   if (!pd) return;
   if (!dragging && !inspect && !pd.pan) {
     const h = pick(e), now = performance.now();
-    // 双击（或双点）同一块板：之前选着另一块板就和它互换，否则查看这块板的接口。
+    // 双击（或双点）同一块板：之前选着另一块板就和它互换，否则查看这块板的接口；双击背板是查看背板的接口。
     // 第一下点击已经把选中换成了这块板，所以要记住第一下之前选的是谁
-    const dbl = lastTap && h.card && h.slot < 0 && lastTap.id === h.card.id && now - lastTap.t < 350 ? lastTap : null;
-    lastTap = h.card && h.slot < 0 && !dbl ? { t: now, id: h.card.id, prev: sel && sel.kind === 'placed' && !sel.swap ? sel.id : null } : null;
-    if (dbl && !(sel && sel.swap)) {
+    const onBp = !h.card && h.slot < 0 && !!S.group && ray.intersectObject(S.group, true).length > 0;
+    const key = h.slot >= 0 ? null : h.card ? h.card.id : onBp ? 'bp' : null;
+    const dbl = lastTap && key !== null && lastTap.id === key && now - lastTap.t < 350 ? lastTap : null;
+    lastTap = key !== null && !dbl ? { t: now, id: key, prev: sel && sel.kind === 'placed' && !sel.swap ? sel.id : null } : null;
+    if (dbl && key === 'bp') {
+      if (bpCard && bpCard.interfaces.length && !applying && !bpBusy) enterInspect(bpCard);
+    }
+    else if (dbl && !(sel && sel.swap)) {
       const other = dbl.prev !== null && dbl.prev !== h.card.id ? placements.get(dbl.prev) : null;
-      if (other && !other.busy && !h.card.busy) swap(other, h.card);
+      if (other && !other.busy && !h.card.busy) {
+        // 先把选中还给原来那块板（第一下点击把它放下、把这块抬起来了），再互换。
+        // 换不了时 swap 会停在互换模式并提示空间不够，这时选中的必须是原来那块
+        setSel({ kind: 'placed', id: other.id });
+        swap(other, h.card);
+      }
       else if (!h.card.busy && h.card.interfaces.length) enterInspect(h.card);
     }
     else if (sel && sel.swap) {
@@ -832,6 +842,13 @@ cv.addEventListener('pointerup', e => {
     else if (h.slot >= 0) applyAt(h.slot);
     else if (h.card && !h.card.busy) setSel(sel && sel.id === h.card.id ? null : { kind: 'placed', id: h.card.id });
     else if (!h.card) setSel(null);
+  }
+  else if (!dragging && inspect && !pd.pan) {
+    // 查看接口时双击空白处：退出查看
+    pick(e);
+    const now = performance.now(), blank = !ray.intersectObject(inspect.p.group, true).length;
+    if (blank && lastTap && lastTap.id === 'blank' && now - lastTap.t < 350) { lastTap = null; exitInspect(); }
+    else lastTap = blank ? { t: now, id: 'blank', prev: null } : null;
   }
   pd = null; dragging = false; cv.style.cursor = 'grab';
 });
