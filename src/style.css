@@ -93,7 +93,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .stage { min-height: 160px; }
   .dock { gap: 6px; }
   /* 提示文字单独一行（放不下就截断），按钮在下面换行排开，不用横向滚动 */
-  .hint { gap: 6px; min-height: 0; }
+  /* 高度固定为一行文字加两行按钮，三维视图的大小不随按钮数量变化；极少数情况下按钮超过两行，在栏内上下滚动 */
+  .hint { gap: 6px; height: 78px; min-height: 0; align-content: flex-start; overflow-y: auto; }
   .hint span { flex: 0 0 100%; min-width: 0; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .hint button { padding: 3px 9px; font-size: 12px; }
   .stats { flex-wrap: nowrap; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
