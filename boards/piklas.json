@@ -1,16 +1,16 @@
 {
   "interfaces": [
-    { "ref": "J2", "label": "背板连接器", "type": "bus", "connector": "", "desc": "插入背板槽位。" },
-    { "ref": "J3", "label": "ST-Link", "type": "debug", "connector": "", "desc": "编程调试接口。" },
-    { "ref": "To PIKLAS1_Horizon1", "label": "Horizon 1", "type": "sensor", "connector": "Molex PicoBlade 10P", "desc": "连接地平线传感器。" },
-    { "ref": "To PIKLAS1_Horizon2", "label": "Horizon 2", "type": "sensor", "connector": "Molex PicoBlade 10P", "desc": "连接地平线传感器。" },
-    { "ref": "To PIKLAS1_Horizon3", "label": "Horizon 3", "type": "sensor", "connector": "Molex PicoBlade 10P", "desc": "连接地平线传感器。" },
-    { "ref": "HDRM1", "label": "HDRM 1", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "连接释放动作器，一般是 thermal knife。" },
-    { "ref": "HDRM2", "label": "HDRM 2", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "连接释放动作器，一般是 thermal knife。" },
-    { "ref": "HDRM3", "label": "HDRM 3", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "连接释放动作器，一般是 thermal knife。" },
-    { "ref": "HDRM4", "label": "HDRM 4", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "连接释放动作器，一般是 thermal knife。" },
-    { "ref": "RCVR Bridge", "label": "RCVR Bridge", "type": "trigger", "connector": "Molex Pico-Lock 4P", "desc": "用于外部触发 4 路 HDRM。" },
-    { "ref": "J-DS-Y+1", "label": "Deployment Switch Y+", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "部署开关，作用类似 RBF：开关被触发时切断 HDRM 的电路。" },
-    { "ref": "J-DS-Y-1", "label": "Deployment Switch Y−", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "部署开关，作用类似 RBF：开关被触发时切断 HDRM 的电路。" }
+    {"ref": "J2", "label": "Backplane connector", "type": "bus", "connector": "", "desc": "Plugs into a backplane slot."},
+    {"ref": "J3", "label": "ST-Link", "type": "debug", "connector": "", "desc": "Programming and debug port."},
+    {"ref": "To PIKLAS1_Horizon1", "label": "Horizon 1", "type": "sensor", "connector": "Molex PicoBlade 10P", "desc": "Connects a horizon sensor."},
+    {"ref": "To PIKLAS1_Horizon2", "label": "Horizon 2", "type": "sensor", "connector": "Molex PicoBlade 10P", "desc": "Connects a horizon sensor."},
+    {"ref": "To PIKLAS1_Horizon3", "label": "Horizon 3", "type": "sensor", "connector": "Molex PicoBlade 10P", "desc": "Connects a horizon sensor."},
+    {"ref": "HDRM1", "label": "HDRM 1", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "Drives a release actuator, usually a thermal knife."},
+    {"ref": "HDRM2", "label": "HDRM 2", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "Drives a release actuator, usually a thermal knife."},
+    {"ref": "HDRM3", "label": "HDRM 3", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "Drives a release actuator, usually a thermal knife."},
+    {"ref": "HDRM4", "label": "HDRM 4", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "Drives a release actuator, usually a thermal knife."},
+    {"ref": "RCVR Bridge", "label": "RCVR Bridge", "type": "trigger", "connector": "Molex Pico-Lock 4P", "desc": "External trigger for the four HDRM channels."},
+    {"ref": "J-DS-Y+1", "label": "Deployment Switch Y+", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "Deployment switch, works like an RBF: when triggered it cuts the HDRM circuit."},
+    {"ref": "J-DS-Y-1", "label": "Deployment Switch Y−", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "Deployment switch, works like an RBF: when triggered it cuts the HDRM circuit."}
   ]
 }

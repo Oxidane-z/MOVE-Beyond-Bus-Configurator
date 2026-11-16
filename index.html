@@ -1,37 +1,38 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>MOVE Beyond Bus 配置器</title>
+<title>MOVE Beyond Bus Configurator</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
 <div class="app">
   <header class="head">
-    <h1>MOVE Beyond Bus 配置器</h1>
+    <h1 data-i18n="title">MOVE Beyond Bus Configurator</h1>
   </header>
 
   <aside class="lib">
     <div id="libPanel" class="panel">
-      <h2>板卡库</h2>
+      <h2 data-i18n="library">Boards</h2>
       <div id="libList" class="list"></div>
     </div>
     <div id="ifacePanel" class="panel" hidden>
-      <h2 id="ifaceTitle">接口</h2>
+      <h2 id="ifaceTitle"></h2>
       <div id="ifaceList" class="list"></div>
     </div>
   </aside>
 
   <main class="main">
     <div class="stage" id="stage">
-      <canvas id="cv" aria-label="卫星 slot card 系统的等轴测视图"></canvas>
+      <canvas id="cv" data-i18n-aria="aria.canvas"></canvas>
+      <div id="slotMarks" class="marks"></div>
       <div id="marks" class="marks"></div>
       <div class="tools">
-        <button id="rotL" type="button" aria-label="向左旋转 90 度">⟲</button>
-        <button id="rotR" type="button" aria-label="向右旋转 90 度">⟳</button>
-        <button id="frameBtn" type="button" aria-pressed="true">框架</button>
+        <button id="rotL" type="button" data-i18n-aria="aria.rotL">⟲</button>
+        <button id="rotR" type="button" data-i18n-aria="aria.rotR">⟳</button>
+        <button id="resetView" type="button" data-i18n-aria="aria.reset">⌂</button>
       </div>
     </div>
     <div class="dock">
@@ -41,7 +42,6 @@
     </div>
   </main>
 </div>
-
 <script type="module" src="./src/main.js"></script>
 </body>
 </html>

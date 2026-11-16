@@ -2,7 +2,7 @@
 
 MOVE Beyond 卫星 slot card 总线系统的三维交互配置器。正交等轴测视角、平面着色加描边，可在 7 槽背板上自由安排板卡。
 
-当前状态：背板和 Piklas 板来自真实 STEP，其余板卡、框架和底板仍是占位几何，功耗都是示例数据。
+当前状态：背板、Piklas、Battery Pack v4.3、ADCS V2.1 和 Rexus OBDH 来自真实 STEP，其余板卡是占位几何，功耗是示例数据。界面文案在 `src/i18n.js`，目前只有英文。
 
 ## 运行
 
@@ -49,7 +49,7 @@ python pipeline/step2glb.py "cad/板卡.step" public/models/板卡名 --annotati
 
 转换后在 `system.json` 的 `boards` 里加一条 `"kind": "model"`、`"model": "models/板卡名.glb"` 的记录。
 
-板卡加 `--mate 位号` 指定插入背板的连接器，板卡就以它为原点对准槽位，例如 Piklas：
+板卡加 `--mate 名称前缀` 指定插入背板的连接器。脚本据此自动定向（连接器朝下，板卡主体偏向 +X），STEP 原本朝哪个方向都可以，并在输出里给出 `front`（PCB 正面朝 +Z 还是 -Z），填进 `system.json`。`--split 名称=前缀|前缀` 可以把支架这类可选件拆成单独的 GLB。例如 Piklas：
 
 ```bash
 python pipeline/step2glb.py "cad/STEP_[No Variations] for PiklasRework.PcbDoc.step" public/models/piklas --annotations boards/piklas.json --mate J2

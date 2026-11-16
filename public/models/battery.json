@@ -1,0 +1,4200 @@
+{
+ "source": "Battery board.step",
+ "bounds": {
+  "min": [
+   -30.032,
+   0.0,
+   -6.502
+  ],
+  "max": [
+   62.268,
+   83.015,
+   20.5
+  ]
+ },
+ "board": {
+  "min": [
+   -29.132,
+   6.955,
+   -6.36
+  ],
+  "max": [
+   61.368,
+   8.513,
+   19.94
+  ]
+ },
+ "frame": {
+  "front": 1,
+  "mateSlots": 2
+ },
+ "slots": null,
+ "counts": {
+  "board": 1,
+  "parts": 32,
+  "blocks": 43,
+  "bits": 73,
+  "decals": 225,
+  "split": 0,
+  "interface": 0
+ },
+ "triangles": {
+  "board": 976,
+  "parts": 44564,
+  "blocks": 516,
+  "bits": 876,
+  "decals": 450,
+  "split": 0,
+  "interface": 0,
+  "instanced": 7880
+ },
+ "components": [
+  {
+   "name": "0402_CMP-00000-7__Importiert1",
+   "side": "top",
+   "size": [
+    0.25,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert1_1",
+   "side": "top",
+   "size": [
+    0.25,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert1_10",
+   "side": "top",
+   "size": [
+    0.25,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert1_2",
+   "side": "top",
+   "size": [
+    0.25,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert1_3",
+   "side": "top",
+   "size": [
+    0.25,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert1_4",
+   "side": "top",
+   "size": [
+    0.25,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert1_5",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.25
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert1_6",
+   "side": "top",
+   "size": [
+    0.25,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert1_7",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.25
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert1_8",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.25
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert1_9",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.25
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert2",
+   "side": "top",
+   "size": [
+    0.25,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert2_1",
+   "side": "top",
+   "size": [
+    0.25,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert2_10",
+   "side": "top",
+   "size": [
+    0.25,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert2_2",
+   "side": "top",
+   "size": [
+    0.25,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert2_3",
+   "side": "top",
+   "size": [
+    0.25,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert2_4",
+   "side": "top",
+   "size": [
+    0.25,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert2_5",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.25
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert2_6",
+   "side": "top",
+   "size": [
+    0.25,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert2_7",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.25
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert2_8",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.25
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert2_9",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.25
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert3",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert3_1",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert3_10",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert3_2",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert3_3",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert3_4",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert3_5",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert3_6",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert3_7",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert3_8",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00000-7__Importiert3_9",
+   "side": "top",
+   "size": [
+    0.55,
+    0.35,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00001-4__Importiert1",
+   "side": "top",
+   "size": [
+    0.3,
+    0.5,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00001-4__Importiert1_1",
+   "side": "top",
+   "size": [
+    0.3,
+    0.5,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00001-4__Importiert2",
+   "side": "top",
+   "size": [
+    0.3,
+    0.5,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00001-4__Importiert2_1",
+   "side": "top",
+   "size": [
+    0.3,
+    0.5,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00001-4__Importiert3",
+   "side": "top",
+   "size": [
+    0.45,
+    0.5,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0402_CMP-00001-4__Importiert3_1",
+   "side": "top",
+   "size": [
+    0.45,
+    0.5,
+    0.55
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert1",
+   "side": "top",
+   "size": [
+    1.59,
+    0.44,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert1_1",
+   "side": "top",
+   "size": [
+    1.59,
+    0.44,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert1_10",
+   "side": "top",
+   "size": [
+    1.59,
+    0.44,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert1_11",
+   "side": "top",
+   "size": [
+    1.59,
+    0.44,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert1_12",
+   "side": "top",
+   "size": [
+    1.59,
+    0.44,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert1_13",
+   "side": "top",
+   "size": [
+    1.59,
+    0.44,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert1_14",
+   "side": "top",
+   "size": [
+    0.9,
+    0.44,
+    1.59
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert1_15",
+   "side": "top",
+   "size": [
+    0.9,
+    0.44,
+    1.59
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert1_2",
+   "side": "top",
+   "size": [
+    0.9,
+    0.44,
+    1.59
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert1_3",
+   "side": "top",
+   "size": [
+    1.761,
+    0.44,
+    1.761
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert1_4",
+   "side": "top",
+   "size": [
+    1.59,
+    0.44,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert1_5",
+   "side": "top",
+   "size": [
+    0.9,
+    0.44,
+    1.59
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert1_6",
+   "side": "top",
+   "size": [
+    1.59,
+    0.44,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert1_7",
+   "side": "top",
+   "size": [
+    1.59,
+    0.44,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert1_8",
+   "side": "top",
+   "size": [
+    1.59,
+    0.44,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert1_9",
+   "side": "top",
+   "size": [
+    1.59,
+    0.44,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert2",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert2_1",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert2_10",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert2_11",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert2_12",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert2_13",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert2_14",
+   "side": "top",
+   "size": [
+    0.9,
+    0.55,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert2_15",
+   "side": "top",
+   "size": [
+    0.9,
+    0.55,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert2_2",
+   "side": "top",
+   "size": [
+    0.9,
+    0.55,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert2_3",
+   "side": "top",
+   "size": [
+    0.707,
+    0.55,
+    0.707
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert2_4",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert2_5",
+   "side": "top",
+   "size": [
+    0.9,
+    0.55,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert2_6",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert2_7",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert2_8",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert2_9",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert3",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert3_1",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert3_10",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert3_11",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert3_12",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert3_13",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert3_14",
+   "side": "top",
+   "size": [
+    0.9,
+    0.55,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert3_15",
+   "side": "top",
+   "size": [
+    0.9,
+    0.55,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert3_2",
+   "side": "top",
+   "size": [
+    0.9,
+    0.55,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert3_3",
+   "side": "top",
+   "size": [
+    0.707,
+    0.55,
+    0.707
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert3_4",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert3_5",
+   "side": "top",
+   "size": [
+    0.9,
+    0.55,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert3_6",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert3_7",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert3_8",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert3_9",
+   "side": "top",
+   "size": [
+    0.1,
+    0.55,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert4",
+   "side": "top",
+   "size": [
+    1.5,
+    0.055,
+    0.9
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert4_1",
+   "side": "top",
+   "size": [
+    1.5,
+    0.055,
+    0.9
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert4_10",
+   "side": "top",
+   "size": [
+    1.5,
+    0.055,
+    0.9
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert4_11",
+   "side": "top",
+   "size": [
+    1.5,
+    0.055,
+    0.9
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert4_12",
+   "side": "top",
+   "size": [
+    1.5,
+    0.055,
+    0.9
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert4_13",
+   "side": "top",
+   "size": [
+    1.5,
+    0.055,
+    0.9
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert4_14",
+   "side": "top",
+   "size": [
+    0.9,
+    0.055,
+    1.5
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert4_15",
+   "side": "top",
+   "size": [
+    0.9,
+    0.055,
+    1.5
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert4_2",
+   "side": "top",
+   "size": [
+    0.9,
+    0.055,
+    1.5
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert4_3",
+   "side": "top",
+   "size": [
+    1.697,
+    0.055,
+    1.697
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert4_4",
+   "side": "top",
+   "size": [
+    1.5,
+    0.055,
+    0.9
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert4_5",
+   "side": "top",
+   "size": [
+    0.9,
+    0.055,
+    1.5
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert4_6",
+   "side": "top",
+   "size": [
+    1.5,
+    0.055,
+    0.9
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert4_7",
+   "side": "top",
+   "size": [
+    1.5,
+    0.055,
+    0.9
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert4_8",
+   "side": "top",
+   "size": [
+    1.5,
+    0.055,
+    0.9
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "0603_CMP-00000-8__Importiert4_9",
+   "side": "top",
+   "size": [
+    1.5,
+    0.055,
+    0.9
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "0603_CMP-00001-4__Importiert1",
+   "side": "top",
+   "size": [
+    0.9,
+    0.9,
+    1.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-4__Importiert1_1",
+   "side": "top",
+   "size": [
+    1.1,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-4__Importiert1_2",
+   "side": "top",
+   "size": [
+    1.1,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-4__Importiert1_3",
+   "side": "top",
+   "size": [
+    0.9,
+    0.9,
+    1.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-4__Importiert2",
+   "side": "top",
+   "size": [
+    0.9,
+    0.9,
+    0.3
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-4__Importiert2_1",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-4__Importiert2_2",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-4__Importiert2_3",
+   "side": "top",
+   "size": [
+    0.9,
+    0.9,
+    0.3
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-4__Importiert3",
+   "side": "top",
+   "size": [
+    0.9,
+    0.9,
+    0.3
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-4__Importiert3_1",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-4__Importiert3_2",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-4__Importiert3_3",
+   "side": "top",
+   "size": [
+    0.9,
+    0.9,
+    0.3
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert1",
+   "side": "top",
+   "size": [
+    1.1,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert1_1",
+   "side": "top",
+   "size": [
+    1.1,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert1_2",
+   "side": "top",
+   "size": [
+    1.1,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert1_3",
+   "side": "top",
+   "size": [
+    1.1,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert1_4",
+   "side": "top",
+   "size": [
+    1.1,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert1_5",
+   "side": "top",
+   "size": [
+    1.1,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert1_6",
+   "side": "top",
+   "size": [
+    1.1,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert1_7",
+   "side": "top",
+   "size": [
+    1.1,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert1_8",
+   "side": "top",
+   "size": [
+    1.1,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert2",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert2_1",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert2_2",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert2_3",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert2_4",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert2_5",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert2_6",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert2_7",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert2_8",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert3",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert3_1",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert3_2",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert3_3",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert3_4",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert3_5",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert3_6",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert3_7",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "0603_CMP-00001-5__Importiert3_8",
+   "side": "top",
+   "size": [
+    0.3,
+    0.9,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "1206_CMP-00000-8__Importiert1",
+   "side": "top",
+   "size": [
+    3.07,
+    0.52,
+    1.7
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "1206_CMP-00000-8__Importiert2",
+   "side": "top",
+   "size": [
+    0.25,
+    0.65,
+    1.7
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "1206_CMP-00000-8__Importiert3",
+   "side": "top",
+   "size": [
+    0.25,
+    0.65,
+    1.7
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "1206_CMP-00000-8__Importiert4",
+   "side": "top",
+   "size": [
+    2.7,
+    0.065,
+    1.7
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "436331045822_CMP-00664-1__Importiert1",
+   "side": "top",
+   "size": [
+    4.7,
+    2.02,
+    3.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "436331045822_CMP-00664-1__Importiert2",
+   "side": "top",
+   "size": [
+    1.35,
+    0.2,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "436331045822_CMP-00664-1__Importiert3",
+   "side": "top",
+   "size": [
+    1.35,
+    0.2,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "436331045822_CMP-00664-1__Importiert4",
+   "side": "top",
+   "size": [
+    1.35,
+    0.2,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "436331045822_CMP-00664-1__Importiert5",
+   "side": "top",
+   "size": [
+    1.35,
+    0.2,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "436331045822_CMP-00664-1__Importiert6",
+   "side": "top",
+   "size": [
+    4.006,
+    1.406,
+    3.906
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "436331045822_CMP-00664-1__Importiert7",
+   "side": "top",
+   "size": [
+    4.705,
+    1.355,
+    3.529
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert1",
+   "side": "top",
+   "size": [
+    6.7,
+    1.9,
+    2.7
+   ],
+   "kind": "parts",
+   "triangles": 464,
+   "edgeSegments": 154
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert1_1",
+   "side": "top",
+   "size": [
+    6.7,
+    1.9,
+    2.7
+   ],
+   "kind": "parts",
+   "triangles": 464,
+   "edgeSegments": 154
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert2",
+   "side": "top",
+   "size": [
+    7.7,
+    0.15,
+    2.5
+   ],
+   "kind": "parts",
+   "triangles": 60,
+   "edgeSegments": 32
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert2_1",
+   "side": "top",
+   "size": [
+    7.7,
+    0.15,
+    2.5
+   ],
+   "kind": "parts",
+   "triangles": 60,
+   "edgeSegments": 32
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert3",
+   "side": "top",
+   "size": [
+    5.5,
+    0.15,
+    2.0
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert3_1",
+   "side": "top",
+   "size": [
+    5.5,
+    0.15,
+    2.0
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert4",
+   "side": "top",
+   "size": [
+    0.8,
+    0.3,
+    2.93
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert4_1",
+   "side": "top",
+   "size": [
+    0.8,
+    0.3,
+    2.93
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert5",
+   "side": "top",
+   "size": [
+    0.8,
+    0.3,
+    2.93
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert5_1",
+   "side": "top",
+   "size": [
+    0.8,
+    0.3,
+    2.93
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert6",
+   "side": "top",
+   "size": [
+    2.65,
+    0.3,
+    2.93
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert6_1",
+   "side": "top",
+   "size": [
+    2.65,
+    0.3,
+    2.93
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert7",
+   "side": "top",
+   "size": [
+    3.6,
+    0.386,
+    1.55
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert7_1",
+   "side": "top",
+   "size": [
+    3.6,
+    0.386,
+    1.55
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert8",
+   "side": "top",
+   "size": [
+    3.93,
+    1.1,
+    3.85
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert8_1",
+   "side": "top",
+   "size": [
+    3.93,
+    1.1,
+    3.85
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert9",
+   "side": "top",
+   "size": [
+    6.7,
+    1.125,
+    2.7
+   ],
+   "kind": "parts",
+   "triangles": 508,
+   "edgeSegments": 78
+  },
+  {
+   "name": "450404015514_CMP-011-00006-1__Importiert9_1",
+   "side": "top",
+   "size": [
+    6.7,
+    1.125,
+    2.7
+   ],
+   "kind": "parts",
+   "triangles": 508,
+   "edgeSegments": 78
+  },
+  {
+   "name": "BatteryHolderBack",
+   "side": "bottom",
+   "size": [
+    92.004,
+    72.504,
+    6.904
+   ],
+   "kind": "parts",
+   "triangles": 688,
+   "edgeSegments": 352
+  },
+  {
+   "name": "BatteryHolderBottom",
+   "side": "bottom",
+   "size": [
+    92.3,
+    22.0,
+    27.0
+   ],
+   "kind": "parts",
+   "triangles": 2303,
+   "edgeSegments": 1160
+  },
+  {
+   "name": "BatteryHolderTop",
+   "side": "bottom",
+   "size": [
+    92.3,
+    20.0,
+    27.0
+   ],
+   "kind": "parts",
+   "triangles": 1811,
+   "edgeSegments": 953
+  },
+  {
+   "name": "Battery_Board_V4_BOARD__#1 (0.228) Durchmesser Bohrung10",
+   "side": "bottom",
+   "size": [
+    90.5,
+    1.558,
+    26.3
+   ],
+   "kind": "board",
+   "triangles": 976,
+   "edgeSegments": 106
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2__Importiert1",
+   "side": "top",
+   "size": [
+    0.6,
+    0.6,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2__Importiert1_1",
+   "side": "top",
+   "size": [
+    0.6,
+    0.6,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2__Importiert2",
+   "side": "top",
+   "size": [
+    0.6,
+    0.6,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2__Importiert2_1",
+   "side": "top",
+   "size": [
+    0.6,
+    0.6,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2__Importiert3",
+   "side": "top",
+   "size": [
+    0.6,
+    0.6,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAP_0402_CMP-00624-2__Importiert3_1",
+   "side": "top",
+   "size": [
+    0.6,
+    0.6,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert1",
+   "side": "bottom",
+   "size": [
+    9.8,
+    1.66,
+    4.85
+   ],
+   "kind": "parts",
+   "triangles": 472,
+   "edgeSegments": 164
+  },
+  {
+   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert10",
+   "side": "bottom",
+   "size": [
+    0.497,
+    0.135,
+    0.46
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert11",
+   "side": "bottom",
+   "size": [
+    0.472,
+    0.101,
+    0.46
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert12",
+   "side": "bottom",
+   "size": [
+    0.149,
+    0.003,
+    0.588
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert13",
+   "side": "bottom",
+   "size": [
+    0.733,
+    0.004,
+    0.419
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert14",
+   "side": "bottom",
+   "size": [
+    0.46,
+    0.094,
+    0.411
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert15",
+   "side": "bottom",
+   "size": [
+    0.4,
+    0.003,
+    0.4
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert2",
+   "side": "bottom",
+   "size": [
+    1.47,
+    1.21,
+    3.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert3",
+   "side": "bottom",
+   "size": [
+    0.255,
+    0.76,
+    3.74
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert4",
+   "side": "bottom",
+   "size": [
+    0.255,
+    0.76,
+    3.74
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert5",
+   "side": "bottom",
+   "size": [
+    0.255,
+    0.76,
+    3.74
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert6",
+   "side": "bottom",
+   "size": [
+    0.255,
+    0.76,
+    3.74
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert7",
+   "side": "bottom",
+   "size": [
+    0.255,
+    0.76,
+    3.74
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert8",
+   "side": "bottom",
+   "size": [
+    0.255,
+    0.76,
+    3.74
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-503763-0691-MFG_CMP-015-000042-2__Importiert9",
+   "side": "bottom",
+   "size": [
+    1.47,
+    1.21,
+    3.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert1",
+   "side": "top",
+   "size": [
+    3.305,
+    1.105,
+    3.305
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert10",
+   "side": "top",
+   "size": [
+    0.456,
+    0.01,
+    0.06
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert10_1",
+   "side": "top",
+   "size": [
+    0.456,
+    0.01,
+    0.06
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert10_2",
+   "side": "top",
+   "size": [
+    0.456,
+    0.01,
+    0.06
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert10_3",
+   "side": "top",
+   "size": [
+    0.456,
+    0.01,
+    0.06
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert11",
+   "side": "top",
+   "size": [
+    0.234,
+    0.01,
+    0.201
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert11_1",
+   "side": "top",
+   "size": [
+    0.234,
+    0.01,
+    0.201
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert11_2",
+   "side": "top",
+   "size": [
+    0.234,
+    0.01,
+    0.201
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert11_3",
+   "side": "top",
+   "size": [
+    0.234,
+    0.01,
+    0.201
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert12",
+   "side": "top",
+   "size": [
+    0.31,
+    0.01,
+    0.187
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert12_1",
+   "side": "top",
+   "size": [
+    0.31,
+    0.01,
+    0.187
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert12_2",
+   "side": "top",
+   "size": [
+    0.31,
+    0.01,
+    0.187
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert12_3",
+   "side": "top",
+   "size": [
+    0.31,
+    0.01,
+    0.187
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert13",
+   "side": "top",
+   "size": [
+    0.319,
+    0.01,
+    0.194
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert13_1",
+   "side": "top",
+   "size": [
+    0.319,
+    0.01,
+    0.194
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert13_2",
+   "side": "top",
+   "size": [
+    0.319,
+    0.01,
+    0.194
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert13_3",
+   "side": "top",
+   "size": [
+    0.319,
+    0.01,
+    0.194
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert14",
+   "side": "top",
+   "size": [
+    0.314,
+    0.01,
+    0.207
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert14_1",
+   "side": "top",
+   "size": [
+    0.314,
+    0.01,
+    0.207
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert14_2",
+   "side": "top",
+   "size": [
+    0.314,
+    0.01,
+    0.207
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert14_3",
+   "side": "top",
+   "size": [
+    0.314,
+    0.01,
+    0.207
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert15",
+   "side": "top",
+   "size": [
+    0.25,
+    0.1,
+    0.2
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert15_1",
+   "side": "top",
+   "size": [
+    0.25,
+    0.1,
+    0.2
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert15_2",
+   "side": "top",
+   "size": [
+    0.25,
+    0.1,
+    0.2
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert15_3",
+   "side": "top",
+   "size": [
+    0.25,
+    0.1,
+    0.2
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert16",
+   "side": "top",
+   "size": [
+    0.25,
+    0.1,
+    0.2
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert16_1",
+   "side": "top",
+   "size": [
+    0.25,
+    0.1,
+    0.2
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert16_2",
+   "side": "top",
+   "size": [
+    0.25,
+    0.1,
+    0.2
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert16_3",
+   "side": "top",
+   "size": [
+    0.25,
+    0.1,
+    0.2
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert17",
+   "side": "top",
+   "size": [
+    0.6,
+    0.2,
+    1.64
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert17_1",
+   "side": "top",
+   "size": [
+    0.6,
+    0.2,
+    1.64
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert17_2",
+   "side": "top",
+   "size": [
+    0.6,
+    0.2,
+    1.64
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert17_3",
+   "side": "top",
+   "size": [
+    0.6,
+    0.2,
+    1.64
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert18",
+   "side": "top",
+   "size": [
+    0.55,
+    0.2,
+    0.34
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert18_1",
+   "side": "top",
+   "size": [
+    0.55,
+    0.2,
+    0.34
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert18_2",
+   "side": "top",
+   "size": [
+    0.55,
+    0.2,
+    0.34
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert18_3",
+   "side": "top",
+   "size": [
+    0.55,
+    0.2,
+    0.34
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert1_1",
+   "side": "top",
+   "size": [
+    3.305,
+    1.105,
+    3.305
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert1_2",
+   "side": "top",
+   "size": [
+    3.305,
+    1.105,
+    3.305
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert1_3",
+   "side": "top",
+   "size": [
+    3.305,
+    1.105,
+    3.305
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert2",
+   "side": "top",
+   "size": [
+    2.11,
+    0.2,
+    2.29
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert2_1",
+   "side": "top",
+   "size": [
+    2.11,
+    0.2,
+    2.29
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert2_2",
+   "side": "top",
+   "size": [
+    2.11,
+    0.2,
+    2.29
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert2_3",
+   "side": "top",
+   "size": [
+    2.11,
+    0.2,
+    2.29
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert3",
+   "side": "top",
+   "size": [
+    0.458,
+    0.01,
+    0.541
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert3_1",
+   "side": "top",
+   "size": [
+    0.458,
+    0.01,
+    0.541
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert3_2",
+   "side": "top",
+   "size": [
+    0.458,
+    0.01,
+    0.541
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert3_3",
+   "side": "top",
+   "size": [
+    0.458,
+    0.01,
+    0.541
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert4",
+   "side": "top",
+   "size": [
+    0.31,
+    0.01,
+    0.187
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert4_1",
+   "side": "top",
+   "size": [
+    0.31,
+    0.01,
+    0.187
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert4_2",
+   "side": "top",
+   "size": [
+    0.31,
+    0.01,
+    0.187
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert4_3",
+   "side": "top",
+   "size": [
+    0.31,
+    0.01,
+    0.187
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert5",
+   "side": "top",
+   "size": [
+    0.31,
+    0.01,
+    0.187
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert5_1",
+   "side": "top",
+   "size": [
+    0.31,
+    0.01,
+    0.187
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert5_2",
+   "side": "top",
+   "size": [
+    0.31,
+    0.01,
+    0.187
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert5_3",
+   "side": "top",
+   "size": [
+    0.31,
+    0.01,
+    0.187
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert6",
+   "side": "top",
+   "size": [
+    0.491,
+    0.01,
+    0.134
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert6_1",
+   "side": "top",
+   "size": [
+    0.491,
+    0.01,
+    0.134
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert6_2",
+   "side": "top",
+   "size": [
+    0.491,
+    0.01,
+    0.134
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert6_3",
+   "side": "top",
+   "size": [
+    0.491,
+    0.01,
+    0.134
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert7",
+   "side": "top",
+   "size": [
+    0.152,
+    0.01,
+    0.152
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert7_1",
+   "side": "top",
+   "size": [
+    0.152,
+    0.01,
+    0.152
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert7_2",
+   "side": "top",
+   "size": [
+    0.152,
+    0.01,
+    0.152
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert7_3",
+   "side": "top",
+   "size": [
+    0.152,
+    0.01,
+    0.152
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert8",
+   "side": "top",
+   "size": [
+    0.073,
+    0.01,
+    0.073
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert8_1",
+   "side": "top",
+   "size": [
+    0.073,
+    0.01,
+    0.073
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert8_2",
+   "side": "top",
+   "size": [
+    0.073,
+    0.01,
+    0.073
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert8_3",
+   "side": "top",
+   "size": [
+    0.073,
+    0.01,
+    0.073
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert9",
+   "side": "top",
+   "size": [
+    0.305,
+    0.01,
+    0.056
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert9_1",
+   "side": "top",
+   "size": [
+    0.305,
+    0.01,
+    0.056
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert9_2",
+   "side": "top",
+   "size": [
+    0.305,
+    0.01,
+    0.056
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-PG-TSDSON-8-MFG_CMP-113-000001-6__Importiert9_3",
+   "side": "top",
+   "size": [
+    0.305,
+    0.01,
+    0.056
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_1",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_10",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_11",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_12",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_13",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_14",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_15",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_16",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_17",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_2",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_3",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_4",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_5",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_6",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_7",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_8",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "FP-S2761-46R-MFG_CMP-00611-3__Importiert1_9",
+   "side": "top",
+   "size": [
+    1.6,
+    1.28,
+    0.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "Fiducial-Footprint-1_CMP-00026-2__Importiert1",
+   "side": "top",
+   "size": [
+    1.0,
+    0.1,
+    1.0
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "Fiducial-Footprint-1_CMP-00026-2__Importiert1_1",
+   "side": "top",
+   "size": [
+    1.0,
+    0.1,
+    1.0
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "Fiducial-Footprint-1_CMP-00026-2__Importiert1_2",
+   "side": "top",
+   "size": [
+    1.0,
+    0.1,
+    1.0
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "HVSON8_CMP-095-000012-1__Importiert1",
+   "side": "top",
+   "size": [
+    3.0,
+    1.0,
+    3.0
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "Jumper_0603_1x2_C_CMP-123-000001-2__Importiert1",
+   "side": "top",
+   "size": [
+    0.9,
+    0.44,
+    1.59
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "Jumper_0603_1x2_C_CMP-123-000001-2__Importiert2",
+   "side": "top",
+   "size": [
+    0.9,
+    0.55,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "Jumper_0603_1x2_C_CMP-123-000001-2__Importiert3",
+   "side": "top",
+   "size": [
+    0.9,
+    0.55,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "Jumper_0603_1x2_C_CMP-123-000001-2__Importiert4",
+   "side": "top",
+   "size": [
+    0.9,
+    0.055,
+    1.5
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "Jumper_0603_1x3_CMP-123-000002-1__Importiert1",
+   "side": "top",
+   "size": [
+    0.9,
+    0.44,
+    1.59
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "Jumper_0603_1x3_CMP-123-000002-1__Importiert1_1",
+   "side": "top",
+   "size": [
+    0.9,
+    0.44,
+    1.59
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "Jumper_0603_1x3_CMP-123-000002-1__Importiert2",
+   "side": "top",
+   "size": [
+    0.9,
+    0.55,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "Jumper_0603_1x3_CMP-123-000002-1__Importiert2_1",
+   "side": "top",
+   "size": [
+    0.9,
+    0.55,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "Jumper_0603_1x3_CMP-123-000002-1__Importiert3",
+   "side": "top",
+   "size": [
+    0.9,
+    0.55,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "Jumper_0603_1x3_CMP-123-000002-1__Importiert3_1",
+   "side": "top",
+   "size": [
+    0.9,
+    0.55,
+    0.1
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "Jumper_0603_1x3_CMP-123-000002-1__Importiert4",
+   "side": "top",
+   "size": [
+    0.9,
+    0.055,
+    1.5
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "Jumper_0603_1x3_CMP-123-000002-1__Importiert4_1",
+   "side": "top",
+   "size": [
+    0.9,
+    0.055,
+    1.5
+   ],
+   "kind": "bits",
+   "triangles": 12
+  },
+  {
+   "name": "Molicel 21700 P45B <1>",
+   "side": "bottom",
+   "size": [
+    22.979,
+    70.005,
+    22.979
+   ],
+   "kind": "parts",
+   "instanceOf": "Molicel 21700 P45B <1>",
+   "triangles": 3940
+  },
+  {
+   "name": "Molicel 21700 P45B <2>",
+   "side": "bottom",
+   "size": [
+    22.979,
+    70.005,
+    22.979
+   ],
+   "kind": "parts",
+   "instanceOf": "Molicel 21700 P45B <3>",
+   "triangles": 0
+  },
+  {
+   "name": "Molicel 21700 P45B <3>",
+   "side": "bottom",
+   "size": [
+    22.979,
+    70.005,
+    22.979
+   ],
+   "kind": "parts",
+   "instanceOf": "Molicel 21700 P45B <3>",
+   "triangles": 3940
+  },
+  {
+   "name": "Molicel 21700 P45B <4>",
+   "side": "bottom",
+   "size": [
+    22.979,
+    70.005,
+    22.979
+   ],
+   "kind": "parts",
+   "instanceOf": "Molicel 21700 P45B <1>",
+   "triangles": 0
+  },
+  {
+   "name": "PICOLOCK_4_1MM_CMP-123-000000-1__Importiert1",
+   "side": "top",
+   "size": [
+    5.19,
+    1.5,
+    8.6
+   ],
+   "kind": "parts",
+   "triangles": 1024,
+   "edgeSegments": 282
+  },
+  {
+   "name": "PICOLOCK_4_1MM_CMP-123-000000-1__Importiert1_1",
+   "side": "bottom",
+   "size": [
+    8.6,
+    1.5,
+    5.19
+   ],
+   "kind": "parts",
+   "triangles": 1024,
+   "edgeSegments": 278
+  },
+  {
+   "name": "PZ Countersunk flat head screw M2x0.40 x 6",
+   "side": "bottom",
+   "size": [
+    3.809,
+    3.809,
+    6.009
+   ],
+   "kind": "parts",
+   "triangles": 295,
+   "edgeSegments": 86
+  },
+  {
+   "name": "PZ Countersunk flat head screw M2x0.40 x 6",
+   "side": "bottom",
+   "size": [
+    3.809,
+    3.809,
+    6.009
+   ],
+   "kind": "parts",
+   "triangles": 295,
+   "edgeSegments": 86
+  },
+  {
+   "name": "PZ Countersunk flat head screw M2x0.40 x 6",
+   "side": "bottom",
+   "size": [
+    3.809,
+    3.809,
+    6.009
+   ],
+   "kind": "parts",
+   "triangles": 295,
+   "edgeSegments": 86
+  },
+  {
+   "name": "PZ Countersunk flat head screw M2x0.40 x 6",
+   "side": "bottom",
+   "size": [
+    3.809,
+    3.809,
+    6.009
+   ],
+   "kind": "parts",
+   "triangles": 295,
+   "edgeSegments": 86
+  },
+  {
+   "name": "PZ Countersunk flat head screw M2x0.40 x 6",
+   "side": "bottom",
+   "size": [
+    3.809,
+    3.809,
+    6.009
+   ],
+   "kind": "parts",
+   "triangles": 295,
+   "edgeSegments": 86
+  },
+  {
+   "name": "PZ Countersunk flat head screw M2x0.40 x 6",
+   "side": "bottom",
+   "size": [
+    3.809,
+    3.809,
+    6.009
+   ],
+   "kind": "parts",
+   "triangles": 295,
+   "edgeSegments": 86
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1__Importiert1",
+   "side": "top",
+   "size": [
+    2.8,
+    1.0,
+    1.78
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1__Importiert1_1",
+   "side": "top",
+   "size": [
+    2.8,
+    1.0,
+    1.78
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1__Importiert1_2",
+   "side": "top",
+   "size": [
+    2.8,
+    1.0,
+    1.78
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1__Importiert2",
+   "side": "top",
+   "size": [
+    2.1,
+    0.1,
+    1.2
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1__Importiert2_1",
+   "side": "top",
+   "size": [
+    2.1,
+    0.1,
+    1.2
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1__Importiert2_2",
+   "side": "top",
+   "size": [
+    2.1,
+    0.1,
+    1.2
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1__Importiert3",
+   "side": "top",
+   "size": [
+    0.84,
+    0.1,
+    1.29
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1__Importiert3_1",
+   "side": "top",
+   "size": [
+    0.84,
+    0.1,
+    1.29
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "PowerDI-123_CMP-011-000011-1__Importiert3_2",
+   "side": "top",
+   "size": [
+    0.84,
+    0.1,
+    1.29
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RESC1631X60N_NCW0612MC5607FP500-1__Importiert1",
+   "side": "top",
+   "size": [
+    3.1,
+    0.6,
+    0.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "RESC1631X60N_NCW0612MC5607FP500-1__Importiert2",
+   "side": "top",
+   "size": [
+    3.1,
+    0.6,
+    0.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "RESC1631X60N_NCW0612MC5607FP500-1__Importiert3",
+   "side": "top",
+   "size": [
+    3.038,
+    0.588,
+    1.0
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "SAMTEC_ERM8-030-XX.X-X-DV-P-XX_CMP-015-000047-2__Importiert1",
+   "side": "top",
+   "size": [
+    30.0,
+    8.03,
+    5.6
+   ],
+   "kind": "parts",
+   "triangles": 2918,
+   "edgeSegments": 1457
+  },
+  {
+   "name": "SAMTEC_ERM8-030-XX.X-X-DV-P-XX_CMP-015-000047-2__Importiert1_1",
+   "side": "top",
+   "size": [
+    30.0,
+    8.03,
+    5.6
+   ],
+   "kind": "parts",
+   "triangles": 2918,
+   "edgeSegments": 1457
+  },
+  {
+   "name": "SAMTEC_ERM8-030-XX.X-X-DV-P-XX_CMP-015-000047-2__Importiert2",
+   "side": "top",
+   "size": [
+    24.0,
+    1.0,
+    4.67
+   ],
+   "kind": "parts",
+   "triangles": 3392,
+   "edgeSegments": 972
+  },
+  {
+   "name": "SAMTEC_ERM8-030-XX.X-X-DV-P-XX_CMP-015-000047-2__Importiert2_1",
+   "side": "top",
+   "size": [
+    24.0,
+    1.0,
+    4.67
+   ],
+   "kind": "parts",
+   "triangles": 3392,
+   "edgeSegments": 972
+  },
+  {
+   "name": "SAMTEC_ERM8-030-XX.X-X-DV-P-XX_CMP-015-000047-2__Importiert3",
+   "side": "top",
+   "size": [
+    24.014,
+    4.723,
+    3.214
+   ],
+   "kind": "parts",
+   "triangles": 9872,
+   "edgeSegments": 492
+  },
+  {
+   "name": "SAMTEC_ERM8-030-XX.X-X-DV-P-XX_CMP-015-000047-2__Importiert3_1",
+   "side": "top",
+   "size": [
+    24.014,
+    4.723,
+    3.214
+   ],
+   "kind": "parts",
+   "triangles": 9872,
+   "edgeSegments": 492
+  },
+  {
+   "name": "SOD323F_CMP-00011-5__Importiert1",
+   "side": "top",
+   "size": [
+    1.35,
+    0.8,
+    1.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "SOD323F_CMP-00011-5__Importiert1_1",
+   "side": "top",
+   "size": [
+    1.35,
+    0.8,
+    1.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "SOD323F_CMP-00011-5__Importiert1_2",
+   "side": "top",
+   "size": [
+    1.35,
+    0.8,
+    1.8
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "SOD323F_CMP-00011-5__Importiert2",
+   "side": "top",
+   "size": [
+    0.325,
+    0.2,
+    0.4
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "SOD323F_CMP-00011-5__Importiert2_1",
+   "side": "top",
+   "size": [
+    0.325,
+    0.2,
+    0.4
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "SOD323F_CMP-00011-5__Importiert2_2",
+   "side": "top",
+   "size": [
+    0.325,
+    0.2,
+    0.4
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "SOD323F_CMP-00011-5__Importiert3",
+   "side": "top",
+   "size": [
+    0.325,
+    0.2,
+    0.4
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "SOD323F_CMP-00011-5__Importiert3_1",
+   "side": "top",
+   "size": [
+    0.325,
+    0.2,
+    0.4
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "SOD323F_CMP-00011-5__Importiert3_2",
+   "side": "top",
+   "size": [
+    0.325,
+    0.2,
+    0.4
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "SOT65P210X110-6N_CMP-00620-1__Importiert1",
+   "side": "top",
+   "size": [
+    1.4,
+    1.0,
+    2.15
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "SOT65P210X110-6N_CMP-00620-1__Importiert2",
+   "side": "top",
+   "size": [
+    0.5,
+    0.65,
+    0.3
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "SOT65P210X110-6N_CMP-00620-1__Importiert3",
+   "side": "top",
+   "size": [
+    0.5,
+    0.65,
+    0.3
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "SOT65P210X110-6N_CMP-00620-1__Importiert4",
+   "side": "top",
+   "size": [
+    0.5,
+    0.65,
+    0.3
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "SOT65P210X110-6N_CMP-00620-1__Importiert5",
+   "side": "top",
+   "size": [
+    0.5,
+    0.65,
+    0.3
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "SOT65P210X110-6N_CMP-00620-1__Importiert6",
+   "side": "top",
+   "size": [
+    0.5,
+    0.65,
+    0.3
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "SOT65P210X110-6N_CMP-00620-1__Importiert7",
+   "side": "top",
+   "size": [
+    0.5,
+    0.65,
+    0.3
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "Socket button head screw M2x0.4 x 4",
+   "side": "bottom",
+   "size": [
+    3.5,
+    5.35,
+    3.5
+   ],
+   "kind": "parts",
+   "triangles": 261,
+   "edgeSegments": 79
+  },
+  {
+   "name": "Socket button head screw M2x0.4 x 4",
+   "side": "bottom",
+   "size": [
+    3.5,
+    5.35,
+    3.5
+   ],
+   "kind": "parts",
+   "triangles": 261,
+   "edgeSegments": 79
+  },
+  {
+   "name": "Socket button head screw M2x0.4 x 4",
+   "side": "bottom",
+   "size": [
+    3.5,
+    5.35,
+    3.5
+   ],
+   "kind": "parts",
+   "triangles": 261,
+   "edgeSegments": 79
+  },
+  {
+   "name": "Socket button head screw M2x0.4 x 4",
+   "side": "bottom",
+   "size": [
+    3.5,
+    5.35,
+    3.5
+   ],
+   "kind": "parts",
+   "triangles": 261,
+   "edgeSegments": 79
+  },
+  {
+   "name": "TQFN-24_CMP-111-000000-2__Importiert1",
+   "side": "top",
+   "size": [
+    4.1,
+    0.8,
+    4.1
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "WCAP-CSGP_1206_L3.2W1.6H1.6_CMP-03913-65419937-2__Importiert1",
+   "side": "top",
+   "size": [
+    0.2,
+    1.6,
+    1.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WCAP-CSGP_1206_L3.2W1.6H1.6_CMP-03913-65419937-2__Importiert2",
+   "side": "top",
+   "size": [
+    0.2,
+    1.6,
+    1.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WCAP-CSGP_1206_L3.2W1.6H1.6_CMP-03913-65419937-2__Importiert3",
+   "side": "top",
+   "size": [
+    2.8,
+    1.6,
+    1.6
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "WE-MAPI_2510_CMP-00682-1__Importiert1",
+   "side": "top",
+   "size": [
+    2.5,
+    1.0,
+    2.0
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "WE-MAPI_2510_CMP-00682-1__Importiert2",
+   "side": "top",
+   "size": [
+    0.7,
+    0.0,
+    2.0
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WE-MAPI_2510_CMP-00682-1__Importiert3",
+   "side": "top",
+   "size": [
+    0.7,
+    0.0,
+    2.0
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1__Importiert1",
+   "side": "top",
+   "size": [
+    0.8,
+    0.3,
+    1.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1__Importiert1_1",
+   "side": "top",
+   "size": [
+    0.8,
+    0.3,
+    1.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1__Importiert1_2",
+   "side": "top",
+   "size": [
+    0.8,
+    0.3,
+    1.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1__Importiert2",
+   "side": "top",
+   "size": [
+    0.801,
+    0.401,
+    1.101
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1__Importiert2_1",
+   "side": "top",
+   "size": [
+    0.801,
+    0.401,
+    1.101
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1__Importiert2_2",
+   "side": "top",
+   "size": [
+    0.801,
+    0.401,
+    1.101
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1__Importiert3",
+   "side": "top",
+   "size": [
+    0.8,
+    0.3,
+    0.45
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1__Importiert3_1",
+   "side": "top",
+   "size": [
+    0.8,
+    0.3,
+    0.45
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1__Importiert3_2",
+   "side": "top",
+   "size": [
+    0.8,
+    0.3,
+    0.45
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1__Importiert4",
+   "side": "top",
+   "size": [
+    0.8,
+    0.3,
+    0.45
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1__Importiert4_1",
+   "side": "top",
+   "size": [
+    0.8,
+    0.3,
+    0.45
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1__Importiert4_2",
+   "side": "top",
+   "size": [
+    0.8,
+    0.3,
+    0.45
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1__Importiert5",
+   "side": "top",
+   "size": [
+    0.1,
+    0.0,
+    0.25
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1__Importiert5_1",
+   "side": "top",
+   "size": [
+    0.1,
+    0.0,
+    0.25
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "WL-SMCW_0603_150060xx75000_CMP-00539-1__Importiert5_2",
+   "side": "top",
+   "size": [
+    0.1,
+    0.0,
+    0.25
+   ],
+   "kind": "decals",
+   "triangles": 2
+  }
+ ]
+}

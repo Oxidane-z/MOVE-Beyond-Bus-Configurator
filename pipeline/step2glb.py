@@ -16,7 +16,11 @@
 用法：
   python pipeline/step2glb.py cad/board.step public/models/board --annotations boards/board.json
 
---mate NAME 把插入背板的连接器设为 X 原点和 Y 零点，使板卡连接器对准槽位。
+--mate PREFIX 指出插入背板的连接器（按名称前缀匹配）。给了它，脚本会自动定向：
+连接器朝下，板卡主体偏向 +X 一侧（Iteration 2 的连接器不在板宽正中），原点落在连接器上。
+占两个槽的板卡以 Z 较小的那个连接器为原点。STEP 原本朝哪个方向都可以。
+--split NAME=PREFIX|PREFIX 把名称匹配的零件拆出去，单独写成同目录下的 NAME.glb（坐标系相同），
+用于支架这类可选件。
 --frame backplane --slots PREFIX 用于背板：板面水平，槽位沿 Z 排列，原点在槽位连接器中心，
 并在 JSON 里写出各槽位的位置。
 
@@ -398,6 +402,60 @@ def box_mesh(lo, hi, m, color):
 
 # ---------- GLB 输出 ----------
 
+def axis_box(it, na):
+    """简化盒体用的包围盒。元件自身坐标的第 na 轴仍与板法线平行时用局部包围盒（贴合），否则用装配后的。"""
+    r = it['m'][:3, :3]
+    if abs(abs(r[na, na]) - 1) < 1e-6:
+        return it['llo'], it['lhi'], it['m']
+    return it['wlo'], it['whi'], np.eye(4)
+
+
+def decal_quad(lo, hi, na, sign, coord, color):
+    """在法线为 na 轴的平面 coord 上，画出包围盒的投影矩形（朝 sign 方向）。"""
+    u, v = [a for a in range(3) if a != na]
+    pts = np.zeros((4, 3))
+    for k, (pu, pv) in enumerate(((lo[u], lo[v]), (hi[u], lo[v]), (hi[u], hi[v]), (lo[u], hi[v]))):
+        pts[k, u], pts[k, v], pts[k, na] = pu, pv, coord
+    n = np.zeros(3)
+    n[na] = sign
+    tri = np.array([(0, 1, 2), (0, 2, 3)], dtype=np.uint32)
+    if np.dot(np.cross(pts[1] - pts[0], pts[2] - pts[0]), n) < 0:
+        tri = tri[:, ::-1].copy()
+    return pts, np.tile(n, (4, 1)), np.tile(color, (4, 1)), tri
+
+
+def card_frame(all_lo, all_hi, mates, board, na):
+    """由背板连接器的位置推出板卡坐标系。返回 (R, origin, front)。
+    R 的三行是查看器 X、Y、Z 轴在 STEP 坐标里的方向；front 是 PCB 正面（STEP 的 +法线）朝 +Z 还是 -Z。"""
+    m_lo = np.min([it['wlo'] for it in mates], axis=0)
+    m_hi = np.max([it['whi'] for it in mates], axis=0)
+    d = (all_lo + all_hi) / 2 - (m_lo + m_hi) / 2
+    yi, xi = np.argsort(-np.abs(d))[:2]            # 偏得最远的轴是插入方向，其次是板宽方向
+    zi = 3 - yi - xi
+    X, Y = np.zeros(3), np.zeros(3)
+    Y[yi] = 1 if d[yi] >= 0 else -1
+    X[xi] = 1 if d[xi] >= 0 else -1
+    Z = np.cross(X, Y)
+    origin = np.zeros(3)
+    origin[xi] = (m_lo[xi] + m_hi[xi]) / 2
+    origin[yi] = m_lo[yi] if Y[yi] > 0 else m_hi[yi]
+    b_mid = (board['wlo'][zi] + board['whi'][zi]) / 2
+    centers = sorted({round(float((it['wlo'][zi] + it['whi'][zi]) / 2), 1) for it in mates})
+    slots = [[centers[0]]]
+    for c in centers[1:]:
+        if c - slots[-1][-1] < 5:
+            slots[-1].append(c)
+        else:
+            slots.append([c])
+    slot_c = [float(np.mean(g)) for g in slots]
+    if na == zi and len(slot_c) == 1 and abs(slot_c[0] - b_mid) < 3:
+        origin[zi] = b_mid                         # 边缘安装的连接器：以板厚中心为准
+    else:
+        origin[zi] = min(slot_c, key=lambda c: c * Z[zi])   # 多个槽：取查看器 Z 最小的那个
+    front = int(Z[na]) if na == zi else 1
+    return np.array([X, Y, Z]), origin, front, len(slot_c)
+
+
 class Glb:
     def __init__(self):
         self.bin = bytearray()
@@ -506,8 +564,9 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('step')
     ap.add_argument('out', help='输出路径前缀，不带扩展名')
-    ap.add_argument('--board', default='Board', help='PCB 基板的元件名；找不到时取占板面积最大的件')
-    ap.add_argument('--mate', help='插入背板的连接器的元件名，用作板卡的 X 原点和 Y 零点')
+    ap.add_argument('--board', default='Board', help='PCB 基板的元件名前缀；找不到时取面积最大的薄板')
+    ap.add_argument('--mate', help='插入背板的连接器的元件名前缀；给出后自动定向并以它为原点')
+    ap.add_argument('--split', help='NAME=前缀|前缀：把匹配的零件拆到同目录的 NAME.glb')
     ap.add_argument('--frame', choices=['card', 'backplane'], default='card', help='输出坐标系')
     ap.add_argument('--slots', help='背板上槽位连接器的元件名前缀（配合 --frame backplane）')
     ap.add_argument('--small', type=float, default=2.2, help='占板最大边小于此值（mm）压平成色块')
@@ -535,10 +594,12 @@ def main():
     if not items:
         sys.exit('STEP 里没有找到实体')
 
-    board = next((it for it in items if it['name'] == args.board), None) or \
-        max(items, key=lambda it: (it['whi'] - it['wlo'])[:2].prod())
+    board = next((it for it in items if it['name'].startswith(args.board)), None) or \
+        max(items, key=lambda it: np.sort(it['whi'] - it['wlo'])[1:].prod())
     b_lo, b_hi = board['wlo'], board['whi']
-    z_top, z_bot = b_hi[2], b_lo[2]
+    na = int(np.argmin(b_hi - b_lo))               # 板法线所在的轴
+    u, v = [a for a in range(3) if a != na]
+    n_top, n_bot = b_hi[na], b_lo[na]
 
     refs = []
     if args.annotations:
@@ -548,12 +609,23 @@ def main():
     for r in refs:
         if r not in found:
             print('警告：标注里的位号在 STEP 中找不到: ' + r, file=sys.stderr)
-    ifaces = {}
+
+    split_name, split_prefixes = None, ()
+    if args.split:
+        split_name, _, pat = args.split.partition('=')
+        split_prefixes = tuple(x for x in pat.split('|') if x)
+
+    def dims(it):
+        size = it['whi'] - it['wlo']
+        return float(max(size[u], size[v])), float(size[na])
+
+    def is_split(it):
+        return bool(split_prefixes) and it['name'].startswith(split_prefixes)
 
     # 完整几何件里指纹相同的归为一组，只三角化第一个，其余作为平移实例
     def is_full(it):
-        size = it['lhi'] - it['llo']
-        return it is not board and it['name'] not in refs and (max(size[0], size[1]) >= args.large or size[2] >= args.tall)
+        foot, height = dims(it)
+        return it is not board and it['name'] not in refs and not is_split(it) and (foot >= args.large or height >= args.tall)
     by_sig = {}
     for it in items:
         if is_full(it):
@@ -564,69 +636,91 @@ def main():
             for it in group:
                 inst_of[id(it)] = group[0]
     instanced = {}                    # id(第一个) -> {'mesh':…, 'offsets': […]}
+    ifaces = {}
 
-    buckets = {k: Bucket() for k in ('board', 'parts', 'blocks', 'decals')}
+    buckets = {k: Bucket() for k in ('board', 'parts', 'blocks', 'bits', 'decals', 'split')}
     manifest = []
     all_lo, all_hi = b_lo.copy(), b_hi.copy()
     for it in items:
-        size = it['lhi'] - it['llo']
-        foot = float(max(size[0], size[1]))
-        height = float(size[2])
-        side = 'top' if (it['wlo'][2] + it['whi'][2]) / 2 > (z_top + z_bot) / 2 else 'bottom'
-        all_lo, all_hi = np.minimum(all_lo, it['wlo']), np.maximum(all_hi, it['whi'])
+        foot, height = dims(it)
+        size = it['whi'] - it['wlo']
+        mid = (it['wlo'][na] + it['whi'][na]) / 2
+        side = 'top' if mid > (n_top + n_bot) / 2 else 'bottom'
+        if not is_split(it):
+            all_lo, all_hi = np.minimum(all_lo, it['wlo']), np.maximum(all_hi, it['whi'])
         m = it['m']
+        mesh = None
+        entry = {'name': it['name'], 'side': side, 'size': [round(float(x), 3) for x in size]}
 
         if it is board:
             kind = 'board'
             mesh = tess_item(it, colors, args.deflection, hole_edge=MIN_HOLE_EDGE)
+        elif is_split(it):
+            kind = 'split'
+            mesh = tess_item(it, colors, args.deflection, skip_small=MIN_SOLID)
         elif it['name'] in refs:
             kind = 'interface'      # 接口件不论大小都保留完整几何，并单独成节点
             mesh = tess_item(it, colors, args.deflection, skip_small=MIN_SOLID)
         elif id(it) in inst_of:
             kind = 'parts'
             first = inst_of[id(it)]
-            entry = instanced.setdefault(id(first), {'name': first['name'], 'origin': first['wlo'], 'mesh': None, 'offsets': []})
+            inst = instanced.setdefault(id(first), {'mesh': None, 'offsets': []})
             if it is first:
-                entry['mesh'] = tess_item(it, colors, args.deflection, skip_small=MIN_SOLID)
-            entry['offsets'].append(it['wlo'] - first['wlo'])
-            manifest.append({'name': it['name'], 'kind': kind, 'side': side, 'size': [round(float(v), 3) for v in size],
-                             'triangles': int(len(entry['mesh'][3])) if it is first and entry['mesh'] else 0,
-                             'edgeSegments': 0, 'instanceOf': first['name']})
+                tm = tess_item(it, colors, args.deflection, skip_small=MIN_SOLID)
+                if tm is not None:
+                    P, N, C, I, E = tm
+                    inst['mesh'] = (P @ m[:3, :3].T + m[:3, 3], N @ m[:3, :3].T, C, I,
+                                    E @ m[:3, :3].T + m[:3, 3] if len(E) else E)
+            inst['offsets'].append(it['wlo'] - first['wlo'])
+            entry.update(kind=kind, instanceOf=first['name'],
+                         triangles=int(len(inst['mesh'][3])) if it is first and inst['mesh'] else 0)
+            manifest.append(entry)
             continue
         elif foot >= args.large or height >= args.tall:
             kind = 'parts'
             mesh = tess_item(it, colors, args.deflection, skip_small=MIN_SOLID)
         elif foot >= args.small:
             kind = 'blocks'
-            mesh = box_mesh(it['llo'], it['lhi'], np.eye(4), item_color(it, colors))
-        else:
-            kind = 'decals'
-            z = (z_top + 0.03) if side == 'top' else (z_bot - 0.03)
-            lo, hi = it['llo'].copy(), it['lhi'].copy()
-            P, N, C, I, _ = box_mesh(lo, hi, m, item_color(it, colors))
-            face = slice(4, 8) if side == 'top' else slice(0, 4)   # 朝外的那一面
-            P, N, C = P[face].copy(), N[face], C[face]
-            P[:, 2] = z
-            buckets[kind].add(P, N, C, np.array([(0, 2, 1), (0, 3, 2)], dtype=np.uint32))
-            mesh = None
-
-        if mesh is None and kind != 'decals':
+            lo, hi, bm = axis_box(it, na)
+            P, N, C, I, E = box_mesh(lo, hi, bm, item_color(it, colors))
+            buckets[kind].add(P, N, C, I, E)
+            entry.update(kind=kind, triangles=12)
+            manifest.append(entry)
             continue
-        if mesh is not None:
-            P, N, C, I, E = mesh
-            if kind != 'decals':
-                P = P @ m[:3, :3].T + m[:3, 3]
-                N = N @ m[:3, :3].T
-                E = E @ m[:3, :3].T + m[:3, 3] if len(E) else E
-            target = ifaces.setdefault(it['name'], Bucket()) if kind == 'interface' else buckets[kind]
-            target.add(P, N, C, I, E)
-        manifest.append({'name': it['name'], 'kind': kind, 'side': side,
-                         'size': [round(float(v), 3) for v in size],
-                         'triangles': int(len(mesh[3])) if mesh is not None else 2,
-                         'edgeSegments': int(len(mesh[4]) // 2) if mesh is not None else 0})
+        else:
+            # 小件：紧贴板面且在板的范围内的压平成色块，其余（不在这块板上的）留成不描边的小盒子
+            on_top = abs(it['wlo'][na] - n_top) < 0.4
+            on_bot = abs(it['whi'][na] - n_bot) < 0.4
+            inside = it['wlo'][u] >= b_lo[u] - 0.5 and it['whi'][u] <= b_hi[u] + 0.5 and \
+                it['wlo'][v] >= b_lo[v] - 0.5 and it['whi'][v] <= b_hi[v] + 0.5
+            color = item_color(it, colors)
+            if inside and (on_top or on_bot):
+                kind = 'decals'
+                P, N, C, I = decal_quad(it['wlo'], it['whi'], na, 1 if on_top else -1,
+                                        n_top + 0.03 if on_top else n_bot - 0.03, color)
+                buckets[kind].add(P, N, C, I)
+                entry.update(kind=kind, triangles=2)
+            else:
+                kind = 'bits'
+                P, N, C, I, _ = box_mesh(it['wlo'], it['whi'], np.eye(4), color)
+                buckets[kind].add(P, N, C, I)
+                entry.update(kind=kind, triangles=12)
+            manifest.append(entry)
+            continue
+
+        if mesh is None:
+            continue
+        P, N, C, I, E = mesh
+        P = P @ m[:3, :3].T + m[:3, 3]
+        N = N @ m[:3, :3].T
+        E = E @ m[:3, :3].T + m[:3, 3] if len(E) else E
+        target = ifaces.setdefault(it['name'], Bucket()) if kind == 'interface' else buckets[kind]
+        target.add(P, N, C, I, E)
+        entry.update(kind=kind, triangles=int(len(I)), edgeSegments=int(len(E) // 2))
+        manifest.append(entry)
 
     xf = np.eye(4)
-    slots_meta = None
+    slots_meta, frame_meta = None, None
     if args.frame == 'backplane':
         # 背板：查看器 X = STEP Y，Y = STEP Z（向上），Z = STEP X（槽位排列方向）；板底为 Y=0
         xf[:3, :3] = [[0, 1, 0], [0, 0, 1], [1, 0, 0]]
@@ -634,9 +728,9 @@ def main():
         if sock:
             s_lo = np.min([it['wlo'] for it in sock], axis=0)
             s_hi = np.max([it['whi'] for it in sock], axis=0)
-            origin = np.array([(s_lo[0] + s_hi[0]) / 2, (s_lo[1] + s_hi[1]) / 2, z_bot])
+            origin = np.array([(s_lo[0] + s_hi[0]) / 2, (s_lo[1] + s_hi[1]) / 2, n_bot])
         else:
-            origin = np.array([(b_lo[0] + b_hi[0]) / 2, (b_lo[1] + b_hi[1]) / 2, z_bot])
+            origin = np.array([(b_lo[0] + b_hi[0]) / 2, (b_lo[1] + b_hi[1]) / 2, n_bot])
         xf[:3, 3] = -xf[:3, :3] @ origin
         if sock:
             # 相距不足 2 mm 的连接器实体算同一个槽位
@@ -648,48 +742,62 @@ def main():
                 else:
                     centers.append([x])
             zs = [round(float(np.mean(c)) - origin[0], 3) for c in centers]
-            slots_meta = {'z': zs, 'top': round(float(s_hi[2] - z_bot), 3),
+            slots_meta = {'z': zs, 'top': round(float(s_hi[2] - n_bot), 3),
                           'length': round(float(s_hi[1] - s_lo[1]), 3),
                           'pitch': round(float(np.mean(np.diff(zs))), 3) if len(zs) > 1 else None}
     else:
-        # 板卡：X 沿板宽，Y 向上并以整体最低点为 0，Z 为板法线并以板厚中心为 0。
-        # 指定了 --mate 时，X 原点和 Y 零点取该连接器的中心和底边，否则取板中心和整体最低点。
-        mate = next((it for it in items if it['name'] == args.mate), None) if args.mate else None
-        if args.mate and mate is None:
+        mates = [it for it in items if args.mate and it['name'].startswith(args.mate)]
+        if args.mate and not mates:
             print('警告：--mate 指定的元件找不到: ' + args.mate, file=sys.stderr)
-        ox = (mate['wlo'][0] + mate['whi'][0]) / 2 if mate else (b_lo[0] + b_hi[0]) / 2
-        oy = mate['wlo'][1] if mate else all_lo[1]
-        xf[:3, 3] = [-ox, -oy, -(z_top + z_bot) / 2]
+        if mates:
+            R, origin, front, n_slots = card_frame(all_lo, all_hi, mates, board, na)
+            xf[:3, :3] = R
+            xf[:3, 3] = -R @ origin
+            frame_meta = {'front': front, 'mateSlots': n_slots}
+        else:
+            # 没指定连接器：保持 STEP 朝向，X 以板中心为原点，Y 以整体最低点为 0，Z 以板厚中心为 0
+            xf[:3, 3] = [-(b_lo[0] + b_hi[0]) / 2, -all_lo[1], -(b_lo[2] + b_hi[2]) / 2]
 
+    R = xf[:3, :3]
     glb = Glb()
     buckets['board'].emit(glb, 'board', xf, 'board_edges')
     buckets['parts'].emit(glb, 'parts', xf, 'parts_edges')
     buckets['blocks'].emit(glb, 'blocks', xf, 'blocks_edges')
+    buckets['bits'].emit(glb, 'bits', xf)
     buckets['decals'].emit(glb, 'decals', xf)
-    R = xf[:3, :3]
-    for n, entry in enumerate(instanced.values()):
-        if entry['mesh'] is None:
+    for n, inst in enumerate(instanced.values()):
+        if inst['mesh'] is None:
             continue
-        P, N, C, I, E = entry['mesh']
+        P, N, C, I, E = inst['mesh']
         glb.add_instances('inst_%d' % n, P @ R.T + xf[:3, 3], N @ R.T, C, I,
-                          E @ R.T + xf[:3, 3] if len(E) else E, [R @ off for off in entry['offsets']])
+                          E @ R.T + xf[:3, 3] if len(E) else E, [R @ off for off in inst['offsets']])
     for n, ref in enumerate(r for r in refs if r in ifaces):
         ifaces[ref].emit(glb, 'if_%d' % n, xf, 'if_%d_edges' % n, extras={'interface': ref})
     glb.write(args.out + '.glb')
 
+    if split_name and buckets['split'].P:
+        extra = Glb()
+        buckets['split'].emit(extra, 'parts', xf, 'parts_edges')
+        extra.write(args.out.rsplit('/', 1)[0] + '/' + split_name + '.glb' if '/' in args.out else split_name + '.glb')
+
     def box_tx(lo, hi):
-        c = np.array([xf[:3, :3] @ np.array([x, y, z]) + xf[:3, 3] for x in (lo[0], hi[0]) for y in (lo[1], hi[1]) for z in (lo[2], hi[2])])
-        return {'min': [round(float(v), 3) for v in c.min(axis=0)], 'max': [round(float(v), 3) for v in c.max(axis=0)]}
+        c = np.array([R @ np.array([x, y, z]) + xf[:3, 3] for x in (lo[0], hi[0]) for y in (lo[1], hi[1]) for z in (lo[2], hi[2])])
+        return {'min': [round(float(x), 3) for x in c.min(axis=0)], 'max': [round(float(x), 3) for x in c.max(axis=0)]}
+    kinds = list(buckets) + ['interface']
+    tri = {k: b.tris() for k, b in buckets.items()}
+    tri['interface'] = sum(b.tris() for b in ifaces.values())
+    tri['instanced'] = sum(len(i['mesh'][3]) for i in instanced.values() if i['mesh'])
     meta = {'source': args.step.replace('\\', '/').split('/')[-1],
             'bounds': box_tx(all_lo, all_hi),
             'board': box_tx(b_lo, b_hi),
+            'frame': frame_meta,
             'slots': slots_meta,
-            'counts': {k: sum(1 for c in manifest if c['kind'] == k) for k in list(buckets) + ['interface']},
-            'triangles': {**{k: b.tris() for k, b in buckets.items()}, 'interface': sum(b.tris() for b in ifaces.values())},
+            'counts': {k: sum(1 for c in manifest if c['kind'] == k) for k in kinds},
+            'triangles': tri,
             'components': sorted(manifest, key=lambda c: c['name'])}
     with open(args.out + '.json', 'w', encoding='utf-8') as f:
         json.dump(meta, f, ensure_ascii=False, indent=1)
-    print(json.dumps({k: meta[k] for k in ('bounds', 'board', 'slots', 'counts', 'triangles')}, ensure_ascii=False))
+    print(json.dumps({k: meta[k] for k in ('bounds', 'board', 'frame', 'slots', 'counts', 'triangles')}, ensure_ascii=False))
 
 
 if __name__ == '__main__':

@@ -2,1961 +2,1826 @@
  "source": "STEP_[No Variations] for PiklasRework.PcbDoc.step",
  "bounds": {
   "min": [
-   -62.194,
+   -29.989,
    0.0,
-   -4.396
+   -6.961
   ],
   "max": [
-   29.989,
+   62.194,
    83.883,
-   6.961
+   4.396
   ]
  },
  "board": {
   "min": [
-   -62.194,
+   -29.989,
    4.803,
    -0.796
   ],
   "max": [
-   29.989,
+   62.194,
    83.883,
    0.796
   ]
+ },
+ "frame": {
+  "front": -1,
+  "mateSlots": 1
  },
  "slots": null,
  "counts": {
   "board": 1,
   "parts": 3,
   "blocks": 26,
+  "bits": 0,
   "decals": 118,
+  "split": 0,
   "interface": 12
  },
  "triangles": {
   "board": 580,
   "parts": 45892,
   "blocks": 312,
+  "bits": 0,
   "decals": 236,
-  "interface": 42670
+  "split": 0,
+  "interface": 42670,
+  "instanced": 0
  },
  "components": [
   {
    "name": "Board",
-   "kind": "board",
    "side": "bottom",
    "size": [
     92.183,
     79.08,
     1.592
    ],
+   "kind": "board",
    "triangles": 580,
    "edgeSegments": 220
   },
   {
    "name": "C1",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.95,
     1.75,
     0.9
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C10",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.1,
     0.6,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C11",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.1,
     0.6,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C12",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.1,
     0.6,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C13",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.6,
     1.1,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C14",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.1,
     0.6,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C15",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.1,
     0.6,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C16",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.1,
     0.6,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C17",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.6,
     1.1,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C18",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.6,
     1.1,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C19",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.1,
     0.6,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C2",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.6,
     1.1,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C20",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.75,
     0.95,
     0.9
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C21",
-   "kind": "blocks",
    "side": "top",
    "size": [
     1.45,
     2.2,
     1.3
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "C22",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.95,
     1.75,
     0.9
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C23",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.95,
     1.75,
     0.9
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C25",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.75,
     0.95,
     0.9
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C26",
-   "kind": "blocks",
    "side": "top",
    "size": [
     2.2,
     1.45,
     1.3
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "C27",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.75,
     0.95,
     0.9
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C28",
-   "kind": "blocks",
    "side": "top",
    "size": [
     2.2,
     1.45,
     1.3
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "C29",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.75,
     0.95,
     0.9
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C3",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.75,
     0.95,
     0.9
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C30",
-   "kind": "blocks",
    "side": "top",
    "size": [
     1.45,
     2.2,
     1.3
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "C31_Horizon1",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     0.501,
     1.001,
     0.551
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C31_Horizon2",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     0.501,
     1.001,
     0.551
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C31_Horizon3",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     0.501,
     1.001,
     0.551
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C32_Horizon1",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C32_Horizon2",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C32_Horizon3",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C33_Horizon1",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C33_Horizon2",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C33_Horizon3",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C34_Horizon1",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.05,
     0.55,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C34_Horizon2",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.05,
     0.55,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C34_Horizon3",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.05,
     0.55,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C35_Horizon1",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C35_Horizon2",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     0.5,
     1.0,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C35_Horizon3",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C36_Horizon1",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C36_Horizon2",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     0.5,
     1.0,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C36_Horizon3",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C37_Horizon1",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C37_Horizon2",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C37_Horizon3",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C38_Horizon1",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C38_Horizon2",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C38_Horizon3",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C39_Horizon1",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.6,
     0.807,
     1.007
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C39_Horizon2",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.6,
     0.807,
     1.007
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C39_Horizon3",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.6,
     0.807,
     1.007
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C4",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.6,
     1.1,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C40_Horizon1",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C40_Horizon2",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C40_Horizon3",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C41_Horizon1",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C41_Horizon2",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C41_Horizon3",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.55
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C42",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.75,
     0.95,
     0.9
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C43",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.75,
     0.95,
     0.9
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C45",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.75,
     0.95,
     0.9
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C46",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.75,
     0.95,
     0.9
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C47",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.95,
     1.75,
     0.9
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C5",
-   "kind": "blocks",
    "side": "top",
    "size": [
     2.2,
     1.45,
     1.3
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "C6",
-   "kind": "blocks",
    "side": "top",
    "size": [
     1.45,
     2.2,
     1.3
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "C7",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.6,
     1.1,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C8",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.1,
     0.6,
     0.6
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "C9",
-   "kind": "blocks",
    "side": "top",
    "size": [
     1.45,
     2.2,
     1.3
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "CAN1",
-   "kind": "blocks",
    "side": "bottom",
    "size": [
     3.098,
     3.098,
     0.993
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "D1",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.8,
     1.6,
     0.7
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "D10",
-   "kind": "blocks",
    "side": "top",
    "size": [
     1.78,
     3.845,
     1.1
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "D11",
-   "kind": "blocks",
    "side": "top",
    "size": [
     1.78,
     3.845,
     1.1
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "D12",
-   "kind": "blocks",
    "side": "top",
    "size": [
     1.78,
     3.845,
     1.1
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "D8",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     0.8,
     1.6,
     0.7
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "D9",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     0.8,
     1.6,
     0.7
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "FB1_Horizon1",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.504,
     0.554
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "FB1_Horizon2",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.504,
     0.554
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "FB1_Horizon3",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.504,
     0.554
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "HDRM1",
-   "kind": "interface",
    "side": "top",
    "size": [
     8.6,
     5.19,
     1.5
    ],
+   "kind": "interface",
    "triangles": 984,
    "edgeSegments": 244
   },
   {
    "name": "HDRM2",
-   "kind": "interface",
    "side": "top",
    "size": [
     8.6,
     5.19,
     1.5
    ],
+   "kind": "interface",
    "triangles": 984,
    "edgeSegments": 244
   },
   {
    "name": "HDRM3",
-   "kind": "interface",
    "side": "top",
    "size": [
     8.6,
     5.19,
     1.5
    ],
+   "kind": "interface",
    "triangles": 984,
    "edgeSegments": 244
   },
   {
    "name": "HDRM4",
-   "kind": "interface",
    "side": "top",
    "size": [
     8.6,
     5.19,
     1.5
    ],
+   "kind": "interface",
    "triangles": 984,
    "edgeSegments": 244
   },
   {
    "name": "J-DS-Y+1",
-   "kind": "interface",
    "side": "top",
    "size": [
     7.6,
     5.19,
     1.5
    ],
+   "kind": "interface",
    "triangles": 916,
    "edgeSegments": 229
   },
   {
    "name": "J-DS-Y-1",
-   "kind": "interface",
    "side": "top",
    "size": [
     7.6,
     5.19,
     1.5
    ],
+   "kind": "interface",
    "triangles": 916,
    "edgeSegments": 229
   },
   {
    "name": "J2",
-   "kind": "interface",
    "side": "bottom",
    "size": [
     33.0,
     12.95,
     5.6
    ],
+   "kind": "interface",
    "triangles": 29596,
    "edgeSegments": 3956
   },
   {
    "name": "J3",
-   "kind": "interface",
    "side": "top",
    "size": [
     8.89,
     5.842,
     6.985
    ],
+   "kind": "interface",
    "triangles": 1468,
    "edgeSegments": 786
   },
   {
    "name": "M1",
-   "kind": "blocks",
    "side": "top",
    "size": [
     3.01,
     2.5,
     1.1
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "M2",
-   "kind": "blocks",
    "side": "top",
    "size": [
     3.01,
     2.5,
     1.1
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "M3",
-   "kind": "blocks",
    "side": "top",
    "size": [
     3.01,
     2.5,
     1.1
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "M4",
-   "kind": "blocks",
    "side": "top",
    "size": [
     3.01,
     2.5,
     1.1
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "M5",
-   "kind": "blocks",
    "side": "top",
    "size": [
     3.01,
     2.5,
     1.1
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "M6",
-   "kind": "blocks",
    "side": "top",
    "size": [
     3.01,
     2.5,
     1.1
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "M7",
-   "kind": "blocks",
    "side": "top",
    "size": [
     3.01,
     2.5,
     1.1
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "M8",
-   "kind": "blocks",
    "side": "top",
    "size": [
     3.01,
     2.5,
     1.1
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "M9",
-   "kind": "parts",
    "side": "bottom",
    "size": [
     18.1,
     15.1,
     1.93
    ],
+   "kind": "parts",
    "triangles": 10916,
    "edgeSegments": 1045
   },
   {
    "name": "MCU",
-   "kind": "parts",
    "side": "bottom",
    "size": [
     22.0,
     22.0,
     1.6
    ],
+   "kind": "parts",
    "triangles": 34908,
    "edgeSegments": 3660
   },
   {
    "name": "MCU2_Horizon1",
-   "kind": "blocks",
    "side": "bottom",
    "size": [
     5.5,
     5.5,
     0.79
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "MCU2_Horizon2",
-   "kind": "blocks",
    "side": "bottom",
    "size": [
     5.5,
     5.5,
     0.79
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "MCU2_Horizon3",
-   "kind": "blocks",
    "side": "bottom",
    "size": [
     5.5,
     5.5,
     0.79
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "R1",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.5,
     1.0,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R10",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.05,
     0.55,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R11",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.05,
     0.55,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R12",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R13",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.05,
     0.55,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R14",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.05,
     0.55,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R15",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.5,
     1.0,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R16",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.5,
     1.0,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R17",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R18",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.9,
     1.7,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R19",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.7,
     0.9,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R22_Horizon1",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     0.5,
     1.0,
     0.37
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R22_Horizon2",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     0.5,
     1.0,
     0.37
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R22_Horizon3",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     0.5,
     1.0,
     0.37
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R23_Horizon1",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     0.5,
     1.0,
     0.401
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R23_Horizon2",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     0.5,
     1.0,
     0.401
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R23_Horizon3",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     0.5,
     1.0,
     0.401
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R27",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     0.9,
     1.7,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R28",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     0.9,
     1.7,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R2_Horizon1",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.37
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R2_Horizon2",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.37
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R2_Horizon3",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.37
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R3_Horizon1",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.37
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R3_Horizon2",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.37
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R3_Horizon3",
-   "kind": "decals",
    "side": "bottom",
    "size": [
     1.0,
     0.5,
     0.37
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R4",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.05,
     0.55,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R47",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R48",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R49",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R5",
-   "kind": "decals",
    "side": "top",
    "size": [
     1.05,
     0.55,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R50",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R51",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R52",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R54",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R55",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R56",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R57",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R58",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R59",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R6",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R60",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R61",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R63",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R64",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R7",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R8",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R9",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.55,
     1.05,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "RCVR Bridge",
-   "kind": "interface",
    "side": "top",
    "size": [
     8.6,
     5.19,
     1.5
    ],
+   "kind": "interface",
    "triangles": 984,
    "edgeSegments": 244
   },
   {
    "name": "R_EN1",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.5,
     1.0,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R_EN2",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.5,
     1.0,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "R_EN3",
-   "kind": "decals",
    "side": "top",
    "size": [
     0.5,
     1.0,
     0.35
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "To PIKLAS1_Horizon1",
-   "kind": "interface",
    "side": "bottom",
    "size": [
     17.65,
     5.2,
     3.6
    ],
+   "kind": "interface",
    "triangles": 1618,
    "edgeSegments": 417
   },
   {
    "name": "To PIKLAS1_Horizon2",
-   "kind": "interface",
    "side": "bottom",
    "size": [
     17.65,
     5.2,
     3.6
    ],
+   "kind": "interface",
    "triangles": 1618,
    "edgeSegments": 416
   },
   {
    "name": "To PIKLAS1_Horizon3",
-   "kind": "interface",
    "side": "bottom",
    "size": [
     17.65,
     5.2,
     3.6
    ],
+   "kind": "interface",
    "triangles": 1618,
    "edgeSegments": 417
   },
   {
    "name": "U1",
-   "kind": "decals",
    "side": "top",
    "size": [
     2.1,
     2.1,
     1.001
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "U2",
-   "kind": "decals",
    "side": "top",
    "size": [
     2.1,
     2.1,
     1.001
    ],
-   "triangles": 2,
-   "edgeSegments": 0
+   "kind": "decals",
+   "triangles": 2
   },
   {
    "name": "U3",
-   "kind": "blocks",
    "side": "top",
    "size": [
     2.902,
     2.801,
     1.453
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "Y3_Horizon1",
-   "kind": "blocks",
    "side": "bottom",
    "size": [
     2.69,
     3.39,
     1.0
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "Y3_Horizon2",
-   "kind": "blocks",
    "side": "bottom",
    "size": [
     2.69,
     3.39,
     1.0
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "Y3_Horizon3",
-   "kind": "blocks",
    "side": "bottom",
    "size": [
     2.69,
     3.39,
     1.0
    ],
-   "triangles": 12,
-   "edgeSegments": 12
+   "kind": "blocks",
+   "triangles": 12
   },
   {
    "name": "eMMC",
-   "kind": "parts",
    "side": "bottom",
    "size": [
     11.5,
     13.0,
     0.8
    ],
+   "kind": "parts",
    "triangles": 68,
    "edgeSegments": 40
   }

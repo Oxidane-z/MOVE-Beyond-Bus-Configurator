@@ -1,7 +1,7 @@
 // 模型加载（STEP 转出的 GLB），以及尚无模型的板卡和结构用的占位几何。
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { box, wireBox, cylinder, hitMat, flatMat, cadMat, makeCadMat, fatLines } from './render.js';
+import { box, cylinder, hitMat, flatMat, cadMat, makeCadMat, fatLines } from './render.js';
 
 const templates = new Map();   // 板卡 key 或 'backplane' → { parts, bounds }
 export const hasModel = key => templates.has(key);
@@ -23,6 +23,7 @@ export async function loadModels(sys) {
   const loader = new GLTFLoader();
   const jobs = Object.entries(sys.boards).filter(([, T]) => T.model).map(([key, T]) => [key, T.model]);
   if (sys.backplane && sys.backplane.model) jobs.push(['backplane', sys.backplane.model]);
+  Object.entries(sys.accessories || {}).forEach(([key, A]) => jobs.push(['acc:' + key, A.model]));
   await Promise.all(jobs.map(async ([key, url]) => {
     try { templates.set(key, await loadGlb(loader, url)); }
     catch (err) { console.error('模型加载失败: ' + url, err); }
@@ -47,60 +48,66 @@ function instantiate(tpl, boardColor, onInterface) {
 function buildModelCard(key, T, pitch) {
   const tpl = templates.get(key), g = new THREE.Group(), pivot = new THREE.Group(), interfaces = [];
   const size = tpl.bounds.getSize(new THREE.Vector3()), c = tpl.bounds.getCenter(new THREE.Vector3());
-  const flip = !!T.flip, seat = T.seat || 0, cx = flip ? -c.x : c.x;
+  // front：PCB 正面朝模型的 +Z（1）还是 -Z（-1），由转换脚本给出
+  const front = T.front || 1, seat = T.seat || 0, cx = c.x;
 
   const body = instantiate(tpl, T.color, (p, mesh) => {
     if (!p.geometry.boundingBox) p.geometry.computeBoundingBox();
     const bb = p.geometry.boundingBox, center = bb.getCenter(new THREE.Vector3());
-    // face：接口在 PCB 的哪一面（1 正面，-1 背面，0 跨在板边两面都露出）
-    const face = bb.min.z < -1.2 && bb.max.z > 1.2 ? 0 : center.z >= 0 ? 1 : -1;
-    interfaces.push({ ref: p.iface, mat: mesh.material, center, face });
+    // side：接口朝模型的 +Z 还是 -Z（0 表示跨在板边两面都露出）；face：换算成 PCB 的正面（1）或背面（-1）
+    const side = bb.min.z < -1.2 && bb.max.z > 1.2 ? 0 : center.z >= 0 ? 1 : -1;
+    interfaces.push({ ref: p.iface, mat: mesh.material, center, side, face: side * front });
   });
   body.position.set(-cx, seat, 0);
-  body.rotation.y = flip ? Math.PI : 0;
   body.updateMatrix();
-  // 换算到 pivot 坐标：center 用于投影标记，side 是该面在 pivot 坐标里的法线方向
-  interfaces.forEach(i => { i.center.applyMatrix4(body.matrix); i.side = flip ? -i.face : i.face; });
+  interfaces.forEach(i => i.center.applyMatrix4(body.matrix));   // 换算到 pivot 坐标，用于投影标记
+
+  // 可选支架：模型和板卡同一坐标系，板厚中心在 Z=0，所以换面只需沿 Z 镜像
+  let bracket = null;
+  const acc = T.bracket && templates.get('acc:' + T.bracket);
+  if (acc) {
+    const obj = instantiate(acc, T.color);
+    body.add(obj);
+    bracket = { obj, zsign: acc.bounds.getCenter(new THREE.Vector3()).z >= 0 ? 1 : -1, front };
+  }
 
   pivot.position.x = cx;
   pivot.add(body);
   g.add(pivot);
   const hit = new THREE.Mesh(new THREE.BoxGeometry(size.x + 4, size.y + 4, pitch * T.w), hitMat);
-  hit.position.set(cx, c.y + seat, T.w === 2 ? pitch / 2 : 0);
+  // 占两个槽的板卡，连接器可能在靠后的那个槽（connectorSlot 为 1）
+  hit.position.set(cx, c.y + seat, T.w === 2 ? (T.connectorSlot ? -pitch / 2 : pitch / 2) : 0);
   g.add(hit);
-  return { group: g, hit, shared: true, interfaces, pivot, faceOffset: flip ? Math.PI : 0, cx, cy: c.y + seat };
+  return { group: g, hit, shared: true, interfaces, pivot, bracket, faceOffset: front < 0 ? Math.PI : 0, cx, cy: c.y + seat };
 }
 
 const C = { base: '#d9d5e8', post: '#c9c4de', backplane: '#6fae8f', conn: '#3a3652', stiff: '#e4e1ef',
             comp: '#4a4664', cell: '#f3ead0', module: '#5d8f6e', sink: '#bfc3d6' };
 
+// 支架装在 PCB 的哪一面：'back'、'front' 或 'none'
+export function setBracket(bracket, mode) {
+  bracket.obj.visible = mode !== 'none';
+  if (mode !== 'none') bracket.obj.scale.z = (mode === 'front' ? 1 : -1) * bracket.front * bracket.zsign;
+}
+
 // 结构中心相对槽位连接器的偏移。背板上的槽位连接器不在板宽正中，占位板卡据此居中
 const layout = { cx: 0, cz: 0 };
 
-// 底板、背板和框架。有背板模型时用模型，否则用占位几何。返回可隐藏的框架组和结构中心
+// 背板。有模型时用模型，否则用占位几何。返回结构中心、半宽和板面高度
 export function buildStructure(scene, sys, slotZ) {
   const tpl = templates.get('backplane');
-  let hx = 52, hz = 50;                       // 背板半宽、半长，用来放支柱
+  let hx = 52, topY = 6.6;
   if (tpl) {
-    const bp = instantiate(tpl, C.backplane);
+    const bp = instantiate(tpl, sys.backplane.color || C.backplane);
     bp.position.y = sys.backplane.y;
     scene.add(bp);
     const c = tpl.bounds.getCenter(new THREE.Vector3()), size = tpl.bounds.getSize(new THREE.Vector3());
-    layout.cx = c.x; layout.cz = c.z; hx = size.x / 2; hz = size.z / 2;
+    layout.cx = c.x; layout.cz = c.z; hx = size.x / 2; topY = sys.backplane.y + 1.6;
   } else {
     box(scene, 104, 1.6, 100, C.backplane, 0, 5.8, 0);
     for (let i = 0; i < sys.slots; i++) box(scene, 60, 5, 4, C.conn, 0, 9.1, slotZ(i));
   }
-  const { cx, cz } = layout, sy = tpl ? sys.backplane.y - 1.4 : 5;   // 支柱顶到背板底面元器件之下
-  box(scene, 136, 4, 132, C.base, cx, -2, cz);
-  [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(s => box(scene, 5, sy, 5, C.post, cx + s[0] * (hx - 4), sy / 2, cz + s[1] * (hz - 4)));
-
-  const frame = new THREE.Group();
-  frame.position.set(cx, 0, cz);
-  scene.add(frame);
-  [[-62, -60], [62, -60], [-62, 60], [62, 60]].forEach(p => box(frame, 8, 112, 8, C.post, p[0], 56, p[1]));
-  [-62, 62].forEach(x => { box(frame, 8, 6, 112, C.post, x, 109, 0); wireBox(frame, 3, 80, 112, x, 62, 0); });
-  return { frame, cx, cz };
+  return { cx: layout.cx, cz: layout.cz, hx, topY };
 }
 
 // 板卡原点在背板连接器顶面、所占第一个槽的中心
