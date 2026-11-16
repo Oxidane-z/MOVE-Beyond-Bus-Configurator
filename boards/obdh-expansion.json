@@ -1,11 +1,11 @@
 {
   "interfaces": [
     {"ref": "X-EXP", "match": ["QSE-*"], "label": "Expansion connector", "type": "expansion", "connector": "Samtec QSE-020", "desc": "Board-to-board connector to the OBDH board."},
-    {"ref": "X1", "match": ["5037630491*"], "cluster": 0, "label": "Port X1", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "X2", "match": ["5037630491*"], "cluster": 1, "label": "Port X2", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "X3", "match": ["5037630491*"], "cluster": 2, "label": "Port X3", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "X4", "match": ["5037630491*"], "cluster": 3, "label": "Port X4", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "X5", "match": ["5037630491*"], "cluster": 4, "label": "Port X5", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "X6", "match": ["5037630491*"], "cluster": 5, "label": "Port X6", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Identified from the part number in the CAD model. Function not documented yet."}
+    {"ref": "X1", "match": ["5037630491*"], "cluster": 0, "label": "REXUS flags", "type": "trigger", "connector": "Molex Pico-Lock 4P", "desc": "Flag inputs from the REXUS experiment interface."},
+    {"ref": "X2", "match": ["5037630491*"], "cluster": 1, "label": "RS-422", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "Full-duplex RS-422."},
+    {"ref": "X3", "match": ["5037630491*"], "cluster": 2, "label": "I²C bus 1 (A)", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "I²C. Shares a bus with the other bus 1 connector."},
+    {"ref": "X4", "match": ["5037630491*"], "cluster": 3, "label": "I²C bus 1 (B)", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "I²C. Shares a bus with the other bus 1 connector."},
+    {"ref": "X5", "match": ["5037630491*"], "cluster": 4, "label": "I²C bus 2 (A)", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "I²C. Shares a bus with the other bus 2 connector."},
+    {"ref": "X6", "match": ["5037630491*"], "cluster": 5, "label": "I²C bus 2 (B)", "type": "io", "connector": "Molex Pico-Lock 4P", "desc": "I²C. Shares a bus with the other bus 2 connector."}
   ]
 }
