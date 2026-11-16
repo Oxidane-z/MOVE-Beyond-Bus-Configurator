@@ -13,6 +13,6 @@
     {"ref": "USB-C", "match": ["shell_ext*", "shell int*"], "label": "USB 3.0 (Type-C)", "type": "io", "connector": "USB Type-C", "desc": "USB 3.0 port. Can also power the board."},
     {"ref": "MLP1", "match": ["body*", "mtn*"], "cluster": 0, "label": "GPIO", "type": "io", "connector": "Molex Micro-Lock Plus", "desc": "A selection of preferred GPIOs."},
     {"ref": "MLP2", "match": ["body*", "mtn*"], "cluster": 1, "label": "VSYS out", "type": "power", "connector": "Molex Micro-Lock Plus 2P", "desc": "GND and VSYS as supplied by the backplane."},
-    {"ref": "PWR-BTN", "match": ["BNody*"], "label": "Power button", "type": "switch", "connector": "", "desc": "Turns the board on."}
+    {"ref": "FAN", "match": ["BNody*"], "label": "Fan", "type": "actuator", "connector": "", "desc": "Connects the cooling fan."}
   ]
 }

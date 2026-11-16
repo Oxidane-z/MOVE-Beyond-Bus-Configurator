@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import sys from '../system.json';
 import { t, applyStatic } from './i18n.js';
 import { applyTheme, setResolution } from './render.js';
-import { buildStructure, buildCard as buildCardGeo, buildExpansion, loadModels, hasModel, setBracket } from './models.js';
+import { buildStructure, buildCard as buildCardGeo, buildExpansion, loadBackplane, loadBoard, hasModel, setBracket } from './models.js';
 
 const SLOTS = sys.slots, PITCH = sys.pitch, SEAT_Y = sys.seatY, TYPES = sys.boards, INITIAL = sys.initial;
 const slotZ = i => (i - (SLOTS - 1) / 2) * PITCH;
@@ -64,6 +64,7 @@ function tween(o, k, to, ms, ease) {
 /* ---------- 配置状态 ---------- */
 const slots = new Array(SLOTS).fill(null);
 const placements = new Map();
+const loaded = new Set();   // 模型（连同支架和扩展板）已就绪的板卡
 let nextId = 1, sel = null;
 
 const isFree = (i, ignore) => i >= 0 && i < SLOTS && (slots[i] === null || slots[i] === ignore);
@@ -84,7 +85,7 @@ function occupy(p, v) { for (let k = 0; k < TYPES[p.type].w; k++) slots[p.slot +
 
 function place(type, slot, animate) {
   // 模型还没加载完，或者目标槽位已被占用时不放。加载期间抢先放板会和随后落下的默认布局叠在一起
-  if (!ready || !hasModel(type)) return;
+  if (!ready || !loaded.has(type) || !hasModel(type)) return;
   for (let k = 0; k < TYPES[type].w; k++) if (!isFree(slot + k, null)) return;
   const built = buildCard(type);
   const p = { id: nextId++, type, slot, group: built.group, hit: built.hit, busy: false, interfaces: [], ownInterfaces: built.interfaces,
@@ -179,6 +180,7 @@ function move(p, slot) {
   renderUI();
 }
 function removeCard(p) {
+  if (!placements.has(p.id)) return;
   occupy(p, null); placements.delete(p.id);
   p.busy = true; if (sel && sel.id === p.id) sel = null;
   // 先从连接器里拔出一小段，再加速上升直到离开画面
@@ -398,7 +400,7 @@ Object.keys(TYPES).forEach(key => {
 function renderUI() {
   libPanel.hidden = !!inspect; ifacePanel.hidden = !inspect;
   libList.querySelectorAll('.item').forEach(b => {
-    b.disabled = !ready;
+    b.disabled = !ready || !loaded.has(b.dataset.type);
     b.setAttribute('aria-pressed', String(!!sel && sel.kind === 'lib' && sel.type === b.dataset.type));
   });
   const a = inspect ? null : armed();
@@ -478,7 +480,7 @@ function renderUI() {
     hint.appendChild(btn(t('btn.remove'), p.interfaces.length ? 'ghost' : '', () => removeCard(p)));
     hint.appendChild(btn(t('btn.cancel'), 'ghost', () => setSel(null)));
   }
-  if (placements.size && !inspect) hint.appendChild(btn(t('btn.clear'), 'ghost', () => { [...placements.values()].forEach(removeCard); }));
+  if (placements.size && !inspect) hint.appendChild(btn(t('btn.clear'), 'ghost', clearAll));
 
   let typ = 0, peak = 0, wh = 0, missing = 0;
   placements.forEach(p => { const T = TYPES[p.type]; if (T.typ == null && !T.wh) missing++; typ += T.typ || 0; peak += T.peak || 0; wh += T.wh || 0; });
@@ -609,7 +611,32 @@ applyTheme();
 resize();
 renderUI();
 requestAnimationFrame(frameLoop);
-loadModels(sys).then(() => {
+// 先取背板，界面随即可用；板卡的模型同时开始下载，默认布局按槽位顺序一块一块插入
+const wait = ms => new Promise(res => setTimeout(res, reduced ? 0 : ms));
+let intro = false;
+const fetchBoard = type => loadBoard(sys, type).then(() => { loaded.add(type); renderUI(); });
+async function playIntro() {
+  intro = true;
+  const jobs = INITIAL.map(c => fetchBoard(c[0]));
+  for (let k = 0; k < INITIAL.length && intro; k++) {
+    await jobs[k];
+    if (!intro) break;
+    place(INITIAL[k][0], INITIAL[k][1], true);
+    await wait(260);
+  }
+  intro = false;
+  Object.keys(TYPES).forEach(fetchBoard);   // 默认布局里没有的板卡最后取
+}
+// 清空：从最后一个槽开始依次拔出。同时中止还没放完的默认布局
+function clearAll() {
+  intro = false;
+  setSel(null);
+  [...placements.values()].sort((a, b) => b.slot - a.slot).forEach((p, k) => {
+    p.busy = true;
+    setTimeout(() => removeCard(p), reduced ? 0 : k * 170);
+  });
+}
+loadBackplane(sys).then(() => {
   S = buildStructure(scene, sys);
   if (S.group) {
     bpCard = { isBackplane: true, busy: false, interfaces: [], pivot: S.group, group: S.group };
@@ -618,6 +645,6 @@ loadModels(sys).then(() => {
   // 镜头对准结构中心
   HOME.tx = view.tx = S.cx; HOME.tz = view.tz = S.cz;
   ready = true;
-  INITIAL.forEach(c => place(c[0], c[1], false));
   renderUI();
+  playIntro();
 });

@@ -41,9 +41,27 @@ function splitLines(lines, dark) {
   return res;
 }
 
-async function loadGlb(loader, url) {
-  const v = __MODEL_VERSIONS__[url];
-  const gltf = await loader.loadAsync(import.meta.env.BASE_URL + url + (v ? '?v=' + v : ''));
+// 取模型文件。构建产物里每个 GLB 旁边有一份 gzip 压缩的副本（约为原来的六分之一），浏览器支持解压时优先取它
+async function fetchModel(url) {
+  const v = __MODEL_VERSIONS__[url], base = import.meta.env.BASE_URL + url, q = v ? '?v=' + v : '';
+  if (__MODELS_GZ__ && 'DecompressionStream' in window) {
+    try {
+      const r = await fetch(base + '.gz' + q);
+      if (r.ok) {
+        // 有的服务器会给 .gz 加 Content-Encoding，这时浏览器已经解压过了，按文件头判断
+        const buf = await r.arrayBuffer(), head = new Uint8Array(buf, 0, 2);
+        if (head[0] !== 0x1f || head[1] !== 0x8b) return buf;
+        return await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+      }
+    } catch (err) { /* 退回到未压缩的文件 */ }
+  }
+  const r = await fetch(base + q);
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  return r.arrayBuffer();
+}
+
+async function loadGlb(url) {
+  const gltf = await loader.parseAsync(await fetchModel(url), '');
   gltf.scene.updateMatrixWorld(true);
   const parts = [], darkOf = new Map(), lineNodes = [];
   gltf.scene.traverse(o => {
@@ -66,17 +84,22 @@ async function loadGlb(loader, url) {
   return { parts, bounds: new THREE.Box3().setFromObject(gltf.scene) };
 }
 
-// 预加载 system.json 里所有板卡、背板和附件的模型
-export async function loadModels(sys) {
-  const loader = new GLTFLoader();
-  const jobs = Object.entries(sys.boards).map(([key, T]) => [key, T.model]);
-  jobs.push(['backplane', sys.backplane.model]);
-  Object.entries(sys.accessories || {}).forEach(([key, A]) => jobs.push(['acc:' + key, A.model]));
-  Object.entries(sys.expansions || {}).forEach(([key, E]) => jobs.push(['exp:' + key, E.model]));
-  await Promise.all(jobs.map(async ([key, url]) => {
-    try { templates.set(key, await loadGlb(loader, url)); }
-    catch (err) { console.error('模型加载失败: ' + url, err); }
-  }));
+// 模型按需加载，同一个模型只取一次。失败时只记日志，对应的板卡不可用
+const loader = new GLTFLoader(), pending = new Map();
+function load(key, url) {
+  if (!pending.has(key)) {
+    pending.set(key, loadGlb(url).then(tpl => { templates.set(key, tpl); })
+      .catch(err => { console.error('模型加载失败: ' + url, err); }));
+  }
+  return pending.get(key);
+}
+export const loadBackplane = sys => load('backplane', sys.backplane.model);
+// 一块板卡连同它的支架和可用的扩展板
+export function loadBoard(sys, type) {
+  const T = sys.boards[type], jobs = [load(type, T.model)];
+  if (T.bracket) jobs.push(load('acc:' + T.bracket, sys.accessories[T.bracket].model));
+  (T.expansionSites || []).forEach(site => site.options.forEach(key => jobs.push(load('exp:' + key, sys.expansions[key].model))));
+  return Promise.all(jobs);
 }
 
 // 把模板实例化成一组网格；boardColor 是基板颜色，元器件用材质色。onInterface 收到接口件的网格
