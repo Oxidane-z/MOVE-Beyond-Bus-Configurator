@@ -10,7 +10,7 @@
     { "ref": "HDRM3", "label": "HDRM 3", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "连接释放动作器，一般是 thermal knife。" },
     { "ref": "HDRM4", "label": "HDRM 4", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "连接释放动作器，一般是 thermal knife。" },
     { "ref": "RCVR Bridge", "label": "RCVR Bridge", "type": "trigger", "connector": "Molex Pico-Lock 4P", "desc": "用于外部触发 4 路 HDRM。" },
-    { "ref": "J-DS-Y+1", "label": "Deployment Switch Y+", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "连接 HDRM 的部署开关。" },
-    { "ref": "J-DS-Y-1", "label": "Deployment Switch Y−", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "连接 HDRM 的部署开关。" }
+    { "ref": "J-DS-Y+1", "label": "Deployment Switch Y+", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "部署开关，作用类似 RBF：开关被触发时切断 HDRM 的电路。" },
+    { "ref": "J-DS-Y-1", "label": "Deployment Switch Y−", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "部署开关，作用类似 RBF：开关被触发时切断 HDRM 的电路。" }
   ]
 }
