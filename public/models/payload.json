@@ -31,20 +31,20 @@
  "slots": null,
  "counts": {
   "board": 1,
-  "parts": 16,
+  "parts": 8,
   "blocks": 25,
   "bits": 0,
   "decals": 123,
-  "interface": 0
+  "interface": 8
  },
  "triangles": {
   "board": 760,
-  "parts": 93640,
+  "parts": 39368,
   "blocks": 300,
   "bits": 0,
   "decals": 246,
-  "interface": 0,
-  "instanced": 2054
+  "interface": 57520,
+  "instanced": 430
  },
  "split": null,
  "components": [
@@ -135,7 +135,7 @@
     6.9,
     4.6
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1248,
    "edgeSegments": 522
   },
@@ -657,9 +657,9 @@
     5.191,
     1.704
    ],
-   "kind": "parts",
-   "instanceOf": "FP-503763-0691-MFG_CMP-015-000026-2_Standard",
-   "triangles": 1624
+   "kind": "interface",
+   "triangles": 1624,
+   "edgeSegments": 296
   },
   {
    "name": "FP-503763-0691-MFG_CMP-015-000026-2_Standard",
@@ -669,9 +669,9 @@
     5.191,
     1.704
    ],
-   "kind": "parts",
-   "instanceOf": "FP-503763-0691-MFG_CMP-015-000026-2_Standard",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 1624,
+   "edgeSegments": 296
   },
   {
    "name": "FP-504050-0791-MFG_CMP-015-000053-1",
@@ -681,7 +681,7 @@
     6.442,
     2.154
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 2670,
    "edgeSegments": 296
   },
@@ -738,7 +738,7 @@
     8.89,
     6.985
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1444,
    "edgeSegments": 774
   },
@@ -772,7 +772,7 @@
     5.19,
     1.5
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 920,
    "edgeSegments": 246
   },
@@ -1522,7 +1522,7 @@
     13.243,
     7.613
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 22994,
    "edgeSegments": 3229
   },
@@ -1534,7 +1534,7 @@
     12.951,
     5.601
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 24996,
    "edgeSegments": 3712
   },

@@ -106,7 +106,7 @@ python pipeline/step2glb.py 040500_001_BatteryBoard.STEP public/models/battery1 
 ```
 
 ```bash
-python pipeline/step2glb.py 040700_001_PayloadSB.STEP public/models/payload --board 040700_ELE_PayloadSB_BOARD --mate SAMTEC_ERM8 --deflection 0.2 --angular 1.2
+python pipeline/step2glb.py 040700_001_PayloadSB.STEP public/models/payload --board 040700_ELE_PayloadSB_BOARD --mate SAMTEC_ERM8 --annotations boards/payload.json --deflection 0.2 --angular 1.2
 ```
 
 ```bash
@@ -140,4 +140,4 @@ python pipeline/step2glb.py Backplane_V8.step public/models/backplane --frame ba
 
 转换时带上 `--annotations`，这些接口各自输出成独立节点，查看器的"查看接口"模式据此高亮和编号。只改说明文字不用重新转换；新增接口或改 `ref`、`match`、`cluster` 需要重新转换。
 
-ADCS、Battery、OBDH 和扩展板的接口目前是按料号认出来的，名称是通用的（Port A1 等），用途还没有填。Iteration 1 的板卡里目前标注了 CDH SB、ADCS SB V2.1、COM Stack、Battery Pack v4.3 和电池加热板，Payload SB 和 PHILEAS 还没有标注。S-Band 板的 CAD 缺元器件（导出时丢失），两个 MMCX 哪个发哪个收是暂定的。
+ADCS、Battery、OBDH 和扩展板的接口目前是按料号认出来的，名称是通用的（Port A1 等），用途还没有填。Iteration 1 的板卡里目前标注了 CDH SB、ADCS SB V2.1、COM Stack、Payload SB、Battery Pack v4.3 和电池加热板，PHILEAS 还没有标注。S-Band 板的 CAD 缺元器件（导出时丢失），两个 MMCX 哪个发哪个收是暂定的。
