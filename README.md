@@ -125,6 +125,12 @@ python pipeline/step2glb.py PHILEAS_SB.step public/models/phileas --board Board 
 
 `--split` 的前缀也匹配上级装配的名称，所以 `040500_ELE_002_BBSidePCB` 把电池的加热板子装配整个拆成 `battery-heater.glb`。两代电池包的外形一致，这块加热板同时用在 Battery Pack v4.3 REXUS edition 上。
 
+STEP 里这块加热板只有 0.41 mm 厚（Altium 导出时板厚不对），实际是 1 mm。转换后用 `pipeline/thicken_board.py` 把它改成 1 mm：装着连接器的那一面不动，板子朝另一侧加厚。重新转换电池包以后要再跑一遍：
+
+```bash
+python pipeline/thicken_board.py public/models/battery-heater.glb 1.0 --grow +z
+```
+
 Revision 1 的另外两块板和 Prototype 的 EXP V1（`cad/Rev1/`、`cad/Proto/`，先解压）：
 
 ```bash
