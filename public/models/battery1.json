@@ -31,20 +31,20 @@
  "slots": null,
  "counts": {
   "board": 1,
-  "parts": 25,
+  "parts": 20,
   "blocks": 17,
   "bits": 0,
   "decals": 73,
-  "interface": 0
+  "interface": 5
  },
  "triangles": {
   "board": 1040,
-  "parts": 15388,
+  "parts": 11716,
   "blocks": 204,
   "bits": 0,
   "decals": 146,
-  "interface": 0,
-  "instanced": 26980
+  "interface": 36920,
+  "instanced": 10356
  },
  "split": {
   "name": "battery-heater",
@@ -848,7 +848,7 @@
     5.191,
     1.704
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1624,
    "edgeSegments": 296
   },
@@ -1179,7 +1179,7 @@
     8.6,
     1.5
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1024,
    "edgeSegments": 282
   },
@@ -1191,7 +1191,7 @@
     5.19,
     1.5
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1024,
    "edgeSegments": 282
   },
@@ -1260,9 +1260,9 @@
     5.612,
     8.042
    ],
-   "kind": "parts",
-   "instanceOf": "SAMTEC_ERM8-030-XX.X-X-DV-P-XX_CMP-015-000047-2",
-   "triangles": 16624
+   "kind": "interface",
+   "triangles": 16624,
+   "edgeSegments": 2952
   },
   {
    "name": "SAMTEC_ERM8-030-XX.X-X-DV-P-XX_CMP-015-000047-2",
@@ -1272,9 +1272,9 @@
     5.612,
     8.042
    ],
-   "kind": "parts",
-   "instanceOf": "SAMTEC_ERM8-030-XX.X-X-DV-P-XX_CMP-015-000047-2",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 16624,
+   "edgeSegments": 2952
   },
   {
    "name": "SOD323F_CMP-00011-5_Standard",
