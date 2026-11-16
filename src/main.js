@@ -749,7 +749,7 @@ window.addEventListener('pointerup', e => endCellDrag(e, false));
 window.addEventListener('pointercancel', e => endCellDrag(e, true));
 strip.addEventListener('click', e => { if (suppressClick) { e.stopPropagation(); e.preventDefault(); } }, true);
 
-let pd = null, dragging = false, pinch = null;
+let pd = null, dragging = false, pinch = null, lastTap = null;   // lastTap：上一次点在哪块板上，用来认双击
 const pts = new Map();   // 按在画布上的指针，两个时是双指缩放和平移
 const spread = () => { const [a, b] = [...pts.values()]; return Math.hypot(a.x - b.x, a.y - b.y); };
 const centroid = () => { const [a, b] = [...pts.values()]; return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }; };
@@ -814,8 +814,17 @@ cv.addEventListener('pointerup', e => {
   release(e);
   if (!pd) return;
   if (!dragging && !inspect && !pd.pan) {
-    const h = pick(e);
-    if (sel && sel.swap) {
+    const h = pick(e), now = performance.now();
+    // 双击（或双点）同一块板：之前选着另一块板就和它互换，否则查看这块板的接口。
+    // 第一下点击已经把选中换成了这块板，所以要记住第一下之前选的是谁
+    const dbl = lastTap && h.card && h.slot < 0 && lastTap.id === h.card.id && now - lastTap.t < 350 ? lastTap : null;
+    lastTap = h.card && h.slot < 0 && !dbl ? { t: now, id: h.card.id, prev: sel && sel.kind === 'placed' && !sel.swap ? sel.id : null } : null;
+    if (dbl && !(sel && sel.swap)) {
+      const other = dbl.prev !== null && dbl.prev !== h.card.id ? placements.get(dbl.prev) : null;
+      if (other && !other.busy && !h.card.busy) swap(other, h.card);
+      else if (!h.card.busy && h.card.interfaces.length) enterInspect(h.card);
+    }
+    else if (sel && sel.swap) {
       const me = placements.get(sel.id);
       if (!h.card) setSel(null);
       else if (h.card !== me && !h.card.busy && !me.busy) swap(me, h.card);
