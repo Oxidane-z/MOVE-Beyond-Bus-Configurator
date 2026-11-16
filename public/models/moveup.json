@@ -31,11 +31,11 @@
  "slots": null,
  "counts": {
   "board": 1,
-  "parts": 3,
+  "parts": 5,
   "blocks": 30,
   "bits": 0,
   "decals": 189,
-  "interface": 14
+  "interface": 12
  },
  "triangles": {
   "board": 1920,
@@ -43,8 +43,8 @@
   "blocks": 360,
   "bits": 0,
   "decals": 378,
-  "interface": 102696,
-  "instanced": 0
+  "interface": 100504,
+  "instanced": 1096
  },
  "split": null,
  "components": [
@@ -2520,9 +2520,9 @@
     7.5,
     5.5
    ],
-   "kind": "interface",
-   "triangles": 1096,
-   "edgeSegments": 285
+   "kind": "parts",
+   "instanceOf": "S2",
+   "triangles": 0
   },
   {
    "name": "S2",
@@ -2532,9 +2532,9 @@
     7.5,
     5.5
    ],
-   "kind": "interface",
-   "triangles": 1096,
-   "edgeSegments": 285
+   "kind": "parts",
+   "instanceOf": "S2",
+   "triangles": 1096
   },
   {
    "name": "SW1",
