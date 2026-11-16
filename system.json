@@ -4,10 +4,11 @@
   "seatY": 11.94,
   "backplane": {"model": "models/backplane.glb", "y": 5, "color": "#2c2d31"},
   "layouts": {
+    "custom": {"name": "Custom", "boards": []},
     "rexus": {"name": "REXUS", "boards": [["obdh", 0], ["recovery", 2], ["battery", 3], ["adcs", 5], ["piklas", 6]]},
     "move3a": {"name": "MOVE-IIIa", "boards": [["comstack", 0], ["cdh", 2], ["battery1", 3], ["payload", 5], ["adcs1", 6]]}
   },
-  "initial": "rexus",
+  "initial": "custom",
   "levels": {"proto": "Prototype", "iter1": "Iteration 1", "iter2": "Iteration 2"},
   "subsystems": {
     "power": {"label": "Power", "color": "#e2b93b"},

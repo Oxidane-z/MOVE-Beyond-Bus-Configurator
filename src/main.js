@@ -38,7 +38,9 @@ const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 1, 3000);
 const ISO = Math.atan(1 / Math.SQRT2);
 const HOME = { tx: 0, ty: 48, tz: 0 };
-const view = { yaw: Math.PI / 4, pitch: ISO, zoom: 1, tx: HOME.tx, ty: HOME.ty, tz: HOME.tz };
+// 默认视角：1 号槽在画面左前方，编号从左到右，与下方的槽位条方向一致
+const HOME_YAW = Math.PI * 5 / 4;
+const view = { yaw: HOME_YAW, pitch: ISO, zoom: 1, tx: HOME.tx, ty: HOME.ty, tz: HOME.tz };
 const TARGET = new THREE.Vector3();
 let S = { cx: 0, cz: 0, hx: 52, topY: 7 };   // 结构尺寸，模型加载完后由 buildStructure 给出
 
@@ -168,6 +170,7 @@ function swapPlan(A, B) {
 function swap(A, B) {
   const plan = swapPlan(A, B);
   if (!plan) { sel = { kind: 'placed', id: A.id, swap: true, failed: TYPES[B.type].name }; renderUI(); return; }
+  touched();
   occupy(A, null); occupy(B, null);
   A.slot = plan.get(A); B.slot = plan.get(B);
   occupy(A, A.id); occupy(B, B.id);
@@ -204,6 +207,7 @@ function setSel(next) {
 }
 function applyAt(slot) {
   if (!sel || slot < 0) return;
+  touched();
   if (sel.kind === 'lib') place(sel.type, slot, true);
   else { const p = placements.get(sel.id); if (p && !p.busy) move(p, slot); }
   showTarget(1, -1);
@@ -522,10 +526,10 @@ function renderUI() {
       p.bracketMode = BRACKET_MODES[(BRACKET_MODES.indexOf(p.bracketMode) + 1) % BRACKET_MODES.length];
       setBracket(p.bracket, p.bracketMode); renderUI();
     }));
-    hint.appendChild(btn(t('btn.remove'), p.interfaces.length ? 'ghost' : '', () => removeCard(p)));
+    hint.appendChild(btn(t('btn.remove'), p.interfaces.length ? 'ghost' : '', () => { touched(); removeCard(p); }));
     hint.appendChild(btn(t('btn.cancel'), 'ghost', () => setSel(null)));
   }
-  if (placements.size && !inspect) hint.appendChild(btn(t('btn.clear'), 'ghost', clearAll));
+  if (placements.size && !inspect) hint.appendChild(btn(t('btn.clear'), 'ghost', () => { clearAll(); touched(); }));
 
   let typ = 0, peak = 0, wh = 0, missing = 0;
   placements.forEach(p => { const T = TYPES[p.type]; if (T.typ == null && !T.wh) missing++; typ += T.typ || 0; peak += T.peak || 0; wh += T.wh || 0; });
@@ -605,13 +609,13 @@ document.getElementById('rotL').addEventListener('click', () => turnBy(-Math.PI 
 document.getElementById('rotR').addEventListener('click', () => turnBy(Math.PI / 2));
 document.getElementById('resetView').addEventListener('click', () => {
   // 查看接口时回到进入查看时的视角
-  const h = inspect ? inspect.home : { yaw: Math.PI / 4, pitch: ISO, zoom: 1 };
+  const h = inspect ? inspect.home : { yaw: HOME_YAW, pitch: ISO, zoom: 1 };
   tween(view, 'yaw', nearAngle(h.yaw, view.yaw), 420, easeInOut); tween(view, 'pitch', h.pitch, 420, easeInOut); tween(view, 'zoom', h.zoom, 420, easeInOut);
 });
 window.addEventListener('keydown', e => {
   if (e.key === 'Escape') { if (inspect) exitInspect(); else setSel(null); }
   if (inspect) return;
-  if ((e.key === 'Delete' || e.key === 'Backspace') && sel && sel.kind === 'placed') { const p = placements.get(sel.id); if (p && !p.busy) removeCard(p); }
+  if ((e.key === 'Delete' || e.key === 'Backspace') && sel && sel.kind === 'placed') { const p = placements.get(sel.id); if (p && !p.busy) { touched(); removeCard(p); } }
 });
 
 /* ---------- 主题、尺寸、循环 ---------- */
@@ -692,6 +696,8 @@ function loadLayout(key) {
   layout = key; renderLayouts();
   setTimeout(() => { if (run === mine) playLayout(key); }, ms);
 }
+// 手动改动过板卡后，当前配置就不再是某套预设，选择器切到 Custom
+function touched() { if (LAYOUTS.custom && layout !== 'custom') { layout = 'custom'; renderLayouts(); } }
 function renderLayouts() {
   layoutsEl.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.key === layout)));
 }
