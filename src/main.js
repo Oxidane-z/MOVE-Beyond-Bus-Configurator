@@ -98,7 +98,7 @@ function occupy(p, v) { for (let k = 0; k < TYPES[p.type].w; k++) slots[p.slot +
 // opts：{ bracket, exps }，恢复一套配置时带上；不带就用默认的支架面和扩展板
 function place(type, slot, animate, opts) {
   // 模型还没加载完，或者目标槽位已被占用时不放。加载期间抢先放板会和随后落下的默认布局叠在一起
-  if (!ready || !loaded.has(type) || !hasModel(type)) return;
+  if (!ready || bpBusy || !loaded.has(type) || !hasModel(type)) return;
   for (let k = 0; k < TYPES[type].w; k++) if (!isFree(slot + k, null)) return;
   const built = buildCard(type);
   const p = { id: nextId++, type, slot, group: built.group, hit: built.hit, busy: false, interfaces: [], ownInterfaces: built.interfaces,
@@ -401,7 +401,7 @@ function updateInspect() {
 
 /* ---------- 槽位编号标记 ---------- */
 const slotMarksEl = document.getElementById('slotMarks');
-let ready = false;
+let ready = false, bpBusy = false;   // bpBusy：正在换背板（板卡悬在半空，新旧背板在滑动）
 for (let i = 0; i < SLOTS; i++) {
   const b = document.createElement('button');
   b.type = 'button'; b.className = 'slotmark'; b.textContent = i + 1; b.hidden = true;
@@ -419,7 +419,7 @@ function updateSlotMarks() {
   _v.set(x, S.topY, slotZ(1)).project(camera);
   const crowded = Math.max(Math.abs(_v.x - ax) * w, Math.abs(_v.y - ay) * h) / 2 < 16;
   slotMarks.forEach((b, i) => {
-    b.hidden = !!inspect || !ready || crowded;
+    b.hidden = !!inspect || !ready || crowded || bpBusy;
     if (!b.hidden) toScreen(_v.set(x, S.topY, slotZ(i)), b);
   });
 }
@@ -566,7 +566,7 @@ function renderUI() {
     hint.appendChild(btn(t('btn.back'), 'ghost', exitInspect, 'back'));
   } else if (!sel) {
     span.textContent = !ready ? t('hint.loading') : failed.size ? t('hint.failed', { names: [...failed].map(k => TYPES[k].name).join(', ') }) : t('hint.idle');
-    if (bpCard && bpCard.interfaces.length && !applying) hint.appendChild(btn(t('btn.backplane'), 'ghost', () => enterInspect(bpCard), 'backplane'));
+    if (bpCard && bpCard.interfaces.length && !applying && !bpBusy) hint.appendChild(btn(t('btn.backplane'), 'ghost', () => enterInspect(bpCard), 'backplane'));
   } else if (sel.kind === 'lib') {
     const T = TYPES[sel.type];
     span.textContent = failed.has(sel.type) ? t('hint.loadFailed', { name: T.name })
@@ -1033,15 +1033,31 @@ renderLayouts();
 // 背板可以换型号。各型号的槽位位置相同，只是外形、板上器件和连接器高度略有差别，所以换背板时板卡留在原位
 const bpsEl = document.getElementById('backplanes');
 let bpKey = null, bpLoading = false;
+// 换背板的过程：板卡一起抬起悬住，旧背板朝画面右侧滑出去，新背板从左侧滑进来，板卡再落回连接器。
+// 第一次加载（还没有背板）不做动画
+const BP_LIFT = 45;
 async function setBackplane(key) {
   if (key === bpKey || bpLoading || inspect) return;
   bpLoading = true;
   const B = BACKPLANES[key];
   await loadBackplane(key, B);
-  bpLoading = false;
-  if (inspect) return;
+  if (inspect) { bpLoading = false; return; }
   setSel(null);
-  if (S.group) scene.remove(S.group);
+  const old = S.group;
+  let lifted = [];
+  if (old) {
+    bpBusy = true;
+    // 正在自己做动画的板卡（刚落位、正在拔出）不管，其余的一起抬起
+    lifted = [...placements.values()].filter(q => !q.busy);
+    lifted.forEach(q => { q.busy = true; });
+    renderUI();
+    await Promise.all(lifted.map(q => tween(q.group.position, 'y', SEAT_Y + BP_LIFT, 240, easeOut)));
+  }
+  // 滑动方向：画面的水平方向落到背板平面上；距离取够滑出画面
+  _r.set(1, 0, 0).applyQuaternion(camera.quaternion); _r.y = 0;
+  if (_r.lengthSq() < 1e-6) _r.set(1, 0, 0);
+  _r.normalize();
+  const dist = 2 * camera.right / view.zoom + 140, dx = _r.x * dist, dz = _r.z * dist;
   S = buildStructure(scene, key, B);
   bpKey = key; bpCard = null;
   if (S.group) {
@@ -1049,10 +1065,25 @@ async function setBackplane(key) {
     addInterfaces(bpCard.interfaces, ifaceNotes(B.notes), S.interfaces);
   }
   SEAT_Y = B.seatY; seatPlane.constant = -SEAT_Y;
-  placements.forEach(p => { if (!p.busy) p.group.position.y = SEAT_Y; });
-  // 镜头对准结构中心
-  HOME.tx = view.tx = S.cx; HOME.tz = view.tz = S.cz;
   bpsEl.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.key === bpKey)));
+  HOME.tx = S.cx; HOME.tz = S.cz;   // 镜头对准结构中心
+  if (old) {
+    const slide = (g, x, z, ms, ease) => Promise.all([tween(g.position, 'x', x, ms, ease), tween(g.position, 'z', z, ms, ease)]);
+    const out = slide(old, dx, dz, 380, easeIn).then(() => scene.remove(old));
+    let into = null;
+    if (S.group) { S.group.position.x = -dx; S.group.position.z = -dz; into = slide(S.group, 0, 0, 440, easeOut); }
+    tween(view, 'tx', S.cx, 440, easeInOut); tween(view, 'tz', S.cz, 440, easeInOut);
+    await Promise.all([out, into]);
+    await Promise.all(lifted.map(q => !placements.has(q.id) ? null
+      : tween(q.group.position, 'y', SEAT_Y + 7, 240, easeOut)
+          .then(() => tween(q.group.position, 'y', SEAT_Y, 140, easeIn))
+          .then(() => { q.busy = false; })));
+    bpBusy = false;
+  } else {
+    view.tx = S.cx; view.tz = S.cz;
+    placements.forEach(q => { if (!q.busy) q.group.position.y = SEAT_Y; });
+  }
+  bpLoading = false;
   renderUI();
 }
 Object.entries(BACKPLANES).forEach(([key, B]) => {
