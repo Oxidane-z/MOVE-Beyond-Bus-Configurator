@@ -202,11 +202,7 @@ function removeCard(p) {
   renderUI();
 }
 function setSel(next) {
-  const prev = sel && sel.kind === 'placed' ? placements.get(sel.id) : null;
-  sel = next;
-  const cur = sel && sel.kind === 'placed' ? placements.get(sel.id) : null;
-  if (prev && prev !== cur && !prev.busy) tween(prev.group.position, 'y', SEAT_Y, 220, easeInOut);
-  if (cur && cur !== prev && !cur.busy) tween(cur.group.position, 'y', SEAT_Y + 10, 220, easeOut);
+  sel = next;   // 选中的板抬起、其余落回，由 renderUI 里的 syncLift 按当前状态统一处理
   showTarget(1, -1);
   renderUI();
 }
@@ -548,8 +544,20 @@ filterGroups.forEach(g => g.chips.forEach(([value, label]) => {
 }
 applyFilters();
 
+// 选中的那块板抬起一点，其余的都落回槽里。每次界面更新时按当前的选中状态重新对一遍，
+// 而不是只在“换选中”的那一刻动这两块板：有些路径直接改了选中（互换失败、撤销），靠增量更新会留下悬在半空的板
+function syncLift() {
+  placements.forEach(p => {
+    if (p.busy) { p.lifted = false; return; }   // 正在做别的动画，结束时落在槽里
+    const want = !inspect && !!sel && sel.kind === 'placed' && sel.id === p.id;
+    if (!!p.lifted === want) return;
+    p.lifted = want;
+    tween(p.group.position, 'y', want ? SEAT_Y + 10 : SEAT_Y, 220, want ? easeOut : easeInOut);
+  });
+}
 function renderUI() {
   dirty = true;
+  syncLift();
   // 操作栏和槽位条每次整体重建。记下键盘焦点在哪个按钮上，重建后还给同一个按钮
   const ae = document.activeElement, refocus = ae && (hint.contains(ae) || strip.contains(ae)) ? { id: ae.id, act: ae.dataset.act } : null;
   libPanel.hidden = !!inspect; ifacePanel.hidden = !inspect;
