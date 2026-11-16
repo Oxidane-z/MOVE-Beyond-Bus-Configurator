@@ -9,6 +9,7 @@
 // system.json 顶层的 "power"：
 //   rails    背板分给每个槽的电源轨，{key: {label, efficiency}}。efficiency 是从电池到这一路的转换效率，
 //            VSYS 直接来自电池所以是 1；3V3 和 5V 经过稳压，实际效率填进来之前先按 1 算
+//            volts 是这一路的电压（VSYS 取低压保护点，电流按最坏情况算），limit 是每个槽在这一路上的电流上限（安）
 //   usable   电池容量里可用的比例（放电深度），默认 1
 export const LEVELS = ['idle', 'typ', 'peak'];
 const zero = () => ({ idle: 0, typ: 0, peak: 0 });
@@ -55,6 +56,15 @@ export function budget(types, P = {}) {
   b.usable = b.wh * (P.usable != null ? P.usable : 1);
   LEVELS.forEach(k => { b.runtime[k] = b.usable > 0 && b.draw[k] > 0 ? b.usable / b.draw[k] : null; });
   return b;
+}
+
+// 一块板在各电源轨上的峰值电流，以及是否超过单槽上限。defs 是 system.json 的 power.rails。
+// 返回 [{ rail, amps, limit, over }]，只含登记了电压的轨
+export function railCurrents(bp, defs = {}) {
+  return Object.entries(bp.rails).filter(([rail]) => defs[rail] && defs[rail].volts > 0).map(([rail, r]) => {
+    const amps = r.peak / defs[rail].volts, limit = defs[rail].limit;
+    return { rail, amps, limit, over: limit != null && amps > limit };
+  });
 }
 
 export const fmtW = v => (v >= 10 ? v.toFixed(1) : v.toFixed(2)) + ' W';

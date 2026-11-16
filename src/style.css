@@ -151,6 +151,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .prow .nm { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .prow .val { grid-column: 2 / -1; font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .prow .val.none { color: var(--muted); }
+.prow.over { border-color: var(--accent); }
+.prow .warn { grid-column: 2 / -1; font-size: 11px; color: var(--accent); }
 .prow .sub { grid-column: 2 / -1; font-family: var(--mono); font-size: 11px; color: var(--muted); }
 .ptotal { margin: 4px 0 0; display: flex; flex-direction: column; gap: 2px; border-top: 1.5px solid var(--rule); padding-top: 8px; }
 .ptotal div { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }

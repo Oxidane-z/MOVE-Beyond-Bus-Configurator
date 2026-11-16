@@ -4,7 +4,7 @@ import { t, applyStatic } from './i18n.js';
 import { applyTheme, setResolution, drawSilhouette, SIL_LAYER } from './render.js';
 import { isFree as isFreeIn, fit as fitIn, swapPlan as swapPlanIn } from './slots.js';
 import { inkOn } from './color.js';
-import { LEVELS, boardPower, budget, fmtW, fmtH } from './power.js';
+import { LEVELS, boardPower, budget, railCurrents, fmtW, fmtH } from './power.js';
 import { BRACKET_MODES, serialize, parse, presetCfg, defaultBracket } from './config.js';
 import { buildStructure, buildCard as buildCardGeo, buildExpansion, loadBackplane, loadBoard, hasModel, setBracket } from './models.js';
 
@@ -572,6 +572,11 @@ function renderPower(B) {
     if (bp) {
       const parts = Object.entries(bp.rails).map(([k, v]) => railLabel(k) + ' ' + fmtW(v.typ));
       r.appendChild(el('span', 'sub', [...parts, t('power.source.' + bp.source)].join(' · ')));
+      // 峰值电流超过单槽上限的电源轨
+      railCurrents(bp, RAILS).filter(c => c.over).forEach(c => {
+        r.classList.add('over');
+        r.appendChild(el('span', 'warn', t('power.over', { rail: railLabel(c.rail), a: c.amps.toFixed(1), limit: c.limit })));
+      });
     }
     rowsEl.appendChild(r);
   });

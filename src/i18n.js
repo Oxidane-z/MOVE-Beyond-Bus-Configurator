@@ -47,6 +47,7 @@ const STRINGS = {
     'power.none': 'None of these boards has power data yet. Add a "power" entry to the board in system.json.',
     'power.missing': '{n} without power data, not counted.',
     'power.header': 'idle / typ / peak',
+    'power.over': '{rail} peak {a} A exceeds the {limit} A slot limit',
     'hover.interfaces': 'Interfaces',
     'hover.capacity': 'Capacity',
     'hover.power': 'Power',

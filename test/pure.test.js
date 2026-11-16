@@ -118,3 +118,12 @@ describe('power', () => {
     expect(budget([{ power: { typ: 1 } }], P).runtime.typ).toBe(null);
   });
 });
+
+import { railCurrents } from '../src/power.js';
+describe('rail limits', () => {
+  it('flags a rail whose peak current exceeds the slot limit', () => {
+    const defs = { '5v': { volts: 5, limit: 5 }, vsys: { volts: 6.5, limit: 5 }, x: {} };
+    const c = railCurrents(boardPower({ power: { rails: { '5v': [5, 10, 30], vsys: [0, 1, 13], x: [1, 1, 1] } } }), defs);
+    expect(c.map(v => [v.rail, +v.amps.toFixed(2), v.over])).toEqual([['5v', 6, true], ['vsys', 2, false]]);
+  });
+});
