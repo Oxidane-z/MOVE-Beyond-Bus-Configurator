@@ -8,7 +8,6 @@ export const uShade = { value: new THREE.Color() };
 export const lineMat = new LineMaterial({ color: 0x000000, linewidth: 1.6 });
 // 深色表面上的描边用浅色，否则深色元器件在深色板上糊成一片
 export const lineMatLight = new LineMaterial({ color: 0xffffff, linewidth: 1.3 });
-export const ghostMat = new LineMaterial({ color: 0x000000, linewidth: 2.4, depthTest: false });
 export const hitMat = new THREE.MeshBasicMaterial({ visible: false });
 
 // 元器件只用三种材质色，不带 CAD 原色
@@ -109,26 +108,16 @@ export function fatLines(positions, mat = lineMat) {
   return new LineSegments2(lg, mat);
 }
 
-export function wireBox(parent, w, h, d, x, y, z, mat) {
-  const o = new THREE.Object3D();
-  o.position.set(x, y, z);
-  o.add(fatLines(new THREE.EdgesGeometry(new THREE.BoxGeometry(w, h, d), 25).attributes.position.array, mat));
-  parent.add(o);
-  return o;
-}
-
 export function setResolution(w, h) {
   lineMat.resolution.set(w, h);
   lineMatLight.resolution.set(w, h);
-  ghostMat.resolution.set(w, h);
 }
 
-// 从 CSS 变量读取线条色、阴影色和强调色，随主题切换更新
+// 从 CSS 变量读取线条色和阴影色，随主题切换更新
 export function applyTheme() {
   const cs = getComputedStyle(document.documentElement);
   const v = n => cs.getPropertyValue(n).trim();
   lineMat.color.set(v('--line3d'));
   lineMatLight.color.set(v('--line3d-light'));
   uShade.value.set(v('--shade3d'));
-  ghostMat.color.set(v('--accent'));
 }

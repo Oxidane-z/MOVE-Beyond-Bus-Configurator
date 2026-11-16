@@ -15,6 +15,7 @@ const STRINGS = {
     'hint.noRoom2': 'No room for {name}. It needs two adjacent slots.',
     'hint.selected': '{name} selected. Pick another empty slot to move it.',
     'hint.inspect': 'Inspecting {name}. Hover or click a number for details.',
+    'banner.slot': 'Slot {n}',
     'btn.cancel': 'Cancel',
     'btn.remove': 'Remove',
     'btn.clear': 'Clear all',

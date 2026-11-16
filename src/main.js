@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import sys from '../system.json';
 import { t, applyStatic } from './i18n.js';
-import { wireBox, ghostMat, applyTheme, setResolution } from './render.js';
+import { applyTheme, setResolution } from './render.js';
 import { buildStructure, buildCard as buildCardGeo, loadModels, hasModel, setBracket } from './models.js';
 
 const SLOTS = sys.slots, PITCH = sys.pitch, SEAT_Y = sys.seatY, TYPES = sys.boards, INITIAL = sys.initial;
@@ -40,14 +40,13 @@ const TARGET = new THREE.Vector3();
 let S = { cx: 0, cz: 0, hx: 52, topY: 7 };   // 结构尺寸，模型加载完后由 buildStructure 给出
 
 /* ---------- 落位预览 ---------- */
-const ghosts = { 1: wireBox(scene, 100, 94, PITCH - 1, 0, SEAT_Y + 47, 0, ghostMat),
-                 2: wireBox(scene, 100, 94, PITCH * 2 - 1, 0, SEAT_Y + 47, 0, ghostMat) };
-ghosts[1].visible = ghosts[2].visible = false;
-function showGhost(w, slot) {
-  ghosts[1].visible = ghosts[2].visible = false;
-  if (slot < 0) return;
-  ghosts[w].visible = true;
-  ghosts[w].position.z = slotZ(slot) + (w === 2 ? PITCH / 2 : 0);
+// 光标指向可落位的槽时：背景里浮出槽位号，对应的编号标记变成强调色
+const banner = document.getElementById('slotBanner'), slotMarks = [];
+function showTarget(w, slot) {
+  const on = slot >= 0;
+  banner.classList.toggle('on', on);
+  if (on) banner.textContent = t('banner.slot', { n: w === 2 ? (slot + 1) + '–' + (slot + 2) : slot + 1 });
+  slotMarks.forEach((b, i) => b.classList.toggle('target', on && i >= slot && i < slot + w));
 }
 
 /* ---------- 补间 ---------- */
@@ -136,14 +135,14 @@ function setSel(next) {
   const cur = sel && sel.kind === 'placed' ? placements.get(sel.id) : null;
   if (prev && prev !== cur && !prev.busy) tween(prev.group.position, 'y', SEAT_Y, 220, easeInOut);
   if (cur && cur !== prev && !cur.busy) tween(cur.group.position, 'y', SEAT_Y + 10, 220, easeOut);
-  showGhost(1, -1);
+  showTarget(1, -1);
   renderUI();
 }
 function applyAt(slot) {
   if (!sel || slot < 0) return;
   if (sel.kind === 'lib') place(sel.type, slot, true);
   else { const p = placements.get(sel.id); if (p && !p.busy) move(p, slot); }
-  showGhost(1, -1);
+  showTarget(1, -1);
 }
 // 点槽位（3D 里的编号标记或下方槽位条）：选了板卡就落位，否则选中槽里的板
 function slotClick(i) {
@@ -153,7 +152,7 @@ function slotClick(i) {
   const p = slots[i] === null ? null : placements.get(slots[i]);
   if (p && !p.busy) setSel(sel && sel.id === p.id ? null : { kind: 'placed', id: p.id });
 }
-function slotHover(i) { const a = armed(); if (a && !inspect) showGhost(a.w, fit(a.w, i, a.ignore)); }
+function slotHover(i) { const a = armed(); if (a && !inspect) showTarget(a.w, fit(a.w, i, a.ignore)); }
 
 /* ---------- 单板查看 ---------- */
 const LIFT = 118, TAU = Math.PI * 2;
@@ -167,7 +166,7 @@ const normYaw = () => Math.atan2(Math.sin(view.yaw), Math.cos(view.yaw));
 
 function enterInspect(p) {
   if (inspect || p.busy || !p.interfaces.length) return;
-  sel = null; showGhost(1, -1);
+  sel = null; showTarget(1, -1);
   inspect = { p, s: { spin: 0, turn: 0 }, zoom: view.zoom, hover: null, pinned: null, marks: [], items: [] };
   p.busy = true; p.spin = inspect.s;
 
@@ -265,14 +264,14 @@ function updateInspect() {
 }
 
 /* ---------- 槽位编号标记 ---------- */
-const slotMarksEl = document.getElementById('slotMarks'), slotMarks = [];
+const slotMarksEl = document.getElementById('slotMarks');
 let ready = false;
 for (let i = 0; i < SLOTS; i++) {
   const b = document.createElement('button');
   b.type = 'button'; b.className = 'slotmark'; b.textContent = i + 1; b.hidden = true;
   b.addEventListener('click', () => slotClick(i));
   b.addEventListener('mouseenter', () => slotHover(i));
-  b.addEventListener('mouseleave', () => showGhost(1, -1));
+  b.addEventListener('mouseleave', () => showTarget(1, -1));
   slotMarksEl.appendChild(b);
   slotMarks.push(b);
 }
@@ -335,7 +334,7 @@ function renderUI() {
       no.textContent = String(i + 1);
       c.setAttribute('aria-label', t('aria.slot', { n: i + 1, what: t('aria.empty') }));
       c.addEventListener('mouseenter', () => slotHover(i));
-      c.addEventListener('mouseleave', () => showGhost(1, -1));
+      c.addEventListener('mouseleave', () => showTarget(1, -1));
     }
     c.addEventListener('click', () => slotClick(i));
     c.appendChild(no);
@@ -413,7 +412,7 @@ cv.addEventListener('pointermove', e => {
     const dx = e.clientX - pd.x, dy = e.clientY - pd.y, mouse = e.pointerType === 'mouse';
     if (!dragging && (Math.abs(dx) > 6 || (mouse && Math.abs(dy) > 6))) {
       dragging = true; killTween(view, 'yaw'); killTween(view, 'pitch'); if (inspect) killTween(inspect.s, 'turn');
-      showGhost(1, -1); cv.style.cursor = 'grabbing';
+      showTarget(1, -1); cv.style.cursor = 'grabbing';
     }
     if (!dragging) return;
     // 查看接口时拖动的是被查看的板卡本身，镜头和背后的堆叠不动
@@ -425,7 +424,7 @@ cv.addEventListener('pointermove', e => {
     }
   } else if (!inspect) {
     const h = pick(e);
-    if (h.a) showGhost(h.a.w, h.slot);
+    if (h.a) showTarget(h.a.w, h.slot);
     cv.style.cursor = h.slot >= 0 || h.card ? 'pointer' : 'grab';
   }
 });
@@ -441,7 +440,7 @@ cv.addEventListener('pointerup', e => {
   pd = null; dragging = false; cv.style.cursor = 'grab';
 });
 cv.addEventListener('pointercancel', () => { if (dragging && inspect) snapTurn(); pd = null; dragging = false; });
-cv.addEventListener('pointerleave', () => { if (!pd) showGhost(1, -1); });
+cv.addEventListener('pointerleave', () => { if (!pd) showTarget(1, -1); });
 cv.addEventListener('wheel', e => { e.preventDefault(); view.zoom = clamp(view.zoom * (e.deltaY < 0 ? 1.08 : 0.926), 0.6, 3); }, { passive: false });
 const turnBy = d => inspect ? flipInspect() : tween(view, 'yaw', view.yaw + d, 420, easeInOut);
 document.getElementById('rotL').addEventListener('click', () => turnBy(-Math.PI / 2));
@@ -501,9 +500,8 @@ renderUI();
 requestAnimationFrame(frameLoop);
 loadModels(sys).then(() => {
   S = buildStructure(scene, sys);
-  // 镜头和落位预览都对准结构中心
+  // 镜头对准结构中心
   HOME.tx = view.tx = S.cx; HOME.tz = view.tz = S.cz;
-  ghosts[1].position.x = ghosts[2].position.x = S.cx;
   ready = true;
   INITIAL.forEach(c => place(c[0], c[1], false));
   renderUI();
