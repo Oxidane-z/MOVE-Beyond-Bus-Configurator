@@ -31,19 +31,19 @@
  "slots": null,
  "counts": {
   "board": 1,
-  "parts": 37,
+  "parts": 36,
   "blocks": 37,
   "bits": 1417,
   "decals": 276,
-  "interface": 246
+  "interface": 247
  },
  "triangles": {
   "board": 4052,
-  "parts": 35251,
+  "parts": 35099,
   "blocks": 444,
   "bits": 17004,
   "decals": 552,
-  "interface": 127548,
+  "interface": 127700,
   "instanced": 504
  },
  "split": {
@@ -3210,7 +3210,7 @@
     2.9,
     4.25
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 152,
    "edgeSegments": 104
   },

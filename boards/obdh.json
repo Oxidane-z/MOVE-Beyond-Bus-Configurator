@@ -2,16 +2,17 @@
   "interfaces": [
     {"ref": "BUS", "match": ["ERM8-030*"], "label": "Backplane connector", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot."},
     {"ref": "EXP", "match": ["QTE-*", "P2T-*", "PT-1S39*"], "label": "Expansion connector", "type": "expansion", "connector": "Samtec QTE-020", "desc": "Board-to-board connector for the expansion board."},
-    {"ref": "ETH", "match": ["Shielding", "Insulator"], "label": "Ethernet", "type": "io", "connector": "RJ45", "desc": "Identified from the shape in the CAD model. Function not documented yet."},
-    {"ref": "USB-A", "match": ["692121030100*"], "label": "USB-A", "type": "io", "connector": "Würth 692121030100", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "USB", "match": ["629722000214*"], "label": "USB", "type": "io", "connector": "Würth 629722000214", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "HDMI1", "match": ["685219134123*"], "cluster": 0, "label": "HDMI 1", "type": "io", "connector": "Würth 685219134123", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "HDMI2", "match": ["685219134123*"], "cluster": 1, "label": "HDMI 2", "type": "io", "connector": "Würth 685219134123", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "M2", "match": ["Conn_TE_1-2199230-6*"], "label": "M.2 socket", "type": "io", "connector": "TE 1-2199230-6", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "ARF1", "match": ["ARF6-08*", "C-49?-08*", "IM-C-49?-08*"], "cluster": 0, "label": "ARF6 socket 1", "type": "io", "connector": "Samtec ARF6-08", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "ARF2", "match": ["ARF6-08*", "C-49?-08*", "IM-C-49?-08*"], "cluster": 1, "label": "ARF6 socket 2", "type": "io", "connector": "Samtec ARF6-08", "desc": "Identified from the part number in the CAD model. Function not documented yet."},
-    {"ref": "USB-C", "match": ["shell_ext*", "shell int*"], "label": "USB-C", "type": "io", "connector": "USB Type-C", "desc": "Function not documented yet."},
-    {"ref": "MLP1", "match": ["body*", "mtn*"], "cluster": 0, "label": "Micro-Lock Plus 1", "type": "io", "connector": "Molex Micro-Lock Plus", "desc": "Function not documented yet."},
-    {"ref": "MLP2", "match": ["body*", "mtn*"], "cluster": 1, "label": "Micro-Lock Plus 2", "type": "io", "connector": "Molex Micro-Lock Plus", "desc": "Function not documented yet."}
+    {"ref": "ETH", "match": ["Shielding", "Insulator"], "label": "Ethernet", "type": "io", "connector": "RJ45", "desc": "Ethernet port."},
+    {"ref": "USB-A", "match": ["692121030100*"], "label": "USB 3.0 (Type-A)", "type": "io", "connector": "USB Type-A", "desc": "USB 3.0 host port."},
+    {"ref": "USB", "match": ["629722000214*"], "label": "USB 2.0", "type": "io", "connector": "Würth 629722000214", "desc": "USB 2.0 port. Can also power the board."},
+    {"ref": "HDMI1", "match": ["685219134123*"], "cluster": 0, "label": "HDMI 1", "type": "io", "connector": "HDMI", "desc": "Video output."},
+    {"ref": "HDMI2", "match": ["685219134123*"], "cluster": 1, "label": "HDMI 2", "type": "io", "connector": "HDMI", "desc": "Video output."},
+    {"ref": "M2", "match": ["Conn_TE_1-2199230-6*"], "label": "M.2 slot", "type": "io", "connector": "M.2", "desc": "Mainly used for an SSD. A Raspberry Pi AI accelerator card should also fit."},
+    {"ref": "ARF1", "match": ["ARF6-08*", "C-49?-08*", "IM-C-49?-08*"], "cluster": 0, "label": "MIPI 1", "type": "io", "connector": "Samtec ARF6-08", "desc": "4-lane MIPI interface."},
+    {"ref": "ARF2", "match": ["ARF6-08*", "C-49?-08*", "IM-C-49?-08*"], "cluster": 1, "label": "MIPI 2", "type": "io", "connector": "Samtec ARF6-08", "desc": "4-lane MIPI interface."},
+    {"ref": "USB-C", "match": ["shell_ext*", "shell int*"], "label": "USB 3.0 (Type-C)", "type": "io", "connector": "USB Type-C", "desc": "USB 3.0 port. Can also power the board."},
+    {"ref": "MLP1", "match": ["body*", "mtn*"], "cluster": 0, "label": "GPIO", "type": "io", "connector": "Molex Micro-Lock Plus", "desc": "A selection of preferred GPIOs."},
+    {"ref": "MLP2", "match": ["body*", "mtn*"], "cluster": 1, "label": "VSYS out", "type": "power", "connector": "Molex Micro-Lock Plus 2P", "desc": "GND and VSYS as supplied by the backplane."},
+    {"ref": "PWR-BTN", "match": ["BNody*"], "label": "Power button", "type": "switch", "connector": "", "desc": "Turns the board on."}
   ]
 }
