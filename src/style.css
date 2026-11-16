@@ -92,8 +92,12 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .main { gap: 8px; }
   .stage { min-height: 160px; }
   .dock { gap: 6px; }
-  .hint, .stats { flex-wrap: nowrap; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
-  .hint button, .stats div { flex: none; }
+  /* 提示文字单独一行（放不下就截断），按钮在下面换行排开，不用横向滚动 */
+  .hint { gap: 6px; min-height: 0; }
+  .hint span { flex: 0 0 100%; min-width: 0; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hint button { padding: 3px 9px; font-size: 12px; }
+  .stats { flex-wrap: nowrap; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+  .stats div { flex: none; }
   .cell { height: 40px; }
   .lib { overflow-y: auto; overscroll-behavior: contain; padding-right: 0; }
 }
