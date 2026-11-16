@@ -8,6 +8,7 @@ const STRINGS = {
     'meta.slots.n': '{n} slots',
     'meta.noPower': 'power n/a',
     'meta.interfaces': '{n} interfaces',
+    'hint.loading': 'Loading models…',
     'hint.idle': 'Pick a board, then pick a slot. Drag to rotate.',
     'hint.place': 'Pick an empty slot for {name}.',
     'hint.place2': 'Pick an empty slot for {name}. It needs two adjacent slots.',

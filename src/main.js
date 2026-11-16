@@ -83,7 +83,9 @@ function armed() {
 function occupy(p, v) { for (let k = 0; k < TYPES[p.type].w; k++) slots[p.slot + k] = v; }
 
 function place(type, slot, animate) {
-  if (!hasModel(type)) return;   // 模型没加载出来
+  // 模型还没加载完，或者目标槽位已被占用时不放。加载期间抢先放板会和随后落下的默认布局叠在一起
+  if (!ready || !hasModel(type)) return;
+  for (let k = 0; k < TYPES[type].w; k++) if (!isFree(slot + k, null)) return;
   const built = buildCard(type);
   const p = { id: nextId++, type, slot, group: built.group, hit: built.hit, busy: false, interfaces: [], ownInterfaces: built.interfaces,
               pivot: built.pivot, body: built.body, front: built.front, faceOffset: built.faceOffset, cx: built.cx, cy: built.cy,
@@ -344,7 +346,10 @@ Object.keys(TYPES).forEach(key => {
 
 function renderUI() {
   libPanel.hidden = !!inspect; ifacePanel.hidden = !inspect;
-  libList.querySelectorAll('.item').forEach(b => b.setAttribute('aria-pressed', String(!!sel && sel.kind === 'lib' && sel.type === b.dataset.type)));
+  libList.querySelectorAll('.item').forEach(b => {
+    b.disabled = !ready;
+    b.setAttribute('aria-pressed', String(!!sel && sel.kind === 'lib' && sel.type === b.dataset.type));
+  });
   const a = inspect ? null : armed();
 
   strip.textContent = '';
@@ -390,7 +395,7 @@ function renderUI() {
     hint.appendChild(btn(t('btn.flip'), '', flipInspect));
     hint.appendChild(btn(t('btn.back'), 'ghost', exitInspect));
   } else if (!sel) {
-    span.textContent = t('hint.idle');
+    span.textContent = t(ready ? 'hint.idle' : 'hint.loading');
   } else if (sel.kind === 'lib') {
     const T = TYPES[sel.type];
     span.textContent = t((anyFit(T.w, null) ? 'hint.place' : 'hint.noRoom') + (T.w === 2 ? '2' : ''), { name: T.name });
