@@ -26,7 +26,7 @@ const STRINGS = {
     'btn.flip': 'Flip',
     'btn.back': 'Back',
     'btn.swap': 'Swap',
-    'btn.expansion': 'Expansion: {name}',
+    'btn.expansion': '{site}: {name}',
     'expansion.none': 'none',
     'expansion.unavailable': 'none available',
     'btn.bracket': 'Bracket: {mode}',

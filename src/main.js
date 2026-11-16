@@ -89,9 +89,10 @@ function place(type, slot, animate) {
   const built = buildCard(type);
   const p = { id: nextId++, type, slot, group: built.group, hit: built.hit, busy: false, interfaces: [], ownInterfaces: built.interfaces,
               pivot: built.pivot, body: built.body, front: built.front, faceOffset: built.faceOffset, cx: built.cx, cy: built.cy,
-              bracket: built.bracket, bracketMode: TYPES[type].bracketSide || 'back', expKey: null, exp: null };
+              bracket: built.bracket, bracketMode: TYPES[type].bracketSide || 'back', exps: sitesOf(type).map(() => ({ key: null, exp: null, by: -1 })) };
   if (p.bracket) setBracket(p.bracket, p.bracketMode);
-  setExpansion(p, (TYPES[type].expansion && TYPES[type].expansion.default) || null);
+  sitesOf(type).forEach((site, i) => { if (site.default) setExpansion(p, i, site.default); });
+  rebuildInterfaces(p);
   built.hit.userData.id = p.id;
   p.group.position.set(0, SEAT_Y, cardZ(type, slot));
   placements.set(p.id, p);
@@ -106,11 +107,30 @@ function place(type, slot, animate) {
   }
   renderUI();
 }
-// 换上或取下扩展板（key 为 null 是取下），并重建接口列表：主板的接口在前，扩展板的接在后面
-function setExpansion(p, key) {
-  if (p.exp) p.body.remove(p.exp.obj);
-  p.exp = key ? buildExpansion(p, key, sys.expansions[key]) : null;
-  p.expKey = p.exp ? key : null;
+// 板卡上的扩展位（system.json 里的 expansionSites）。一块扩展板通常占一个位；expansions 里写了 "sites": 2 的占相邻两个
+const sitesOf = type => TYPES[type].expansionSites || [];
+const spanOf = key => sys.expansions[key].sites || 1;
+function clearSite(p, i) {
+  const e = p.exps[i];
+  if (e.by >= 0) { clearSite(p, e.by); return; }   // 这个位被前一个位上的双位扩展板占着：取下那块板
+  if (e.exp) p.body.remove(e.exp.obj);
+  if (e.key && spanOf(e.key) === 2) p.exps[i + 1] = { key: null, exp: null, by: -1 };
+  p.exps[i] = { key: null, exp: null, by: -1 };
+}
+// 在第 i 个扩展位换上扩展板（key 为 null 是取下）
+function setExpansion(p, i, key) {
+  clearSite(p, i);
+  if (!key) return;
+  const wide = spanOf(key) === 2;
+  if (wide && i + 1 >= p.exps.length) return;
+  if (wide) clearSite(p, i + 1);
+  const exp = buildExpansion(p, key, sys.expansions[key]);
+  if (!exp) return;
+  p.exps[i] = { key, exp, by: -1 };
+  if (wide) p.exps[i + 1] = { key, exp: null, by: i };
+}
+// 重建接口列表：主板的接口在前，各扩展板的依次接在后面
+function rebuildInterfaces(p) {
   p.interfaces = [];
   // 把标注和模型里的接口件按 ref 对上；编号沿用标注文件里的顺序
   const add = (notes, geos) => notes.forEach(note => {
@@ -118,7 +138,7 @@ function setExpansion(p, key) {
     if (geo) p.interfaces.push({ n: p.interfaces.length + 1, note, mat: geo.mat, center: geo.center, side: geo.side, face: geo.face });
   });
   add(ifaceNotes(p.type), p.ownInterfaces);
-  if (p.exp) add(ifaceNotes(p.expKey), p.exp.interfaces);
+  p.exps.forEach(e => { if (e.exp) add(ifaceNotes(e.key), e.exp.interfaces); });
 }
 // 抬起、平移到新槽位、落下。lift 是抬起的高度，互换时两块板用不同高度错开
 function fly(p, lift) {
@@ -405,19 +425,20 @@ function renderUI() {
     span.textContent = sel.failed ? t('hint.swapNoRoom', { name, other: sel.failed }) : t('hint.swap', { name });
     hint.appendChild(btn(t('btn.cancel'), 'ghost', () => setSel(null)));
   } else {
-    const p = placements.get(sel.id), X = TYPES[p.type].expansion;
+    const p = placements.get(sel.id);
     span.textContent = t('hint.selected', { name: TYPES[p.type].name });
     if (p.interfaces.length) hint.appendChild(btn(t('btn.interfaces'), '', () => enterInspect(p)));
     if (placements.size > 1) hint.appendChild(btn(t('btn.swap'), 'ghost', () => { sel = { kind: 'placed', id: p.id, swap: true }; renderUI(); }));
-    if (X) {
-      // 依次切换：各个可用的扩展板，然后是不装
-      const cycle = [...X.options, null];
-      const b = btn(t('btn.expansion', { name: p.expKey ? sys.expansions[p.expKey].name : t(X.options.length ? 'expansion.none' : 'expansion.unavailable') }), 'ghost', () => {
-        setExpansion(p, cycle[(cycle.indexOf(p.expKey) + 1) % cycle.length]); renderUI();
+    sitesOf(p.type).forEach((site, i) => {
+      // 每个扩展位一个按钮，依次切换：各个可用的扩展板，然后是不装
+      const e = p.exps[i], cycle = [...site.options, null];
+      const state = e.key ? sys.expansions[e.key].name : t(site.options.length ? 'expansion.none' : 'expansion.unavailable');
+      const b = btn(t('btn.expansion', { site: site.name, name: state }), 'ghost', () => {
+        setExpansion(p, i, cycle[(cycle.indexOf(e.key) + 1) % cycle.length]); rebuildInterfaces(p); renderUI();
       });
-      b.disabled = !X.options.length;
+      b.disabled = !site.options.length || e.by >= 0;
       hint.appendChild(b);
-    }
+    });
     if (p.bracket) hint.appendChild(btn(t('btn.bracket', { mode: t('bracket.' + p.bracketMode) }), 'ghost', () => {
       p.bracketMode = BRACKET_MODES[(BRACKET_MODES.indexOf(p.bracketMode) + 1) % BRACKET_MODES.length];
       setBracket(p.bracket, p.bracketMode); renderUI();

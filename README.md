@@ -83,15 +83,7 @@ Recovery 的支架和 `bracket-iter2` 是同一个件，拆出来的 `recovery-b
 
 一块板卡上通过板对板连接器叠装的第二块 PCB 可以拆成单独的扩展板。转换时用 `--split 名称=前缀` 加 `--split-board 扩展板PCB的名称前缀`：装在扩展板上的元器件按位置自动跟着拆出去，其余按名称前缀补充（比如没有贴着板面的连接器零件）。输出是同目录下的 `名称.glb`，坐标系与主板相同。
 
-在 `system.json` 的 `expansions` 里登记扩展板（名称、模型、PCB 颜色），再在板卡上写 `"expansion": {"options": [扩展板 key…], "default": key 或 null}`。`options` 为空表示板上有扩展接口但还没有可用的扩展板。扩展板自己的接口写在 `boards/扩展板key.json`。
-
-背板用背板坐标系，并指出槽位连接器的名称前缀。`cad/Backplane_V8.zip` 需要先解压：
-
-```bash
-python pipeline/step2glb.py Backplane_V8.step public/models/backplane --frame backplane --slots SAMTEC_ERF8 --deflection 0.25 --angular 1.3
-```
-
-脚本会在输出的 JSON 里写出各槽位的位置和槽距，`system.json` 里的 `pitch` 和 `seatY` 要与之一致。几何完全相同的元器件（比如 7 个槽位连接器）只存一份网格。
+在 `system.json` 的 `expansions` 里登记扩展板（名称、模型、PCB 颜色），再在板卡的 `expansionSites` 里列出扩展位，每个扩展位写 `{"name": 显示名, "options": [扩展板 key…], "default": key 或 null}`。`options` 为空表示这个位上还没有可用的扩展板。一块板可以有多个扩展位（Recovery 有两个）；同时占用相邻两个扩展位的扩展板在 `expansions` 里加 `"sites": 2`，并列在靠前那个扩展位的 `options` 里。扩展板自己的接口写在 `boards/扩展板key.json`。
 
 ## 标注接口
 
