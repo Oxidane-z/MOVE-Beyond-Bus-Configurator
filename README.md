@@ -2,7 +2,7 @@
 
 MOVE Beyond 卫星 slot card 总线系统的三维交互配置器。正交等轴测视角、平面着色加描边，可在 7 槽背板上自由安排板卡。
 
-当前状态：背板、Piklas、Battery Pack v4.3、ADCS V2.1 和 Rexus OBDH 来自真实 STEP，其余板卡是占位几何，功耗是示例数据。界面文案在 `src/i18n.js`，目前只有英文。
+当前状态：背板、Piklas、Battery Pack v4.3、ADCS V2.1 和 Rexus OBDH 都来自真实 STEP。板卡的功耗数据还没有填，统计栏里对应的项显示为空。界面文案在 `src/i18n.js`，目前只有英文。
 
 ## 运行
 
@@ -25,8 +25,8 @@ npm run build
 | 路径 | 内容 |
 |---|---|
 | `system.json` | 系统描述：槽位数、槽距、板卡库（代际、占槽数、功耗） |
-| `src/render.js` | 平面着色材质、描边、主题色 |
-| `src/models.js` | GLB 加载，以及尚无模型的板卡用的占位几何 |
+| `src/render.js` | 平面着色材质、元器件的三种材质色、描边、主题色 |
+| `src/models.js` | GLB 加载，板卡和背板的实例化 |
 | `src/main.js` | 配置状态、界面、交互、动画 |
 | `boards/` | 每块板的人工标注（接口名称、类型、连接器、用途），文件名与板卡 key 相同 |
 | `cad/` | 原始 STEP 文件 |
@@ -47,7 +47,9 @@ python pipeline/step2glb.py "cad/板卡.step" public/models/板卡名 --annotati
 
 脚本按占板尺寸把元器件分三档：不小于 6 mm 或高于 3 mm 的保留完整几何和棱线，2.2 到 6 mm 的简化成盒体，更小的压平成板面色块。阈值可用 `--small`、`--large`、`--tall` 调整。
 
-转换后在 `system.json` 的 `boards` 里加一条 `"kind": "model"`、`"model": "models/板卡名.glb"` 的记录。
+转换后在 `system.json` 的 `boards` 里加一条带 `"model": "models/板卡名.glb"` 的记录。
+
+查看器不使用 STEP 里的原色：元器件按原色归成深色塑料、浅色金属、铜金三种材质色（规则在 `src/render.js` 的 `classifyColor`），深色表面上的描边自动换成浅色。模型地址带内容哈希（见 `vite.config.js`），重新转换后浏览器不会继续用缓存里的旧模型。
 
 板卡加 `--mate 名称前缀` 指定插入背板的连接器。脚本据此自动定向（连接器朝下，板卡主体偏向 +X），STEP 原本朝哪个方向都可以，并在输出里给出 `front`（PCB 正面朝 +Z 还是 -Z），填进 `system.json`。`--split 名称=前缀|前缀` 可以把支架这类可选件拆成单独的 GLB。例如 Piklas：
 

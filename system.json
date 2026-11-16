@@ -2,7 +2,7 @@
   "slots": 7,
   "pitch": 14.5,
   "seatY": 11.94,
-  "backplane": {"model": "models/backplane.glb", "y": 5, "color": "#3d3a4d"},
+  "backplane": {"model": "models/backplane.glb", "y": 5, "color": "#2c2d31"},
   "initial": [["battery", 0], ["piklas", 2], ["obdh", 3], ["adcs", 5]],
   "levels": {"proto": "Prototype", "iter1": "Iteration 1", "iter2": "Iteration 2"},
   "interfaceTypes": {
@@ -14,16 +14,10 @@
     "trigger": {"label": "Trigger", "color": "#e59ac9"}
   },
   "boards": {
-    "piklas": {"name": "Piklas", "level": "iter2", "w": 1, "kind": "model", "model": "models/piklas.glb", "color": "#6a3fa8", "front": -1, "seat": -3, "bracket": "bracket-iter2"},
-    "battery": {"name": "Battery Pack v4.3", "level": "iter2", "w": 2, "kind": "model", "model": "models/battery.glb", "color": "#6fae8f", "front": 1, "seat": -3, "wh": 64.8},
-    "adcs": {"name": "ADCS V2.1 REXUS edition", "level": "iter2", "w": 1, "kind": "model", "model": "models/adcs.glb", "color": "#3d3a4d", "front": -1, "seat": -3, "bracket": "bracket-iter2"},
-    "obdh": {"name": "Rexus OBDH (CM5)", "level": "iter2", "w": 2, "connectorSlot": 1, "kind": "model", "model": "models/obdh.glb", "color": "#eeeaf5", "front": 1, "seat": -3},
-    "obc2": {"name": "OBC", "level": "iter2", "w": 1, "kind": "std", "color": "#7cc4b8", "typ": 0.8, "peak": 1.5},
-    "eps2": {"name": "EPS", "level": "iter2", "w": 1, "kind": "std", "color": "#f2b872", "typ": 0.3, "peak": 0.6},
-    "com2": {"name": "UHF Comms", "level": "iter2", "w": 1, "kind": "std", "color": "#ef8f84", "typ": 0.5, "peak": 4.0},
-    "bat1": {"name": "Battery Pack", "level": "iter1", "w": 2, "kind": "bat", "color": "#e3d59a", "typ": 0.05, "peak": 0.05, "wh": 37.4},
-    "obc1": {"name": "OBC", "level": "iter1", "w": 1, "kind": "std", "color": "#9fc9c1", "typ": 1.0, "peak": 1.8},
-    "com1": {"name": "UHF Comms", "level": "iter1", "w": 1, "kind": "std", "color": "#f0aaa2", "typ": 0.6, "peak": 4.5}
+    "piklas": {"name": "Piklas", "level": "iter2", "w": 1, "model": "models/piklas.glb", "color": "#6a3fa8", "front": -1, "seat": -3, "bracket": "bracket-iter2"},
+    "battery": {"name": "Battery Pack v4.3", "level": "iter2", "w": 2, "model": "models/battery.glb", "color": "#6fae8f", "front": 1, "seat": -3, "wh": 64.8},
+    "adcs": {"name": "ADCS V2.1 REXUS edition", "level": "iter2", "w": 1, "model": "models/adcs.glb", "color": "#2c2d31", "front": -1, "seat": -3, "bracket": "bracket-iter2"},
+    "obdh": {"name": "Rexus OBDH (CM5)", "level": "iter2", "w": 2, "connectorSlot": 1, "model": "models/obdh.glb", "color": "#ecece9", "front": 1, "seat": -3}
   },
   "accessories": {
     "bracket-iter2": {"label": "Iter 2 standard bracket", "model": "models/bracket-iter2.glb"}

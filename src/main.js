@@ -16,7 +16,7 @@ const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 // 色块上的文字按底色深浅取黑或白
 function inkOn(hex) {
   const n = parseInt(hex.slice(1), 16), l = 0.2126 * (n >> 16 & 255) + 0.7152 * (n >> 8 & 255) + 0.0722 * (n & 255);
-  return l < 140 ? '#ffffff' : '#262338';
+  return l < 140 ? '#ffffff' : '#25262b';
 }
 const levelSuffix = T => T.level === 'iter1' ? t('level.iter1') : T.level === 'proto' ? t('level.proto') : '';
 
@@ -84,14 +84,15 @@ function armed() {
 function occupy(p, v) { for (let k = 0; k < TYPES[p.type].w; k++) slots[p.slot + k] = v; }
 
 function place(type, slot, animate) {
+  if (!hasModel(type)) return;   // 模型没加载出来
   const built = buildCard(type);
-  const p = { id: nextId++, type, slot, group: built.group, hit: built.hit, busy: false, shared: !!built.shared, interfaces: [],
-              pivot: built.pivot || null, faceOffset: built.faceOffset || 0, cx: built.cx || 0, cy: built.cy || 42,
-              bracket: built.bracket || null, bracketMode: TYPES[type].bracketSide || 'back' };
+  const p = { id: nextId++, type, slot, group: built.group, hit: built.hit, busy: false, interfaces: [],
+              pivot: built.pivot, faceOffset: built.faceOffset, cx: built.cx, cy: built.cy,
+              bracket: built.bracket, bracketMode: TYPES[type].bracketSide || 'back' };
   if (p.bracket) setBracket(p.bracket, p.bracketMode);
   // 把标注和模型里的接口件按位号对上；编号沿用标注文件里的顺序
   ifaceNotes(type).forEach((note, n) => {
-    const geo = (built.interfaces || []).find(i => i.ref === note.ref);
+    const geo = built.interfaces.find(i => i.ref === note.ref);
     if (geo) p.interfaces.push({ n: n + 1, note, mat: geo.mat, center: geo.center, side: geo.side, face: geo.face });
   });
   built.hit.userData.id = p.id;
@@ -126,10 +127,7 @@ function removeCard(p) {
   const exit = SEAT_Y + 140 + Math.min(700, 2 * camera.top / view.zoom / Math.cos(view.pitch));
   tween(p.group.position, 'y', SEAT_Y + 7, 220, easeInOut)
     .then(() => tween(p.group.position, 'y', exit, 900, easeIn))
-    .then(() => {
-      scene.remove(p.group);
-      if (!p.shared) p.group.traverse(o => { if (o.geometry) o.geometry.dispose(); });
-    });
+    .then(() => scene.remove(p.group));   // 几何是各实例共享的模板，不释放
   renderUI();
 }
 function setSel(next) {
@@ -374,13 +372,13 @@ function renderUI() {
   let typ = 0, peak = 0, wh = 0, missing = 0;
   placements.forEach(p => { const T = TYPES[p.type]; if (T.typ == null && !T.wh) missing++; typ += T.typ || 0; peak += T.peak || 0; wh += T.wh || 0; });
   const used = slots.filter(s => s !== null).length;
-  const rows = [[t('stats.slots'), used + ' / ' + SLOTS], [t('stats.typ'), typ.toFixed(2) + ' W'], [t('stats.peak'), peak.toFixed(2) + ' W'],
+  const watts = v => v > 0 ? v.toFixed(2) + ' W' : '—';
+  const rows = [[t('stats.slots'), used + ' / ' + SLOTS], [t('stats.typ'), watts(typ)], [t('stats.peak'), watts(peak)],
                 [t('stats.capacity'), wh.toFixed(1) + ' Wh'], [t('stats.runtime'), typ > 0 && wh > 0 ? (wh / typ).toFixed(1) + ' h' : '—']];
   stats.textContent = '';
   rows.forEach(r => { const d = document.createElement('div'), dt = document.createElement('dt'), dd = document.createElement('dd');
     dt.textContent = r[0]; dd.textContent = r[1]; d.appendChild(dt); d.appendChild(dd); stats.appendChild(d); });
   const tag = text => { const e = document.createElement('span'); e.className = 'tag'; e.textContent = text; stats.appendChild(e); };
-  tag(t('stats.example'));
   if (missing) tag(t('stats.missing', { n: missing }));
 }
 
@@ -502,11 +500,11 @@ resize();
 renderUI();
 requestAnimationFrame(frameLoop);
 loadModels(sys).then(() => {
-  S = buildStructure(scene, sys, slotZ);
+  S = buildStructure(scene, sys);
   // 镜头和落位预览都对准结构中心
   HOME.tx = view.tx = S.cx; HOME.tz = view.tz = S.cz;
   ghosts[1].position.x = ghosts[2].position.x = S.cx;
   ready = true;
-  INITIAL.forEach(c => { if (TYPES[c[0]].kind !== 'model' || hasModel(c[0])) place(c[0], c[1], false); });
+  INITIAL.forEach(c => place(c[0], c[1], false));
   renderUI();
 });

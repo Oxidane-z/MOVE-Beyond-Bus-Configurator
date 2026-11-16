@@ -33,7 +33,6 @@ const STRINGS = {
     'stats.peak': 'Peak power',
     'stats.capacity': 'Battery capacity',
     'stats.runtime': 'Runtime',
-    'stats.example': 'example data',
     'stats.missing': '{n} without power data, not counted',
     'aria.canvas': 'Isometric view of the slot card bus',
     'aria.slot': 'Slot {n}: {what}',

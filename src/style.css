@@ -1,19 +1,19 @@
 /* 布局：左侧板卡库，右侧等轴测舞台，舞台下方是 7 槽条和功率摘要 */
 :root {
-  --bg: #e6e3f0; --panel: #f4f2fa; --ink: #262338; --muted: #6a6585; --rule: #cfcbe0;
+  --bg: #e3e3e0; --panel: #f2f2ef; --ink: #25262b; --muted: #676970; --rule: #cbcbc6;
   --accent: #c9453d; --accent-ink: #ffffff; --accent-soft: #f6dcd9;
-  --line3d: #2b2840; --shade3d: #4a4370; --on-card: #262338;
+  --line3d: #25262b; --line3d-light: #eeeeeb; --shade3d: #3a3c44; --on-card: #25262b;
   --font: "Inter", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #1f1d2e; --panel: #292640; --ink: #ebe8f7; --muted: #a39ec0; --rule: #3d3958;
-  --accent: #ff8a7a; --accent-ink: #2a1512; --accent-soft: #4a2c33;
-  --line3d: #0f0e18; --shade3d: #1c1930; color-scheme: dark } }
+  --bg: #1c1d20; --panel: #26272b; --ink: #ececee; --muted: #a0a2a9; --rule: #3b3c41;
+  --accent: #ff8a7a; --accent-ink: #2a1512; --accent-soft: #4a2c2e;
+  --line3d: #0c0d0f; --line3d-light: #b4b6bd; --shade3d: #121316; color-scheme: dark } }
 :root[data-theme="dark"] {
-  --bg: #1f1d2e; --panel: #292640; --ink: #ebe8f7; --muted: #a39ec0; --rule: #3d3958;
-  --accent: #ff8a7a; --accent-ink: #2a1512; --accent-soft: #4a2c33;
-  --line3d: #0f0e18; --shade3d: #1c1930; color-scheme: dark }
+  --bg: #1c1d20; --panel: #26272b; --ink: #ececee; --muted: #a0a2a9; --rule: #3b3c41;
+  --accent: #ff8a7a; --accent-ink: #2a1512; --accent-soft: #4a2c2e;
+  --line3d: #0c0d0f; --line3d-light: #b4b6bd; --shade3d: #121316; color-scheme: dark }
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
