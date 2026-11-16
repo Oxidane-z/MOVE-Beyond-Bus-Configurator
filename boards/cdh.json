@@ -1,0 +1,12 @@
+{
+  "interfaces": [
+    {"ref": "BUS", "match": ["SAMTEC_ERM8*"], "label": "Backplane connector", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot."},
+    {"ref": "TEMP", "match": ["G125-MH15005L3P*"], "label": "Temperature sensors", "type": "sensor", "connector": "Harwin Gecko G125 50P", "desc": "Connects the temperature sensors."},
+    {"ref": "HDRM", "match": ["FP-G125-MH13405L3P*"], "label": "HDRM", "type": "actuator", "connector": "Harwin Gecko G125 34P", "desc": "Connects the hold-down and release mechanisms."},
+    {"ref": "STLINK", "match": ["FTSH-107*"], "label": "ST-Link", "type": "debug", "connector": "Samtec FTSH-107 (14P, 1.27 mm)", "desc": "Programming and debug interface."},
+    {"ref": "UHF-FB", "match": ["503763-0591*"], "label": "UHF antenna deployment feedback", "type": "sensor", "connector": "Molex Pico-Lock 5P", "desc": "Deployment feedback from the UHF antenna."},
+    {"ref": "RS422", "match": ["AMF6-02*"], "label": "RS-422 to S-Band", "type": "io", "connector": "Samtec AMF6-02-S-RA", "desc": "Full-duplex RS-422 link to the S-Band board."},
+    {"ref": "USB", "match": ["632722200211*"], "label": "GNSS USB", "type": "io", "connector": "USB (Würth 632722200211)", "desc": "USB interface of the GNSS module."},
+    {"ref": "GNSS-ANT", "match": ["66012202111305*"], "label": "GNSS antenna", "type": "rf", "connector": "MMCX", "desc": "Antenna input of the GNSS module."}
+  ]
+}

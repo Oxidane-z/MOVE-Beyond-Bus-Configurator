@@ -90,7 +90,7 @@ python pipeline/step2glb.py 040100_001_ADCSSB.STEP public/models/adcs1 --board 0
 ```
 
 ```bash
-python pipeline/step2glb.py 040200_001_CDHSB.STEP public/models/cdh --mate SAMTEC_ERM8 --deflection 0.2 --angular 1.2
+python pipeline/step2glb.py 040200_001_CDHSB.STEP public/models/cdh --mate SAMTEC_ERM8 --annotations boards/cdh.json --deflection 0.2 --angular 1.2
 ```
 
 ```bash
@@ -140,4 +140,4 @@ python pipeline/step2glb.py Backplane_V8.step public/models/backplane --frame ba
 
 转换时带上 `--annotations`，这些接口各自输出成独立节点，查看器的"查看接口"模式据此高亮和编号。只改说明文字不用重新转换；新增接口或改 `ref`、`match`、`cluster` 需要重新转换。
 
-ADCS、Battery、OBDH 和扩展板的接口目前是按料号认出来的，名称是通用的（Port A1 等），用途还没有填。Iteration 1 的板卡和 PHILEAS 还没有标注接口（加热板除外）。
+ADCS、Battery、OBDH 和扩展板的接口目前是按料号认出来的，名称是通用的（Port A1 等），用途还没有填。Iteration 1 的板卡里目前标注了 CDH SB 和电池加热板，其余的和 PHILEAS 还没有标注。
