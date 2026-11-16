@@ -31,6 +31,8 @@
 STEP 里没有位号时用 match 列出名称通配符，同名的多个连接器再用 cluster 按序号区分
 （转换时会打印每个通配符匹配到的各组位置）。
 
+--only-board 只保留基板和装在它上面的元器件。背板的总装里带着别的板卡时用；背板取槽位连接器所在的那块板。
+
 --full PREFIX|PREFIX 让名称匹配的元器件不论大小都保留完整几何，否则中小件会被简化成盒体或色块。
 --material PREFIX=NAME 指定名称匹配的元器件的材质（dark、light、gold、kapton），覆盖 CAD 原色。可重复。
 """
@@ -405,7 +407,8 @@ def load_items(st, colors):
                 cloc = loc.Multiplied(placed.Location())
                 name = label_name(ref) or label_name(comp)
                 kids = children(ref) if st.IsAssembly_s(ref) else []
-                if len(kids) > 1 and has_plate(ref):
+                # 只有一个子件的装配：子件本身还是装配（套了一层壳）才展开，否则就是一个元器件
+                if kids and (len(kids) > 1 or st.IsAssembly_s(kids[0][1])) and has_plate(ref):
                     walk(ref, cloc, parents + [name])
                     continue
                 local = st.GetShape_s(ref)
@@ -664,6 +667,7 @@ def main():
     ap.add_argument('--large', type=float, default=6.0, help='占板最大边不小于此值（mm）保留完整几何')
     ap.add_argument('--tall', type=float, default=3.0, help='高度不小于此值（mm）也保留完整几何')
     ap.add_argument('--annotations', nargs='*', default=[], help='板卡标注 JSON（可多个），其中的接口单独输出')
+    ap.add_argument('--only-board', action='store_true', help='只保留基板和装在它上面的元器件，丢掉总装里的其他板卡')
     ap.add_argument('--full', help='前缀|前缀：匹配的元器件不论大小都保留完整几何（比如螺母柱）')
     ap.add_argument('--material', action='append', default=[], help='前缀=材质：覆盖匹配元器件的颜色，可重复')
     ap.add_argument('--deflection', type=float, default=0.12, help='三角化线性偏差（mm）')
@@ -691,6 +695,17 @@ def main():
         return np.sort(it['whi'] - it['wlo'])[1:].prod()
     board = max((it for it in items if it['name'].startswith(args.board)), key=plate_area, default=None) or \
         max(items, key=plate_area)
+    if args.frame == 'backplane' and args.slots:
+        # 总装里可能不止一块板：背板是槽位连接器装在上面的那一块
+        socks = [it for it in items if it['name'].startswith(args.slots)]
+
+        def carries(plate):
+            n = int(np.argmin(plate['whi'] - plate['wlo']))
+            return sum(1 for it in socks if it['wlo'][n] <= plate['whi'][n] + 0.4 and it['whi'][n] >= plate['wlo'][n] - 0.4 and
+                       all(it['wlo'][a] >= plate['wlo'][a] - 1 and it['whi'][a] <= plate['whi'][a] + 1 for a in range(3) if a != n))
+        cands = [it for it in items if it['name'].startswith(args.board) and it not in socks]
+        if socks and cands:
+            board = max(cands, key=lambda it: (carries(it), plate_area(it)))
     b_lo, b_hi = board['wlo'], board['whi']
     na = int(np.argmin(b_hi - b_lo))               # 板法线所在的轴
     u, v = [a for a in range(3) if a != na]
@@ -710,6 +725,10 @@ def main():
         """元器件是否装在这块板上：沿板法线与板相接或穿过，且在板的范围内。"""
         return it['wlo'][na] <= plate['whi'][na] + tol and it['whi'][na] >= plate['wlo'][na] - tol and \
             all(it['wlo'][a] >= plate['wlo'][a] - 1 and it['whi'][a] <= plate['whi'][a] + 1 for a in (u, v))
+
+    if args.only_board:
+        # 只留装在这块板上的件（总装里还带着别的板卡时用）
+        items = [it for it in items if it is board or touches(it, board)]
 
     def is_split(it):
         if it is board:

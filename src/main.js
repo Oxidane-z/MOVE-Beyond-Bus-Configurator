@@ -4,7 +4,8 @@ import { t, applyStatic } from './i18n.js';
 import { applyTheme, setResolution } from './render.js';
 import { buildStructure, buildCard as buildCardGeo, buildExpansion, loadBackplane, loadBoard, hasModel, setBracket } from './models.js';
 
-const SLOTS = sys.slots, PITCH = sys.pitch, SEAT_Y = sys.seatY, TYPES = sys.boards, LAYOUTS = sys.layouts;
+const SLOTS = sys.slots, PITCH = sys.pitch, TYPES = sys.boards, LAYOUTS = sys.layouts, BACKPLANES = sys.backplanes;
+let SEAT_Y = BACKPLANES[sys.backplane].seatY;   // 槽位连接器顶面的高度，随背板型号变
 const slotZ = i => (i - (SLOTS - 1) / 2) * PITCH;
 const buildCard = key => buildCardGeo(key, TYPES[key], PITCH);
 // 板卡原点（连接器）所在的 Z。占两个槽的板卡，连接器可能在靠后的那个槽
@@ -546,7 +547,7 @@ function renderUI() {
 
 /* ---------- 画面交互 ---------- */
 const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), _p = new THREE.Vector3();
-const seatPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -SEAT_Y);
+const seatPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -SEAT_Y);   // 换背板时更新 constant
 // 点到的板卡，以及（选了板卡时）光标落在背板平面上的哪个槽位
 function pick(e) {
   const r = cv.getBoundingClientRect();
@@ -698,7 +699,8 @@ async function playLayout(key, keep = new Map()) {
     if (keep.has(k)) { bump(keep.get(k)); await wait(90); if (run !== mine) return; continue; }
     await jobs[k];
     let due = 0;
-    for (let i = 0; i < TYPES[list[k][0]].w; i++) due = Math.max(due, clearAt[list[k][1] + i] - performance.now());
+    // 自己占的槽和两侧相邻的槽都要腾空：等轴测视角下隔壁的板一上一下也会显得交错
+    for (let i = -1; i <= TYPES[list[k][0]].w; i++) due = Math.max(due, (clearAt[list[k][1] + i] || 0) - performance.now());
     if (due > 0) await wait(due);
     if (run !== mine) return;
     place(list[k][0], list[k][1], true);
@@ -739,14 +741,38 @@ Object.entries(LAYOUTS).forEach(([key, L]) => {
   layoutsEl.appendChild(b);
 });
 renderLayouts();
-loadBackplane(sys).then(() => {
-  S = buildStructure(scene, sys);
+// 背板可以换型号。各型号的槽位位置相同，只是外形、板上器件和连接器高度略有差别，所以换背板时板卡留在原位
+const bpsEl = document.getElementById('backplanes');
+let bpKey = null, bpLoading = false;
+async function setBackplane(key) {
+  if (key === bpKey || bpLoading || inspect) return;
+  bpLoading = true;
+  const B = BACKPLANES[key];
+  await loadBackplane(key, B);
+  bpLoading = false;
+  if (inspect) return;
+  setSel(null);
+  if (S.group) scene.remove(S.group);
+  S = buildStructure(scene, key, B);
+  bpKey = key; bpCard = null;
   if (S.group) {
     bpCard = { isBackplane: true, busy: false, interfaces: [], pivot: S.group, group: S.group };
-    addInterfaces(bpCard.interfaces, ifaceNotes('backplane'), S.interfaces);
+    addInterfaces(bpCard.interfaces, ifaceNotes(B.notes), S.interfaces);
   }
+  SEAT_Y = B.seatY; seatPlane.constant = -SEAT_Y;
+  placements.forEach(p => { if (!p.busy) p.group.position.y = SEAT_Y; });
   // 镜头对准结构中心
   HOME.tx = view.tx = S.cx; HOME.tz = view.tz = S.cz;
+  bpsEl.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.key === bpKey)));
+  renderUI();
+}
+Object.entries(BACKPLANES).forEach(([key, B]) => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.dataset.key = key; b.textContent = B.name;
+  b.addEventListener('click', () => setBackplane(key));
+  bpsEl.appendChild(b);
+});
+setBackplane(sys.backplane).then(() => {
   ready = true;
   renderUI();
   playLayout(sys.initial);

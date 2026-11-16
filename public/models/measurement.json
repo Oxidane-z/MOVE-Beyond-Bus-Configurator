@@ -1,0 +1,1346 @@
+{
+ "source": "Measurement_SB.step",
+ "bounds": {
+  "min": [
+   -29.838,
+   0.0,
+   -10.879
+  ],
+  "max": [
+   62.162,
+   84.062,
+   5.062
+  ]
+ },
+ "board": {
+  "min": [
+   -29.838,
+   5.062,
+   -0.779
+  ],
+  "max": [
+   62.162,
+   84.062,
+   0.779
+  ]
+ },
+ "frame": {
+  "front": -1,
+  "mateSlots": 1
+ },
+ "slots": null,
+ "counts": {
+  "board": 1,
+  "parts": 17,
+  "blocks": 30,
+  "bits": 0,
+  "decals": 68,
+  "interface": 0
+ },
+ "triangles": {
+  "board": 1480,
+  "parts": 104788,
+  "blocks": 360,
+  "bits": 0,
+  "decals": 136,
+  "interface": 0,
+  "instanced": 17508
+ },
+ "split": null,
+ "components": [
+  {
+   "name": "BPC",
+   "side": "bottom",
+   "size": [
+    33.0,
+    12.95,
+    5.6
+   ],
+   "kind": "parts",
+   "triangles": 29172,
+   "edgeSegments": 3884
+  },
+  {
+   "name": "Board",
+   "side": "bottom",
+   "size": [
+    92.0,
+    79.0,
+    1.559
+   ],
+   "kind": "board",
+   "triangles": 1480,
+   "edgeSegments": 416
+  },
+  {
+   "name": "C1",
+   "side": "bottom",
+   "size": [
+    0.95,
+    1.75,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C10",
+   "side": "bottom",
+   "size": [
+    0.95,
+    1.75,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C11",
+   "side": "bottom",
+   "size": [
+    0.95,
+    1.75,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C12",
+   "side": "bottom",
+   "size": [
+    3.6,
+    2.8,
+    2.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "C13",
+   "side": "bottom",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C14",
+   "side": "bottom",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C15",
+   "side": "bottom",
+   "size": [
+    3.6,
+    2.8,
+    2.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "C16",
+   "side": "top",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C17",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C18",
+   "side": "top",
+   "size": [
+    0.6,
+    1.1,
+    0.6
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C19",
+   "side": "top",
+   "size": [
+    0.95,
+    1.75,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C2",
+   "side": "bottom",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C20",
+   "side": "bottom",
+   "size": [
+    0.95,
+    1.75,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C21",
+   "side": "bottom",
+   "size": [
+    3.6,
+    2.8,
+    2.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "C22",
+   "side": "bottom",
+   "size": [
+    3.6,
+    2.8,
+    2.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "C23",
+   "side": "bottom",
+   "size": [
+    0.95,
+    1.75,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C24",
+   "side": "bottom",
+   "size": [
+    0.95,
+    1.75,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C25",
+   "side": "bottom",
+   "size": [
+    3.6,
+    2.8,
+    2.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "C26",
+   "side": "bottom",
+   "size": [
+    3.6,
+    2.8,
+    2.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "C27",
+   "side": "top",
+   "size": [
+    0.95,
+    1.75,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C28",
+   "side": "top",
+   "size": [
+    0.95,
+    1.75,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C29",
+   "side": "top",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C3",
+   "side": "top",
+   "size": [
+    3.6,
+    2.8,
+    2.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "C30",
+   "side": "top",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C31",
+   "side": "bottom",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C32",
+   "side": "bottom",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C33",
+   "side": "bottom",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C34",
+   "side": "bottom",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C35",
+   "side": "bottom",
+   "size": [
+    1.75,
+    0.95,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "C4",
+   "side": "top",
+   "size": [
+    3.6,
+    2.8,
+    2.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "C5",
+   "side": "top",
+   "size": [
+    3.6,
+    2.8,
+    2.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "C6",
+   "side": "top",
+   "size": [
+    3.6,
+    2.8,
+    2.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "C7",
+   "side": "bottom",
+   "size": [
+    1.45,
+    2.2,
+    1.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "C8",
+   "side": "bottom",
+   "size": [
+    1.45,
+    2.2,
+    1.3
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "C9",
+   "side": "bottom",
+   "size": [
+    0.95,
+    1.75,
+    0.9
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "CAN",
+   "side": "bottom",
+   "size": [
+    3.098,
+    3.098,
+    0.993
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "Components",
+   "side": "top",
+   "size": [
+    53.901,
+    37.126,
+    4.622
+   ],
+   "kind": "parts",
+   "triangles": 52798,
+   "edgeSegments": 3648
+  },
+  {
+   "name": "D1",
+   "side": "top",
+   "size": [
+    0.8,
+    1.6,
+    0.4
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "D10",
+   "side": "top",
+   "size": [
+    3.8,
+    1.0,
+    0.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "D11",
+   "side": "top",
+   "size": [
+    3.8,
+    1.0,
+    0.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "D12",
+   "side": "top",
+   "size": [
+    3.8,
+    1.0,
+    0.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "D13",
+   "side": "top",
+   "size": [
+    1.6,
+    1.0,
+    0.505
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "D14",
+   "side": "top",
+   "size": [
+    1.6,
+    1.0,
+    0.505
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "D17",
+   "side": "top",
+   "size": [
+    3.8,
+    1.0,
+    0.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "D18",
+   "side": "top",
+   "size": [
+    3.8,
+    1.0,
+    0.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "D2",
+   "side": "top",
+   "size": [
+    0.8,
+    1.6,
+    0.7
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "D3",
+   "side": "top",
+   "size": [
+    0.8,
+    1.6,
+    0.7
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "D4",
+   "side": "top",
+   "size": [
+    0.8,
+    1.6,
+    0.7
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "D5",
+   "side": "top",
+   "size": [
+    0.8,
+    1.6,
+    0.7
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "D6",
+   "side": "top",
+   "size": [
+    0.8,
+    1.6,
+    0.7
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "D7",
+   "side": "top",
+   "size": [
+    0.8,
+    1.6,
+    0.7
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "D8",
+   "side": "top",
+   "size": [
+    3.8,
+    1.0,
+    0.5
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "D9",
+   "side": "bottom",
+   "size": [
+    1.0,
+    1.6,
+    0.505
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "DIELECTRIC (1 bodies)",
+   "side": "top",
+   "size": [
+    55.0,
+    40.0,
+    1.076
+   ],
+   "kind": "parts",
+   "triangles": 284,
+   "edgeSegments": 136
+  },
+  {
+   "name": "ETH",
+   "side": "top",
+   "size": [
+    18.15,
+    22.48,
+    13.3
+   ],
+   "kind": "parts",
+   "triangles": 5964,
+   "edgeSegments": 1328
+  },
+  {
+   "name": "GPIO",
+   "side": "top",
+   "size": [
+    22.6,
+    3.38,
+    1.45
+   ],
+   "kind": "parts",
+   "instanceOf": "HSIO",
+   "triangles": 0
+  },
+  {
+   "name": "HSIO",
+   "side": "top",
+   "size": [
+    22.6,
+    3.38,
+    1.45
+   ],
+   "kind": "parts",
+   "instanceOf": "HSIO",
+   "triangles": 12676
+  },
+  {
+   "name": "J1",
+   "side": "bottom",
+   "size": [
+    9.6,
+    5.19,
+    1.5
+   ],
+   "kind": "parts",
+   "triangles": 988,
+   "edgeSegments": 257
+  },
+  {
+   "name": "J2",
+   "side": "top",
+   "size": [
+    6.0,
+    3.601,
+    4.32
+   ],
+   "kind": "parts",
+   "triangles": 288,
+   "edgeSegments": 156
+  },
+  {
+   "name": "MIPI0",
+   "side": "top",
+   "size": [
+    17.4,
+    5.1,
+    2.1
+   ],
+   "kind": "parts",
+   "instanceOf": "MIPI1",
+   "triangles": 0
+  },
+  {
+   "name": "MIPI1",
+   "side": "top",
+   "size": [
+    17.4,
+    5.1,
+    2.1
+   ],
+   "kind": "parts",
+   "instanceOf": "MIPI1",
+   "triangles": 4700
+  },
+  {
+   "name": "MP1",
+   "side": "top",
+   "size": [
+    5.1,
+    5.1,
+    2.9
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "MP2",
+   "side": "top",
+   "size": [
+    5.1,
+    5.1,
+    2.9
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "MP3",
+   "side": "top",
+   "size": [
+    5.1,
+    5.1,
+    2.9
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "MP4",
+   "side": "top",
+   "size": [
+    5.1,
+    5.1,
+    2.9
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "MP5",
+   "side": "bottom",
+   "size": [
+    4.35,
+    4.35,
+    3.9
+   ],
+   "kind": "parts",
+   "instanceOf": "MP5",
+   "triangles": 132
+  },
+  {
+   "name": "MP6",
+   "side": "bottom",
+   "size": [
+    4.35,
+    4.35,
+    3.9
+   ],
+   "kind": "parts",
+   "instanceOf": "MP5",
+   "triangles": 0
+  },
+  {
+   "name": "PCIE",
+   "side": "bottom",
+   "size": [
+    8.7,
+    21.9,
+    4.882
+   ],
+   "kind": "parts",
+   "triangles": 4246,
+   "edgeSegments": 610
+  },
+  {
+   "name": "R1",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R10",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R11",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R12",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R13",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R14",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R15",
+   "side": "bottom",
+   "size": [
+    1.7,
+    0.9,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R16",
+   "side": "bottom",
+   "size": [
+    1.7,
+    0.9,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R17",
+   "side": "bottom",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R18",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R19",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R2",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R20",
+   "side": "bottom",
+   "size": [
+    1.7,
+    0.9,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R21",
+   "side": "bottom",
+   "size": [
+    1.7,
+    0.9,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R22",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R23",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R24",
+   "side": "bottom",
+   "size": [
+    1.7,
+    0.9,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R25",
+   "side": "bottom",
+   "size": [
+    1.7,
+    0.9,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R26",
+   "side": "bottom",
+   "size": [
+    1.7,
+    0.9,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R27",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R28",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R29",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R3",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R30",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R31",
+   "side": "bottom",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R32",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R4",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R5",
+   "side": "top",
+   "size": [
+    1.05,
+    0.55,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R6",
+   "side": "top",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R7",
+   "side": "bottom",
+   "size": [
+    0.55,
+    1.05,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R8",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "R9",
+   "side": "top",
+   "size": [
+    0.9,
+    1.7,
+    0.35
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "RS485",
+   "side": "bottom",
+   "size": [
+    3.098,
+    3.098,
+    1.654
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "SW1",
+   "side": "bottom",
+   "size": [
+    5.13,
+    7.7,
+    1.9
+   ],
+   "kind": "parts",
+   "triangles": 2356,
+   "edgeSegments": 536
+  },
+  {
+   "name": "SW2",
+   "side": "bottom",
+   "size": [
+    5.5,
+    4.5,
+    2.15
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "U1",
+   "side": "bottom",
+   "size": [
+    6.701,
+    4.711,
+    0.603
+   ],
+   "kind": "parts",
+   "triangles": 124,
+   "edgeSegments": 12
+  },
+  {
+   "name": "U2",
+   "side": "top",
+   "size": [
+    3.066,
+    3.066,
+    2.0
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "U3",
+   "side": "bottom",
+   "size": [
+    3.0,
+    2.0,
+    0.851
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "U4",
+   "side": "top",
+   "size": [
+    4.15,
+    4.15,
+    1.0
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "U5",
+   "side": "top",
+   "size": [
+    4.711,
+    6.701,
+    0.603
+   ],
+   "kind": "parts",
+   "triangles": 124,
+   "edgeSegments": 12
+  },
+  {
+   "name": "U6",
+   "side": "bottom",
+   "size": [
+    2.0,
+    3.0,
+    0.851
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "U7",
+   "side": "bottom",
+   "size": [
+    2.004,
+    2.2,
+    1.101
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "U8",
+   "side": "bottom",
+   "size": [
+    3.0,
+    3.0,
+    0.801
+   ],
+   "kind": "blocks",
+   "triangles": 12
+  },
+  {
+   "name": "USB",
+   "side": "top",
+   "size": [
+    8.942,
+    8.1,
+    3.64
+   ],
+   "kind": "parts",
+   "triangles": 8444,
+   "edgeSegments": 1396
+  },
+  {
+   "name": "Y1",
+   "side": "bottom",
+   "size": [
+    1.618,
+    2.018,
+    0.818
+   ],
+   "kind": "decals",
+   "triangles": 2
+  },
+  {
+   "name": "Y2",
+   "side": "top",
+   "size": [
+    2.017,
+    1.217,
+    0.567
+   ],
+   "kind": "decals",
+   "triangles": 2
+  }
+ ]
+}

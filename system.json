@@ -1,8 +1,11 @@
 {
   "slots": 7,
   "pitch": 14.5,
-  "seatY": 11.94,
-  "backplane": {"model": "models/backplane.glb", "y": 5, "color": "#2c2d31"},
+  "backplanes": {
+    "v6": {"name": "BP V6", "model": "models/backplane-v6.glb", "y": 5, "seatY": 11.91, "color": "#2c2d31", "notes": "backplane-v6"},
+    "v78": {"name": "BP V7/V8", "model": "models/backplane.glb", "y": 5, "seatY": 11.94, "color": "#2c2d31", "notes": "backplane"}
+  },
+  "backplane": "v78",
   "layouts": {
     "custom": {"name": "Custom", "boards": []},
     "rexus": {"name": "REXUS", "boards": [["obdh", 0], ["recovery", 2], ["battery", 3], ["adcs", 5], ["piklas", 6]]},
@@ -34,14 +37,17 @@
     "piklas": {"name": "Piklas", "subsystem": "payload", "level": "rev2", "w": 1, "model": "models/piklas.glb", "color": "#6a5796", "front": -1, "seat": -4.8, "bracket": "bracket-rev2"},
     "battery": {"name": "Battery Pack v4.3 REXUS edition", "subsystem": "power", "level": "rev2", "w": 2, "model": "models/battery.glb", "color": "#6fae8f", "front": 1, "seat": -4.4, "wh": 64.8, "expansionSites": [{"name": "Heater board", "options": ["battery-heater"], "default": "battery-heater", "fixed": true}]},
     "adcs": {"name": "ADCS V2.1 REXUS edition", "subsystem": "adcs", "level": "rev2", "w": 1, "model": "models/adcs.glb", "color": "#2c2d31", "front": -1, "seat": -4.4, "bracket": "bracket-rev2"},
-    "obdh": {"name": "Rexus OBDH (CM5)", "subsystem": "data", "level": "rev2", "w": 2, "connectorSlot": 1, "model": "models/obdh.glb", "color": "#ecece9", "front": 1, "seat": -4.4, "expansionSites": [{"name": "Expansion", "options": ["obdh-expansion"], "default": "obdh-expansion"}]},
+    "obdh": {"name": "Rexus OBDH (EXP V2)", "subsystem": "data", "level": "rev2", "w": 2, "connectorSlot": 1, "model": "models/obdh.glb", "color": "#ecece9", "front": 1, "seat": -4.4, "expansionSites": [{"name": "Expansion", "options": ["obdh-expansion"], "default": "obdh-expansion"}]},
     "recovery": {"name": "Recovery V2", "subsystem": "recovery", "level": "rev2", "w": 1, "model": "models/recovery.glb", "color": "#4d6c9e", "front": -1, "seat": -4.8, "bracket": "bracket-rev2", "expansionSites": [{"name": "Expansion 1", "options": [], "default": null}, {"name": "Expansion 2", "options": [], "default": null}]},
     "phileas": {"name": "PHILEAS SB", "subsystem": "payload", "level": "rev1", "w": 1, "model": "models/phileas.glb", "color": "#4d6c9e", "front": -1, "seat": -4.4},
     "comstack": {"name": "COM Stack", "subsystem": "comms", "level": "rev1", "w": 2, "connectorSlot": 1, "model": "models/com.glb", "color": "#2c2d31", "front": -1, "seat": -4.4, "expansionSites": [{"name": "S-Band", "options": ["sband"], "default": "sband", "fixed": true}]},
     "cdh": {"name": "CDH SB", "subsystem": "data", "level": "rev1", "w": 1, "model": "models/cdh.glb", "color": "#6fae8f", "front": -1, "seat": -4.4},
     "battery1": {"name": "Battery Pack v4.3", "subsystem": "power", "level": "rev1", "w": 2, "model": "models/battery1.glb", "color": "#6fae8f", "front": 1, "seat": -4.4, "wh": 64.8, "expansionSites": [{"name": "Heater board", "options": ["battery-heater"], "default": "battery-heater", "fixed": true}]},
     "payload": {"name": "Payload SB", "subsystem": "payload", "level": "rev1", "w": 1, "model": "models/payload.glb", "color": "#6fae8f", "front": -1, "seat": -4.4},
-    "adcs1": {"name": "ADCS SB V2.1", "subsystem": "adcs", "level": "rev1", "w": 1, "model": "models/adcs1.glb", "color": "#6fae8f", "front": -1, "seat": -4.4}
+    "adcs1": {"name": "ADCS SB V2.1", "subsystem": "adcs", "level": "rev1", "w": 1, "model": "models/adcs1.glb", "color": "#6fae8f", "front": -1, "seat": -4.4},
+    "moveup": {"name": "MOVE UP SB", "subsystem": "recovery", "level": "rev1", "w": 1, "model": "models/moveup.glb", "color": "#6fae8f", "front": -1, "seat": -4.4},
+    "measurement": {"name": "Measurement SB", "subsystem": "data", "level": "rev1", "w": 1, "model": "models/measurement.glb", "color": "#6fae8f", "front": -1, "seat": -4.4},
+    "exp1": {"name": "EXP V1", "subsystem": "data", "level": "proto", "w": 2, "connectorSlot": 1, "model": "models/exp1.glb", "color": "#6fae8f", "front": -1, "seat": -4.4}
   },
   "accessories": {
     "bracket-rev2": {"label": "Rev 2 standard bracket", "model": "models/bracket-rev2.glb"}

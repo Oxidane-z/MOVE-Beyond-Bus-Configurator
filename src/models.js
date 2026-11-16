@@ -93,7 +93,7 @@ function load(key, url) {
   }
   return pending.get(key);
 }
-export const loadBackplane = sys => load('backplane', sys.backplane.model);
+export const loadBackplane = (key, B) => load('bp:' + key, B.model);
 // 一块板卡连同它的支架和可用的扩展板
 export function loadBoard(sys, type) {
   const T = sys.boards[type], jobs = [load(type, T.model)];
@@ -178,11 +178,11 @@ export function setBracket(bracket, mode) {
 }
 
 // 背板。返回结构中心、半宽、板面高度，以及背板的模型组和接口件；背板上的槽位连接器不在板宽正中
-export function buildStructure(scene, sys) {
-  const tpl = templates.get('backplane'), interfaces = [], topY = sys.backplane.y + 1.6;
+export function buildStructure(scene, key, B) {
+  const tpl = templates.get('bp:' + key), interfaces = [], topY = B.y + 1.6;
   if (!tpl) return { cx: 0, cz: 0, hx: 52, topY, group: null, interfaces };
-  const bp = instantiate(tpl, sys.backplane.color, collect(interfaces, 1, { mid: 0.8 }));
-  bp.position.y = sys.backplane.y;
+  const bp = instantiate(tpl, B.color, collect(interfaces, 1, { mid: 0.8 }));
+  bp.position.y = B.y;
   scene.add(bp);
   const c = tpl.bounds.getCenter(new THREE.Vector3()), size = tpl.bounds.getSize(new THREE.Vector3());
   return { cx: c.x, cz: c.z, hx: size.x / 2, topY, group: bp, interfaces };
