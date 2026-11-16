@@ -1,0 +1,14 @@
+{
+  "interfaces": [
+    {"ref": "BPC", "label": "Backplane connector", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot. Carries CAN, the RS-485 link to the PHILEAS SB, 3.3 V and 5 V."},
+    {"ref": "ETH", "label": "Ethernet", "type": "io", "connector": "RJ45 (Würth 7498111120AR)", "desc": "Gigabit Ethernet of the Compute Module 5."},
+    {"ref": "USB", "label": "USB 3.0 (Type-C)", "type": "io", "connector": "USB Type-C (Würth 632722200211)", "desc": "USB 3.0 port of the Compute Module 5. Supplies 5 V through an ideal diode."},
+    {"ref": "MIPI0", "label": "Camera 0", "type": "io", "connector": "22P FFC, 0.5 mm (Würth 68712214022)", "desc": "4-lane MIPI CSI camera interface with I²C, an enable signal and 3.3 V."},
+    {"ref": "MIPI1", "label": "Camera 1", "type": "io", "connector": "22P FFC, 0.5 mm (Würth 68712214022)", "desc": "4-lane MIPI CSI camera interface with I²C, an enable signal and 3.3 V."},
+    {"ref": "PCIE", "label": "M.2 slot", "type": "io", "connector": "M.2 Key M (TE 1-2199230-6)", "desc": "PCIe slot with its own switched 3.3 V supply, for an SSD."},
+    {"ref": "J1", "label": "Imaging LEDs", "type": "actuator", "connector": "Molex Pico-Lock 5P (1 mm)", "desc": "Switched 5 V and four driven channels (white, red, green, blue) for the LEDs that light the membranes for the imaging system."},
+    {"ref": "J2", "label": "Fan", "type": "actuator", "connector": "JST SH 4P (BM04B-SRSS-TBT)", "desc": "Cooling fan of the Compute Module 5: 5 V, PWM and tacho."},
+    {"ref": "SW2", "label": "Power button", "type": "switch", "connector": "Push button", "desc": "Power button of the Compute Module 5. Connected through a solder bridge."},
+    {"ref": "SW1", "label": "LED switch", "type": "switch", "connector": "Slide switch", "desc": "Turns the status LEDs on or off."}
+  ]
+}

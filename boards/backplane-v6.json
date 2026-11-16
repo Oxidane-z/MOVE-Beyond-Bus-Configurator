@@ -1,0 +1,17 @@
+{
+  "interfaces": [
+    {"ref": "J2", "label": "ST-Link", "type": "debug", "connector": "Samtec FTSH-107 (2×7, 1.27 mm)", "desc": "Programming and debug port (JTAG/SWD) of the backplane MCU, with UART."},
+    {"ref": "PLP", "label": "Payload port", "type": "io", "connector": "Molex Micro-Lock Plus 4P (1.25 mm)", "desc": "VSYS, GND and the CAN bus for an external payload."},
+    {"ref": "EBP", "label": "External bus port", "type": "io", "connector": "Molex One-Blade 3P (1 mm)", "desc": "Breaks out the CAN bus with GND."},
+    {"ref": "HDRM", "label": "HDRM", "type": "actuator", "connector": "Molex Pico-Lock 4P (1 mm)", "desc": "Two low-side switched VSYS outputs for the hold-down and release mechanisms."},
+    {"ref": "ECP", "label": "External charge port", "type": "power", "connector": "Samtec IPBT-102-H2-T-S", "desc": "Feeds the solar input rail from an external supply to charge the battery."},
+    {"ref": "SCP1", "label": "Solar charge port 1", "type": "power", "connector": "Molex Pico-Lock 4P (1 mm)", "desc": "Solar panel input. Its current is measured by the power monitor of slot 2."},
+    {"ref": "SCP2", "label": "Solar charge port 2", "type": "power", "connector": "Molex Pico-Lock 4P (1 mm)", "desc": "Solar panel input. Its current is measured by the power monitor of slot 3."},
+    {"ref": "SCP3", "label": "Solar charge port 3", "type": "power", "connector": "Molex Pico-Lock 4P (1 mm)", "desc": "Solar panel input. Its current is measured by the power monitor of slot 4."},
+    {"ref": "SCP4", "label": "Solar charge port 4", "type": "power", "connector": "Molex Pico-Lock 4P (1 mm)", "desc": "Solar panel input. Its current is measured by the power monitor of slot 5."},
+    {"ref": "SCP5", "label": "Solar charge port 5", "type": "power", "connector": "Molex Pico-Lock 4P (1 mm)", "desc": "Solar panel input. Its current is measured by the power monitor of slot 6."},
+    {"ref": "SCP6", "label": "Solar charge port 6", "type": "power", "connector": "Molex Pico-Lock 4P (1 mm)", "desc": "Solar panel input. Its current is measured by the power monitor of slot 7."},
+    {"ref": "JDISQBAT", "label": "Battery disconnect jumper", "type": "switch", "connector": "2P pin header", "desc": "Pulls the DISQBAT pin of the battery charge controller to 3.3 V, which disconnects the battery."},
+    {"ref": "JSTBY", "label": "Standby jumper", "type": "switch", "connector": "2P pin header", "desc": "Pulls the STBY pin of the battery charge controller to 3.3 V, which puts the charger in standby."}
+  ]
+}

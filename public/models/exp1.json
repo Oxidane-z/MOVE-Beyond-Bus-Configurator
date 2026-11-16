@@ -31,20 +31,20 @@
  "slots": null,
  "counts": {
   "board": 1,
-  "parts": 66,
-  "blocks": 27,
-  "bits": 426,
-  "decals": 348,
-  "interface": 0
+  "parts": 18,
+  "blocks": 19,
+  "bits": 317,
+  "decals": 255,
+  "interface": 237
  },
  "triangles": {
   "board": 4916,
-  "parts": 108236,
-  "blocks": 324,
-  "bits": 5112,
-  "decals": 696,
-  "interface": 0,
-  "instanced": 19023
+  "parts": 56312,
+  "blocks": 228,
+  "bits": 3804,
+  "decals": 510,
+  "interface": 69308,
+  "instanced": 13363
  },
  "split": null,
  "components": [
@@ -126,9 +126,9 @@
     0.4,
     7.6
    ],
-   "kind": "parts",
-   "instanceOf": "62200421121_CMP-00480-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "62201421121_CMP-00486-1",
@@ -138,9 +138,9 @@
     0.4,
     7.6
    ],
-   "kind": "parts",
-   "instanceOf": "62200421121_CMP-00480-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "62201421121_CMP-00486-1",
@@ -150,9 +150,9 @@
     0.4,
     7.6
    ],
-   "kind": "parts",
-   "instanceOf": "62200421121_CMP-00480-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "62201421121_CMP-00486-1",
@@ -162,9 +162,9 @@
     0.4,
     7.6
    ],
-   "kind": "parts",
-   "instanceOf": "62200421121_CMP-00480-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "62201421121_CMP-00486-1",
@@ -174,9 +174,9 @@
     0.4,
     7.6
    ],
-   "kind": "parts",
-   "instanceOf": "62200421121_CMP-00480-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "62201421121_CMP-00486-1",
@@ -186,9 +186,9 @@
     0.4,
     7.6
    ],
-   "kind": "parts",
-   "instanceOf": "62200421121_CMP-00480-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "62201421121_CMP-00486-1",
@@ -198,9 +198,9 @@
     0.4,
     7.6
    ],
-   "kind": "parts",
-   "instanceOf": "62200421121_CMP-00480-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "62201421121_CMP-00486-1",
@@ -210,9 +210,9 @@
     0.4,
     7.6
    ],
-   "kind": "parts",
-   "instanceOf": "62200421121_CMP-00480-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "62201421121_CMP-00486-1",
@@ -222,9 +222,9 @@
     0.4,
     7.6
    ],
-   "kind": "parts",
-   "instanceOf": "62200421121_CMP-00480-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "62201421121_CMP-00486-1",
@@ -234,9 +234,9 @@
     0.4,
     7.6
    ],
-   "kind": "parts",
-   "instanceOf": "62200421121_CMP-00480-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "62201421121_CMP-00486-1",
@@ -246,9 +246,9 @@
     0.4,
     7.6
    ],
-   "kind": "parts",
-   "instanceOf": "62200421121_CMP-00480-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "62201421121_CMP-00486-1",
@@ -258,7 +258,7 @@
     8.89,
     1.5
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 652,
    "edgeSegments": 336
   },
@@ -270,9 +270,9 @@
     0.4,
     7.6
    ],
-   "kind": "parts",
-   "instanceOf": "62200421121_CMP-00480-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "62201421121_CMP-00486-1",
@@ -282,9 +282,9 @@
     0.4,
     7.6
    ],
-   "kind": "parts",
-   "instanceOf": "62200421121_CMP-00480-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "62201421121_CMP-00486-1",
@@ -294,9 +294,9 @@
     0.4,
     7.6
    ],
-   "kind": "parts",
-   "instanceOf": "62200421121_CMP-00480-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "634108150321_CMP-03913-99613951-1",
@@ -306,9 +306,9 @@
     14.38,
     3.979
    ],
-   "kind": "parts",
-   "instanceOf": "634108150321_CMP-03913-99613951-1",
-   "triangles": 228
+   "kind": "interface",
+   "triangles": 228,
+   "edgeSegments": 36
   },
   {
    "name": "634108150321_CMP-03913-99613951-1",
@@ -318,9 +318,9 @@
     14.38,
     3.979
    ],
-   "kind": "parts",
-   "instanceOf": "634108150321_CMP-03913-99613951-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 228,
+   "edgeSegments": 36
   },
   {
    "name": "634108150321_CMP-03913-99613951-1",
@@ -330,7 +330,7 @@
     14.301,
     11.301
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1932,
    "edgeSegments": 272
   },
@@ -342,9 +342,9 @@
     14.38,
     3.979
    ],
-   "kind": "parts",
-   "instanceOf": "634108150321_CMP-03913-99613951-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 228,
+   "edgeSegments": 36
   },
   {
    "name": "634108150321_CMP-03913-99613951-1",
@@ -354,7 +354,7 @@
     14.05,
     11.066
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1904,
    "edgeSegments": 677
   },
@@ -366,9 +366,9 @@
     14.38,
     3.979
    ],
-   "kind": "parts",
-   "instanceOf": "634108150321_CMP-03913-99613951-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 228,
+   "edgeSegments": 36
   },
   {
    "name": "634108150321_CMP-03913-99613951-1",
@@ -378,9 +378,9 @@
     14.38,
     3.979
    ],
-   "kind": "parts",
-   "instanceOf": "634108150321_CMP-03913-99613951-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 228,
+   "edgeSegments": 36
   },
   {
    "name": "634108150321_CMP-03913-99613951-1",
@@ -390,9 +390,9 @@
     14.38,
     3.979
    ],
-   "kind": "parts",
-   "instanceOf": "634108150321_CMP-03913-99613951-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 228,
+   "edgeSegments": 36
   },
   {
    "name": "634108150321_CMP-03913-99613951-1",
@@ -402,9 +402,9 @@
     14.38,
     3.979
    ],
-   "kind": "parts",
-   "instanceOf": "634108150321_CMP-03913-99613951-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 228,
+   "edgeSegments": 36
   },
   {
    "name": "634108150321_CMP-03913-99613951-1",
@@ -414,9 +414,9 @@
     14.38,
     3.979
    ],
-   "kind": "parts",
-   "instanceOf": "634108150321_CMP-03913-99613951-1",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 228,
+   "edgeSegments": 36
   },
   {
    "name": "68712214022 (rev1) (1) <1>",
@@ -426,9 +426,9 @@
     17.4,
     2.1
    ],
-   "kind": "parts",
-   "instanceOf": "68712214022 (rev1) (1) <1>",
-   "triangles": 4700
+   "kind": "interface",
+   "triangles": 4700,
+   "edgeSegments": 1472
   },
   {
    "name": "68712214022 (rev1) <1>",
@@ -438,9 +438,9 @@
     17.4,
     2.1
    ],
-   "kind": "parts",
-   "instanceOf": "68712214022 (rev1) (1) <1>",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 4700,
+   "edgeSegments": 1472
   },
   {
    "name": "692121030100_CMP-1502-03216-3",
@@ -450,9 +450,9 @@
     10.513,
     7.36
    ],
-   "kind": "parts",
-   "instanceOf": "692121030100_CMP-1502-03216-3",
-   "triangles": 292
+   "kind": "interface",
+   "triangles": 292,
+   "edgeSegments": 66
   },
   {
    "name": "692121030100_CMP-1502-03216-3",
@@ -462,9 +462,9 @@
     14.398,
     8.506
    ],
-   "kind": "parts",
-   "instanceOf": "692121030100_CMP-1502-03216-3",
-   "triangles": 168
+   "kind": "interface",
+   "triangles": 168,
+   "edgeSegments": 42
   },
   {
    "name": "692121030100_CMP-1502-03216-3",
@@ -474,9 +474,9 @@
     9.985,
     7.35
    ],
-   "kind": "parts",
-   "instanceOf": "692121030100_CMP-1502-03216-3",
-   "triangles": 272
+   "kind": "interface",
+   "triangles": 272,
+   "edgeSegments": 72
   },
   {
    "name": "692121030100_CMP-1502-03216-3",
@@ -486,9 +486,9 @@
     14.398,
     8.506
    ],
-   "kind": "parts",
-   "instanceOf": "692121030100_CMP-1502-03216-3",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 168,
+   "edgeSegments": 42
   },
   {
    "name": "692121030100_CMP-1502-03216-3",
@@ -498,9 +498,9 @@
     9.985,
     7.35
    ],
-   "kind": "parts",
-   "instanceOf": "692121030100_CMP-1502-03216-3",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 272,
+   "edgeSegments": 70
   },
   {
    "name": "692121030100_CMP-1502-03216-3",
@@ -510,9 +510,9 @@
     10.513,
     7.36
    ],
-   "kind": "parts",
-   "instanceOf": "692121030100_CMP-1502-03216-3",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 292,
+   "edgeSegments": 66
   },
   {
    "name": "692121030100_CMP-1502-03216-3",
@@ -522,7 +522,7 @@
     3.0,
     4.0
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 336,
    "edgeSegments": 180
   },
@@ -534,7 +534,7 @@
     16.539,
     11.229
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 2976,
    "edgeSegments": 572
   },
@@ -546,9 +546,9 @@
     14.398,
     8.506
    ],
-   "kind": "parts",
-   "instanceOf": "692121030100_CMP-1502-03216-3",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 168,
+   "edgeSegments": 42
   },
   {
    "name": "692121030100_CMP-1502-03216-3",
@@ -558,9 +558,9 @@
     14.398,
     8.506
    ],
-   "kind": "parts",
-   "instanceOf": "692121030100_CMP-1502-03216-3",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 168,
+   "edgeSegments": 42
   },
   {
    "name": "692121030100_CMP-1502-03216-3",
@@ -570,7 +570,7 @@
     16.2,
     6.69
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1366,
    "edgeSegments": 647
   },
@@ -582,9 +582,9 @@
     14.398,
     8.506
    ],
-   "kind": "parts",
-   "instanceOf": "692121030100_CMP-1502-03216-3",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 168,
+   "edgeSegments": 42
   },
   {
    "name": "79527141 (rev1) <1>",
@@ -594,7 +594,7 @@
     16.0,
     5.65
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 2598,
    "edgeSegments": 2020
   },
@@ -767,7 +767,7 @@
     12.152,
     8.382
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 6460,
    "edgeSegments": 1407
   },
@@ -1187,8 +1187,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1198,8 +1199,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1209,8 +1211,9 @@
     1.329,
     0.005
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 28,
+   "edgeSegments": 12
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1220,19 +1223,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
-   "side": "bottom",
-   "size": [
-    0.478,
-    0.328,
-    0.141
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1242,8 +1235,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1253,8 +1247,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1264,8 +1259,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1275,8 +1271,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1286,8 +1283,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1297,8 +1295,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1308,8 +1307,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1319,8 +1319,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1330,8 +1331,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1341,8 +1343,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1352,8 +1355,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1363,8 +1367,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1374,8 +1379,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1385,8 +1391,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1396,8 +1403,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1407,8 +1415,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1418,8 +1427,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1429,8 +1439,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1440,8 +1451,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1451,8 +1463,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1462,8 +1475,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1473,8 +1487,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1484,8 +1499,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1495,8 +1511,9 @@
     0.75,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 216,
+   "edgeSegments": 6
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1506,8 +1523,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1517,8 +1535,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1528,8 +1547,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1539,8 +1559,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1550,8 +1571,9 @@
     1.82,
     0.005
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1561,8 +1583,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1572,8 +1595,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1583,8 +1607,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1594,8 +1619,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1605,8 +1631,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1616,8 +1643,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1627,8 +1655,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1638,8 +1667,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1649,8 +1679,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1660,8 +1691,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1671,30 +1703,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
-  },
-  {
-   "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
-   "side": "bottom",
-   "size": [
-    0.054,
-    0.177,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
-   "side": "bottom",
-   "size": [
-    0.48,
-    0.317,
-    0.143
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1704,8 +1715,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1715,8 +1727,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1726,8 +1739,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1737,8 +1751,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1748,8 +1763,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1759,8 +1775,9 @@
     1.524,
     0.005
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 48,
+   "edgeSegments": 14
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1770,8 +1787,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1781,8 +1799,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1792,8 +1811,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1803,19 +1823,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
-   "side": "bottom",
-   "size": [
-    0.476,
-    0.448,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1825,7 +1835,7 @@
     21.9,
     4.882
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 662,
    "edgeSegments": 304
   },
@@ -1837,8 +1847,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1848,8 +1859,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1859,8 +1871,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1870,8 +1883,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1881,8 +1895,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1892,8 +1907,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1903,8 +1919,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1914,8 +1931,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1925,8 +1943,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1936,8 +1955,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1947,8 +1967,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1958,8 +1979,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1969,8 +1991,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1980,8 +2003,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -1991,8 +2015,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2002,8 +2027,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2013,8 +2039,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2024,19 +2051,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
-  },
-  {
-   "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
-   "side": "bottom",
-   "size": [
-    0.475,
-    0.313,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2046,19 +2063,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
-  },
-  {
-   "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
-   "side": "bottom",
-   "size": [
-    0.477,
-    0.314,
-    0.01
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2068,8 +2075,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2079,8 +2087,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2090,8 +2099,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2101,8 +2111,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2112,8 +2123,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2123,8 +2135,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2134,8 +2147,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2145,8 +2159,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2156,8 +2171,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2167,8 +2183,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2178,8 +2195,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2189,8 +2207,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2200,8 +2219,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2211,8 +2231,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2222,8 +2243,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2233,8 +2255,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2244,8 +2267,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2255,8 +2279,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2266,8 +2291,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2277,8 +2303,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2288,30 +2315,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
-  },
-  {
-   "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
-   "side": "bottom",
-   "size": [
-    0.476,
-    0.177,
-    0.008
-   ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
-   "side": "bottom",
-   "size": [
-    0.477,
-    0.314,
-    0.01
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2321,8 +2327,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2332,8 +2339,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2343,8 +2351,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2354,8 +2363,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2365,8 +2375,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2376,8 +2387,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2387,8 +2399,9 @@
     1.82,
     0.005
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2398,8 +2411,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2409,8 +2423,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2420,8 +2435,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2431,8 +2447,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2442,8 +2459,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2453,8 +2471,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2464,19 +2483,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
-  },
-  {
-   "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
-   "side": "bottom",
-   "size": [
-    0.477,
-    0.314,
-    0.145
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2486,8 +2495,9 @@
     1.82,
     0.005
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2497,8 +2507,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2508,8 +2519,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2519,30 +2531,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
-  },
-  {
-   "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
-   "side": "bottom",
-   "size": [
-    0.477,
-    0.314,
-    0.145
-   ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
-   "side": "bottom",
-   "size": [
-    0.054,
-    0.177,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2552,8 +2543,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2563,8 +2555,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2574,8 +2567,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2585,19 +2579,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
-  },
-  {
-   "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
-   "side": "bottom",
-   "size": [
-    0.476,
-    0.177,
-    0.008
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2607,8 +2591,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2618,8 +2603,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2629,8 +2615,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2640,8 +2627,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2651,8 +2639,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2662,8 +2651,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2673,8 +2663,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2684,8 +2675,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2695,8 +2687,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2706,8 +2699,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2717,8 +2711,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2728,8 +2723,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2739,8 +2735,9 @@
     0.75,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 216,
+   "edgeSegments": 6
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2750,8 +2747,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2761,8 +2759,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2772,8 +2771,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2783,8 +2783,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2794,8 +2795,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2805,8 +2807,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2816,8 +2819,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2827,8 +2831,9 @@
     0.15,
     0.33
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2838,8 +2843,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2849,8 +2855,9 @@
     0.27,
     0.28
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2860,8 +2867,9 @@
     0.188,
     0.27
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-1-2199230-6-MFG_CMP-03365-000001-1",
@@ -2871,8 +2879,9 @@
     0.15,
     0.63
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 44,
+   "edgeSegments": 8
   },
   {
    "name": "FP-1206-L_3_2_0_2-W_1_6_0-IPC_A_CMP-04427-009005-1",
@@ -3010,34 +3019,13 @@
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
    "side": "bottom",
    "size": [
-    0.396,
-    0.407,
-    0.006
-   ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
-   "side": "bottom",
-   "size": [
     0.24,
     2.177,
     0.03
    ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
-   "side": "bottom",
-   "size": [
-    0.377,
-    0.535,
-    0.006
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3047,8 +3035,9 @@
     2.622,
     0.03
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3058,8 +3047,9 @@
     2.177,
     0.03
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3069,8 +3059,9 @@
     0.623,
     0.1
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3080,8 +3071,9 @@
     2.622,
     0.03
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3091,8 +3083,9 @@
     2.177,
     0.03
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3102,8 +3095,9 @@
     0.623,
     0.457
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 32,
+   "edgeSegments": 8
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3113,8 +3107,9 @@
     2.622,
     0.03
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3124,8 +3119,9 @@
     0.623,
     0.1
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3135,8 +3131,9 @@
     0.623,
     0.457
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 32,
+   "edgeSegments": 8
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3146,19 +3143,9 @@
     0.623,
     0.457
    ],
-   "kind": "decals",
-   "triangles": 2
-  },
-  {
-   "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
-   "side": "bottom",
-   "size": [
-    0.481,
-    0.507,
-    0.003
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 32,
+   "edgeSegments": 8
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3168,8 +3155,9 @@
     0.623,
     0.457
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 32,
+   "edgeSegments": 8
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3179,8 +3167,9 @@
     2.177,
     0.03
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3190,8 +3179,9 @@
     0.623,
     0.1
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3201,19 +3191,9 @@
     0.623,
     0.457
    ],
-   "kind": "decals",
-   "triangles": 2
-  },
-  {
-   "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
-   "side": "bottom",
-   "size": [
-    0.578,
-    0.394,
-    0.004
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 32,
+   "edgeSegments": 8
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3223,8 +3203,9 @@
     0.623,
     0.1
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3234,30 +3215,9 @@
     2.622,
     0.03
    ],
-   "kind": "blocks",
-   "triangles": 12
-  },
-  {
-   "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
-   "side": "bottom",
-   "size": [
-    0.359,
-    0.53,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
-   "side": "bottom",
-   "size": [
-    0.411,
-    0.411,
-    0.003
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3267,8 +3227,9 @@
     0.623,
     0.457
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 32,
+   "edgeSegments": 8
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3278,8 +3239,9 @@
     2.622,
     0.03
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3289,8 +3251,9 @@
     2.177,
     0.03
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3300,8 +3263,9 @@
     2.177,
     0.03
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3311,8 +3275,9 @@
     0.623,
     0.1
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3322,8 +3287,9 @@
     0.623,
     0.1
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3333,8 +3299,9 @@
     0.623,
     0.1
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3344,7 +3311,7 @@
     8.5,
     3.36
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 332,
    "edgeSegments": 140
   },
@@ -3356,8 +3323,9 @@
     2.177,
     0.03
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3367,7 +3335,7 @@
     10.45,
     4.36
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1072,
    "edgeSegments": 198
   },
@@ -3379,8 +3347,9 @@
     0.623,
     0.457
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 32,
+   "edgeSegments": 8
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3390,8 +3359,9 @@
     2.177,
     0.03
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3401,19 +3371,9 @@
     2.177,
     0.03
    ],
-   "kind": "bits",
-   "triangles": 12
-  },
-  {
-   "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
-   "side": "bottom",
-   "size": [
-    0.119,
-    0.529,
-    0.003
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3423,8 +3383,9 @@
     0.623,
     0.457
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 32,
+   "edgeSegments": 8
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3434,8 +3395,9 @@
     0.623,
     0.1
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3445,8 +3407,9 @@
     2.177,
     0.03
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3456,8 +3419,9 @@
     0.623,
     0.457
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 32,
+   "edgeSegments": 8
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3467,8 +3431,9 @@
     2.622,
     0.03
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3478,8 +3443,9 @@
     2.177,
     0.03
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3489,8 +3455,9 @@
     2.177,
     0.03
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3500,8 +3467,9 @@
     0.623,
     0.457
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 32,
+   "edgeSegments": 8
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3511,8 +3479,9 @@
     2.177,
     0.03
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3522,8 +3491,9 @@
     2.622,
     0.03
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3533,19 +3503,9 @@
     0.623,
     0.1
    ],
-   "kind": "decals",
-   "triangles": 2
-  },
-  {
-   "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
-   "side": "bottom",
-   "size": [
-    0.382,
-    0.406,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3555,8 +3515,9 @@
     0.623,
     0.1
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3566,8 +3527,9 @@
     0.623,
     0.457
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 32,
+   "edgeSegments": 8
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3577,8 +3539,9 @@
     0.623,
     0.1
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3588,8 +3551,9 @@
     0.623,
     0.1
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3599,20 +3563,9 @@
     7.9,
     4.73
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1022,
    "edgeSegments": 291
-  },
-  {
-   "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
-   "side": "bottom",
-   "size": [
-    0.359,
-    0.394,
-    0.005
-   ],
-   "kind": "bits",
-   "triangles": 12
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3622,8 +3575,9 @@
     0.623,
     0.457
    ],
-   "kind": "decals",
-   "triangles": 2
+   "kind": "interface",
+   "triangles": 32,
+   "edgeSegments": 8
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3633,8 +3587,9 @@
     2.622,
     0.03
    ],
-   "kind": "blocks",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3644,8 +3599,9 @@
     2.177,
     0.03
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3655,8 +3611,9 @@
     2.177,
     0.03
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-12401610E4#2A-MFG_CMP-15126-126516878-1",
@@ -3666,8 +3623,9 @@
     2.177,
     0.03
    ],
-   "kind": "bits",
-   "triangles": 12
+   "kind": "interface",
+   "triangles": 12,
+   "edgeSegments": 0
   },
   {
    "name": "FP-ASEK-ASEAIG-MFG_CMP-27762-004678-1",
@@ -9435,7 +9393,7 @@
     3.851,
     3.201
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 14312,
    "edgeSegments": 1460
   },
@@ -9447,7 +9405,7 @@
     5.354,
     3.201
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 12272,
    "edgeSegments": 500
   },
@@ -9459,7 +9417,7 @@
     12.95,
     5.6
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 4028,
    "edgeSegments": 1916
   },

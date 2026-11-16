@@ -31,20 +31,20 @@
  "slots": null,
  "counts": {
   "board": 1,
-  "parts": 17,
+  "parts": 3,
   "blocks": 30,
   "bits": 0,
   "decals": 189,
-  "interface": 0
+  "interface": 14
  },
  "triangles": {
   "board": 1920,
-  "parts": 90053,
+  "parts": 12381,
   "blocks": 360,
   "bits": 0,
   "decals": 378,
-  "interface": 0,
-  "instanced": 12512
+  "interface": 102696,
+  "instanced": 0
  },
  "split": null,
  "components": [
@@ -56,7 +56,7 @@
     12.95,
     5.6
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 29172,
    "edgeSegments": 3884
   },
@@ -68,7 +68,7 @@
     31.908,
     5.658
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 2260,
    "edgeSegments": 1070
   },
@@ -1148,7 +1148,7 @@
     8.254,
     9.977
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 43388,
    "edgeSegments": 1316
   },
@@ -1171,7 +1171,7 @@
     5.84,
     5.97
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 2004,
    "edgeSegments": 906
   },
@@ -1216,9 +1216,9 @@
     6.6,
     1.45
    ],
-   "kind": "parts",
-   "instanceOf": "J14",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 2764,
+   "edgeSegments": 134
   },
   {
    "name": "J14",
@@ -1228,9 +1228,9 @@
     6.6,
     1.45
    ],
-   "kind": "parts",
-   "instanceOf": "J14",
-   "triangles": 2764
+   "kind": "interface",
+   "triangles": 2764,
+   "edgeSegments": 134
   },
   {
    "name": "J15",
@@ -1240,7 +1240,7 @@
     7.5,
     3.5
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 596,
    "edgeSegments": 271
   },
@@ -1683,7 +1683,7 @@
     2.0,
     8.7
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 252,
    "edgeSegments": 120
   },
@@ -2520,9 +2520,9 @@
     7.5,
     5.5
    ],
-   "kind": "parts",
-   "instanceOf": "S2",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 1096,
+   "edgeSegments": 285
   },
   {
    "name": "S2",
@@ -2532,9 +2532,9 @@
     7.5,
     5.5
    ],
-   "kind": "parts",
-   "instanceOf": "S2",
-   "triangles": 1096
+   "kind": "interface",
+   "triangles": 1096,
+   "edgeSegments": 285
   },
   {
    "name": "SW1",
@@ -2555,9 +2555,9 @@
     11.002,
     5.102
    ],
-   "kind": "parts",
-   "instanceOf": "T2",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 4326,
+   "edgeSegments": 1031
   },
   {
    "name": "T2",
@@ -2567,9 +2567,9 @@
     11.002,
     5.102
    ],
-   "kind": "parts",
-   "instanceOf": "T2",
-   "triangles": 4326
+   "kind": "interface",
+   "triangles": 4326,
+   "edgeSegments": 1031
   },
   {
    "name": "T3",
@@ -2579,9 +2579,9 @@
     11.002,
     5.102
    ],
-   "kind": "parts",
-   "instanceOf": "T4",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 4326,
+   "edgeSegments": 1031
   },
   {
    "name": "T4",
@@ -2591,9 +2591,9 @@
     11.002,
     5.102
    ],
-   "kind": "parts",
-   "instanceOf": "T4",
-   "triangles": 4326
+   "kind": "interface",
+   "triangles": 4326,
+   "edgeSegments": 1031
   },
   {
    "name": "TEMP1",

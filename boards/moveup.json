@@ -1,0 +1,18 @@
+{
+  "interfaces": [
+    {"ref": "BPC", "label": "Backplane connector", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot. Carries CAN, 3.3 V and 5 V."},
+    {"ref": "J1", "label": "ST-Link", "type": "debug", "connector": "Samtec FTSH-107 (2×7, 1.27 mm)", "desc": "Programming and debug port (JTAG/SWD) with the ST-Link UART."},
+    {"ref": "J13", "label": "GNSS module A", "type": "expansion", "connector": "Amphenol 10164227-0201A1RLF (20P)", "desc": "Board-to-board connector for the GNSS module: switched 3.3 V, UART, RTK status and geofence status."},
+    {"ref": "J14", "label": "GNSS module B", "type": "expansion", "connector": "Amphenol 10164227-0201A1RLF (20P)", "desc": "Board-to-board connector for the GNSS module: switched 3.3 V, reset, interrupt, timepulse and safeboot."},
+    {"ref": "J15", "label": "LoRa antenna", "type": "rf", "connector": "Coaxial RF connector", "desc": "Antenna port of the NiceRF LoRa1278F30 module."},
+    {"ref": "H", "label": "External connector", "type": "io", "connector": "Harwin Gecko G125-MH22005L3P (20P)", "desc": "For external add-ons: switched 3.3 V and 5 V, SPI with three chip selects, I²C and UART."},
+    {"ref": "T1", "label": "RTD 1", "type": "sensor", "connector": "3P terminal", "desc": "3-wire RTD temperature probe, read by a MAX31865 over SPI."},
+    {"ref": "T2", "label": "RTD 2", "type": "sensor", "connector": "3P terminal", "desc": "3-wire RTD temperature probe, read by a MAX31865 over SPI."},
+    {"ref": "T3", "label": "RTD 3", "type": "sensor", "connector": "3P terminal", "desc": "3-wire RTD temperature probe, read by a MAX31865 over SPI."},
+    {"ref": "T4", "label": "RTD 4", "type": "sensor", "connector": "3P terminal", "desc": "3-wire RTD temperature probe, read by a MAX31865 over SPI."},
+    {"ref": "BT1", "label": "RTC battery", "type": "power", "connector": "Coin cell holder", "desc": "Backup battery for the real-time clock of the MCU."},
+    {"ref": "P1", "label": "VBAT select", "type": "switch", "connector": "3P pin header (2 mm)", "desc": "Jumper 1-2 feeds the MCU VBAT pin from the RTC battery, 2-3 from the main 3.3 V rail."},
+    {"ref": "S1", "label": "Power LED switch", "type": "switch", "connector": "Slide switch", "desc": "Turns the power status LEDs on or off."},
+    {"ref": "S2", "label": "Signal LED switch", "type": "switch", "connector": "Slide switch", "desc": "Turns the signal LEDs (bus activity, JTAG) on or off."}
+  ]
+}

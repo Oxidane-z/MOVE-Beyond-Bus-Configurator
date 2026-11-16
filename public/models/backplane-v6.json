@@ -41,20 +41,20 @@
  },
  "counts": {
   "board": 1,
-  "parts": 54,
+  "parts": 41,
   "blocks": 41,
   "bits": 0,
   "decals": 485,
-  "interface": 0
+  "interface": 13
  },
  "triangles": {
   "board": 1196,
-  "parts": 40048,
+  "parts": 34904,
   "blocks": 492,
   "bits": 0,
   "decals": 970,
-  "interface": 0,
-  "instanced": 20010
+  "interface": 10848,
+  "instanced": 18694
  },
  "split": null,
  "components": [
@@ -2267,7 +2267,7 @@
     5.54,
     5.4
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 660,
    "edgeSegments": 252
   },
@@ -2279,7 +2279,7 @@
     9.716,
     11.43
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 336,
    "edgeSegments": 233
   },
@@ -2396,7 +2396,7 @@
     5.36,
     1.5
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1024,
    "edgeSegments": 280
   },
@@ -2613,7 +2613,7 @@
     5.842,
     6.985
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1428,
    "edgeSegments": 766
   },
@@ -2834,9 +2834,9 @@
     5.08,
     12.696
    ],
-   "kind": "parts",
-   "instanceOf": "JSTBY",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 292,
+   "edgeSegments": 96
   },
   {
    "name": "JSTBY",
@@ -2846,9 +2846,9 @@
     5.08,
     12.696
    ],
-   "kind": "parts",
-   "instanceOf": "JSTBY",
-   "triangles": 292
+   "kind": "interface",
+   "triangles": 292,
+   "edgeSegments": 96
   },
   {
    "name": "L1",
@@ -3047,7 +3047,7 @@
     8.25,
     3.9
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 672,
    "edgeSegments": 306
   },
@@ -6018,9 +6018,9 @@
     5.36,
     1.5
    ],
-   "kind": "parts",
-   "instanceOf": "SCP6",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 1024,
+   "edgeSegments": 282
   },
   {
    "name": "SCP2",
@@ -6030,7 +6030,7 @@
     5.36,
     1.5
    ],
-   "kind": "parts",
+   "kind": "interface",
    "triangles": 1024,
    "edgeSegments": 282
   },
@@ -6042,9 +6042,9 @@
     5.36,
     1.5
    ],
-   "kind": "parts",
-   "instanceOf": "SCP6",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 1024,
+   "edgeSegments": 282
   },
   {
    "name": "SCP4",
@@ -6054,9 +6054,9 @@
     5.36,
     1.5
    ],
-   "kind": "parts",
-   "instanceOf": "SCP6",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 1024,
+   "edgeSegments": 282
   },
   {
    "name": "SCP5",
@@ -6066,9 +6066,9 @@
     5.36,
     1.5
    ],
-   "kind": "parts",
-   "instanceOf": "SCP6",
-   "triangles": 0
+   "kind": "interface",
+   "triangles": 1024,
+   "edgeSegments": 282
   },
   {
    "name": "SCP6",
@@ -6078,9 +6078,9 @@
     5.36,
     1.5
    ],
-   "kind": "parts",
-   "instanceOf": "SCP6",
-   "triangles": 1024
+   "kind": "interface",
+   "triangles": 1024,
+   "edgeSegments": 282
   },
   {
    "name": "SOLARPOS",

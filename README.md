@@ -118,15 +118,15 @@ python pipeline/step2glb.py PHILEAS_SB.step public/models/phileas --board Board 
 Revision 1 的另外两块板和 Prototype 的 EXP V1（`cad/Rev1/`、`cad/Proto/`，先解压）：
 
 ```bash
-python pipeline/step2glb.py "MOVE UP SB.step" public/models/moveup --board Board --mate BPC --deflection 0.2 --angular 1.2
+python pipeline/step2glb.py "MOVE UP SB.step" public/models/moveup --board Board --mate BPC --deflection 0.2 --angular 1.2 --annotations boards/moveup.json
 ```
 
 ```bash
-python pipeline/step2glb.py Measurement_SB.step public/models/measurement --board Board --mate BPC --deflection 0.2 --angular 1.2
+python pipeline/step2glb.py Measurement_SB.step public/models/measurement --board Board --mate BPC --deflection 0.2 --angular 1.2 --annotations boards/measurement.json
 ```
 
 ```bash
-python pipeline/step2glb.py "EXP Board.step" public/models/exp1 --board Experiment_Board_BOARD --mate SAMTEC_ERM8 --deflection 0.2 --angular 1.2
+python pipeline/step2glb.py "EXP Board.step" public/models/exp1 --board Experiment_Board_BOARD --mate SAMTEC_ERM8 --deflection 0.2 --angular 1.2 --annotations boards/exp1.json
 ```
 
 背板用背板坐标系，并指出槽位连接器的名称前缀。`cad/Backplane_V8.zip` 需要先解压：
@@ -138,7 +138,7 @@ python pipeline/step2glb.py Backplane_V8.step public/models/backplane --frame ba
 背板 V6 的 STEP（`cad/Proto/BPV6 Assem.zip`）是一个总装，里面还有一块底板和插着的 EXP V1。`--only-board` 只留槽位连接器所在的那块板和它上面的件：
 
 ```bash
-python pipeline/step2glb.py "BPV6 Assem.step" public/models/backplane-v6 --frame backplane --slots PCON --board Board --only-board --deflection 0.25 --angular 1.3
+python pipeline/step2glb.py "BPV6 Assem.step" public/models/backplane-v6 --frame backplane --slots PCON --board Board --only-board --deflection 0.25 --angular 1.3 --annotations boards/backplane-v6.json
 ```
 
 脚本会在输出的 JSON 里写出各槽位的位置和槽距。`system.json` 的 `backplanes` 里登记各型号背板（标题下方可切换），每个的 `seatY` 等于 `y` 加上 JSON 里的 `slots.top`；`pitch` 对所有背板相同。V7 和 V8 外形相同，合成一个选项。几何完全相同的元器件（比如 7 个槽位连接器）只存一份网格。
