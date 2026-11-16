@@ -2,6 +2,9 @@ import * as THREE from 'three';
 import sys from '../system.json';
 import { t, applyStatic } from './i18n.js';
 import { applyTheme, setResolution } from './render.js';
+import { isFree as isFreeIn, fit as fitIn, swapPlan as swapPlanIn } from './slots.js';
+import { inkOn } from './color.js';
+import { BRACKET_MODES, serialize, parse, presetCfg, defaultBracket } from './config.js';
 import { buildStructure, buildCard as buildCardGeo, buildExpansion, loadBackplane, loadBoard, hasModel, setBracket } from './models.js';
 
 const SLOTS = sys.slots, PITCH = sys.pitch, TYPES = sys.boards, LAYOUTS = sys.layouts, BACKPLANES = sys.backplanes;
@@ -11,17 +14,13 @@ const buildCard = key => buildCardGeo(key, TYPES[key], PITCH);
 // 板卡原点（连接器）所在的 Z。占两个槽的板卡，连接器可能在靠后的那个槽
 const cardZ = (type, slot) => slotZ(slot + (TYPES[type].connectorSlot || 0));
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const BRACKET_MODES = ['back', 'front', 'none'];
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 
-// 色块上的文字按底色深浅取黑或白
-function inkOn(hex) {
-  const n = parseInt(hex.slice(1), 16), l = 0.2126 * (n >> 16 & 255) + 0.7152 * (n >> 8 & 255) + 0.0722 * (n & 255);
-  return l < 140 ? '#ffffff' : '#25262b';
-}
 // 槽位条和编号标记用分系统颜色（PCB 颜色在 MOVE-IIIa 里几乎都是绿的，区分不了板卡）；没写分系统的退回 PCB 颜色
 const SUBS = sys.subsystems || {};
 const tagColor = T => (SUBS[T.subsystem] || T).color;
+// 库里还没有任何板卡填了功耗时，功耗相关的统计项和“power n/a”都不显示
+const hasPower = Object.values(sys.boards).some(T => T.typ != null);
 const levelSuffix = T => T.level === 'rev1' ? t('level.rev1') : T.level === 'proto' ? t('level.proto') : '';
 
 // 每块板的人工标注（boards/<板卡 key>.json），目前只有接口
@@ -56,12 +55,15 @@ function showTarget(w, slot) {
 }
 
 /* ---------- 补间 ---------- */
+// 画面只在有变化时重画：补间进行中，或者有人把 dirty 置为 true（界面更新、拖动、缩放、换主题）
+let dirty = true;
 const tweens = new Set();
 const easeOut = x => 1 - Math.pow(1 - x, 3), easeIn = x => x * x, easeInOut = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 function killTween(o, k) { for (const w of tweens) if (w.o === o && w.k === k) { tweens.delete(w); w.res(); } }
 function tween(o, k, to, ms, ease) {
   return new Promise(res => {
     killTween(o, k);
+    dirty = true;
     if (reduced || ms <= 0) { o[k] = to; res(); return; }
     tweens.add({ o, k, from: o[k], to, ms, ease: ease || easeOut, t0: performance.now(), res });
   });
@@ -72,14 +74,12 @@ const slots = new Array(SLOTS).fill(null);
 const placements = new Map();
 const loaded = new Set();   // 模型（连同支架和扩展板）已就绪的板卡
 let nextId = 1, sel = null;
+const failed = new Set();   // 模型取不下来的板卡，可以重试
+const undoStack = [];       // 每次改动前的配置（config.js 的文字形式）
+let applying = false, targetSnap = '';   // 正在逐块换成另一套配置；targetSnap 是换完以后的样子
 
-const isFree = (i, ignore) => i >= 0 && i < SLOTS && (slots[i] === null || slots[i] === ignore);
-function fit(w, i, ignore) {
-  if (w === 1) return isFree(i, ignore) ? i : -1;
-  if (isFree(i, ignore) && isFree(i + 1, ignore)) return i;
-  if (isFree(i - 1, ignore) && isFree(i, ignore)) return i - 1;
-  return -1;
-}
+const isFree = (i, ignore) => isFreeIn(slots, i, ignore);
+const fit = (w, i, ignore) => fitIn(slots, w, i, ignore);
 function anyFit(w, ignore) { for (let i = 0; i < SLOTS; i++) if (fit(w, i, ignore) >= 0) return true; return false; }
 function armed() {
   if (!sel || sel.swap) return null;
@@ -89,16 +89,17 @@ function armed() {
 }
 function occupy(p, v) { for (let k = 0; k < TYPES[p.type].w; k++) slots[p.slot + k] = v; }
 
-function place(type, slot, animate) {
+// opts：{ bracket, exps }，恢复一套配置时带上；不带就用默认的支架面和扩展板
+function place(type, slot, animate, opts) {
   // 模型还没加载完，或者目标槽位已被占用时不放。加载期间抢先放板会和随后落下的默认布局叠在一起
   if (!ready || !loaded.has(type) || !hasModel(type)) return;
   for (let k = 0; k < TYPES[type].w; k++) if (!isFree(slot + k, null)) return;
   const built = buildCard(type);
   const p = { id: nextId++, type, slot, group: built.group, hit: built.hit, busy: false, interfaces: [], ownInterfaces: built.interfaces,
               pivot: built.pivot, body: built.body, front: built.front, faceOffset: built.faceOffset, cx: built.cx, cy: built.cy,
-              bracket: built.bracket, bracketMode: TYPES[type].bracketSide || 'back', exps: sitesOf(type).map(() => ({ key: null, exp: null, by: -1 })) };
+              bracket: built.bracket, bracketMode: (opts && opts.bracket) || defaultBracket(sys, type), exps: sitesOf(type).map(() => ({ key: null, exp: null, by: -1 })) };
   if (p.bracket) setBracket(p.bracket, p.bracketMode);
-  sitesOf(type).forEach((site, i) => { if (site.default) setExpansion(p, i, site.default); });
+  sitesOf(type).forEach((site, i) => { const key = opts && !site.fixed ? opts.exps[i] : site.default; if (key) setExpansion(p, i, key); });
   rebuildInterfaces(p);
   built.hit.userData.id = p.id;
   p.group.position.set(0, SEAT_Y, cardZ(type, slot));
@@ -120,7 +121,7 @@ const spanOf = key => sys.expansions[key].sites || 1;
 function clearSite(p, i) {
   const e = p.exps[i];
   if (e.by >= 0) { clearSite(p, e.by); return; }   // 这个位被前一个位上的双位扩展板占着：取下那块板
-  if (e.exp) p.body.remove(e.exp.obj);
+  if (e.exp) { p.body.remove(e.exp.obj); e.exp.interfaces.forEach(i => i.mat.dispose()); }
   if (e.key && spanOf(e.key) === 2) p.exps[i + 1] = { key: null, exp: null, by: -1 };
   p.exps[i] = { key: null, exp: null, by: -1 };
 }
@@ -158,22 +159,13 @@ function fly(p, lift) {
     .then(() => tween(p.group.position, 'y', SEAT_Y, 200, easeIn))
     .then(() => { p.busy = false; });
 }
-// 两块板互换后各自的起始槽位：靠前的位置给原来靠后的板，两块板合起来占的范围两端不变。放不下时返回 null
-function swapPlan(A, B) {
-  const [L, R] = A.slot < B.slot ? [A, B] : [B, A], wl = TYPES[L.type].w, wr = TYPES[R.type].w;
-  const newR = L.slot, newL = R.slot + wr - wl;
-  const free = i => i >= 0 && i < SLOTS && (slots[i] === null || slots[i] === A.id || slots[i] === B.id);
-  for (let k = 0; k < wr; k++) if (!free(newR + k)) return null;
-  for (let k = 0; k < wl; k++) if (!free(newL + k)) return null;
-  if (newR + wr > newL) return null;
-  return new Map([[L, newL], [R, newR]]);
-}
+const swapPlan = (A, B) => swapPlanIn(slots, { id: A.id, slot: A.slot, w: TYPES[A.type].w }, { id: B.id, slot: B.slot, w: TYPES[B.type].w });
 function swap(A, B) {
   const plan = swapPlan(A, B);
   if (!plan) { sel = { kind: 'placed', id: A.id, swap: true, failed: TYPES[B.type].name }; renderUI(); return; }
   touched();
   occupy(A, null); occupy(B, null);
-  A.slot = plan.get(A); B.slot = plan.get(B);
+  A.slot = plan.get(A.id); B.slot = plan.get(B.id);
   occupy(A, A.id); occupy(B, B.id);
   sel = null;
   fly(A, 205); fly(B, 110);
@@ -194,7 +186,12 @@ function removeCard(p) {
   const exit = SEAT_Y + 140 + Math.min(700, 2 * camera.top / view.zoom / Math.cos(view.pitch));
   tween(p.group.position, 'y', SEAT_Y + 7, 220, easeInOut)
     .then(() => tween(p.group.position, 'y', exit, 900, easeIn))
-    .then(() => scene.remove(p.group));   // 几何是各实例共享的模板，不释放
+    .then(() => {
+      scene.remove(p.group);
+      // 几何是各实例共享的模板，不释放；接口件的材质是这块板自己的
+      p.ownInterfaces.forEach(i => i.mat.dispose());
+      p.exps.forEach(e => { if (e.exp) e.exp.interfaces.forEach(i => i.mat.dispose()); });
+    });
   renderUI();
 }
 function setSel(next) {
@@ -209,7 +206,11 @@ function setSel(next) {
 function applyAt(slot) {
   if (!sel || slot < 0) return;
   touched();
-  if (sel.kind === 'lib') place(sel.type, slot, true);
+  if (sel.kind === 'lib') {
+    // 模型还在路上就先记下要放哪，取到了再落位
+    const type = sel.type;
+    if (loaded.has(type)) place(type, slot, true); else fetchBoard(type).then(() => place(type, slot, true));
+  }
   else { const p = placements.get(sel.id); if (p && !p.busy) move(p, slot); }
   showTarget(1, -1);
 }
@@ -250,7 +251,6 @@ function enterInspect(p) {
   sel = null; showTarget(1, -1);
   const back = { yaw: view.yaw, pitch: view.pitch, zoom: view.zoom };
   inspect = { p, back, home: null, hover: null, pinned: null, marks: [], items: [] };
-  cv.style.touchAction = 'none';   // 查看时触屏也能上下俯仰
 
   marks.textContent = ''; ifaceList.textContent = '';
   ifaceTitle.textContent = t('interfacesOf', { name: nameOf(p) });
@@ -320,7 +320,6 @@ function exitInspect() {
   if (!inspect) return;
   const { p, back } = inspect;
   inspect = null; marks.textContent = '';
-  cv.style.touchAction = '';
   p.interfaces.forEach(i => tween(i.mat.uniforms.uMix, 'value', 0, 300, easeOut));
   tween(view, 'tx', HOME.tx, 620, easeInOut); tween(view, 'ty', HOME.ty, 620, easeInOut); tween(view, 'tz', HOME.tz, 620, easeInOut);
   tween(view, 'yaw', nearAngle(back.yaw, view.yaw), 620, easeInOut);
@@ -378,18 +377,22 @@ for (let i = 0; i < SLOTS; i++) {
   slotMarksEl.appendChild(b);
   slotMarks.push(b);
 }
-// 每帧：标记贴在背板靠镜头一侧的边上
+// 重画时：标记贴在背板靠镜头一侧的边上。相邻两个标记在屏幕上挤到一起时（窄屏）整排隐藏，下方的槽位条有同样的功能
 function updateSlotMarks() {
   const x = S.cx + (Math.sin(view.yaw) >= 0 ? 1 : -1) * (S.hx + 8);
+  const w = stage.clientWidth, h = stage.clientHeight;
+  _v.set(x, S.topY, slotZ(0)).project(camera); const ax = _v.x, ay = _v.y;
+  _v.set(x, S.topY, slotZ(1)).project(camera);
+  const crowded = Math.max(Math.abs(_v.x - ax) * w, Math.abs(_v.y - ay) * h) / 2 < 16;
   slotMarks.forEach((b, i) => {
-    b.hidden = !!inspect || !ready;
+    b.hidden = !!inspect || !ready || crowded;
     if (!b.hidden) toScreen(_v.set(x, S.topY, slotZ(i)), b);
   });
 }
 
 /* ---------- 界面 ---------- */
 const libList = document.getElementById('libList'), strip = document.getElementById('strip'),
-      hint = document.getElementById('hint'), stats = document.getElementById('stats');
+      hint = document.getElementById('hint'), stats = document.getElementById('stats'), undoBtn = document.getElementById('undo');
 
 Object.keys(TYPES).forEach(key => {
   const T = TYPES[key], b = document.createElement('button');
@@ -398,10 +401,17 @@ Object.keys(TYPES).forEach(key => {
   b.querySelector('.sw').style.background = T.color;
   b.querySelector('.nm').textContent = T.name;
   const meta = [...(SUBS[T.subsystem] ? [SUBS[T.subsystem].label] : []), sys.levels[T.level] || T.level, T.w === 1 ? t('meta.slots.1') : t('meta.slots.n', { n: T.w }),
-                T.wh ? T.wh + ' Wh' : T.typ == null ? t('meta.noPower') : T.typ.toFixed(1) + ' W'];
+                ...(T.wh ? [T.wh + ' Wh'] : T.typ != null ? [T.typ.toFixed(1) + ' W'] : hasPower ? [t('meta.noPower')] : [])];
   if (ifaceNotes(key).length) meta.push(t('meta.interfaces', { n: ifaceNotes(key).length }));
   b.querySelector('.mt').textContent = meta.join(' · ');
-  b.addEventListener('click', () => setSel(sel && sel.kind === 'lib' && sel.type === key ? null : { kind: 'lib', type: key }));
+  // 色块是 PCB 颜色；分系统颜色（槽位条用的那套）用一个小圆点带上
+  if (SUBS[T.subsystem]) { const d = document.createElement('span'); d.className = 'dot'; d.style.background = SUBS[T.subsystem].color; b.querySelector('.mt').prepend(d); }
+  // 模型到点选时才取
+  b.addEventListener('click', () => {
+    const on = sel && sel.kind === 'lib' && sel.type === key;
+    setSel(on ? null : { kind: 'lib', type: key });
+    if (!on) fetchBoard(key);
+  });
   libList.appendChild(b);
 });
 
@@ -447,9 +457,12 @@ filterGroups.forEach(g => g.chips.forEach(([value, label]) => {
 applyFilters();
 
 function renderUI() {
+  dirty = true;
+  // 操作栏和槽位条每次整体重建。记下键盘焦点在哪个按钮上，重建后还给同一个按钮
+  const ae = document.activeElement, refocus = ae && (hint.contains(ae) || strip.contains(ae)) ? { id: ae.id, act: ae.dataset.act } : null;
   libPanel.hidden = !!inspect; ifacePanel.hidden = !inspect;
   libList.querySelectorAll('.item').forEach(b => {
-    b.disabled = !ready || !loaded.has(b.dataset.type);
+    b.disabled = !ready;
     b.setAttribute('aria-pressed', String(!!sel && sel.kind === 'lib' && sel.type === b.dataset.type));
   });
   const a = inspect ? null : armed();
@@ -490,59 +503,72 @@ function renderUI() {
 
   hint.textContent = '';
   const span = document.createElement('span');
-  const btn = (label, cls, fn) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = label; if (cls) b.className = cls; b.addEventListener('click', fn); return b; };
+  const btn = (label, cls, fn, act) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = label; b.dataset.act = act; if (cls) b.className = cls; b.addEventListener('click', fn); return b; };
   hint.appendChild(span);
   if (inspect) {
     span.textContent = t('hint.inspect', { name: nameOf(inspect.p) });
-    hint.appendChild(btn(t('btn.flip'), '', flipInspect));
-    hint.appendChild(btn(t('btn.back'), 'ghost', exitInspect));
+    hint.appendChild(btn(t('btn.flip'), '', flipInspect, 'flip'));
+    hint.appendChild(btn(t('btn.back'), 'ghost', exitInspect, 'back'));
   } else if (!sel) {
-    span.textContent = t(ready ? 'hint.idle' : 'hint.loading');
-    if (bpCard && bpCard.interfaces.length) hint.appendChild(btn(t('btn.backplane'), 'ghost', () => enterInspect(bpCard)));
+    span.textContent = !ready ? t('hint.loading') : failed.size ? t('hint.failed', { names: [...failed].map(k => TYPES[k].name).join(', ') }) : t('hint.idle');
+    if (bpCard && bpCard.interfaces.length) hint.appendChild(btn(t('btn.backplane'), 'ghost', () => enterInspect(bpCard), 'backplane'));
   } else if (sel.kind === 'lib') {
     const T = TYPES[sel.type];
-    span.textContent = t((anyFit(T.w, null) ? 'hint.place' : 'hint.noRoom') + (T.w === 2 ? '2' : ''), { name: T.name });
-    hint.appendChild(btn(t('btn.cancel'), 'ghost', () => setSel(null)));
+    span.textContent = failed.has(sel.type) ? t('hint.loadFailed', { name: T.name })
+      : (loaded.has(sel.type) ? '' : t('hint.loadingBoard') + ' ') + t((anyFit(T.w, null) ? 'hint.place' : 'hint.noRoom') + (T.w === 2 ? '2' : ''), { name: T.name });
+    hint.appendChild(btn(t('btn.cancel'), 'ghost', () => setSel(null), 'cancel'));
   } else if (sel.swap) {
     const name = TYPES[placements.get(sel.id).type].name;
     span.textContent = sel.failed ? t('hint.swapNoRoom', { name, other: sel.failed }) : t('hint.swap', { name });
-    hint.appendChild(btn(t('btn.cancel'), 'ghost', () => setSel(null)));
+    hint.appendChild(btn(t('btn.cancel'), 'ghost', () => setSel(null), 'cancel'));
   } else {
     const p = placements.get(sel.id);
-    span.textContent = t('hint.selected', { name: TYPES[p.type].name });
-    if (p.interfaces.length) hint.appendChild(btn(t('btn.interfaces'), '', () => enterInspect(p)));
-    if (placements.size > 1) hint.appendChild(btn(t('btn.swap'), 'ghost', () => { sel = { kind: 'placed', id: p.id, swap: true }; renderUI(); }));
+    // 除了自己现在的位置，还有没有别的槽放得下
+    let canMove = false;
+    for (let i = 0; i < SLOTS; i++) { const f = fit(TYPES[p.type].w, i, p.id); if (f >= 0 && f !== p.slot) canMove = true; }
+    span.textContent = t(canMove ? 'hint.selected' : placements.size > 1 ? 'hint.selectedFull' : 'hint.selectedOnly', { name: TYPES[p.type].name });
+    if (p.interfaces.length) hint.appendChild(btn(t('btn.interfaces'), '', () => enterInspect(p), 'interfaces'));
+    if (placements.size > 1) hint.appendChild(btn(t('btn.swap'), 'ghost', () => { sel = { kind: 'placed', id: p.id, swap: true }; renderUI(); }, 'swap'));
     sitesOf(p.type).forEach((site, i) => {
       if (site.fixed) return;   // 固定装着的部件（电池的加热板、COM stack 的 S-Band 板）不提供切换
       // 每个扩展位一个按钮，依次切换：各个可用的扩展板，然后是不装
       const e = p.exps[i], cycle = [...site.options, null];
       const state = e.key ? sys.expansions[e.key].name : t(site.options.length ? 'expansion.none' : 'expansion.unavailable');
       const b = btn(t('btn.expansion', { site: site.name, name: state }), 'ghost', () => {
-        setExpansion(p, i, cycle[(cycle.indexOf(e.key) + 1) % cycle.length]); rebuildInterfaces(p); renderUI();
-      });
+        touched(); setExpansion(p, i, cycle[(cycle.indexOf(e.key) + 1) % cycle.length]); rebuildInterfaces(p); renderUI();
+      }, 'exp' + i);
       b.disabled = !site.options.length || e.by >= 0;
       hint.appendChild(b);
     });
     if (p.bracket) hint.appendChild(btn(t('btn.bracket', { mode: t('bracket.' + p.bracketMode) }), 'ghost', () => {
+      touched();
       p.bracketMode = BRACKET_MODES[(BRACKET_MODES.indexOf(p.bracketMode) + 1) % BRACKET_MODES.length];
       setBracket(p.bracket, p.bracketMode); renderUI();
-    }));
-    hint.appendChild(btn(t('btn.remove'), p.interfaces.length ? 'ghost' : '', () => { touched(); removeCard(p); }));
-    hint.appendChild(btn(t('btn.cancel'), 'ghost', () => setSel(null)));
+    }, 'bracket'));
+    hint.appendChild(btn(t('btn.remove'), p.interfaces.length ? 'ghost' : '', () => { touched(); removeCard(p); }, 'remove'));
+    hint.appendChild(btn(t('btn.cancel'), 'ghost', () => setSel(null), 'cancel'));
   }
-  if (placements.size && !inspect) hint.appendChild(btn(t('btn.clear'), 'ghost', () => { clearAll(); touched(); }));
+  if (placements.size && !inspect) hint.appendChild(btn(t('btn.clear'), 'ghost', () => { touched(); clearAll(); }, 'clear'));
+  if (failed.size && !inspect) hint.appendChild(btn(t('btn.retry'), 'ghost', () => [...failed].forEach(fetchBoard), 'retry'));
+  undoBtn.disabled = !undoStack.length || !!inspect;
 
   let typ = 0, peak = 0, wh = 0, missing = 0;
   placements.forEach(p => { const T = TYPES[p.type]; if (T.typ == null && !T.wh) missing++; typ += T.typ || 0; peak += T.peak || 0; wh += T.wh || 0; });
   const used = slots.filter(s => s !== null).length;
   const watts = v => v > 0 ? v.toFixed(2) + ' W' : '—';
-  const rows = [[t('stats.slots'), used + ' / ' + SLOTS], [t('stats.typ'), watts(typ)], [t('stats.peak'), watts(peak)],
-                [t('stats.capacity'), wh.toFixed(1) + ' Wh'], [t('stats.runtime'), typ > 0 && wh > 0 ? (wh / typ).toFixed(1) + ' h' : '—']];
+  const rows = [[t('stats.slots'), used + ' / ' + SLOTS], ...(hasPower ? [[t('stats.typ'), watts(typ)], [t('stats.peak'), watts(peak)]] : []),
+                [t('stats.capacity'), wh.toFixed(1) + ' Wh'], ...(hasPower ? [[t('stats.runtime'), typ > 0 && wh > 0 ? (wh / typ).toFixed(1) + ' h' : '—']] : [])];
   stats.textContent = '';
   rows.forEach(r => { const d = document.createElement('div'), dt = document.createElement('dt'), dd = document.createElement('dd');
     dt.textContent = r[0]; dd.textContent = r[1]; d.appendChild(dt); d.appendChild(dd); stats.appendChild(d); });
   const tag = text => { const e = document.createElement('span'); e.className = 'tag'; e.textContent = text; stats.appendChild(e); };
-  if (missing) tag(t('stats.missing', { n: missing }));
+  if (missing && hasPower) tag(t('stats.missing', { n: missing }));
+
+  if (refocus) {
+    const el = (refocus.id && document.getElementById(refocus.id)) || (refocus.act && hint.querySelector('[data-act="' + refocus.act + '"]')) || hint.querySelector('button');
+    if (el) el.focus({ preventScroll: true });
+  }
+  syncHash();
 }
 
 /* ---------- 画面交互 ---------- */
@@ -563,31 +589,43 @@ function pick(e) {
   }
   return { card: ch ? placements.get(ch.object.userData.id) : null, slot, a };
 }
-let pd = null, dragging = false;
+let pd = null, dragging = false, pinch = null;
+const pts = new Map();   // 按在画布上的指针，两个时是双指缩放
+const spread = () => { const [a, b] = [...pts.values()]; return Math.hypot(a.x - b.x, a.y - b.y); };
 cv.addEventListener('pointerdown', e => {
+  pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  try { cv.setPointerCapture(e.pointerId); } catch (_) {}
+  if (pts.size === 2) { pinch = { d: spread() || 1, zoom: view.zoom }; pd = null; dragging = false; showTarget(1, -1); return; }
+  if (pts.size > 2) return;
   pd = { x: e.clientX, y: e.clientY, yaw: view.yaw, pitch: view.pitch };
   dragging = false;
-  try { cv.setPointerCapture(e.pointerId); } catch (_) {}
 });
 cv.addEventListener('pointermove', e => {
+  if (pts.has(e.pointerId)) pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (pinch) {
+    if (pts.size === 2) { killTween(view, 'zoom'); view.zoom = clamp(pinch.zoom * spread() / pinch.d, 0.6, 3); dirty = true; }
+    return;
+  }
   if (pd) {
-    const dx = e.clientX - pd.x, dy = e.clientY - pd.y, mouse = e.pointerType === 'mouse';
-    const tilt = mouse || !!inspect;
-    if (!dragging && (Math.abs(dx) > 6 || (tilt && Math.abs(dy) > 6))) {
+    const dx = e.clientX - pd.x, dy = e.clientY - pd.y;
+    if (!dragging && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
       dragging = true; killTween(view, 'yaw'); killTween(view, 'pitch');
       showTarget(1, -1); cv.style.cursor = 'grabbing';
     }
     if (!dragging) return;
     view.yaw = pd.yaw - dx * 0.008;
-    // 平时触屏上竖向滑动留给页面滚动，只有鼠标可以改俯仰角；查看接口时都可以，而且能转到板子下方
-    if (tilt) view.pitch = clamp(pd.pitch + dy * 0.006, inspect ? -1.5 : 0.12, 1.5);
+    // 页面本身不滚动（整页固定在一屏内），所以触屏和鼠标一样可以改俯仰角；查看接口时还能转到板子下方
+    view.pitch = clamp(pd.pitch + dy * 0.006, inspect ? -1.5 : 0.12, 1.5);
+    dirty = true;
   } else if (!inspect) {
     const h = pick(e);
     if (h.a) showTarget(h.a.w, h.slot);
     cv.style.cursor = h.slot >= 0 || h.card ? 'pointer' : 'grab';
   }
 });
+const release = e => { pts.delete(e.pointerId); if (pts.size < 2) pinch = null; };
 cv.addEventListener('pointerup', e => {
+  release(e);
   if (!pd) return;
   if (!dragging && !inspect) {
     const h = pick(e);
@@ -602,12 +640,13 @@ cv.addEventListener('pointerup', e => {
   }
   pd = null; dragging = false; cv.style.cursor = 'grab';
 });
-cv.addEventListener('pointercancel', () => { pd = null; dragging = false; });
+cv.addEventListener('pointercancel', e => { release(e); pd = null; dragging = false; });
 cv.addEventListener('pointerleave', () => { if (!pd) showTarget(1, -1); });
-cv.addEventListener('wheel', e => { e.preventDefault(); view.zoom = clamp(view.zoom * (e.deltaY < 0 ? 1.08 : 0.926), 0.6, 3); }, { passive: false });
+cv.addEventListener('wheel', e => { e.preventDefault(); killTween(view, 'zoom'); view.zoom = clamp(view.zoom * (e.deltaY < 0 ? 1.08 : 0.926), 0.6, 3); dirty = true; }, { passive: false });
 const turnBy = d => tween(view, 'yaw', view.yaw + d, 420, easeInOut);
 document.getElementById('rotL').addEventListener('click', () => turnBy(-Math.PI / 2));
 document.getElementById('rotR').addEventListener('click', () => turnBy(Math.PI / 2));
+undoBtn.addEventListener('click', undo);
 document.getElementById('resetView').addEventListener('click', () => {
   // 查看接口时回到进入查看时的视角
   const h = inspect ? inspect.home : { yaw: HOME_YAW, pitch: ISO, zoom: 1 };
@@ -616,6 +655,7 @@ document.getElementById('resetView').addEventListener('click', () => {
 window.addEventListener('keydown', e => {
   if (e.key === 'Escape') { if (inspect) exitInspect(); else setSel(null); }
   if (inspect) return;
+  if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'z') { e.preventDefault(); undo(); return; }
   if ((e.key === 'Delete' || e.key === 'Backspace') && sel && sel.kind === 'placed') { const p = placements.get(sel.id); if (p && !p.busy) { touched(); removeCard(p); } }
 });
 
@@ -626,6 +666,7 @@ function syncThemeBtn() {
   const dark = document.documentElement.getAttribute('data-theme') !== 'light';
   themeBtn.textContent = dark ? '☀' : '☾';
   themeBtn.setAttribute('aria-label', t(dark ? 'aria.toLight' : 'aria.toDark'));
+  themeBtn.title = themeBtn.getAttribute('aria-label');
 }
 themeBtn.addEventListener('click', () => {
   const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
@@ -634,8 +675,7 @@ themeBtn.addEventListener('click', () => {
   syncThemeBtn();
 });
 syncThemeBtn();
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
-new MutationObserver(applyTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+new MutationObserver(() => { applyTheme(); dirty = true; }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
 let aspect = 1;
 function resize() {
@@ -650,12 +690,15 @@ new ResizeObserver(resize).observe(stage);
 
 function frameLoop() {
   const now = performance.now();   // 与补间起点用同一个时钟
+  const active = dirty || tweens.size > 0;
+  dirty = false;
   for (const w of tweens) {
     const u = Math.min(1, (now - w.t0) / w.ms);
     w.o[w.k] = w.from + (w.to - w.from) * w.ease(u);
-    if (u >= 1) { tweens.delete(w); w.res(); }
+    // 补间结束后接着执行的收尾（摘掉模型、复位朝向）发生在这一帧之后，所以下一帧再画一次
+    if (u >= 1) { tweens.delete(w); w.res(); dirty = true; }
   }
-  draw();
+  if (active) draw();   // 没有变化就不重画
   requestAnimationFrame(frameLoop);
 }
 function draw() {
@@ -679,22 +722,26 @@ applyTheme();
 resize();
 renderUI();
 requestAnimationFrame(frameLoop);
-// 先取背板，界面随即可用；板卡的模型同时开始下载，默认布局按槽位顺序一块一块插入
+// 先取背板，界面随即可用。板卡的模型按需取：布局里用到的、在板卡库里点选的
 const wait = ms => new Promise(res => setTimeout(res, reduced ? 0 : ms));
-let run = 0, layout = sys.initial;   // run：每次换布局或清空加一，用来中止还在进行的逐块插入
-const fetchBoard = type => loadBoard(sys, type).then(() => { loaded.add(type); renderUI(); });
+let run = 0, layout = sys.initial;   // run：每次换配置加一，用来中止还在进行的逐块插入
+const fetchBoard = type => loadBoard(sys, type).then(() => {
+  if (hasModel(type)) { loaded.add(type); failed.delete(type); } else failed.add(type);
+  renderUI();
+});
 // 依次拔出一组板卡，从最后一个槽往前。记下每个槽位上方什么时候腾空（拔出动画走完），
 // 新板卡要等自己那几个槽腾空了才落下，这样拔出和插入的模型不会在同一个位置上重叠
 const EXIT_MS = 1150, clearAt = new Array(SLOTS).fill(0);
 function pullOut(list) {
   list.sort((a, b) => b.slot - a.slot).forEach((p, k) => {
     const delay = reduced ? 0 : k * 170;
-    p.busy = true;
+    p.busy = true; p.leaving = true;
     if (!reduced) for (let i = 0; i < TYPES[p.type].w; i++) clearAt[p.slot + i] = performance.now() + delay + EXIT_MS;
-    setTimeout(() => removeCard(p), delay);
+    // 不用等的当场拔掉：槽位立刻空出来，紧接着的插入才放得进去
+    if (delay) setTimeout(() => removeCard(p), delay); else removeCard(p);
   });
 }
-// 原地轻轻抬一下再落回：换布局时位置没变的板卡用它代替拔出重插
+// 原地轻轻抬一下再落回：换配置时位置没变的板卡用它代替拔出重插
 function bump(p) {
   if (p.busy || !placements.has(p.id)) return;
   p.busy = true;
@@ -702,49 +749,104 @@ function bump(p) {
     .then(() => tween(p.group.position, 'y', SEAT_Y, 230, easeIn))
     .then(() => { p.busy = false; });
 }
-// keep：布局里第 k 项 → 已经在位的板卡。这些不重新插，只依次起伏一下，连起来像一道波
-async function playLayout(key, keep = new Map()) {
-  const mine = ++run, list = LAYOUTS[key].boards;
-  layout = key; renderLayouts();
-  const jobs = list.map(c => fetchBoard(c[0]));
-  // 和拔出一样从最后一个槽往前：最先腾空的槽最先插入
-  const seq = list.map((_, k) => k).sort((a, b) => list[b][1] - list[a][1]);
-  for (const k of seq) {
-    if (keep.has(k)) { bump(keep.get(k)); await wait(90); if (run !== mine) return; continue; }
-    await jobs[k];
-    let due = 0;
-    // 自己占的槽和两侧相邻的槽都要腾空：等轴测视角下隔壁的板一上一下也会显得交错
-    for (let i = -1; i <= TYPES[list[k][0]].w; i++) due = Math.max(due, (clearAt[list[k][1] + i] || 0) - performance.now());
-    if (due > 0) await wait(due);
-    if (run !== mine) return;
-    place(list[k][0], list[k][1], true);
-    await wait(260);
-    if (run !== mine) return;
-  }
-  Object.keys(TYPES).forEach(fetchBoard);   // 布局里没有的板卡最后取
+
+/* ---------- 配置：撤销、地址栏、整套替换 ---------- */
+// 当前的配置（正在拔出的板卡不算）
+const currentCfg = () => ({ bp: bpKey, boards: [...placements.values()].filter(p => !p.leaving)
+  .map(p => ({ type: p.type, slot: p.slot, bracket: p.bracketMode, exps: p.exps.map(e => e.by >= 0 ? null : e.key) })) });
+const snapshot = () => serialize(sys, currentCfg());
+// 逐块替换的过程中，以换完以后的样子为准
+const stateSnap = () => applying ? targetSnap : snapshot();
+// 改动之前调用：把现在的配置记进撤销记录
+function checkpoint() {
+  if (!ready) return;
+  const s = stateSnap();
+  if (undoStack[undoStack.length - 1] !== s) undoStack.push(s);
+  if (undoStack.length > 50) undoStack.shift();
 }
-// 清空：从最后一个槽开始依次拔出。同时中止还没放完的布局
-function clearAll() {
-  run++;
-  setSel(null);
-  pullOut([...placements.values()]);
+function undo() {
+  if (inspect || !ready) return;
+  const cur = stateSnap();
+  let s;
+  do { s = undoStack.pop(); } while (s !== undefined && s === cur);   // 没有实际改动的记录跳过
+  const cfg = s === undefined ? null : parse(sys, s);
+  if (!cfg) { renderUI(); return; }
+  setLayoutFor(cfg);
+  applyConfig(cfg);
 }
-// 换成另一套布局：类型和槽位都对得上的板卡留在原位，其余的依次拔出，缺的逐块插入（每块等自己的槽位腾空）
-const layoutsEl = document.getElementById('layouts');
-function loadLayout(key) {
-  if (!ready || inspect) return;
-  const list = LAYOUTS[key].boards, keep = new Map(), drop = [];
+// 地址栏里带上当前配置，刷新后恢复，也可以把链接发给别人。和打开时的默认配置相同就不带
+function syncHash() {
+  if (!ready || applying) return;
+  const s = snapshot(), want = s === defaultSnap ? '' : '#' + s;
+  if (location.hash !== want) { try { history.replaceState(null, '', want || location.pathname + location.search); } catch (e) {} }
+}
+// 布局选择器跟着配置走：和哪套预设一样就选中哪套，都不一样是 Custom
+function setLayoutFor(cfg) {
+  const s = serialize(sys, { bp: '', boards: cfg.boards });
+  const match = Object.keys(LAYOUTS).find(k => serialize(sys, presetCfg(sys, k, '')) === s);
+  layout = match || (LAYOUTS.custom ? 'custom' : layout);
+  renderLayouts();
+}
+// 把一块留在原位的板卡的支架面和扩展板改成配置里写的
+function setOpts(p, c) {
+  if (!placements.has(p.id)) return;
+  if (p.bracket && p.bracketMode !== c.bracket) { p.bracketMode = c.bracket; setBracket(p.bracket, p.bracketMode); }
+  let changed = false;
+  sitesOf(p.type).forEach((site, i) => {
+    const e = p.exps[i], key = c.exps[i] || null;
+    if (site.fixed || e.by >= 0 || e.key === key) return;
+    setExpansion(p, i, key); changed = true;
+  });
+  if (changed) rebuildInterfaces(p);
+}
+// 换成另一套配置（预设布局、撤销、地址栏里的配置、清空都走这里）：类型和槽位都对得上的板卡留在原位，
+// 只依次起伏一下，连起来像一道波；其余的依次拔出，缺的逐块插入（每块等自己的槽位腾空）
+async function applyConfig(cfg) {
+  const mine = ++run;
+  applying = true; targetSnap = serialize(sys, cfg);
   setSel(null);
-  layout = key; renderLayouts();
+  if (cfg.bp !== bpKey) await setBackplane(cfg.bp);
+  if (run !== mine) return;
+  const list = cfg.boards, keep = new Map(), drop = [];
   placements.forEach(p => {
-    const k = list.findIndex(c => c[0] === p.type && c[1] === p.slot);
+    if (p.leaving) return;
+    const k = list.findIndex(c => c.type === p.type && c.slot === p.slot);
     if (k >= 0) keep.set(k, p); else drop.push(p);
   });
   pullOut(drop);
-  playLayout(key, keep);
+  const jobs = list.map((c, k) => keep.has(k) ? null : fetchBoard(c.type));
+  // 和拔出一样从最后一个槽往前：最先腾空的槽最先插入
+  const seq = list.map((_, k) => k).sort((a, b) => list[b].slot - list[a].slot);
+  for (const k of seq) {
+    const c = list[k];
+    if (keep.has(k)) { setOpts(keep.get(k), c); bump(keep.get(k)); await wait(90); if (run !== mine) return; continue; }
+    await jobs[k];
+    let due = 0;
+    // 自己占的槽和两侧相邻的槽都要腾空：等轴测视角下隔壁的板一上一下也会显得交错
+    for (let i = -1; i <= TYPES[c.type].w; i++) due = Math.max(due, (clearAt[c.slot + i] || 0) - performance.now());
+    if (due > 0) await wait(due);
+    if (run !== mine) return;
+    place(c.type, c.slot, true, c);
+    await wait(260);
+    if (run !== mine) return;
+  }
+  applying = false;
+  renderUI();
 }
-// 手动改动过板卡后，当前配置就不再是某套预设，选择器切到 Custom
-function touched() { if (LAYOUTS.custom && layout !== 'custom') { layout = 'custom'; renderLayouts(); } }
+// 清空：从最后一个槽开始依次拔出。同时中止还没放完的配置
+function clearAll() { applyConfig({ bp: bpKey, boards: [] }); }
+const layoutsEl = document.getElementById('layouts');
+function loadLayout(key) {
+  if (!ready || inspect) return;
+  checkpoint();
+  layout = key; renderLayouts();
+  applyConfig(presetCfg(sys, key, bpKey));
+}
+// 手动改动板卡之前调用：记进撤销记录；当前配置不再是某套预设，选择器切到 Custom
+function touched() {
+  checkpoint();
+  if (LAYOUTS.custom && layout !== 'custom') { layout = 'custom'; renderLayouts(); }
+}
 function renderLayouts() {
   layoutsEl.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.key === layout)));
 }
@@ -783,11 +885,20 @@ async function setBackplane(key) {
 Object.entries(BACKPLANES).forEach(([key, B]) => {
   const b = document.createElement('button');
   b.type = 'button'; b.dataset.key = key; b.textContent = B.name;
-  b.addEventListener('click', () => setBackplane(key));
+  b.addEventListener('click', () => { if (key !== bpKey && !bpLoading && !inspect) { checkpoint(); setBackplane(key); } });
   bpsEl.appendChild(b);
 });
-setBackplane(sys.backplane).then(() => {
+// 打开时：地址栏里带了配置就恢复它，否则用 system.json 里的默认布局
+const initialCfg = presetCfg(sys, sys.initial, sys.backplane), defaultSnap = serialize(sys, initialCfg);
+const fromHash = parse(sys, location.hash.slice(1));
+window.addEventListener('hashchange', () => {
+  if (!ready || inspect) return;
+  const cfg = parse(sys, location.hash.slice(1));
+  if (!cfg || serialize(sys, cfg) === stateSnap()) return;
+  checkpoint(); setLayoutFor(cfg); applyConfig(cfg);
+});
+setBackplane(fromHash ? fromHash.bp : sys.backplane).then(() => {
   ready = true;
-  renderUI();
-  playLayout(sys.initial);
+  if (fromHash) setLayoutFor(fromHash);
+  applyConfig(fromHash || initialCfg);
 });

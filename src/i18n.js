@@ -3,11 +3,11 @@ const STRINGS = {
   en: {
     'title': 'MOVE Beyond Bus Configurator',
     'library': 'Boards',
-    'layouts': 'Default layout',
+    'layouts': 'Layout',
     'aria.filters': 'Filter boards',
     'filter.empty': 'No boards match these filters.',
     'filter.clear': 'Clear',
-    'aria.layouts': 'Default layout',
+    'aria.layouts': 'Layout',
     'interfacesOf': '{name} interfaces',
     'meta.slots.1': '1 slot',
     'meta.slots.n': '{n} slots',
@@ -20,6 +20,12 @@ const STRINGS = {
     'hint.noRoom': 'No room for {name}.',
     'hint.noRoom2': 'No room for {name}. It needs two adjacent slots.',
     'hint.selected': '{name} selected. Pick another empty slot to move it.',
+    'hint.selectedFull': '{name} selected. No free slot to move it to. Use Swap to trade places.',
+    'hint.selectedOnly': '{name} selected.',
+    'hint.loadingBoard': 'Loading model…',
+    'hint.loadFailed': 'Could not load the model for {name}. Check your connection and retry.',
+    'hint.failed': 'Could not load: {names}.',
+    'btn.retry': 'Retry',
     'hint.swap': 'Pick the board to swap with {name}.',
     'hint.swapNoRoom': 'Not enough room to swap {name} with {other}. Pick another board.',
     'hint.inspect': 'Inspecting {name}. Drag to look around. Hover or click a number for details.',
@@ -57,6 +63,7 @@ const STRINGS = {
     'aria.rotL': 'Rotate left 90°',
     'aria.rotR': 'Rotate right 90°',
     'aria.reset': 'Reset view',
+    'aria.undo': 'Undo (Ctrl+Z)',
     'aria.toLight': 'Switch to light theme',
     'aria.toDark': 'Switch to dark theme',
     'level.rev1': ' (Rev 1)',
@@ -74,6 +81,9 @@ export function t(key, vars) {
 // 填充 HTML 里带 data-i18n / data-i18n-aria 的静态元素
 export function applyStatic(root) {
   root.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
-  root.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
+  root.querySelectorAll('[data-i18n-aria]').forEach(el => {
+    el.setAttribute('aria-label', t(el.dataset.i18nAria));
+    if (el.tagName === 'BUTTON') el.title = t(el.dataset.i18nAria);   // 只有图标的按钮，鼠标停上去也能看到说明
+  });
   document.title = t('title');
 }

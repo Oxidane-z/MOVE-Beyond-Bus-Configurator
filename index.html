@@ -20,7 +20,7 @@
   <header class="head">
     <h1 data-i18n="title">MOVE Beyond Bus Configurator</h1>
     <div class="layouts" role="group" data-i18n-aria="aria.layouts">
-      <span data-i18n="layouts">Default layout</span>
+      <span data-i18n="layouts">Layout</span>
       <div id="layouts" class="seg"></div>
     </div>
     <div class="layouts" role="group" data-i18n-aria="backplane">
@@ -47,10 +47,11 @@
   <main class="main">
     <div class="stage" id="stage">
       <div id="slotBanner" class="banner" aria-hidden="true"></div>
-      <canvas id="cv" data-i18n-aria="aria.canvas"></canvas>
+      <canvas id="cv" role="img" data-i18n-aria="aria.canvas"></canvas>
       <div id="slotMarks" class="marks"></div>
       <div id="marks" class="marks"></div>
       <div class="tools">
+        <button id="undo" type="button" data-i18n-aria="aria.undo" disabled>↶</button>
         <button id="rotL" type="button" data-i18n-aria="aria.rotL">⟲</button>
         <button id="rotR" type="button" data-i18n-aria="aria.rotR">⟳</button>
         <button id="resetView" type="button" data-i18n-aria="aria.reset">⌂</button>

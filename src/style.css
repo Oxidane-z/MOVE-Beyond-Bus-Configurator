@@ -1,15 +1,12 @@
 /* 布局：左侧板卡库，右侧等轴测舞台，舞台下方是 7 槽条和功率摘要 */
+/* 主题由 index.html 里的内联脚本写在 <html data-theme> 上（默认深色），这里不跟随系统设置 */
 :root {
-  --bg: #e3e3e0; --panel: #f2f2ef; --ink: #25262b; --muted: #676970; --rule: #cbcbc6;
+  --bg: #e3e3e0; --panel: #f2f2ef; --ink: #25262b; --muted: #5c5e65; --rule: #cbcbc6;
   --accent: #c9453d; --accent-ink: #ffffff; --accent-soft: #f6dcd9;
   --line3d: #25262b; --line3d-light: #eeeeeb; --shade3d: #3a3c44; --on-card: #25262b;
   --font: "Inter", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #1c1d20; --panel: #26272b; --ink: #ececee; --muted: #a0a2a9; --rule: #3b3c41;
-  --accent: #ff8a7a; --accent-ink: #2a1512; --accent-soft: #4a2c2e;
-  --line3d: #0c0d0f; --line3d-light: #b4b6bd; --shade3d: #121316; color-scheme: dark } }
 :root[data-theme="dark"] {
   --bg: #1c1d20; --panel: #26272b; --ink: #ececee; --muted: #a0a2a9; --rule: #3b3c41;
   --accent: #ff8a7a; --accent-ink: #2a1512; --accent-soft: #4a2c2e;
@@ -27,7 +24,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 16px; column-gap: 16px; }
 .head { grid-area: head; padding-bottom: 12px; }
-.head h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+.head h1 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
 .layouts { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
 .layouts > span { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--muted); }
 .seg { display: flex; border: 1.5px solid var(--rule); border-radius: 6px; overflow: hidden; }
@@ -37,18 +34,29 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .lib { grid-area: lib; overflow-y: auto; padding-right: 2px; }
 .lib h2 { margin: 4px 0 0; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--muted); }
+.libhead { position: sticky; top: 0; z-index: 1; background: var(--bg); display: flex; flex-direction: column; gap: 6px; padding-bottom: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip { flex: none; min-height: 26px; background: transparent; border: 1.5px solid var(--rule); border-radius: 999px; padding: 1px 10px; font-size: 12px; cursor: pointer; }
+/* 分系统色点：过滤标签和板卡库条目里都用，兼作槽位颜色的图例 */
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; border: 1px solid var(--line3d); }
+.chip:hover { border-color: var(--muted); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.chip.clear { border-color: transparent; color: var(--muted); text-decoration: underline; }
 .item { display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 10px; align-items: center; text-align: left;
   background: var(--panel); border: 1.5px solid var(--rule); border-radius: 6px; padding: 8px 10px; cursor: pointer; }
 .item:hover { border-color: var(--muted); }
 .item[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
-.item .sw { width: 14px; height: 28px; border: 1.5px solid var(--line3d); }
+.item:disabled { opacity: 0.5; cursor: default; }
+/* 色块是 PCB 颜色。边框用次要文字色，深色 PCB 在深色面板上也看得出轮廓 */
+.item .sw { width: 14px; height: 28px; border: 1.5px solid var(--muted); }
 .item .nm { font-weight: 500; }
 .item .mt { font-family: var(--mono); font-size: 11px; color: var(--muted); }
 .note { margin: 6px 0 0; font-size: 12px; color: var(--muted); }
 
 .main { grid-area: main; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; gap: 12px; min-width: 0; }
 .stage { position: relative; min-height: 0; border: 1.5px solid var(--rule); border-radius: 6px; overflow: hidden; }
-.stage canvas { position: relative; display: block; width: 100%; height: 100%; touch-action: pan-y; cursor: grab; }
+/* 页面本身不滚动（整页固定在一屏内），画布上的触摸手势全部交给查看器：单指旋转和俯仰，双指缩放 */
+.stage canvas { position: relative; display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
 /* 落位预览：画布是透明的，这行大字垫在模型后面 */
 .banner { position: absolute; left: 20px; top: 8px; font-family: var(--mono); font-weight: 500; font-size: clamp(44px, 8vw, 104px);
   line-height: 1.1; letter-spacing: -0.03em; white-space: nowrap; color: var(--accent); opacity: 0; transform: translateY(6px);
@@ -56,62 +64,34 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .banner.on { opacity: 0.32; transform: none; }
 @media (prefers-reduced-motion: reduce) { .banner { transition: none; } }
 .tools { position: absolute; top: 10px; right: 10px; display: flex; gap: 6px; }
-.tools button { background: var(--panel); border: 1.5px solid var(--rule); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+.tools button { min-width: 36px; min-height: 32px; background: var(--panel); border: 1.5px solid var(--rule); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
 .tools button:hover { border-color: var(--muted); }
+.tools button:disabled { opacity: 0.4; cursor: default; border-color: var(--rule); }
 
 .dock { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
-/* 操作栏和统计栏的高度固定，三维视图的大小不随按钮数量或文字长短变化。
-   这是桌面和手机共用的规则：手机的媒体查询里只改尺寸，不改结构；以后调整这两栏时两边一起改。
+/* 操作栏的高度固定，三维视图的大小不随按钮数量或文字长短变化。
+   这是桌面和手机共用的规则：手机的媒体查询里只改尺寸，不改结构；以后调整时两边一起改。
    操作栏 = 一行提示文字（放不下就截断）+ 两行按钮；极少数情况下按钮超过两行，在栏内上下滚动 */
 .hint { --btn: 30px; --txt: 21px; --gap: 8px; display: flex; flex-wrap: wrap; align-items: center; align-content: flex-start; gap: var(--gap);
   height: calc(var(--txt) + 2 * var(--btn) + 2 * var(--gap)); overflow-y: auto; }
 .hint span { flex: 0 0 100%; min-width: 0; height: var(--txt); line-height: var(--txt); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hint button { flex: none; height: var(--btn); background: var(--accent); color: var(--accent-ink); border: 1.5px solid var(--accent); border-radius: 6px; padding: 0 12px; cursor: pointer; font-weight: 500; }
 .hint button.ghost { background: transparent; color: var(--ink); border-color: var(--rule); }
+.hint button:disabled { opacity: 0.5; cursor: default; }
 .strip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
 .cell { position: relative; height: 48px; border: 1.5px dashed var(--rule); border-radius: 4px; background: transparent; cursor: pointer;
   display: flex; align-items: center; justify-content: center; padding: 0 4px; overflow: hidden; }
 .cell .no { position: absolute; top: 2px; left: 5px; font-family: var(--mono); font-size: 10px; color: var(--muted); }
 .cell.full { border: 1.5px solid var(--line3d); color: var(--on-card); }
-.cell.full .no { color: inherit; opacity: 0.6; }
+.cell.full .no { color: inherit; opacity: 0.8; }
 .cell.sel { outline: 2px solid var(--accent); outline-offset: 1px; }
 .cell .lb { font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.stats { display: flex; flex-wrap: nowrap; gap: 6px 24px; align-items: baseline; border-top: 1.5px solid var(--rule); padding-top: 8px;
-  overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+/* 统计项放不下一行就换行，不做看不见滚动条的横向滚动 */
+.stats { display: flex; flex-wrap: wrap; gap: 2px 24px; align-items: baseline; border-top: 1.5px solid var(--rule); padding-top: 8px; }
 .stats div { flex: none; display: flex; gap: 8px; align-items: baseline; }
 .stats dt { color: var(--muted); font-size: 12px; }
 .stats dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; font-weight: 500; }
 .stats .tag { font-size: 11px; color: var(--muted); border: 1px solid var(--rule); border-radius: 3px; padding: 0 5px; }
-
-@media (max-width: 760px) {
-  .cell .lb { font-size: 10px; }
-}
-/* 手机：整页固定在一屏内，舞台始终可见，板卡库在下方自己滚动 */
-@media (max-width: 760px) {
-  .app { height: 100vh; height: 100dvh; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) minmax(0, 32dvh);
-    grid-template-areas: "head" "main" "lib"; row-gap: 10px; padding-block: 10px; }
-  .head { padding-bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
-  .head h1 { font-size: 16px; }
-  .layouts { margin-top: 0; }
-  .layouts > span { display: none; }
-  .main { gap: 8px; }
-  .stage { min-height: 160px; }
-  .dock { gap: 6px; }
-  /* 提示文字单独一行（放不下就截断），按钮在下面换行排开，不用横向滚动 */
-  .hint { --btn: 26px; --txt: 18px; --gap: 6px; }
-  .hint span { font-size: 12px; }
-  .hint button { padding: 0 9px; font-size: 12px; }
-  .cell { height: 40px; }
-  .lib { overflow-y: auto; overscroll-behavior: contain; padding-right: 0; }
-  .libhead { position: static; }   /* 标签多了以后占好几行，手机上让它跟着列表一起滚走 */
-}
-.libhead { position: sticky; top: 0; z-index: 1; background: var(--bg); display: flex; flex-direction: column; gap: 6px; padding-bottom: 6px; }
-.chips { display: flex; flex-wrap: wrap; gap: 4px; }
-.chip { background: transparent; border: 1.5px solid var(--rule); border-radius: 999px; padding: 1px 10px; font-size: 12px; cursor: pointer; }
-.chip .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; border: 1px solid var(--line3d); }
-.chip:hover { border-color: var(--muted); }
-.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.chip.clear { border-color: transparent; color: var(--muted); text-decoration: underline; }
 
 /* ---------- 单板查看：接口标记与列表 ---------- */
 .panel { display: flex; flex-direction: column; gap: 8px; }
@@ -120,6 +100,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .mark { position: absolute; transform: translate(-50%, -50%); min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px;
   border: 1.5px solid var(--line3d); color: var(--on-card); font: 600 11px/1 var(--mono); display: flex; align-items: center; justify-content: center;
   white-space: nowrap; cursor: pointer; pointer-events: auto; }
+/* 看上去还是 22px 的圆点，可点的范围向外多出一圈 */
+.mark::after { content: ""; position: absolute; inset: -5px; border-radius: 16px; }
 .mark .t { display: none; margin-left: 6px; font-family: var(--font); font-size: 12px; }
 .mark.on { z-index: 2; outline: 2px solid var(--accent); outline-offset: 1px; }
 .mark.on .t { display: inline; }
@@ -142,6 +124,27 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .slotmark.ok { border: 2px solid var(--accent); color: var(--accent); }
 .slotmark.target { background: var(--accent) !important; color: var(--accent-ink) !important; border: 2px solid var(--accent); }
 .slotmark.sel { outline: 2px solid var(--accent); outline-offset: 1px; }
-.stage canvas { touch-action: pan-y; }
-.hint button:disabled { opacity: 0.5; cursor: default; }
-.item:disabled { opacity: 0.5; cursor: default; }
+
+/* 手机：整页固定在一屏内，舞台始终可见，板卡库在下方自己滚动。放在文件最后，才盖得住上面的基础规则 */
+@media (max-width: 760px) {
+  .app { height: 100vh; height: 100dvh; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) minmax(0, 32dvh);
+    grid-template-areas: "head" "main" "lib"; row-gap: 10px; padding-block: 10px; }
+  .head { padding-bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .head h1 { font-size: 16px; }
+  .layouts { margin-top: 0; }
+  .layouts > span { display: none; }
+  .seg button { min-height: 32px; }
+  .main { gap: 8px; }
+  .stage { min-height: 160px; }
+  .dock { gap: 6px; }
+  /* 提示文字单独一行（放不下就截断），按钮在下面换行排开，不用横向滚动 */
+  .hint { --btn: 28px; --txt: 18px; --gap: 6px; }
+  .hint span { font-size: 12px; }
+  .hint button { padding: 0 9px; font-size: 12px; }
+  .cell { height: 40px; }
+  .cell .lb { font-size: 10px; }
+  .lib { overscroll-behavior: contain; padding-right: 0; }
+  /* 过滤标签排成一行横向滑动，不占掉板卡列表的高度 */
+  .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; padding-bottom: 4px; }
+  .chip { min-height: 32px; padding: 3px 12px; }
+}

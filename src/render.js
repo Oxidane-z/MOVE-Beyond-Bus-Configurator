@@ -11,34 +11,12 @@ export const lineMat = new LineMaterial({ color: 0x000000, linewidth: 1.6, side:
 export const lineMatLight = new LineMaterial({ color: 0xffffff, linewidth: 1.3, side: THREE.DoubleSide });
 export const hitMat = new THREE.MeshBasicMaterial({ visible: false });
 
-// 元器件只用这几种材质色，不带 CAD 原色
-export const MATERIALS = { dark: 0, light: 1, kapton: 2, gold: 3 };
+// 材质分类和深浅判断在 color.js 里（纯函数）
+export { MATERIALS, classifyColor, isDark } from './color.js';
 const uDark = { value: new THREE.Color('#383a40') };    // 深色塑料
 const uLight = { value: new THREE.Color('#d6d8dc') };   // 浅色金属
 const uKapton = { value: new THREE.Color('#9a7836') };  // 暗金：铜线圈、缠了 Kapton 胶带的电芯
 const uGold = { value: new THREE.Color('#c9a35a') };    // 金
-
-// CAD 原色（线性空间，0–1）归到几种材质之一
-export function classifyColor(r, g, b) {
-  const max = Math.max(r, g, b), min = Math.min(r, g, b), lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  if (max - min >= 0.25 * max && max > 0.08) {
-    let hue;
-    if (max === r) hue = ((g - b) / (max - min) + 6) % 6;
-    else if (max === g) hue = (b - r) / (max - min) + 2;
-    else hue = (r - g) / (max - min) + 4;
-    hue *= 60;
-    // 黄是金，棕是暗金；饱和的亮橙红是 CAD 给外壳的默认色，不算
-    if (hue >= 40 && hue <= 70) return MATERIALS.gold;
-    if (hue >= 20 && hue < 40 && max <= 0.85) return MATERIALS.kapton;
-    // 蓝色是 CAD 给结构件（支架、散热器）的默认色，按金属处理
-    if (hue >= 190 && hue <= 260) return MATERIALS.light;
-  }
-  return lum < 0.25 ? MATERIALS.dark : MATERIALS.light;
-}
-export const isDark = hex => {
-  const n = parseInt(hex.slice(1), 16);
-  return 0.2126 * (n >> 16 & 255) + 0.7152 * (n >> 8 & 255) + 0.0722 * (n & 255) < 70;
-};
 
 const VERT = `
 varying vec3 vN;

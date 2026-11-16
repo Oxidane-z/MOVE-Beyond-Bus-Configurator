@@ -84,12 +84,13 @@ async function loadGlb(url) {
   return { parts, bounds: new THREE.Box3().setFromObject(gltf.scene) };
 }
 
-// 模型按需加载，同一个模型只取一次。失败时只记日志，对应的板卡不可用
+// 模型按需加载，同一个模型只取一次。失败时记日志并忘掉这次请求，下次再要时重新取；
+// 调用方用 hasModel 判断取到了没有
 const loader = new GLTFLoader(), pending = new Map();
 function load(key, url) {
   if (!pending.has(key)) {
     pending.set(key, loadGlb(url).then(tpl => { templates.set(key, tpl); })
-      .catch(err => { console.error('模型加载失败: ' + url, err); }));
+      .catch(err => { pending.delete(key); console.error('模型加载失败: ' + url, err); }));
   }
   return pending.get(key);
 }

@@ -2,7 +2,7 @@
 
 MOVE Beyond 卫星 slot card 总线系统的三维交互配置器。正交等轴测视角、平面着色加描边，可在 7 槽背板上自由安排板卡。
 
-当前状态：所有板卡都来自真实 STEP。标题下方可以切换布局：Custom（空背板，自由搭配，打开时的默认项）、REXUS（Revision 2 的板卡）和 MOVE-IIIa（Revision 1 的板卡：COM Stack、CDH、Battery Pack、Payload、ADCS）。布局写在 `system.json` 的 `layouts` 里，`initial` 是打开时用的那一套。OBDH 的扩展板是可单独更换的部件。板卡的功耗数据还没有填，统计栏里对应的项显示为空。界面文案在 `src/i18n.js`，目前只有英文。
+当前状态：所有板卡都来自真实 STEP。标题下方可以切换布局：Custom（空背板，自由搭配，打开时的默认项）、REXUS（Revision 2 的板卡）和 MOVE-IIIa（Revision 1 的板卡：COM Stack、CDH、Battery Pack、Payload、ADCS）。布局写在 `system.json` 的 `layouts` 里，`initial` 是打开时用的那一套。OBDH 的扩展板是可单独更换的部件。板卡的功耗数据还没有填，所以统计栏暂时只显示槽位数和电池容量；在 `system.json` 里给任意一块板填上 `typ` 后，功耗和续航几项会自动出现。界面文案在 `src/i18n.js`，目前只有英文。
 
 ## 运行
 
@@ -18,11 +18,17 @@ npm run dev
 npm run build
 ```
 
+```bash
+npm test
+```
+
+当前配置（背板、板卡、支架面、扩展板）写在地址栏的 `#` 后面，刷新后恢复，复制链接就能分享；格式见 `src/config.js`。改动可以用舞台右上角的 ↶ 或 Ctrl+Z 撤销。触屏上单指旋转和俯仰，双指缩放。
+
 槽位条和三维视图里的槽位编号用分系统颜色（`system.json` 的 `subsystems`，板卡用 `subsystem` 指定），板卡库里的色块和三维模型用 PCB 颜色。
 
 板卡库上方的标签可以过滤板卡：分系统、代际、所属默认布局、占槽数。同一组里选多个是“任一”，不同组之间是“同时满足”。在 `system.json` 的板卡上加 `"tags": ["…"]` 会多出对应的标签。手机上整页固定在一屏内，板卡库在舞台下方单独滚动。
 
-构建产物在 `dist/`，是纯静态文件。构建时会给每个模型生成一份 gzip 副本（`.glb.gz`，约为原文件的六分之一），查看器优先取它并在浏览器里解压。模型按需加载：先取背板，再按默认布局的顺序取各块板卡。
+构建产物在 `dist/`，是纯静态文件。构建时会给每个模型生成一份 gzip 副本（`.glb.gz`，约为原文件的六分之一），查看器优先取它并在浏览器里解压。模型按需加载：先取背板（约 1 MB），板卡的模型在布局用到它或在板卡库里点选它时才取；取失败时操作栏里有 Retry。
 
 ## 结构
 
@@ -32,6 +38,10 @@ npm run build
 | `src/render.js` | 平面着色材质、元器件的三种材质色、描边、主题色 |
 | `src/models.js` | GLB 加载，板卡和背板的实例化 |
 | `src/main.js` | 配置状态、界面、交互、动画 |
+| `src/slots.js` | 槽位占用的纯函数（落位、互换） |
+| `src/color.js` | 颜色的纯函数（CAD 原色归类、对比度、色块上的文字颜色） |
+| `src/config.js` | 配置的文字形式（地址栏、撤销记录） |
+| `test/` | 上面三个模块的单元测试（vitest），部署前在 CI 里运行 |
 | `boards/` | 每块板和扩展板的人工标注（接口名称、类型、连接器、用途），文件名与 `system.json` 里的 key 相同 |
 | `cad/` | 原始 STEP 文件 |
 | `pipeline/step2glb.py` | STEP → GLB 转换脚本 |
