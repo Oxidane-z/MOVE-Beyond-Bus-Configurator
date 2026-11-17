@@ -3,10 +3,10 @@
   "pitch": 14.5,
   "backplanes": {
     "v6": {"name": "V6", "model": "models/backplane-v6.glb", "y": 5, "seatY": 11.91, "color": "#2c2d31", "notes": "backplane-v6",
-      "inputs": ["ECP", "SCP1", "SCP2", "SCP3", "SCP4", "SCP5", "SCP6"], "charger": [33.7, 31.0], "inductor": [33.7, 20.1],
+      "inputs": [{"ref": "ECP", "kind": "gse"}, {"ref": "SCP1", "strings": 1}, {"ref": "SCP2", "strings": 1}, {"ref": "SCP3", "strings": 1}, {"ref": "SCP4", "strings": 1}, {"ref": "SCP5", "strings": 1}, {"ref": "SCP6", "strings": 1}], "charger": [33.7, 31.0], "inductor": [33.7, 20.1],
       "dcdc": {"5v": [33.8, 5.4], "3v3": [33.8, -9.7], "self": [52.3, 2.4]}, "mcu": [38.8, -32.3]},
     "v78": {"name": "V7/V8", "model": "models/backplane.glb", "y": 5, "seatY": 11.94, "color": "#2c2d31", "notes": "backplane",
-      "inputs": ["HARNESS", "MLP-2P", "MLP-6P-1", "MLP-6P-2"], "charger": [33.7, 31.0], "inductor": [33.7, 20.2],
+      "inputs": [{"ref": "HARNESS", "kind": "gse"}, {"ref": "MLP-2P", "strings": 1}, {"ref": "MLP-6P-1", "strings": 3}, {"ref": "MLP-6P-2", "strings": 3}], "charger": [33.7, 31.0], "inductor": [33.7, 20.2],
       "dcdc": {"5v": [32.2, 0.3], "3v3": [42.85, 0.3], "self": [53.25, 0.3]}, "mcu": [38.8, -32.3]}
   },
   "backplane": "v78",
@@ -23,6 +23,7 @@
       "3v3": {"label": "3V3", "color": "#7fd0c6", "efficiency": 0.95, "volts": 3.3, "limit": 5}
     },
     "usable": 0.9,
+    "solar": {"name": "6S1P string, Azur Space 3G30C 40 × 80 mm", "cells": 6, "vmp": 2.411, "imp": 0.5044, "efficiency": 0.9},
     "charger": "MAX77961",
     "batteryColor": "#ee8f8f",
     "inputColor": "#b9a2ee"

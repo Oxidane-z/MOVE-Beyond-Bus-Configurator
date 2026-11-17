@@ -154,7 +154,8 @@ export function makeFlow() {
         scene.add(mesh); objs.push(mesh);
       });
   }
-  function setResolution(w, h) { res.set(w, h); objs.forEach(o => o.material.resolution.set(w, h)); }
+  // 画布暂时没有尺寸（窗口被收起）时不更新：分辨率是 0 的话线宽会变成无穷大，画面上全是乱飞的色带
+  function setResolution(w, h) { if (!(w > 0 && h > 0)) return; res.set(w, h); objs.forEach(o => o.material.resolution.set(w, h)); }
   // seconds：现在的时间（秒）。脉冲每秒走半个间距
   function setTime(seconds) { uTime.value = seconds % 3600; uPhase.value = (seconds * 0.5) % 1; }
   return { scene, clear, line, setResolution, setTime, get live() { return live; } };

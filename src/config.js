@@ -1,7 +1,8 @@
 // 一套配置的文字形式，用在地址栏（分享、刷新后恢复）和撤销记录里。
-// 配置：{ bp: 背板 key, boards: [{ type, slot, bracket, exps: [扩展板 key 或 null, …] }] }
+// 配置：{ bp: 背板 key, boards: [{ type, slot, bracket, exps: [扩展板 key 或 null, …] }], inputs: { 输入口 ref: 数 } }
 // 文字：背板;板卡,槽位[,b支架面][,e扩展板+扩展板][,p负载=状态+负载=状态];…   槽位从 1 起；和默认值相同的选项不写；"-" 表示这个扩展位不装
 // loads 是功耗层里各负载选的状态 { 负载 key: 状态名 }，只记和默认不同的
+// inputs 是功耗层里各电源输入口的状态（太阳能口有几串在日照下，GSE 口 0 / 1），写成单独的一段 in:口=数+口=数，只记不是 0 的
 // 例：v78;obdh,1,e-;recovery,3,bfront
 
 export const BRACKET_MODES = ['back', 'front', 'none'];
@@ -9,6 +10,8 @@ const own = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
 export const sitesOf = (sys, type) => sys.boards[type].expansionSites || [];
 export const defaultBracket = (sys, type) => sys.boards[type].bracketSide || 'back';
 const loadsOf = (sys, type) => (sys.boards[type].power && sys.boards[type].power.loads) || [];
+const inputsOf = (sys, bp) => ((sys.backplanes[bp] && sys.backplanes[bp].inputs) || []).map(d => typeof d === 'string' ? { ref: d } : d);
+const clampIn = (d, v) => Math.max(0, Math.min(d.kind === 'gse' ? 1 : d.strings || 1, Math.round(Number(v) || 0)));
 const defState = L => own(L.states, L.default) ? L.default : Object.keys(L.states)[0];
 export const defaultExps = (sys, type) => sitesOf(sys, type).map(s => s.default || null);
 
@@ -22,6 +25,8 @@ export function serialize(sys, cfg) {
     if (ld.length) f.push('p' + ld.join('+'));
     parts.push(f.join(','));
   });
+  const ins = inputsOf(sys, cfg.bp).map(d => [d.ref, clampIn(d, cfg.inputs && cfg.inputs[d.ref])]).filter(e => e[1] > 0);
+  if (ins.length) parts.push('in:' + ins.map(e => e[0] + '=' + e[1]).join('+'));
   return parts.join(';');
 }
 
@@ -31,8 +36,15 @@ export function parse(sys, str) {
   try { str = decodeURIComponent(str); } catch (e) { return null; }
   const [bp, ...rest] = str.split(';');
   if (!own(sys.backplanes, bp)) return null;
-  const used = new Array(sys.slots).fill(false), boards = [];
+  const used = new Array(sys.slots).fill(false), boards = [], inputs = {};
   for (const part of rest) {
+    if (part.slice(0, 3) === 'in:') {
+      part.slice(3).split('+').forEach(kv => {
+        const [ref, v] = kv.split('='), d = inputsOf(sys, bp).find(d => d.ref === ref);
+        if (d && clampIn(d, v) > 0) inputs[ref] = clampIn(d, v);
+      });
+      continue;
+    }
     const [type, n, ...opts] = part.split(',');
     if (!own(sys.boards, type)) continue;
     const T = sys.boards[type], slot = Number(n) - 1;
@@ -55,11 +67,12 @@ export function parse(sys, str) {
     for (let k = 0; k < T.w; k++) used[slot + k] = true;
     boards.push(c);
   }
-  return { bp, boards };
+  return { bp, boards, inputs };
 }
 
 // system.json 里的一套预设布局，选项都取默认值
 export const presetCfg = (sys, key, bp) => ({
   bp,
-  boards: sys.layouts[key].boards.map(([type, slot]) => ({ type, slot, bracket: defaultBracket(sys, type), exps: defaultExps(sys, type), loads: {} }))
+  boards: sys.layouts[key].boards.map(([type, slot]) => ({ type, slot, bracket: defaultBracket(sys, type), exps: defaultExps(sys, type), loads: {} })),
+  inputs: {}
 });

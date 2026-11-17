@@ -115,4 +115,44 @@ export function railCurrents(bp, defs = {}) {
 export const fmtW = v => (Math.abs(v) >= 1 || v === 0 ? v.toFixed(1) : v.toFixed(2)) + ' W';
 // 按钮上用的短写法：去掉末尾的零（4 W、0.3 W）
 export const fmtWShort = v => String(+(Math.abs(v) >= 1 ? v.toFixed(1) : v.toFixed(2))) + ' W';
-export const fmtH = h => h == null ? '—' : h >= 100 ? Math.round(h) + ' h' : h.toFixed(1) + ' h';
+export const fmtH = h => h == null ? '—' : h === Infinity ? '∞' : h >= 100 ? Math.round(h) + ' h' : h.toFixed(1) + ' h';
+
+/* 外部电源输入：太阳能板和地面电源（GSE） */
+// 一串太阳能电池在最大功率点的功率（W）。S 是 system.json 的 power.solar：cells 串联节数，vmp / imp 单节在最大功率点的电压、电流
+export const stringWatts = S => S ? (S.cells || 0) * (S.vmp || 0) * (S.imp || 0) : 0;
+// 背板上各个输入口现在供多少电。defs 是背板的 inputs：[{ ref, kind: 'solar' | 'gse', strings: 这个口最多接几串 }]（只写 ref 的字符串也认）；
+// sel 是 { ref: 数 }：太阳能口是有几串在日照下，GSE 口是 0 / 1。
+// 返回 { list: [{ ref, kind, max, n, watts }], solar: 太阳能合计（已乘充电芯片的效率）, gse: 接着地面电源 }
+export function sources(defs, sel, P = {}) {
+  const per = stringWatts(P.solar) * ((P.solar && P.solar.efficiency) || 1);
+  const list = (defs || []).map(d => {
+    const o = typeof d === 'string' ? { ref: d } : d, kind = o.kind === 'gse' ? 'gse' : 'solar', max = kind === 'gse' ? 1 : o.strings || 1;
+    const n = Math.max(0, Math.min(max, Math.round(Number(sel && sel[o.ref]) || 0)));
+    return { ref: o.ref, kind, max, n, watts: kind === 'solar' ? n * per : 0 };
+  });
+  return { list, solar: list.reduce((a, i) => a + i.watts, 0), gse: list.some(i => i.kind === 'gse' && i.n > 0) };
+}
+// 把电源输入并进预算。b 是 budget() 的结果，src 是 sources() 的结果。返回 b 的副本，另外带上：
+//   input    src 本身
+//   battery  各档下电池的功率：正数在放电，负数在充电
+//   spare    太阳能里用不上的部分（负载和充电都满足了以后多出来的）
+//   short    没有电池时输入不够的部分
+//   charging 电池在充电（接着地面电源而没有登记充电功率上限时，充电功率是 0 但这一项为 true）
+//   runtime  按电池实际放电的功率重新算；电池不在放电时是 Infinity
+// 地面电源当作不限功率的可调电源：负载全由它供，电池按 P.chargeLimit（W，没登记就不算数字）充电
+export function withSources(b, src, P = {}) {
+  const limit = P.chargeLimit != null ? P.chargeLimit : Infinity, has = b.wh > 0;
+  const out = { ...b, input: src, battery: {}, spare: {}, short: {}, runtime: {} };
+  ALL.forEach(k => {
+    const need = b.draw[k];
+    let bat = 0, spare = 0, short = 0;
+    if (src.gse) bat = has && limit !== Infinity ? -limit : 0;
+    else if (src.solar >= need) { const c = has ? Math.min(src.solar - need, limit) : 0; bat = -c; spare = src.solar - need - c; }
+    else if (has) bat = need - src.solar;
+    else short = need - src.solar;
+    out.battery[k] = bat; out.spare[k] = spare; out.short[k] = short;
+    out.runtime[k] = !has || (need <= 0 && !src.gse && src.solar <= 0) ? null : bat > 1e-9 ? b.usable / bat : Infinity;
+  });
+  out.charging = has && (out.battery.now < 0 || src.gse);
+  return out;
+}

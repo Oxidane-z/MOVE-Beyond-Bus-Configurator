@@ -5,7 +5,7 @@ import { applyTheme, setResolution, drawSilhouette, drawDim, SIL_LAYER } from '.
 import { makeFlow } from './flow.js';
 import { isFree as isFreeIn, fit as fitIn, swapPlan as swapPlanIn } from './slots.js';
 import { inkOn } from './color.js';
-import { LEVELS, SCENARIOS, boardPower, budget, railCurrents, scenarioSel, scenarioOf, fmtW, fmtWShort, fmtH } from './power.js';
+import { LEVELS, SCENARIOS, boardPower, budget, railCurrents, scenarioSel, scenarioOf, sources, withSources, stringWatts, fmtW, fmtWShort, fmtH } from './power.js';
 import { BRACKET_MODES, serialize, parse, presetCfg, defaultBracket } from './config.js';
 import { buildStructure, buildCard as buildCardGeo, buildExpansion, loadBackplane, loadBoard, hasModel, setBracket } from './models.js';
 
@@ -572,12 +572,18 @@ function setLayer(next) {
 layerSeg.querySelectorAll('button').forEach(b => b.addEventListener('click', () => setLayer(b.dataset.layer)));
 const powerOf = p => boardPower(TYPES[p.type], p.loads);
 const powerEntries = () => [...placements.values()].filter(p => !p.leaving).map(p => ({ T: TYPES[p.type], sel: p.loads }));
+// 电源输入口（太阳能、GSE）现在的状态 { 口的 ref: 数 }：太阳能口是有几串在日照下，GSE 口是 0 / 1。和负载状态一样不进撤销记录，跟着分享链接走
+let srcSel = {};
+const inputDefs = () => ((bpKey && BACKPLANES[bpKey] && BACKPLANES[bpKey].inputs) || []).map(d => typeof d === 'string' ? { ref: d } : d);
+// 预算。withInputs 为 false 时不算电源输入（布局层的统计固定按只靠电池算）
+const fullBudget = (entries, withInputs) => withSources(budget(entries, sys.power), sources(withInputs ? inputDefs() : [], srcSel, sys.power), sys.power);
+const battText = B => { const b = B.battery.now; return b > 0.005 ? t('power.discharging', { w: fmtW(b) }) : b < -0.005 ? t('power.charging', { w: fmtW(-b) }) : B.charging ? t('power.chargingNoW') : t('power.battIdle'); };
 const usableRatio = () => sys.power && sys.power.usable != null ? sys.power.usable : 1;
 // 电池容量的统一写法：可用 / 标称
 const fmtCap = wh => (wh * usableRatio()).toFixed(1) + ' / ' + wh.toFixed(1) + ' Wh';
 // 续航：有板卡没计入时合计偏小，续航只是上限
 const uncounted = B => { const n = B.boards - B.counted; return t(n === 1 ? 'power.uncounted.1' : 'power.uncounted.n', { n, of: B.boards }); };
-const fmtRun = (B, k) => B.runtime[k] == null ? '—' : (B.partial ? '≤ ' : '') + fmtH(B.runtime[k]);
+const fmtRun = (B, k) => B.runtime[k] == null ? '—' : (B.partial && B.runtime[k] !== Infinity ? '≤ ' : '') + fmtH(B.runtime[k]);
 const scenarioName = s => t(s === 'custom' ? 'power.custom' : 'power.' + s);
 // 滚动到面板里某块板的那一行并短暂高亮。给三维视图里的标签用（点标签找到对应的行）
 function focusPowerRow(id) {
@@ -635,10 +641,39 @@ function renderPower(B) {
     Object.keys(RAILS).filter(k => B.rails[k]).forEach(k => kv(railLabel(k), fmtW(B.rails[k].now)));
     kv(t('power.loss'), fmtW(B.loss.now));
     kv(t('power.battSide'), fmtW(B.draw.now));
+    if (B.input.solar > 0) kv(t('power.solarIn'), fmtW(B.input.solar));
+    if (B.input.gse) kv(t('power.gseIn'), t('power.on'));
+    if (B.spare.now > 0.005) kv(t('power.spare'), fmtW(B.spare.now));
+    if (B.wh > 0 && (B.input.solar > 0 || B.input.gse)) kv(t('power.batt'), battText(B));
   }
   kv(t('power.battery'), fmtCap(B.wh));
   powerPanel.appendChild(dl);
   if (!B.counted) powerPanel.appendChild(el('p', 'note', t('power.none')));
+  if (B.short.now > 0.005) powerPanel.appendChild(el('div', 'pnote', t('power.short', { w: fmtW(B.short.now) })));
+
+  // 电源输入：每个太阳能口选有几串在日照下，GSE 口选接没接地面电源
+  if (B.input.list.length) {
+    const box = el('div', 'list'), r = el('div', 'prow'), S = sys.power.solar;
+    r.appendChild(el('span', 'no', ''));
+    r.appendChild(el('span', 'nm', t('power.inputs')));
+    r.appendChild(el('span', 'val', B.input.gse ? t('power.gseIn') : fmtW(B.input.solar)));
+    if (S && B.input.list.some(i => i.kind === 'solar')) r.appendChild(el('span', 'sub', t('power.stringSpec', { name: S.name, w: fmtW(stringWatts(S)), eff: Math.round((S.efficiency || 1) * 100) })));
+    B.input.list.forEach(i => {
+      const row = el('div', 'load'), left = el('span'), seg = el('div', 'seg'), note = ifaceNotes(BACKPLANES[bpKey].notes).find(n => n.ref === i.ref), name = note ? note.label : i.ref;
+      left.appendChild(el('span', 'ln', name));
+      if (i.kind === 'solar') left.appendChild(el('span', 'lr', t('power.inSun')));
+      seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', name);
+      for (let n = 0; n <= i.max; n++) {
+        const b = el('button', '', i.kind === 'gse' ? t(n ? 'power.on' : 'power.off') : String(n));
+        b.type = 'button'; b.dataset.act = 'src-' + i.ref + '-' + n; b.setAttribute('aria-pressed', String(n === i.n));
+        if (i.kind === 'solar') b.setAttribute('aria-label', t(n === 1 ? 'power.strings.1' : 'power.strings.n', { n }));
+        b.addEventListener('click', () => { if (n === i.n) return; srcSel = { ...srcSel, [i.ref]: n }; renderUI(); });
+        seg.appendChild(b);
+      }
+      row.appendChild(left); row.appendChild(seg); r.appendChild(row);
+    });
+    box.appendChild(r); powerPanel.appendChild(box);
+  }
 
   const rowsEl = el('div', 'list');
   list.forEach(p => {
@@ -708,8 +743,10 @@ const RAIL_KEYS = Object.keys(RAILS);
 function rebuildFlow() {
   flow.clear(); flowMarks.textContent = ''; flowNodes = [];
   const list = [...placements.values()].filter(p => !p.leaving && !p.busy);
-  const B = budget(list.map(p => ({ T: TYPES[p.type], sel: p.loads })), sys.power);
-  const max = Math.max(B.draw.now, 1e-6), wOf = w => 1.8 + 3.6 * Math.sqrt(Math.max(w, 0) / max);
+  const B = fullBudget(list.map(p => ({ T: TYPES[p.type], sel: p.loads })), true);
+  // 电池在充的功率、输入口合计送进来的功率（地面电源当作要多少给多少）
+  const chg = Math.max(-B.battery.now, 0), disc = Math.max(B.battery.now, 0), inTotal = B.input.gse ? B.draw.now + chg : B.input.solar;
+  const max = Math.max(B.draw.now, inTotal, 1e-6), wOf = w => 1.8 + 3.6 * Math.sqrt(Math.max(w, 0) / max);
   const colorOf = k => (RAILS[k] && RAILS[k].color) || '#cccccc';
   const casing = getComputedStyle(document.documentElement).getPropertyValue('--line3d').trim() || '#000000';
   // 节点：一个圆点，名称和数值在悬浮标签里。onClick 给了的话点它会跳到面板里对应的那一行
@@ -753,10 +790,11 @@ function rebuildFlow() {
     const path = [[BAT_X, top, zf], [BAT_X, y, zf], [BAT_X, y, BAT_Z], [BAT_COL, y, BAT_Z], [BAT_COL, y, cz], portB];
     return { p, zf, top, path, len: len(path) };
   });
-  const still = reduced || !bats.length;
+  const alive = bats.length > 0 || inTotal > 0;   // 有电池或者有输入在供电，线才是活的
+  const still = reduced || !alive;
   const dCharger = bats.length ? Math.min(...bats.map(b => b.len)) + TRI : 0;
   const dL = dCharger + len(toL);
-  const opt = (w, dead) => ({ width: wOf(w), casing, dead: dead != null ? dead : w <= 0 || !bats.length, level: w / max, still });
+  const opt = (w, dead) => ({ width: wOf(w), casing, dead: dead != null ? dead : w <= 0 || !alive, level: w / max, still });
   // 各条轨上的用电板：支线在哪个 z 从干线切出去（板卡正面外一点）
   const BEND = 9;   // 支线离开干线的圆弧半径（mm）
   const SPLIT = 5;  // 干线分岔处的圆弧半径（mm）
@@ -799,29 +837,36 @@ function rebuildFlow() {
     node(r > 0.5 ? x + sx * r : x, y, z0, railLabel(k) + ' ' + fmtW(w), color);
   };
 
-  // 外部电源输入（太阳能口、GSE 接口……）：从接口的实际位置贴着背板走到充电芯片。在背面的接口走背面，到芯片底下再穿上来。
-  // 这些输入现在不算功率，画成虚线
-  (BP.inputs || []).forEach(ref => {
-    const g = S.interfaces.find(i => i.ref === ref), note = ifaceNotes(BP.notes).find(n => n.ref === ref);
+  // 外部电源输入（太阳能口、GSE 接口）：从板外引进来（那一头是太阳能板或地面电源，渐隐），经过接口，贴着背板走到充电芯片的太阳能口。
+  // 在背面的接口走背面，到芯片底下再穿上来。没在供电的口是虚线
+  B.input.list.forEach(inp => {
+    const ref = inp.ref, g = S.interfaces.find(i => i.ref === ref), note = ifaceNotes(BP.notes).find(n => n.ref === ref);
     if (!g) return;
     const ix = g.center.x, iy = g.center.y + S.group.position.y, iz = g.center.z, yy = iy >= S.topY - 0.8 ? yTop : yBot;
-    const path = [[ix, iy, iz], [ix, yy, iz], [portS[0], yy, iz], [portS[0], yy, portS[2]]];
+    const w = inp.kind === 'gse' ? (inp.n ? inTotal : 0) : inp.watts, on = inp.n > 0;
+    // 板外的那一段朝着离接口最近的板边外面，稍微偏一点
+    const ex = (ix - S.cx) / S.hx, ez = (iz - S.cz) / S.hz, o = Math.abs(ez) >= Math.abs(ex) ? [0, Math.sign(ez) || 1] : [Math.sign(ex) || 1, 0];
+    const path = [[ix + o[0] * 26 + Math.abs(o[1]) * 12, iy, iz + o[1] * 26 + Math.abs(o[0]) * 12], [ix + o[0] * 12, iy, iz + o[1] * 12],
+                  [ix, iy, iz], [ix, yy, iz], [portS[0], yy, iz], [portS[0], yy, portS[2]]];
     if (yy !== yTop) path.push(portS);
-    flow.line(path, [0, len(path)], iColor, opt(0, true));
-    node(ix, iy, iz, (note ? note.label : ref) + ' · ' + t('flow.input'), iColor);
+    flow.line(path, [-len(path), 0], iColor, { ...opt(w, !on), fade: [true, false] });
+    const state = inp.kind === 'gse' ? t(on ? 'flow.on' : 'flow.off') : t('flow.strings', { n: inp.n, max: inp.max }) + (on ? ' · ' + fmtW(w) : '');
+    node(ix, iy, iz, (note ? note.label : ref) + ' · ' + state, iColor);
   });
 
   // 电池：从板里向下，沿背板的外沿走到充电芯片
   bats.forEach(b => {
-    const T = TYPES[b.p.type], share = B.wh > 0 ? B.draw.now * T.wh / B.wh : 0;
+    // 这块电池分担的功率。在充电时电是往电池里走的：把线路距离反过来，脉冲就朝着电池走
+    const T = TYPES[b.p.type], frac = B.wh > 0 ? T.wh / B.wh : 0, share = (B.charging ? chg : disc) * frac;
+    const dist = B.charging ? [dCharger - TRI, dCharger - TRI - b.len] : [dCharger - TRI - b.len, dCharger - TRI];
     // 有几块电池时它们在外沿上叠着走，各摆各的会分开，所以都不摆
-    flow.line(b.path, [dCharger - TRI - b.len, dCharger - TRI], bColor, { ...opt(share), still: still || bats.length > 1 });
-    node(BAT_X, b.top, b.zf, t('flow.battery') + ' ' + fmtCap(T.wh) + ' · ' + fmtW(share), tagColor(T), () => focusPowerRow(b.p.id));
+    flow.line(b.path, dist, bColor, { ...opt(share, B.charging && share <= 0 ? false : undefined), still: still || bats.length > 1 });
+    node(BAT_X, b.top, b.zf, t('flow.battery') + ' ' + fmtCap(T.wh) + ' · ' + (B.charging ? (share > 0 ? t('power.charging', { w: fmtW(share) }) : t('power.chargingNoW')) : fmtW(share)), tagColor(T), () => focusPowerRow(b.p.id));
   });
-  // 三岔口里的三条通路：电池 → VSYS（放电，现在算功率的就是这一条）、太阳能 → VSYS、太阳能 → 电池（充电）。后两条还不算功率，画成虚线
-  flow.line([portB, toL[0], portV], [dCharger - TRI, dCharger + TRI], bColor, { ...opt(B.draw.now), still: true });
-  flow.line([portS, toL[0], portV], [0, 2 * TRI], iColor, opt(0, true));
-  flow.line([portS, toL[0], portB], [0, 2 * TRI], iColor, opt(0, true));
+  // 三岔口里的三条通路：电池 → VSYS（放电）、输入 → VSYS（输入直接供负载的部分）、输入 → 电池（充电）。没有功率的那条是虚线
+  flow.line([portB, toL[0], portV], [dCharger - TRI, dCharger + TRI], bColor, { ...opt(disc), still: true });
+  flow.line([portS, toL[0], portV], [0, 2 * TRI], iColor, { ...opt(Math.min(inTotal, B.draw.now)), still: true });
+  flow.line([portS, toL[0], portB], [0, 2 * TRI], iColor, { ...opt(chg, B.charging && chg <= 0 ? false : undefined), still: true });
   node(cx, y, cz, t('flow.charger') + (sys.power.charger ? ' ' + sys.power.charger : '') + ' · VSYS ' + fmtW(B.draw.now), vColor);
 
   // 充电芯片整流出 VSYS（经过它的电感）。VSYS 不经过降压，直接接到 VSYS 干线；同时送进各组降压模块
@@ -904,7 +949,7 @@ function renderUI() {
   layerSeg.querySelectorAll('button').forEach(b => { b.setAttribute('aria-pressed', String(b.dataset.layer === layer)); b.disabled = !!inspect; });
   // layout 和 bpKey 在文件后面才声明，第一次 renderUI（还没 ready）时碰不得
   if (ready) ctxLine.textContent = [LAYOUTS[layout] && LAYOUTS[layout].name, bpKey && t('backplane') + ' ' + BACKPLANES[bpKey].name].filter(Boolean).join(' · ');
-  const B = budget(powerEntries(), sys.power);
+  const B = fullBudget(powerEntries(), layer === 'power');
   if (!powerPanel.hidden) renderPower(B);
   libList.querySelectorAll('.item').forEach(b => {
     b.disabled = !ready;
@@ -1357,7 +1402,7 @@ function bump(p) {
 /* ---------- 配置：撤销、地址栏、整套替换 ---------- */
 // 当前的配置（正在拔出的板卡不算）
 const currentCfg = () => ({ bp: bpKey, boards: [...placements.values()].filter(p => !p.leaving)
-  .map(p => ({ type: p.type, slot: p.slot, bracket: p.bracketMode, exps: p.exps.map(e => e.by >= 0 ? null : e.key), loads: p.loads })) });
+  .map(p => ({ type: p.type, slot: p.slot, bracket: p.bracketMode, exps: p.exps.map(e => e.by >= 0 ? null : e.key), loads: p.loads })), inputs: srcSel });
 const snapshot = () => serialize(sys, currentCfg());
 // 逐块替换的过程中，以换完以后的样子为准
 const stateSnap = () => applying ? targetSnap : snapshot();
@@ -1435,6 +1480,7 @@ async function applyConfig(cfg) {
   setSel(null);
   if (cfg.bp !== bpKey) await setBackplane(cfg.bp);
   if (run !== mine) return;
+  srcSel = { ...(cfg.inputs || {}) };
   const list = cfg.boards, keep = new Map(), drop = [];
   placements.forEach(p => {
     if (p.leaving) return;
