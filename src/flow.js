@@ -5,7 +5,8 @@
 // 两遍下面各垫一条略宽的描边色线，浅色主题下浅色的电源轨才不会融进背景。
 //
 // 动效有两层，都按“从电源沿线路走到这里的距离”算相位（这个距离借用 LineMaterial 画虚线用的那组属性传进去）：
-//   琴弦  每一段直线像一根两端按住的弦，横向摆动，波形顺着电流方向传过去。功率越大摆幅越大、振得越快
+//   琴弦  每一段直线像一根两端按住的弦，横向缓缓摆动，波形顺着电流方向传过去。功率越大摆幅越大、振得越快
+// 折线的拐角都改成圆弧（二次贝塞尔），弧上不摆
 //   箭头  线上一串尖角朝着电流方向的亮纹，匀速向下游移动，一眼看得出电往哪边走
 // 系统开了“减少动态效果”时两层都不动：弦是直的，箭头纹静止（方向仍然看得出来）
 import * as THREE from 'three';
@@ -19,6 +20,31 @@ const STEP = 2.2;            // 把直线切成这么长的小段，才弯得起
 const WAVE = 24;             // 弦上波形的波长（mm）
 const CHEVRON = 13;          // 相邻两个箭头纹的间距（mm）
 const UP = new THREE.Vector3(0, 1, 0);
+const RADIUS = 6;           // 拐角圆弧的半径（mm），短的段会自动缩小
+const ARC_STEPS = 8;
+
+// 把折线拆成直段和圆角：返回 [{ a, b, swing }]，直段可以摆，圆角上的小段不摆
+function rounded(pts) {
+  const P = pts.map(q => new THREE.Vector3().fromArray(q)), out = [], n = P.length;
+  const trim = new Array(n).fill(0);
+  for (let i = 1; i < n - 1; i++) trim[i] = Math.min(RADIUS, P[i].distanceTo(P[i - 1]) / 2, P[i].distanceTo(P[i + 1]) / 2);
+  for (let i = 0; i + 1 < n; i++) {
+    const d = P[i + 1].clone().sub(P[i]), L = d.length();
+    if (L < 1e-6) continue;
+    d.divideScalar(L);
+    const a = P[i].clone().addScaledVector(d, trim[i]), b = P[i + 1].clone().addScaledVector(d, -trim[i + 1]);
+    if (a.distanceTo(b) > 1e-6) out.push({ a, b, swing: true });
+    if (i + 2 < n && trim[i + 1] > 0) {
+      const d2 = P[i + 2].clone().sub(P[i + 1]).normalize(), c = P[i + 1], e = c.clone().addScaledVector(d2, trim[i + 1]);
+      let prev = b;
+      for (let k = 1; k <= ARC_STEPS; k++) {
+        const u = k / ARC_STEPS, q = b.clone().multiplyScalar((1 - u) * (1 - u)).addScaledVector(c, 2 * u * (1 - u)).addScaledVector(e, u * u);
+        out.push({ a: prev, b: q, swing: false }); prev = q;
+      }
+    }
+  }
+  return out;
+}
 
 export function makeFlow() {
   const scene = new THREE.Scene(), res = new THREE.Vector2(1, 1), uTime = { value: 0 }, uPhase = { value: 0 };
@@ -56,22 +82,24 @@ export function makeFlow() {
   // o.level 0–1，相对功率，决定摆幅和快慢；o.still 不做动画（减少动态效果）
   function line(pts, dist, color, o) {
     const seg = [], d = [], sw = [], level = Math.max(0, Math.min(1, o.level || 0)), moving = !o.dead && !o.still;
-    const a = new THREE.Vector3(), b = new THREE.Vector3(), dir = new THREE.Vector3(), perp = new THREE.Vector3();
-    for (let i = 0; i + 1 < pts.length; i++) {
-      a.fromArray(pts[i]); b.fromArray(pts[i + 1]);
-      const len = a.distanceTo(b);
-      if (len < 1e-6) continue;
+    const dir = new THREE.Vector3(), perp = new THREE.Vector3();
+    // 距离按圆角以后的实际长度均匀分配到首尾两个距离之间
+    const pieces = rounded(pts), total = pieces.reduce((t, q) => t + q.a.distanceTo(q.b), 0) || 1, d0 = dist[0], d1 = dist[dist.length - 1];
+    let run = 0;
+    for (const { a, b, swing } of pieces) {
+      const L = a.distanceTo(b);
       dir.subVectors(b, a).normalize();
       // 摆动的方向：竖着的线（板内的支线）在板面里左右摆，躺着的线在背板面里摆
       if (Math.abs(dir.y) > 0.9) perp.set(1, 0, 0); else perp.crossVectors(dir, UP).normalize();
-      const amp = moving ? Math.min(0.35 + 1.9 * Math.sqrt(level), len * 0.16) : 0, n = Math.max(1, Math.round(len / STEP));
+      const amp = moving && swing ? Math.min(0.35 + 1.9 * Math.sqrt(level), L * 0.16) : 0, n = swing ? Math.max(1, Math.round(L / STEP)) : 1;
       for (let k = 0; k < n; k++) {
         const u0 = k / n, u1 = (k + 1) / n;
         seg.push(a.x + (b.x - a.x) * u0, a.y + (b.y - a.y) * u0, a.z + (b.z - a.z) * u0, a.x + (b.x - a.x) * u1, a.y + (b.y - a.y) * u1, a.z + (b.z - a.z) * u1);
-        d.push(dist[i] + (dist[i + 1] - dist[i]) * u0, dist[i] + (dist[i + 1] - dist[i]) * u1);
+        d.push(d0 + (d1 - d0) * (run + L * u0) / total, d0 + (d1 - d0) * (run + L * u1) / total);
         const e0 = amp * Math.sin(Math.PI * u0), e1 = amp * Math.sin(Math.PI * u1);   // 两端按住，中间摆得最开
         sw.push(perp.x * e0, perp.y * e0, perp.z * e0, perp.x * e1, perp.y * e1, perp.z * e1);
       }
+      run += L;
     }
     if (!seg.length) return;
     const g = new LineSegmentsGeometry();
@@ -82,7 +110,7 @@ export function makeFlow() {
     g.setAttribute('instanceSwayStart', new THREE.InterleavedBufferAttribute(sbuf, 3, 0));
     g.setAttribute('instanceSwayEnd', new THREE.InterleavedBufferAttribute(sbuf, 3, 3));
     if (moving) live++;
-    const omega = 2 * Math.PI * (0.45 + 1.2 * Math.sqrt(level));
+    const omega = 2 * Math.PI * (0.16 + 0.4 * Math.sqrt(level));   // 0.16–0.56 Hz
     [[o.casing, o.width + 2.4, false, false], [color, o.width, false, true], [o.casing, o.width + 2.4, true, false], [color, o.width, true, true]]
       .forEach(([c, w, depth, arrows], n) => {
         const mesh = new LineSegments2(g, material(c, w, { depth, dead: o.dead, omega, arrows: arrows && !o.dead, opacity: (depth ? 1 : HIDDEN) * (o.dead ? 0.7 : 1) }));
@@ -92,7 +120,7 @@ export function makeFlow() {
       });
   }
   function setResolution(w, h) { res.set(w, h); objs.forEach(o => o.material.resolution.set(w, h)); }
-  // seconds：现在的时间（秒）。箭头纹每秒走一个间距
-  function setTime(seconds) { uTime.value = seconds % 3600; uPhase.value = seconds % 1; }
+  // seconds：现在的时间（秒）。箭头纹每秒走半个间距
+  function setTime(seconds) { uTime.value = seconds % 3600; uPhase.value = (seconds * 0.5) % 1; }
   return { scene, clear, line, setResolution, setTime, get live() { return live; } };
 }

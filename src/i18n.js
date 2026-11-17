@@ -39,6 +39,8 @@ const STRINGS = {
     'flow.input': 'power input, not modelled',
     'flow.charger': 'Charger',
     'flow.dcdc': 'DC/DC',
+    'flow.in': 'in',
+    'flow.self': 'Backplane 3V3 (MCU and monitors), not modelled',
     'flow.loss': 'loss',
     'hint.power': 'Power budget. Switch load states in the panel. The layout is locked.',
     'power.custom': 'Custom',
