@@ -41,7 +41,7 @@
  },
  "counts": {
   "board": 1,
-  "parts": 41,
+  "parts": 9,
   "blocks": 41,
   "bits": 0,
   "decals": 485,
@@ -54,82 +54,10 @@
   "bits": 0,
   "decals": 970,
   "interface": 10848,
-  "instanced": 18694
+  "instanced": 17916
  },
  "split": null,
  "components": [
-  {
-   "name": "1W",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "NTC",
-   "triangles": 0
-  },
-  {
-   "name": "3V3",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "NTC",
-   "triangles": 0
-  },
-  {
-   "name": "3V3_Int",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "5V",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "NTC",
-   "triangles": 0
-  },
-  {
-   "name": "BATGND",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "BATPOS",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
   {
    "name": "BCR",
    "side": "top",
@@ -140,42 +68,6 @@
    ],
    "kind": "blocks",
    "triangles": 12
-  },
-  {
-   "name": "BCR INOKB",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "BCR INTB",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "BCR STATUS",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
   },
   {
    "name": "Board",
@@ -1378,30 +1270,6 @@
    "triangles": 12
   },
   {
-   "name": "CAN N",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "CAN P",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
    "name": "CAVL",
    "side": "top",
    "size": [
@@ -2317,78 +2185,6 @@
    "triangles": 2
   },
   {
-   "name": "GND 1",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "GND 2",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "GND 3",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "GND 4",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "GND 5",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "GND 6",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
    "name": "HDRM",
    "side": "bottom",
    "size": [
@@ -2399,90 +2195,6 @@
    "kind": "interface",
    "triangles": 1024,
    "edgeSegments": 280
-  },
-  {
-   "name": "HINHIBIT",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "I2C EXT1 SCL",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "I2C EXT1 SDA",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "I2C EXT2 SCL",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "I2C EXT2 SDA",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "I2C INT SCL",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "I2C INT SDA",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
   },
   {
    "name": "J1",
@@ -2894,66 +2606,6 @@
    "kind": "parts",
    "triangles": 44,
    "edgeSegments": 34
-  },
-  {
-   "name": "MP1",
-   "side": "bottom",
-   "size": [
-    5.1,
-    5.1,
-    5.4
-   ],
-   "kind": "parts",
-   "instanceOf": "MP4",
-   "triangles": 0
-  },
-  {
-   "name": "MP2",
-   "side": "bottom",
-   "size": [
-    5.1,
-    5.1,
-    5.4
-   ],
-   "kind": "parts",
-   "instanceOf": "MP4",
-   "triangles": 0
-  },
-  {
-   "name": "MP3",
-   "side": "bottom",
-   "size": [
-    5.1,
-    5.1,
-    5.4
-   ],
-   "kind": "parts",
-   "instanceOf": "MP4",
-   "triangles": 0
-  },
-  {
-   "name": "MP4",
-   "side": "bottom",
-   "size": [
-    5.1,
-    5.1,
-    5.4
-   ],
-   "kind": "parts",
-   "instanceOf": "MP4",
-   "triangles": 124
-  },
-  {
-   "name": "NTC",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "NTC",
-   "triangles": 327
   },
   {
    "name": "PCON P1",
@@ -6083,18 +5735,6 @@
    "edgeSegments": 282
   },
   {
-   "name": "SOLARPOS",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
    "name": "U1",
    "side": "top",
    "size": [
@@ -6468,30 +6108,6 @@
    ],
    "kind": "decals",
    "triangles": 2
-  },
-  {
-   "name": "VSYS",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 0
-  },
-  {
-   "name": "WATCHDOG",
-   "side": "bottom",
-   "size": [
-    2.0,
-    2.0,
-    6.0
-   ],
-   "kind": "parts",
-   "instanceOf": "WATCHDOG",
-   "triangles": 327
   },
   {
    "name": "Y1",

@@ -201,7 +201,7 @@ python pipeline/step2glb.py "EXP Board.step" public/models/exp1 --board Experime
 python pipeline/step2glb.py Backplane_V8.step public/models/backplane --frame backplane --slots SAMTEC_ERF8 --deflection 0.25 --angular 1.3 --annotations boards/backplane.json
 ```
 
-背板 V6 的 STEP（`cad/Proto/BPV6 Assem.zip`）是一个总装，里面还有一块底板和插着的 EXP V1。`--only-board` 只留槽位连接器所在的那块板和它上面的件：
+背板 V6 的 STEP（`cad/Proto/BPV6 Assem.zip`）是一个总装，里面还有一块底板和插着的 EXP V1。`--only-board` 只留槽位连接器所在的那块板和它上面的件（同一个装配里、贴着这块板的；别的板伸过来顶着它的弹簧针和贴片螺母不算）：
 
 ```bash
 python pipeline/step2glb.py "BPV6 Assem.step" public/models/backplane-v6 --frame backplane --slots PCON --board Board --only-board --deflection 0.25 --angular 1.3 --annotations boards/backplane-v6.json

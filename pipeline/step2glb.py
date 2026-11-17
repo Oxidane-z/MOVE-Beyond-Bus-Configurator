@@ -31,7 +31,7 @@
 STEP 里没有位号时用 match 列出名称通配符，同名的多个连接器再用 cluster 按序号区分
 （转换时会打印每个通配符匹配到的各组位置）。
 
---only-board 只保留基板和装在它上面的元器件。背板的总装里带着别的板卡时用；背板取槽位连接器所在的那块板。
+--only-board 只保留基板和装在它上面的元器件（和基板同一个装配、贴着基板的）。背板的总装里带着别的板卡时用；背板取槽位连接器所在的那块板。
 
 --full PREFIX|PREFIX 让名称匹配的元器件不论大小都保留完整几何，否则中小件会被简化成盒体或色块。
 --material PREFIX=NAME 指定名称匹配的元器件的材质（dark、light、gold、kapton），覆盖 CAD 原色。可重复。
@@ -401,6 +401,13 @@ def load_items(st, colors):
                 else:
                     out.append((st.GetShape_s(r), c or DEFAULT_COLOR, m))
 
+        def label_key(l):
+            key = []
+            while not l.IsRoot():
+                key.append(l.Tag())
+                l = l.Father()
+            return tuple(key)
+
         def walk(label, loc, parents):
             for comp, ref in children(label):
                 placed = st.GetShape_s(comp)
@@ -421,7 +428,8 @@ def load_items(st, colors):
                 wlo, whi = bbox(local.Moved(cloc))
                 if not bodies or (whi - wlo).max() <= 0:
                     continue
-                items.append({'name': name, 'parents': parents, 'm': trsf_matrix(cloc), 'bodies': bodies,
+                # asm：直接装着这个件的那个装配（按标签位置区分，名字可能重复），--only-board 用它分开总装里的几块板
+                items.append({'name': name, 'parents': parents, 'asm': label_key(label), 'm': trsf_matrix(cloc), 'bodies': bodies,
                               'llo': llo, 'lhi': lhi, 'wlo': wlo, 'whi': whi})
         walk(free.Value(1), TopLoc_Location(), [])
         return items
@@ -727,8 +735,13 @@ def main():
             all(it['wlo'][a] >= plate['wlo'][a] - 1 and it['whi'][a] <= plate['whi'][a] + 1 for a in (u, v))
 
     if args.only_board:
-        # 只留装在这块板上的件（总装里还带着别的板卡时用）
-        items = [it for it in items if it is board or touches(it, board)]
+        # 只留装在这块板上的件（总装里还带着别的板卡时用）：和基板在同一个装配里，并且贴着基板。
+        # 只看贴不贴会漏掉别的板上伸过来顶着这块板的件（调试工装的弹簧针、贴片螺母）
+        same = lambda it: 'asm' not in board or it.get('asm') == board['asm']
+        dropped = [it['name'] for it in items if it is not board and touches(it, board) and not same(it)]
+        if dropped:
+            print('--only-board 丢掉了别的装配里贴着基板的 %d 个件: %s' % (len(dropped), ', '.join(sorted(set(dropped))[:20])), file=sys.stderr)
+        items = [it for it in items if it is board or (touches(it, board) and same(it))]
 
     def is_split(it):
         if it is board:
