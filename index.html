@@ -19,14 +19,7 @@
 <div class="app" id="app">
   <header class="head">
     <h1 data-i18n="title">MOVE Beyond Bus Configurator</h1>
-    <div class="layouts view" role="group" data-i18n-aria="aria.view" data-i18n-tip="tip.power">
-      <span data-i18n="view">View</span>
-      <div id="layerSeg" class="seg">
-        <button type="button" data-layer="layout" data-i18n="view.layout">Layout</button>
-        <button type="button" data-layer="power" data-i18n="view.power">Power</button>
-      </div>
-      <span id="ctxLine" class="ctx"></span>
-    </div>
+    <div id="ctxLine" class="ctx"></div>
     <div class="layouts" role="group" data-i18n-aria="aria.layouts">
       <span data-i18n="layouts">Layout</span>
       <div id="layouts" class="seg"></div>
@@ -61,11 +54,15 @@
       <div id="marks" class="marks"></div>
       <div id="flowMarks" class="marks"></div>
       <div id="hoverCard" class="hovercard" hidden></div>
-      <div id="toast" class="toast" role="status" aria-live="polite"></div>
       <div class="tools">
+        <span class="tipbox" data-i18n-tip="tip.power">
+          <span id="layerSeg" class="seg" role="group" data-i18n-aria="aria.view">
+            <button type="button" data-layer="layout" data-i18n="view.layout">Layout</button>
+            <button type="button" data-layer="power" data-i18n="view.power">Power</button>
+          </span>
+        </span>
         <button id="undo" type="button" data-i18n-aria="aria.undo" disabled>↶</button>
         <button id="redo" type="button" data-i18n-aria="aria.redo" disabled>↷</button>
-        <button id="share" type="button" data-i18n-aria="aria.share"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6.5 9.5a3 3 0 0 0 4.2 0l2.3-2.3a3 3 0 0 0-4.2-4.2l-.8.8"/><path d="M9.5 6.5a3 3 0 0 0-4.2 0L3 8.8A3 3 0 0 0 7.2 13l.8-.8"/></svg></button>
         <button id="rotL" type="button" data-i18n-aria="aria.rotL">⟲</button>
         <button id="rotR" type="button" data-i18n-aria="aria.rotR">⟳</button>
         <button id="resetView" type="button" data-i18n-aria="aria.reset">⌂</button>

@@ -68,18 +68,21 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   line-height: 1.1; letter-spacing: -0.03em; white-space: nowrap; color: var(--accent); opacity: 0; transform: translateY(6px);
   transition: opacity 0.16s ease, transform 0.16s ease; pointer-events: none; user-select: none; }
 .banner.on { opacity: 0.32; transform: none; }
-@media (prefers-reduced-motion: reduce) { .banner, .toast { transition: none; } .mark, .item.loading .sw, .cell.pending { animation: none; } }
-.tools { position: absolute; top: 10px; right: 10px; display: flex; gap: 6px; }
+@media (prefers-reduced-motion: reduce) { .banner { transition: none; } .mark, .item.loading .sw, .cell.pending { animation: none; } }
+.tools { position: absolute; top: 10px; right: 10px; left: 10px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; pointer-events: none; }
+.tools > * { pointer-events: auto; }
+/* 层切换：两段文字按钮，和其余图标工具之间留一点空隙 */
+.tools .tipbox { display: inline-flex; margin-right: 6px; }
+.tools .seg { min-height: 32px; }
+.tools .seg button { min-width: 0; min-height: 0; border: 0; border-radius: 0; padding: 0 10px; font-size: 13px; }
+.tools .seg button + button { border-left: 1.5px solid var(--rule); }
 .tools button { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 32px; background: var(--panel); border: 1.5px solid var(--rule); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
 .tools button:hover { border-color: var(--muted); }
 /* 悬浮标签：鼠标停在按钮上或键盘聚焦时在按钮下方出现 */
 [data-tip] { position: relative; }
-[data-tip]::after { content: attr(data-tip); position: absolute; top: calc(100% + 6px); left: 0; z-index: 4; white-space: nowrap;
+[data-tip]::after { content: attr(data-tip); position: absolute; top: calc(100% + 6px); right: 0; z-index: 4; white-space: nowrap;
   background: var(--ink); color: var(--bg); font-size: 12px; font-weight: 400; padding: 3px 8px; border-radius: 6px; opacity: 0; pointer-events: none; transition: opacity 0.12s ease; }
 [data-tip]:hover::after, [data-tip]:focus-within::after { opacity: 1; }
-.toast { position: absolute; top: 52px; left: 50%; transform: translate(-50%, -6px); max-width: calc(100% - 24px); background: var(--ink); color: var(--bg);
-  font-size: 12px; padding: 4px 10px; border-radius: 6px; opacity: 0; transition: opacity 0.15s ease, transform 0.15s ease; pointer-events: none; }
-.toast.on { opacity: 1; transform: translate(-50%, 0); }
 .tools button:disabled { opacity: 0.4; cursor: default; border-color: var(--rule); }
 
 .dock { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
@@ -151,17 +154,24 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* ---------- 功耗层 ---------- */
 /* 进入功耗层：布局和背板的选择收起，槽位条只读，配置在这一层不能改。三维模型在画布里被压暗（render.js 的 drawDim），上面画电源分布图 */
-.app.power .layouts:not(.view) { display: none; }
+.app.power .layouts { display: none; }
 /* 功耗层里布局和背板不能换，换成一行只读的文字，说明现在是哪套布局、哪块背板 */
-.ctx { display: none; font-family: var(--mono); font-size: 11px; color: var(--muted); }
-.app.power .ctx { display: inline; }
+.ctx { display: none; margin-top: 10px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.app.power .ctx { display: block; }
 .app.power .cell { cursor: default; touch-action: auto; }
 /* 功耗层的操作栏只有一个按钮，提示文字可以折成两行，窄屏上不用截断（操作栏总高度不变） */
 .app.power .hint span { white-space: normal; height: auto; max-height: calc(2 * var(--txt)); }
-/* 电源分布图节点上的标签：电源轨用各自的颜色，板卡用分系统颜色，其余是中性的 */
-.fnode { position: absolute; transform: translate(-50%, -50%); padding: 1px 7px; border-radius: 10px; border: 1.5px solid var(--line3d);
-  font: 600 11px/1.4 var(--mono); white-space: nowrap; color: var(--on-card); pointer-events: none; }
-.fnode.plain { background: var(--panel); color: var(--ink); border-color: var(--muted); font-weight: 500; }
+/* 电源分布图的节点：一个小圆点（电源轨用各自的颜色，板卡用分系统颜色，其余是中性的），
+   鼠标停上去、键盘聚焦或点一下才显示名称和功率 */
+.fnode { position: absolute; transform: translate(-50%, -50%); width: 12px; height: 12px; padding: 0; border-radius: 50%; border: 1.5px solid var(--line3d);
+  background: var(--panel); cursor: default; pointer-events: auto; }
+.fnode.plain { border-color: var(--muted); }
+.fnode.link { cursor: pointer; }
+.fnode::before { content: ""; position: absolute; inset: -8px; border-radius: 50%; }   /* 看上去是 12px 的点，可指的范围大一圈 */
+.fnode .tip { position: absolute; left: 50%; bottom: calc(100% + 7px); transform: translateX(-50%); display: none; white-space: nowrap;
+  background: var(--panel); color: var(--ink); border: 1.5px solid var(--muted); border-radius: 6px; padding: 2px 8px; font: 500 11px/1.5 var(--mono); pointer-events: none; }
+.fnode:hover, .fnode:focus-visible { z-index: 3; outline: 2px solid var(--accent); outline-offset: 2px; }
+.fnode:hover .tip, .fnode:focus .tip { display: block; }
 /* 面板顶部固定的一块：场景按钮和合计小表；下面的明细跟着列表滚动 */
 .psum { position: sticky; top: 0; z-index: 1; background: var(--bg); display: flex; flex-direction: column; gap: 6px; padding-bottom: 6px; }
 .psum .seg { width: max-content; max-width: 100%; }
@@ -236,9 +246,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .app { height: 100vh; height: 100dvh; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) minmax(0, 28dvh);
     grid-template-areas: "head" "main" "lib"; row-gap: 10px; padding-block: 10px; }
   .head { padding-bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
-  /* 标题和层切换挤在同一行（标题放不下就截断），省出一行给三维视图 */
-  .head h1 { font-size: 16px; flex: 1 1 100px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .layouts.view { flex: none; flex-direction: column; align-items: flex-end; gap: 2px; }
+  .head h1 { font-size: 16px; }
+  .ctx { margin-top: 0; flex-basis: 100%; }
   .stats { gap: 0 14px; padding-top: 6px; }
   .stats dt { font-size: 11px; }
   .stats dd { font-size: 12px; }
@@ -258,7 +267,6 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .cell { height: 40px; }
   .cell .lb { font-size: 10px; }
   .lib { overscroll-behavior: contain; padding-right: 0; }
-  .fnode { font-size: 10px; padding: 0 5px; }
   /* 手机上面板只有两百多像素高：合计不固定在顶上，否则明细没有地方滚；负载按钮加高到好点中 */
   .psum { position: static; }
   .prow .load .seg button, .psum .seg button { min-height: 40px; }

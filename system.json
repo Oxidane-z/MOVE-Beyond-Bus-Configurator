@@ -2,8 +2,8 @@
   "slots": 7,
   "pitch": 14.5,
   "backplanes": {
-    "v6": {"name": "BP V6", "model": "models/backplane-v6.glb", "y": 5, "seatY": 11.91, "color": "#2c2d31", "notes": "backplane-v6"},
-    "v78": {"name": "BP V7/V8", "model": "models/backplane.glb", "y": 5, "seatY": 11.94, "color": "#2c2d31", "notes": "backplane"}
+    "v6": {"name": "BP V6", "model": "models/backplane-v6.glb", "y": 5, "seatY": 11.91, "color": "#2c2d31", "notes": "backplane-v6", "charge": "ECP"},
+    "v78": {"name": "BP V7/V8", "model": "models/backplane.glb", "y": 5, "seatY": 11.94, "color": "#2c2d31", "notes": "backplane", "charge": "HARNESS"}
   },
   "backplane": "v78",
   "layouts": {
