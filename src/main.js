@@ -731,7 +731,8 @@ function rebuildFlow() {
   const [cx, cz] = BP.charger || [S.cx + S.hx * 0.6, slotZ(SLOTS - 1) - PITCH];
   const [lx, lz] = BP.inductor || [cx, cz - 10];
   const DC = BP.dcdc || {}, NR = k => RAIL_KEYS.indexOf(k);
-  const BAT_X = lane(RAIL_KEYS.length) + 2;                            // 电池走自己的一条道，在三条干线外侧
+  // 电池走背板的外沿：沿离充电芯片远的那条长边走到头，再沿短边绕到充电芯片，不和任何一条电源轨交叉
+  const BAT_X = S.cx + (cx > S.cx ? -1 : 1) * (S.hx - 6), BAT_Z = S.cz + (cz >= S.cz ? 1 : -1) * (S.hz - 4);
   const len = pts => pts.reduce((a, q, i) => i ? a + Math.hypot(q[0] - pts[i - 1][0], q[1] - pts[i - 1][1], q[2] - pts[i - 1][2]) : 0, 0);
   const cum = (pts, d0) => [d0, d0 + len(pts)];                        // 线上只用首尾的距离，中间按长度均分
   const vColor = colorOf(RAIL_KEYS[NV]), bColor = sys.power.batteryColor || vColor, iColor = sys.power.inputColor || '#999999';
@@ -739,8 +740,8 @@ function rebuildFlow() {
 
   // 离电源（电池）的线路距离：电池 → 充电芯片 → 电感 → VSYS（直接去槽位，也去各组降压）。有几块电池就取最近的那块
   const bats = list.filter(p => TYPES[p.type].wh).map(p => {
-    const zf = zFace(p), top = topOf(p), zb = p.group.position.z;
-    const path = [[BAT_X, top, zf], [BAT_X, y, zf], [BAT_X, y, zb], [BAT_X, y, cz], [cx, y, cz]];
+    const zf = zFace(p), top = topOf(p);
+    const path = [[BAT_X, top, zf], [BAT_X, y, zf], [BAT_X, y, BAT_Z], [cx, y, BAT_Z], [cx, y, cz]];
     return { p, zf, top, path, len: len(path) };
   });
   const still = reduced || !bats.length;
@@ -755,8 +756,8 @@ function rebuildFlow() {
     if (bp) RAIL_KEYS.forEach(k => { if (bp.rails[k]) (consumers[k] = consumers[k] || []).push(zFace(p)); });
   });
   // 一条干线：从 (x0, z0) 横着走到车道，拐一个圆弧沿槽位方向铺开，两头都通到最外面的槽，末端渐隐。
-  // lead 是进线上离 (x0, z0) 不远的一点：干线从那里起头，顺着进线的方向拐一个圆弧再去车道，
-  // 这样进线和干线在降压模块那里不是一个直角。返回这条干线上某个 z 的线路距离
+  // lead 是 (x0, z0) 前面的一点（降压模块的位置，VSYS 是进线上的分叉点）：干线从那里起头，顺着进线的方向走到 (x0, z0)，
+  // 拐一个圆弧再去车道，这样进线和干线之间不是一个直角。返回这条干线上某个 z 的线路距离
   const trunks = {};
   const trunk = (k, x0, z0, d0, w, lead) => {
     const n = NR(k), x = lane(n), color = colorOf(k), dx = Math.abs(x0 - x), dz = d0 + dx, sx = Math.sign(x0 - x) || 1, r = Math.min(BEND, dx);
@@ -794,10 +795,11 @@ function rebuildFlow() {
     node(ix, iy, iz, (note ? note.label : ref) + ' · ' + t('flow.input'), iColor);
   });
 
-  // 电池：从板里向下，在背板上沿自己的道走到充电芯片
+  // 电池：从板里向下，沿背板的外沿走到充电芯片
   bats.forEach(b => {
     const T = TYPES[b.p.type], share = B.wh > 0 ? B.draw.now * T.wh / B.wh : 0;
-    flow.line(b.path, [dCharger - b.len, dCharger], bColor, opt(share));
+    // 有几块电池时它们在外沿上叠着走，各摆各的会分开，所以都不摆
+    flow.line(b.path, [dCharger - b.len, dCharger], bColor, { ...opt(share), still: still || bats.length > 1 });
     node(BAT_X, b.top, b.zf, t('flow.battery') + ' ' + fmtCap(T.wh) + ' · ' + fmtW(share), tagColor(T), () => focusPowerRow(b.p.id));
   });
   node(cx, y, cz, t('flow.charger') + (sys.power.charger ? ' ' + sys.power.charger : '') + ' · VSYS ' + fmtW(B.draw.now), vColor);
@@ -810,13 +812,10 @@ function rebuildFlow() {
   trunk(RAIL_KEYS[NV], lx, lz, dL, B.rails[RAIL_KEYS[NV]] ? B.rails[RAIL_KEYS[NV]].now : 0, tL);
   Object.entries(DC).forEach(([k, pos]) => {
     const [px, pz] = pos, self = k === 'self', out = !self && B.rails[k] ? B.rails[k].now : 0, inW = out / eff(k);
-    // 干线从降压模块出来时在 z 方向上各错开一点（几条干线去车道的那一段才不会叠在一起）
-    const z0 = self || NR(k) < 0 ? pz : pz + (NR(k) - 1.5) * 2, zm = (lz + pz) / 2 + 3;
-    const full = [tL, [lx, y, lz], [lx, y, zm], [px, y, zm], [px, y, z0]];
-    // 进线画到离降压模块不远的地方为止：干线从那里起头，换成自己的颜色，拐一个圆弧出去。圆点（降压模块）就放在换颜色的那一点上
-    const tP = self ? full[4] : back(full[3], full[4], BEND), feed = [...full.slice(0, 4), tP];
-    // 几路降压的进线从电感出来有一段是叠在一起走的，各摆各的会分开，所以这几段不摆（脉冲照常）
-    flow.line(feed, [dTL, dTL + len(feed)], vColor, { ...opt(inW, self ? true : undefined), still: true });
+    // 进线从 VSYS 干线分出去的那一点（tL）出发，斜着靠到降压模块所在的那一列，再直着进去：所有的分叉都在同一点上
+    const D = pz - tL[2], full = [tL, [tL[0], y, tL[2] + 0.25 * D], [px, y, tL[2] + 0.7 * D], [px, y, pz]];
+    // 几路降压的进线刚分出来时有一段是叠在一起走的，各摆各的会分开，所以这几段不摆（脉冲照常）
+    flow.line(full, [dTL, dTL + len(full)], vColor, { ...opt(inW, self ? true : undefined), still: true });
     if (self) {
       // 背板自己的 3V3：给背板上的 MCU 和各槽的功率监测供电，还没有功耗数据
       const [mx, mz] = BP.mcu || [px, pz - 20], path = [[px, y, pz], [px, y, mz], [mx, y, mz]];
@@ -824,8 +823,10 @@ function rebuildFlow() {
       node(px, y, pz, t('flow.dcdc') + ' · ' + t('flow.self'), null);
       return;
     }
-    node(tP[0], y, tP[2], t('flow.dcdc') + ' ' + railLabel(k) + ' · ' + t('flow.in') + ' ' + fmtW(inW) + ' · ' + t('flow.loss') + ' ' + fmtW(inW - out), null);
-    if (NR(k) >= 0) trunk(k, px, z0, dTL + len(full), out, tP);
+    node(px, y, pz, t('flow.dcdc') + ' ' + railLabel(k) + ' · ' + t('flow.in') + ' ' + fmtW(inW) + ' · ' + t('flow.loss') + ' ' + fmtW(inW - out), null);
+    // 干线从降压模块的圆点出发（在这里换成自己的颜色），顺着进线的方向再走一小段，拐一个圆弧去车道。
+    // 各条干线拐弯的位置错开一点，去车道的那一段才不会叠在一起
+    if (NR(k) >= 0) { const run = BEND + (NR(k) - 1.5) * 2; trunk(k, px, pz + Math.sign(D || -1) * run, dTL + len(full) + run, out, [px, y, pz]); }
   });
   // 没有登记降压位置的电源轨（或者旧格式）：直接从电感接出来
   RAIL_KEYS.forEach(k => { if (!trunks[k]) trunk(k, lx, lz - 4 * NR(k), dL, B.rails[k] ? B.rails[k].now : 0); });
