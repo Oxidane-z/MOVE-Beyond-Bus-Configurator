@@ -901,9 +901,15 @@ function rebuildFlow() {
       const ex = (ix - S.cx) / S.hx, ez = (iz - S.cz) / S.hz, o = Math.abs(ez) >= Math.abs(ex) ? [0, Math.sign(ez) || 1] : [Math.sign(ex) || 1, 0];
       i.rr = Math.max(3, Math.min(BEND, Math.abs(iz - zBus)));   // 匝道的圆弧半径：从接口到汇流线有多远就用多大
       i.end = ix + i.s * i.rr;
-      const path = [[ix + o[0] * 26 + Math.abs(o[1]) * 12, iy, iz + o[1] * 26 + Math.abs(o[0]) * 12], [ix + o[0] * 12, iy, iz + o[1] * 12],
-                    [ix, iy, iz], [ix, yTop, zBus, i.rr], [i.end, yTop, zBus]];
-      flow.line(path, [dB(i.end) - len(path), dB(i.end)], iColor, { ...opt(i.w, !i.on), fade: [true, false] });
+      const ramp = [[ix, iy, iz], [ix, yTop, zBus, i.rr], [i.end, yTop, zBus]], dP = dB(i.end) - len(ramp);
+      flow.line(ramp, [dP, dB(i.end)], iColor, opt(i.w, !i.on));
+      // 板外的进线：太阳能口每一串一根（各按自己那一串的功率画），GSE 口一根。几根线在板外散开，到接口前并到一起，顺着同一个方向进去
+      const tt = [Math.abs(o[1]), Math.abs(o[0])], at = (a, b) => [ix + o[0] * a + tt[0] * b, iy, iz + o[1] * a + tt[1] * b];
+      const leads = inp.kind === 'gse' ? [i.w] : inp.fr.map(f => f * inp.per);
+      leads.forEach((w, k) => {
+        const d = k - (leads.length - 1) / 2, lead = [at(30, 12 + d * 9), at(15, d * 5), at(4, 0), at(0, 0)];
+        flow.line(lead, [dP - len(lead), dP], iColor, { ...opt(w, !(w > 0)), fade: [true, false] });
+      });
       const state = inp.kind === 'gse' ? t(i.on ? 'flow.on' : 'flow.off') : t('flow.solarOf', { w: fmtW(inp.watts), max: fmtW(inp.max * inp.per) });
       node(ix, iy, iz, (note ? note.label : inp.ref) + ' · ' + state, iColor);
     });
@@ -913,7 +919,9 @@ function rebuildFlow() {
       const pins = m.filter(i => i !== far).map(i => Math.abs(i.end - far.end));
       flow.line([[far.end, yTop, zBus], [X, yTop, zBus, r], colTop], [dB(far.end), -colLen], iColor, { ...opt(w, !m.some(i => i.on)), pins });
     });
-    if (sides.length === 2) flow.line([[X - r, yTop, zBus], [X + r, yTop, zBus]], [-colLen, -colLen], iColor, { ...opt(total, !any), still: true, breath: true });
+    // 三岔口的第三条边只在两边状态一样的时候画（都在供电，或者都没有）：只有一边有电时它是多出来的一截
+    const live = sides.map(m => m.some(i => i.on));
+    if (sides.length === 2 && live[0] === live[1]) flow.line([[X - r, yTop, zBus], [X + r, yTop, zBus]], [-colLen, -colLen], iColor, { ...opt(total, !any), still: true, breath: true });
     flow.line([colTop, portS], [-colLen, 0], iColor, opt(total, !any));
   }
 
