@@ -2,8 +2,10 @@
   "slots": 7,
   "pitch": 14.5,
   "backplanes": {
-    "v6": {"name": "BP V6", "model": "models/backplane-v6.glb", "y": 5, "seatY": 11.91, "color": "#2c2d31", "notes": "backplane-v6", "charge": "ECP"},
-    "v78": {"name": "BP V7/V8", "model": "models/backplane.glb", "y": 5, "seatY": 11.94, "color": "#2c2d31", "notes": "backplane", "charge": "HARNESS"}
+    "v6": {"name": "BP V6", "model": "models/backplane-v6.glb", "y": 5, "seatY": 11.91, "color": "#2c2d31", "notes": "backplane-v6",
+      "inputs": ["ECP", "SCP1", "SCP2", "SCP3", "SCP4", "SCP5", "SCP6"], "charger": [33.7, 31.0], "dcdc": [40.0, -0.6]},
+    "v78": {"name": "BP V7/V8", "model": "models/backplane.glb", "y": 5, "seatY": 11.94, "color": "#2c2d31", "notes": "backplane",
+      "inputs": ["HARNESS", "MLP-2P", "MLP-6P-1", "MLP-6P-2"], "charger": [33.7, 31.0], "dcdc": [42.8, 0.3]}
   },
   "backplane": "v78",
   "layouts": {
@@ -20,7 +22,8 @@
     },
     "usable": 0.9,
     "charger": "MAX77961",
-    "external": "External charge"
+    "batteryColor": "#ee8f8f",
+    "inputColor": "#b9a2ee"
   },
   "levels": {"proto": "Prototype", "rev1": "Revision 1", "rev2": "Revision 2"},
   "subsystems": {

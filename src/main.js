@@ -680,12 +680,12 @@ function renderPower(B) {
 }
 
 /* ---------- 电源分布图 ---------- */
-// 功耗层里叠在压暗的模型上，固定在结构上（不随镜头换边）：
-//   干线  三条电源轨并排铺在背板上表面，沿槽位排列方向贯穿，从板卡底下穿过；在连接器长度方向上各占一条车道
-//   降压  干线在 7 号槽外侧的一端，VSYS 横着接到 5V 和 3V3 的起点
+// 功耗层里叠在压暗的模型上，固定在结构上（不随镜头换边），走法照背板上的实际布局：
+//   输入  背板上的电源输入口（太阳能口、GSE 接口，system.json 各背板的 inputs）从接口的位置走到充电芯片，虚线（不算功率）
+//   电池  从电池板里下到背板，沿自己的一条道走到充电芯片（MAX77961，各背板的 charger）
+//   VSYS  充电芯片整流出 VSYS，经电感送到降压模块（各背板的 dcdc）
+//   电源轨 VSYS、5V、3V3 从降压模块出发，横着走到各自的车道，再沿槽位方向铺开，从板卡底下穿过
 //   支线  每块板从它实际插着的那个槽的连接器位置垂直升进板内，用到哪条轨就从哪条车道升起，停在板的中上部
-//   电池  从它的连接器向下汇入 VSYS 干线，汇入点是充电芯片
-//   外部供电  从背板上那个接口的实际位置（system.json 里各背板的 charge）贴着板面走到充电芯片，没有电流，是虚线
 //   节点  都是小圆点，名称和功率在悬浮标签里；点板卡或电池的圆点会跳到面板里对应的那一行
 // 线宽、摆幅和摆动的快慢都随当前功率变化，没有电流的支路是不动的虚线；线上的箭头纹指着电流的方向（flow.js）。
 // 系统开了“减少动态效果”时线不摆、箭头纹不走
@@ -711,48 +711,64 @@ function rebuildFlow() {
     flowMarks.appendChild(e); flowNodes.push({ e, pos: new THREE.Vector3(x, y, z) });
   };
   const NV = Math.max(0, RAIL_KEYS.indexOf('vsys'));
-  const y = S.topY + 0.6;                                              // 干线贴着背板上表面
+  const BP = BACKPLANES[bpKey] || {}, yTop = S.topY + 0.6, yBot = S.topY - 1.6 - 0.6;   // 背板上表面 / 下表面
+  const y = yTop;
   const lane = n => (n - (RAIL_KEYS.length - 1) / 2) * LANE;          // 第 n 条轨的车道；槽位连接器的中心在 X = 0
   const zFace = p => p.group.position.z + p.front * 1.1;               // 支线贴在 PCB 正面外一点，不埋在板子里
   const topOf = p => SEAT_Y + p.top * 0.66;                            // 支线停在板的中上部
-  const zBuck = Math.min(slotZ(SLOTS - 1) + PITCH * 0.5, S.cz + S.hz - 2);
-  const zLink = n => zBuck + Math.max(0, Math.abs(n - NV) - 1) * 3.5;  // 各路降压的横线错开
-  const zHead = slotZ(0) - PITCH * 0.45;                               // 干线在 1 号槽外侧的端点
+  // 充电芯片和降压模块在背板上的真实位置（system.json 各背板的 charger、dcdc，取自 STEP）；没写就放在槽位一侧
+  const [cx, cz] = BP.charger || [S.cx + S.hx * 0.6, slotZ(SLOTS - 1) - PITCH];
+  const [hx, hz] = BP.dcdc || [S.cx + S.hx * 0.6, 0];
+  const BAT_X = lane(RAIL_KEYS.length) + 2;                            // 电池走自己的一条道，在三条干线外侧
+  const len = pts => pts.reduce((a, q, i) => i ? a + Math.hypot(q[0] - pts[i - 1][0], q[1] - pts[i - 1][1], q[2] - pts[i - 1][2]) : 0, 0);
+  const cum = (pts, d0) => pts.map((q, i) => d0 + len(pts.slice(0, i + 1)));
+  const vColor = colorOf(RAIL_KEYS[NV]), bColor = sys.power.batteryColor || vColor, iColor = sys.power.inputColor || '#999999';
 
-  // 离电源的线路距离。有几块电池就取最近的那块；没有电池就没有流向可言，图是静止的
-  const bats = list.filter(p => TYPES[p.type].wh).map(p => ({ p, z: p.group.position.z, zf: zFace(p), top: topOf(p) }));
-  bats.forEach(b => { b.len = (b.top - y) + Math.abs(b.zf - b.z); });
+  // 离电源（电池）的线路距离：电池 → 充电芯片 → 降压模块 → 各条干线。有几块电池就取最近的那块；没有电池就是静止的图
+  const bats = list.filter(p => TYPES[p.type].wh).map(p => {
+    const zf = zFace(p), top = topOf(p), zb = p.group.position.z;
+    const path = [[BAT_X, top, zf], [BAT_X, y, zf], [BAT_X, y, zb], [BAT_X, y, cz], [cx, y, cz]];
+    return { p, zf, top, path, len: len(path) };
+  });
   const still = reduced || !bats.length;
-  const dV = z => bats.length ? Math.min(...bats.map(b => b.len + Math.abs(z - b.z))) : 0;
-  const dTrunk = (n, z) => n === NV ? dV(z) : dV(zLink(n)) + Math.abs(lane(n) - lane(NV)) + (zLink(n) - z);
+  const dCharger = bats.length ? Math.min(...bats.map(b => b.len)) : 0;
+  const toHub = [[cx, y, cz], [cx, y, (cz + hz) / 2], [hx, y, (cz + hz) / 2], [hx, y, hz]];
+  const dHub = dCharger + len(toHub);
+  const dTrunk = (n, z) => dHub + Math.abs(hx - lane(n)) + Math.abs(z - hz);
   const opt = (w, dead) => ({ width: wOf(w), casing, dead: dead != null ? dead : w <= 0 || !bats.length, level: w / max, still });
 
-  // 干线和降压。VSYS 上走的是电池端的总功率（含降压损耗），其余两条是各自的合计
-  const stops = [...new Set([...Array.from({ length: SLOTS }, (_, i) => slotZ(i)), ...bats.map(b => b.z)])].sort((a, b) => a - b);
-  RAIL_KEYS.forEach((k, n) => {
-    const w = k === 'vsys' ? B.draw.now : B.rails[k] ? B.rails[k].now : 0, color = colorOf(k);
-    const zEnd = n === NV ? Math.max(...RAIL_KEYS.map((_, m) => zLink(m))) : zLink(n);
-    const zs = [zHead, ...stops, zEnd];
-    flow.line(zs.map(z => [lane(n), y, z]), zs.map(z => dTrunk(n, z)), color, opt(w));
-    if (n !== NV) flow.line([[lane(NV), y, zLink(n)], [lane(n), y, zLink(n)]], [dV(zLink(n)), dTrunk(n, zLink(n))], color, opt(w));
-    node(lane(n), y, zHead, railLabel(k) + ' ' + fmtW(w), color);
+  // 外部电源输入（太阳能口、GSE 接口……）：从接口的实际位置贴着背板走到充电芯片。在背面的接口走背面，到芯片底下再穿上来。
+  // 这些输入现在不算功率，画成虚线
+  (BP.inputs || []).forEach(ref => {
+    const g = S.interfaces.find(i => i.ref === ref), note = ifaceNotes(BP.notes).find(n => n.ref === ref);
+    if (!g) return;
+    const ix = g.center.x, iy = g.center.y + S.group.position.y, iz = g.center.z, yy = iy >= S.topY - 0.8 ? yTop : yBot;
+    const path = [[ix, iy, iz], [ix, yy, iz], [cx, yy, iz], [cx, yy, cz]];
+    if (yy !== yTop) path.push([cx, yTop, cz]);
+    flow.line(path, cum(path, 0), iColor, opt(0, true));
+    node(ix, iy, iz, (note ? note.label : ref) + ' · ' + t('flow.input'), iColor);
   });
 
-  // 电池：从板里向下汇入 VSYS 干线，汇入点是充电芯片
-  const chargeRef = BACKPLANES[bpKey] && BACKPLANES[bpKey].charge, chargeGeo = chargeRef && S.interfaces.find(i => i.ref === chargeRef);
-  const chargeNote = chargeRef && ifaceNotes(BACKPLANES[bpKey].notes).find(n => n.ref === chargeRef);
-  bats.forEach((b, k) => {
-    const T = TYPES[b.p.type], share = B.wh > 0 ? B.draw.now * T.wh / B.wh : 0, x = lane(NV), color = colorOf(RAIL_KEYS[NV]);
-    flow.line([[x, b.top, b.zf], [x, y, b.zf], [x, y, b.z]], [0, b.top - y, b.len], color, opt(share));
-    node(x, b.top, b.zf, t('flow.battery') + ' ' + fmtCap(T.wh), tagColor(T), () => focusPowerRow(b.p.id));
-    node(x, y, b.z, t('flow.charger') + (sys.power.charger ? ' ' + sys.power.charger : ''), null);
-    // 外部供电：从背板上那个接口的实际位置出发，贴着板面走到充电芯片。现在没有电流，画成虚线
-    if (chargeGeo && k === 0) {
-      const c = chargeGeo.center, cy = c.y + S.group.position.y, run = Math.abs(cy - y) + Math.abs(c.x - x) + Math.abs(c.z - b.z);
-      flow.line([[c.x, cy, c.z], [c.x, y, c.z], [x, y, c.z], [x, y, b.z]],
-                [b.len - run, b.len - run + Math.abs(cy - y), b.len - Math.abs(c.z - b.z), b.len], color, opt(0, true));
-      node(c.x, cy, c.z, t('flow.external') + (chargeNote ? ' · ' + chargeNote.label : ''), null);
-    }
+  // 电池：从板里向下，在背板上沿自己的道走到充电芯片
+  bats.forEach(b => {
+    const T = TYPES[b.p.type], share = B.wh > 0 ? B.draw.now * T.wh / B.wh : 0;
+    flow.line(b.path, cum(b.path, dCharger - b.len), bColor, opt(share));
+    node(BAT_X, b.top, b.zf, t('flow.battery') + ' ' + fmtCap(T.wh) + ' · ' + fmtW(share), tagColor(T), () => focusPowerRow(b.p.id));
+  });
+  node(cx, y, cz, t('flow.charger') + (sys.power.charger ? ' ' + sys.power.charger : '') + ' · VSYS ' + fmtW(B.draw.now), vColor);
+
+  // 充电芯片整流出 VSYS，经它的电感送到降压模块
+  flow.line(toHub, cum(toHub, dCharger), vColor, opt(B.draw.now));
+  const conv = RAIL_KEYS.filter((k, n) => n !== NV && B.rails[k]).map(k => railLabel(k) + ' ' + fmtW(B.rails[k].now));
+  node(hx, y, hz, [t('flow.dcdc'), ...conv, t('flow.loss') + ' ' + fmtW(B.loss.now)].join(' · '), null);
+
+  // 三条电源轨从降压模块出发，横着走到各自的车道，再沿槽位方向铺开。VSYS 这一条是直接用 VSYS 的板卡的合计
+  const zs = [...new Set([...Array.from({ length: SLOTS }, (_, i) => slotZ(i)), hz])].sort((a, b) => a - b);
+  RAIL_KEYS.forEach((k, n) => {
+    const w = B.rails[k] ? B.rails[k].now : 0, color = colorOf(k), x = lane(n);
+    flow.line([[hx, y, hz], [x, y, hz]], [dHub, dTrunk(n, hz)], color, opt(w));
+    flow.line(zs.map(z => [x, y, z]), zs.map(z => dTrunk(n, z)), color, opt(w));
+    node(x, y, hz, railLabel(k) + ' ' + fmtW(w), color);
   });
 
   // 板卡：从它插着的那个槽的连接器位置，沿各自的车道升进板内
