@@ -755,25 +755,27 @@ function rebuildFlow() {
     if (bp) RAIL_KEYS.forEach(k => { if (bp.rails[k]) (consumers[k] = consumers[k] || []).push(zFace(p)); });
   });
   // 一条干线：从 (x0, z0) 横着走到车道，拐一个圆弧沿槽位方向铺开，两头都通到最外面的槽，末端渐隐。
-  // 返回这条干线上某个 z 的线路距离
+  // lead 是进线上离 (x0, z0) 不远的一点：干线从那里起头，顺着进线的方向拐一个圆弧再去车道，
+  // 这样进线和干线在降压模块那里不是一个直角。返回这条干线上某个 z 的线路距离
   const trunks = {};
-  const trunk = (k, x0, z0, d0, w) => {
+  const trunk = (k, x0, z0, d0, w, lead) => {
     const n = NR(k), x = lane(n), color = colorOf(k), dx = Math.abs(x0 - x), dz = d0 + dx, sx = Math.sign(x0 - x) || 1, r = Math.min(BEND, dx);
+    const start = lead ? [lead, [x0, y, z0]] : [[x0, y, z0]], ll = lead ? len(start) : 0;
     const zAll = [...Array.from({ length: SLOTS }, (_, i) => slotZ(i)), z0], cons = consumers[k] || [];
     let fed = false;
     [-1, 1].forEach(s => {
       const zEnd = s < 0 ? Math.min(...zAll) : Math.max(...zAll), f = s * (zEnd - z0);
       if (f <= 1) return;
       // 第一头带着从降压模块过来的那一段；另一头从那一段上顺着圆弧分出去
-      const head = !fed ? [[x0, y, z0]] : r > 0.5 ? [[x + sx * r, y, z0]] : [], off = !fed ? dx : r > 0.5 ? r : 0;
+      const head = !fed ? start : r > 0.5 ? [[x + sx * r, y, z0]] : [], off = !fed ? ll + dx : r > 0.5 ? r : 0;
       // 有支线切出去的地方按住（支线在用电板前面 BEND 处离开干线）
       const pins = cons.map(z => s * (z - z0) - BEND).filter(v => v > 1 && v < f - 1).map(v => off + v);
       // 第一头在另一头分出去的那一点也要按住，否则它在摆、另一头的起点不动，两条线会分开
-      if (!fed && r > 0.5 && dx - r > 1) pins.push(dx - r);
+      if (!fed && r > 0.5 && dx - r > 1) pins.push(ll + dx - r);
       flow.line([...head, [x, y, z0], [x, y, zEnd]], [dz - off, dz + f], color, { ...opt(w), pins, fade: [false, true] });
       fed = true;
     });
-    if (!fed && dx > 0.5) flow.line([[x0, y, z0], [x, y, z0]], [d0, dz], color, opt(w));
+    if (!fed && dx > 0.5) flow.line([...start, [x, y, z0]], [d0 - ll, dz], color, opt(w));
     trunks[k] = z => dz + Math.abs(z - z0);
     trunks[k].z0 = z0;
     // 圆点放在两头分开的那一点上（拐角被圆弧切掉了，原来的拐角处没有线经过）
@@ -801,13 +803,20 @@ function rebuildFlow() {
   node(cx, y, cz, t('flow.charger') + (sys.power.charger ? ' ' + sys.power.charger : '') + ' · VSYS ' + fmtW(B.draw.now), vColor);
 
   // 充电芯片整流出 VSYS（经过它的电感）。VSYS 不经过降压，直接接到 VSYS 干线；同时送进各组降压模块
-  flow.line(toL, [dCharger, dL], vColor, opt(B.draw.now));
-  trunk(RAIL_KEYS[NV], lx, lz, dL, B.rails[RAIL_KEYS[NV]] ? B.rails[RAIL_KEYS[NV]].now : 0);
+  // 进线上离终点 r 的那一点：进线画到这里为止，下一段（干线）从这里起头，用圆弧接过去
+  const back = (from, to, r) => { const L = len([from, to]) || 1, u = Math.min(r, L / 2) / L; return to.map((v, i) => v + (from[i] - v) * u); };
+  const tL = back(toL[0], toL[1], BEND), dTL = dL - len([tL, toL[1]]);
+  flow.line([toL[0], tL], [dCharger, dTL], vColor, opt(B.draw.now));
+  trunk(RAIL_KEYS[NV], lx, lz, dL, B.rails[RAIL_KEYS[NV]] ? B.rails[RAIL_KEYS[NV]].now : 0, tL);
   Object.entries(DC).forEach(([k, pos]) => {
     const [px, pz] = pos, self = k === 'self', out = !self && B.rails[k] ? B.rails[k].now : 0, inW = out / eff(k);
-    const feed = [[lx, y, lz], [lx, y, (lz + pz) / 2 + 3], [px, y, (lz + pz) / 2 + 3], [px, y, pz]];
+    // 干线从降压模块出来时在 z 方向上各错开一点（几条干线去车道的那一段才不会叠在一起）
+    const z0 = self || NR(k) < 0 ? pz : pz + (NR(k) - 1.5) * 2, zm = (lz + pz) / 2 + 3;
+    const full = [tL, [lx, y, lz], [lx, y, zm], [px, y, zm], [px, y, z0]];
+    // 进线画到离降压模块不远的地方为止：干线从那里起头，换成自己的颜色，拐一个圆弧出去。圆点（降压模块）就放在换颜色的那一点上
+    const tP = self ? full[4] : back(full[3], full[4], BEND), feed = [...full.slice(0, 4), tP];
     // 几路降压的进线从电感出来有一段是叠在一起走的，各摆各的会分开，所以这几段不摆（脉冲照常）
-    flow.line(feed, [dL, dL + len(feed)], vColor, { ...opt(inW, self ? true : undefined), still: true });
+    flow.line(feed, [dTL, dTL + len(feed)], vColor, { ...opt(inW, self ? true : undefined), still: true });
     if (self) {
       // 背板自己的 3V3：给背板上的 MCU 和各槽的功率监测供电，还没有功耗数据
       const [mx, mz] = BP.mcu || [px, pz - 20], path = [[px, y, pz], [px, y, mz], [mx, y, mz]];
@@ -815,8 +824,8 @@ function rebuildFlow() {
       node(px, y, pz, t('flow.dcdc') + ' · ' + t('flow.self'), null);
       return;
     }
-    node(px, y, pz, t('flow.dcdc') + ' ' + railLabel(k) + ' · ' + t('flow.in') + ' ' + fmtW(inW) + ' · ' + t('flow.loss') + ' ' + fmtW(inW - out), null);
-    if (NR(k) >= 0) trunk(k, px, pz + (NR(k) - 1.5) * 2, dL + len(feed), out);
+    node(tP[0], y, tP[2], t('flow.dcdc') + ' ' + railLabel(k) + ' · ' + t('flow.in') + ' ' + fmtW(inW) + ' · ' + t('flow.loss') + ' ' + fmtW(inW - out), null);
+    if (NR(k) >= 0) trunk(k, px, z0, dTL + len(full), out, tP);
   });
   // 没有登记降压位置的电源轨（或者旧格式）：直接从电感接出来
   RAIL_KEYS.forEach(k => { if (!trunks[k]) trunk(k, lx, lz - 4 * NR(k), dL, B.rails[k] ? B.rails[k].now : 0); });
