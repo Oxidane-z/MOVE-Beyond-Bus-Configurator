@@ -698,8 +698,8 @@ function renderPower(B) {
 //   电源轨 VSYS、5V、3V3 从降压模块出发，横着走到各自的车道，再沿槽位方向铺开，从板卡底下穿过
 //   支线  每块板从它实际插着的那个槽的连接器位置垂直升进板内，用到哪条轨就从哪条车道升起，停在板的中上部
 //   节点  都是小圆点，名称和功率在悬浮标签里；点板卡或电池的圆点会跳到面板里对应的那一行
-// 线宽、摆幅和摆动的快慢都随当前功率变化，没有电流的支路是不动的虚线；线上的箭头纹指着电流的方向（flow.js）。
-// 系统开了“减少动态效果”时线不摆、箭头纹不走
+// 线宽、摆幅和摆动的快慢都随当前功率变化，没有电流的支路是不动的虚线；线上的光斑顺着电流的方向走（flow.js）。
+// 系统开了“减少动态效果”时线不摆、光斑不走
 const DIM = 0.8, dim = { a: 0 };
 const LANE = 10;   // 车道间距（mm）
 const flow = makeFlow(), flowMarks = document.getElementById('flowMarks');
@@ -747,17 +747,33 @@ function rebuildFlow() {
   const dCharger = bats.length ? Math.min(...bats.map(b => b.len)) : 0;
   const toL = [[cx, y, cz], [lx, y, lz]], dL = dCharger + len(toL);
   const opt = (w, dead) => ({ width: wOf(w), casing, dead: dead != null ? dead : w <= 0 || !bats.length, level: w / max, still });
-  // 一条干线：从 (x0, z0) 横着走到车道，再沿槽位方向铺开；返回这条干线上某个 z 的线路距离
+  // 各条轨上的用电板：支线在哪个 z 从干线切出去（板卡正面外一点）
+  const BEND = 9;   // 支线离开干线、干线分岔的圆弧半径（mm）
+  const consumers = {};
+  list.forEach(p => {
+    const bp = TYPES[p.type].wh ? null : powerOf(p);
+    if (bp) RAIL_KEYS.forEach(k => { if (bp.rails[k]) (consumers[k] = consumers[k] || []).push(zFace(p)); });
+  });
+  // 一条干线：从 (x0, z0) 横着走到车道，拐一个圆弧沿槽位方向铺开，两头都通到最外面的槽，末端渐隐。
+  // 返回这条干线上某个 z 的线路距离
   const trunks = {};
   const trunk = (k, x0, z0, d0, w) => {
-    const n = NR(k), x = lane(n), color = colorOf(k);
-    flow.line([[x0, y, z0], [x, y, z0]], [d0, d0 + Math.abs(x0 - x)], color, opt(w));
-    const zs = [...new Set([...Array.from({ length: SLOTS }, (_, i) => slotZ(i)), z0])].sort((a, b) => a - b), dz = d0 + Math.abs(x0 - x);
-    // 干线从接入点分成两头，各是一根弦
-    const lo = zs.filter(z => z <= z0), hi = zs.filter(z => z >= z0);
-    if (lo.length > 1) flow.line([...lo].reverse().map(z => [x, y, z]), [dz, dz + (z0 - lo[0])], color, opt(w));
-    if (hi.length > 1) flow.line(hi.map(z => [x, y, z]), [dz, dz + (hi[hi.length - 1] - z0)], color, opt(w));
+    const n = NR(k), x = lane(n), color = colorOf(k), dx = Math.abs(x0 - x), dz = d0 + dx, sx = Math.sign(x0 - x) || 1, r = Math.min(BEND, dx);
+    const zAll = [...Array.from({ length: SLOTS }, (_, i) => slotZ(i)), z0], cons = consumers[k] || [];
+    let fed = false;
+    [-1, 1].forEach(s => {
+      const zEnd = s < 0 ? Math.min(...zAll) : Math.max(...zAll), f = s * (zEnd - z0);
+      if (f <= 1) return;
+      // 第一头带着从降压模块过来的那一段；另一头从那一段上顺着圆弧分出去
+      const head = !fed ? [[x0, y, z0]] : r > 0.5 ? [[x + sx * r, y, z0]] : [], off = !fed ? dx : r > 0.5 ? r : 0;
+      // 有支线切出去的地方按住（支线在用电板前面 BEND 处离开干线）
+      const pins = cons.map(z => s * (z - z0) - BEND).filter(v => v > 1 && v < f - 1).map(v => off + v);
+      flow.line([...head, [x, y, z0], [x, y, zEnd]], [dz - off, dz + f], color, { ...opt(w), pins, fade: [false, true] });
+      fed = true;
+    });
+    if (!fed && dx > 0.5) flow.line([[x0, y, z0], [x, y, z0]], [d0, dz], color, opt(w));
     trunks[k] = z => dz + Math.abs(z - z0);
+    trunks[k].z0 = z0;
     node(x, y, z0, railLabel(k) + ' ' + fmtW(w), color);
   };
 
@@ -808,8 +824,10 @@ function rebuildFlow() {
     if (!bp) return;
     const used = RAIL_KEYS.filter(k => bp.rails[k]), zc = p.group.position.z, zf = zFace(p), top = topOf(p);
     used.forEach(k => {
-      const n = RAIL_KEYS.indexOf(k), w = bp.rails[k].now, x = lane(n), d0 = dTrunk(n, zc), jog = Math.abs(zf - zc);
-      flow.line([[x, y, zc], [x, y, zf], [x, top, zf]], [d0, d0 + jog, d0 + jog + top - y], colorOf(k), opt(w));
+      // 支线顺着电流的方向从干线上切出去，拐一个圆弧升进板内
+      const n = RAIL_KEYS.indexOf(k), w = bp.rails[k].now, x = lane(n), z0 = trunks[k].z0, sg = Math.sign(zf - z0) || 1;
+      const run = Math.min(BEND, Math.abs(zf - z0)), d0 = dTrunk(n, zf) - run;
+      flow.line([...(run > 1 ? [[x, y, zf - sg * run]] : []), [x, y, zf], [x, top, zf]], [d0, d0 + run + top - y], colorOf(k), opt(w));
       node(x, top, zf, T.name + ' · ' + railLabel(k) + ' ' + fmtW(w) + (used.length > 1 ? ' · ' + t('flow.boardTotal', { w: fmtW(bp.now) }) : ''), tagColor(T), () => focusPowerRow(p.id));
     });
   });
