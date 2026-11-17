@@ -1326,6 +1326,16 @@ function syncHash() {
   if (!ready || applying) return;
   const s = snapshot(), want = s === defaultSnap ? '' : '#' + s;
   if (location.hash !== want) { try { history.replaceState(null, '', want || location.pathname + location.search); } catch (e) {} }
+  if (layout === 'custom') saveCustom(s);
+}
+// Custom 布局记在浏览器里（刷新、关掉页面都还在）：选择器停在 Custom 时的每次改动都存下来，
+// 切到别的预设再点回 Custom 就恢复它。背板不跟着存，恢复时用当前选的背板
+const CUSTOM_STORE = 'customLayout';
+function saveCustom(s) { try { localStorage.setItem(CUSTOM_STORE, s); } catch (e) {} }
+function savedCustom() {
+  let s = null;
+  try { s = localStorage.getItem(CUSTOM_STORE); } catch (e) {}
+  return s ? parse(sys, s) : null;
 }
 // 布局选择器跟着配置走：和哪套预设一样就选中哪套，都不一样是 Custom
 function setLayoutFor(cfg) {
@@ -1391,7 +1401,9 @@ function loadLayout(key) {
   if (!ready || inspect) return;
   checkpoint();
   layout = key; renderLayouts();
-  applyConfig(presetCfg(sys, key, bpKey));
+  // 再点一次当前的布局：配置没变，所有板卡依次起伏一下
+  const saved = key === 'custom' && savedCustom();
+  applyConfig(saved ? { ...saved, bp: bpKey } : presetCfg(sys, key, bpKey));
 }
 // 手动改动板卡之前调用：记进撤销记录；当前配置不再是某套预设，选择器切到 Custom
 function touched() {
@@ -1484,5 +1496,7 @@ window.addEventListener('hashchange', () => {
 setBackplane(fromHash ? fromHash.bp : sys.backplane).then(() => {
   ready = true;
   if (fromHash) setLayoutFor(fromHash);
-  applyConfig(fromHash || initialCfg);
+  // 默认布局是 Custom 而浏览器里存过一套：打开时就恢复它
+  const saved = !fromHash && sys.initial === 'custom' && savedCustom();
+  applyConfig(fromHash || (saved ? { ...saved, bp: bpKey } : initialCfg));
 });

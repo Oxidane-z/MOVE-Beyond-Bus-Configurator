@@ -2,7 +2,7 @@
 
 MOVE Beyond 卫星 slot card 总线系统的三维交互配置器。正交等轴测视角、平面着色加描边，可在 7 槽背板上自由安排板卡。
 
-当前状态：所有板卡都来自真实 STEP。标题下方可以切换布局：Custom（空背板，自由搭配，打开时的默认项）、REXUS（Revision 2 的板卡）和 MOVE-IIIa（Revision 1 的板卡：COM Stack、CDH、Battery Pack、Payload、ADCS）。布局写在 `system.json` 的 `layouts` 里，`initial` 是打开时用的那一套。OBDH 的扩展板是可单独更换的部件。板卡的功耗数据还没有填，所以统计栏暂时只显示槽位数和电池容量；在 `system.json` 里给任意一块板填上 `typ` 后，功耗和续航几项会自动出现。界面文案在 `src/i18n.js`，目前只有英文。
+当前状态：所有板卡都来自真实 STEP。标题下方可以切换布局：Custom（空背板，自由搭配，打开时的默认项）、REXUS（Revision 2 的板卡）和 MOVE-IIIa（Revision 1 的板卡：COM Stack、CDH、Battery Pack、Payload、ADCS）。Custom 搭出来的配置存在浏览器的 localStorage 里（刷新、关掉页面都还在）：改了预设也会切到 Custom 并存下来，切到别的预设再点回 Custom 就恢复它，再点一次当前的布局则所有板卡依次起伏一下；背板不跟着存，恢复时用当前选的背板。布局写在 `system.json` 的 `layouts` 里，`initial` 是打开时用的那一套。OBDH 的扩展板是可单独更换的部件。板卡的功耗数据还没有填，所以统计栏暂时只显示槽位数和电池容量；在 `system.json` 里给任意一块板填上 `typ` 后，功耗和续航几项会自动出现。界面文案在 `src/i18n.js`，目前只有英文。
 
 ## 运行
 
