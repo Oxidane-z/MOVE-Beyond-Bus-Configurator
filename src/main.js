@@ -883,7 +883,7 @@ function rebuildFlow() {
 
   // 外部电源输入（太阳能口、GSE 接口）：每个口从板外引进来（那一头是太阳能板或地面电源，渐隐），经过接口，
   // 拐一个圆弧并进一条汇流线；汇流线沿着板边走到充电芯片那一列，再拐进去，接到充电芯片的输入口。
-  // 汇流线上两边来的电在那一列汇合，汇合处和干线的三岔口是同一个做法。没在供电的是虚线
+  // 汇流线上两边来的电在那一列汇合：两边各拐一个小圆弧进去，中间不连。没在供电的是虚线
   const ins = B.input.list.map(inp => {
     const g = S.interfaces.find(i => i.ref === inp.ref);
     return g && { inp, ix: g.center.x, iy: g.center.y + S.group.position.y, iz: g.center.z, on: inp.n > 0,
@@ -919,9 +919,6 @@ function rebuildFlow() {
       const pins = m.filter(i => i !== far).map(i => Math.abs(i.end - far.end));
       flow.line([[far.end, yTop, zBus], [X, yTop, zBus, r], colTop], [dB(far.end), -colLen], iColor, { ...opt(w, !m.some(i => i.on)), pins });
     });
-    // 三岔口的第三条边只在两边状态一样的时候画（都在供电，或者都没有）：只有一边有电时它是多出来的一截
-    const live = sides.map(m => m.some(i => i.on));
-    if (sides.length === 2 && live[0] === live[1]) flow.line([[X - r, yTop, zBus], [X + r, yTop, zBus]], [-colLen, -colLen], iColor, { ...opt(total, !any), still: true, breath: true });
     flow.line([colTop, portS], [-colLen, 0], iColor, opt(total, !any));
   }
 
