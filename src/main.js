@@ -143,7 +143,9 @@ function setExpansion(p, i, key) {
   const wide = spanOf(key) === 2;
   if (wide && i + 1 >= p.exps.length) return;
   if (wide) clearSite(p, i + 1);
-  const exp = buildExpansion(p, key, sys.expansions[key]);
+  // 扩展板位置可以自带颜色，同一块扩展板装在不同代际的主板上颜色跟着主板走
+  const E = sys.expansions[key], site = sitesOf(p.type)[i];
+  const exp = buildExpansion(p, key, site && site.color ? { ...E, color: site.color } : E);
   if (!exp) return;
   p.exps[i] = { key, exp, by: -1 };
   if (wide) p.exps[i + 1] = { key, exp: null, by: i };
