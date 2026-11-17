@@ -1100,7 +1100,8 @@ cv.addEventListener('pointermove', e => {
   } else if (!inspect) {
     const h = pick(e);
     if (h.a) showTarget(h.a.w, h.slot);
-    setHover(e.pointerType === 'mouse' && h.card && h.slot < 0 && !h.card.busy ? h.card : null);
+    // 功耗层里三维视图不做悬停高亮，免得和功耗节点抢；板卡靠下方的列表和槽位条来指认
+    setHover(layer !== 'power' && e.pointerType === 'mouse' && h.card && h.slot < 0 && !h.card.busy ? h.card : null);
     cv.style.cursor = layer !== 'power' && (h.slot >= 0 || h.card) ? 'pointer' : 'grab';
   }
 });
