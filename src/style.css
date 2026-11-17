@@ -83,6 +83,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 [data-tip]::after { content: attr(data-tip); position: absolute; top: calc(100% + 6px); right: 0; z-index: 4; white-space: nowrap;
   background: var(--ink); color: var(--bg); font-size: 12px; font-weight: 400; padding: 3px 8px; border-radius: 6px; opacity: 0; pointer-events: none; transition: opacity 0.12s ease; }
 [data-tip]:hover::after, [data-tip]:focus-within::after { opacity: 1; }
+/* 层切换上的提示只说 Power 这一半：指着或聚焦在 Layout 上时不出 */
+.tools .tipbox:not(:has([data-layer="power"]:hover, [data-layer="power"]:focus-visible))::after { opacity: 0; }
 .tools button:disabled { opacity: 0.4; cursor: default; border-color: var(--rule); }
 
 .dock { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
@@ -176,7 +178,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .psum { position: sticky; top: 0; z-index: 1; background: var(--bg); display: flex; flex-direction: column; gap: 6px; padding-bottom: 6px; }
 .psum .seg { width: max-content; max-width: 100%; }
 .psum .seg button { min-height: 32px; padding: 2px 10px; font-size: 12px; }
-.psum .seg button:disabled { opacity: 1; color: var(--muted); }
+.pscn { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pcustom { font-size: 11px; color: var(--muted); }
 .ptable { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums; }
 .ptable th { font-family: var(--font); font-weight: 500; font-size: 11px; color: var(--muted); text-align: right; padding: 1px 0 1px 6px; }
 .ptable th[scope="row"] { text-align: left; padding-left: 0; }

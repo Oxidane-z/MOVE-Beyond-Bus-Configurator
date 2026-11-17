@@ -3,7 +3,7 @@
     {"ref": "J2", "label": "ST-Link", "type": "debug", "connector": "Samtec FTSH-107 (2×7, 1.27 mm)", "desc": "Programming and debug port (JTAG/SWD) of the backplane MCU, with UART."},
     {"ref": "PLP", "label": "Payload port", "type": "io", "connector": "Molex Micro-Lock Plus 4P (1.25 mm)", "desc": "VSYS, GND and the CAN bus for an external payload."},
     {"ref": "EBP", "label": "External bus port", "type": "io", "connector": "Molex One-Blade 3P (1 mm)", "desc": "Breaks out the CAN bus with GND."},
-    {"ref": "HDRM", "label": "HDRM", "type": "actuator", "connector": "Molex Pico-Lock 4P (1 mm)", "desc": "Two low-side switched VSYS outputs for the hold-down and release mechanisms."},
+    {"ref": "HDRM", "label": "Hold-down and release (HDRM)", "type": "actuator", "connector": "Molex Pico-Lock 4P (1 mm)", "desc": "Two low-side switched VSYS outputs for the hold-down and release mechanisms."},
     {"ref": "ECP", "label": "External charge port", "type": "power", "connector": "Samtec IPBT-102-H2-T-S", "desc": "Feeds the solar input rail from an external supply to charge the battery."},
     {"ref": "SCP1", "label": "Solar charge port 1", "type": "power", "connector": "Molex Pico-Lock 4P (1 mm)", "desc": "Solar panel input. Its current is measured by the power monitor of slot 2."},
     {"ref": "SCP2", "label": "Solar charge port 2", "type": "power", "connector": "Molex Pico-Lock 4P (1 mm)", "desc": "Solar panel input. Its current is measured by the power monitor of slot 3."},

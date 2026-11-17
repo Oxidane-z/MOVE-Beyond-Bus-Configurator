@@ -4,7 +4,7 @@
     {"ref": "MLP-2P", "match": ["FP-205338-0002*"], "label": "Solar panel input 1", "type": "power", "connector": "Molex Micro-Lock Plus 2P", "desc": "Connects one solar panel string."},
     {"ref": "MLP-6P-1", "match": ["FP-2053380006*"], "cluster": 0, "label": "Solar panel input 2", "type": "power", "connector": "Molex Micro-Lock Plus 6P", "desc": "Connects up to three solar panel strings."},
     {"ref": "MLP-6P-2", "match": ["FP-2053380006*"], "cluster": 1, "label": "Solar panel input 3", "type": "power", "connector": "Molex Micro-Lock Plus 6P", "desc": "Connects up to three solar panel strings."},
-    {"ref": "PL-1", "match": ["CONN_5037630000*"], "cluster": 0, "label": "Deployment switch 1", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "Deployment switch. Detects deployment of the CubeSat and works like the RBF: it cuts the power."},
-    {"ref": "PL-2", "match": ["CONN_5037630000*"], "cluster": 1, "label": "Deployment switch 2", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "Deployment switch. Detects deployment of the CubeSat and works like the RBF: it cuts the power."}
+    {"ref": "PL-1", "match": ["CONN_5037630000*"], "cluster": 0, "label": "Deployment switch 1", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "Deployment switch. Detects deployment of the CubeSat and works like the remove-before-flight (RBF) pin: it cuts the power."},
+    {"ref": "PL-2", "match": ["CONN_5037630000*"], "cluster": 1, "label": "Deployment switch 2", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "Deployment switch. Detects deployment of the CubeSat and works like the remove-before-flight (RBF) pin: it cuts the power."}
   ]
 }

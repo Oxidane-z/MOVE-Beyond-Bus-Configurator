@@ -26,6 +26,9 @@ const hasPower = Object.values(sys.boards).some(T => boardPower(T));
 const RAILS = (sys.power && sys.power.rails) || {};
 const railLabel = k => (RAILS[k] && RAILS[k].label) || k;
 let layer = 'layout';   // 左侧面板和槽位条现在显示哪一层：'layout' 是板卡库，'power' 是功耗预算
+// 提示行的文案：触屏设备优先用带 .touch 的那一条（没有就用通用的）
+const coarse = () => typeof matchMedia === 'function' && matchMedia('(pointer: coarse)').matches;
+const th = (key, vars) => { const k = key + '.touch'; return coarse() && t(k) !== k ? t(k, vars) : t(key, vars); };
 const levelSuffix = T => T.level === 'rev1' ? t('level.rev1') : T.level === 'proto' ? t('level.proto') : '';
 
 // 每块板的人工标注（boards/<板卡 key>.json），目前只有接口
@@ -447,7 +450,7 @@ function setHover(p) {
     if (!site.fixed && site.options.length && e.by < 0) row(site.name, el('span', 'v', e.key ? sys.expansions[e.key].name : t('expansion.none')));
   });
   if (p.bracket) row(t('bracket'), el('span', 'v', t('bracket.' + p.bracketMode)));
-  if (T.wh) row(t('hover.capacity'), el('span', 'v', T.wh + ' Wh'));
+  if (T.wh) row(t('hover.capacity'), el('span', 'v', fmtCap(T.wh)));
   const bp = powerOf(p);
   if (bp) row(t('hover.power'), el('span', 'v', fmtW(bp.now) + ' (' + LEVELS.map(k => fmtW(bp[k]).replace(' W', '')).join(' / ') + ')'));
 }
@@ -573,6 +576,7 @@ const usableRatio = () => sys.power && sys.power.usable != null ? sys.power.usab
 // 电池容量的统一写法：可用 / 标称
 const fmtCap = wh => (wh * usableRatio()).toFixed(1) + ' / ' + wh.toFixed(1) + ' Wh';
 // 续航：有板卡没计入时合计偏小，续航只是上限
+const uncounted = B => { const n = B.boards - B.counted; return t(n === 1 ? 'power.uncounted.1' : 'power.uncounted.n', { n, of: B.boards }); };
 const fmtRun = (B, k) => B.runtime[k] == null ? '—' : (B.partial ? '≤ ' : '') + fmtH(B.runtime[k]);
 const scenarioName = s => t(s === 'custom' ? 'power.custom' : 'power.' + s);
 // 滚动到面板里某块板的那一行并短暂高亮。给三维视图里的标签用（点标签找到对应的行）
@@ -596,15 +600,17 @@ function renderPower(B) {
   sum.appendChild(el('h2', '', t('power.title')));
   const seg = el('div', 'seg');
   seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', t('power.scenario'));
-  [...SCENARIOS, 'custom'].forEach(name => {
+  SCENARIOS.forEach(name => {
     const b = el('button', '', scenarioName(name));
     b.type = 'button'; b.dataset.act = 'scn-' + name; b.setAttribute('aria-pressed', String(name === scn));
-    // Custom 不是可以选的东西：手动改了任一负载后它自己亮起来
-    if (name === 'custom') b.disabled = true;
-    else b.addEventListener('click', () => { placements.forEach(p => { p.loads = scenarioSel(TYPES[p.type], name); }); renderUI(); });
+    b.addEventListener('click', () => { placements.forEach(p => { p.loads = scenarioSel(TYPES[p.type], name); }); renderUI(); });
     seg.appendChild(b);
   });
-  sum.appendChild(seg);
+  // Custom 不是可以选的东西：手动改了任一负载后，按钮旁出现这个状态文字
+  const scnRow = el('div', 'pscn');
+  scnRow.appendChild(seg);
+  if (scn === 'custom') scnRow.appendChild(el('span', 'pcustom', scenarioName('custom')));
+  sum.appendChild(scnRow);
   if (B.counted) {
     // 列是三个场景；当前是 Custom 时多一列。当前场景的那一列加粗
     const cols = scn === 'custom' ? [...SCENARIOS, 'custom'] : SCENARIOS, key = c => c === 'custom' ? 'now' : c;
@@ -619,7 +625,7 @@ function renderPower(B) {
     });
     table.appendChild(head); table.appendChild(rowP); table.appendChild(rowR);
     sum.appendChild(table);
-    if (B.partial) sum.appendChild(el('div', 'pnote', t('power.counted', { n: B.counted, of: B.boards })));
+    if (B.partial) sum.appendChild(el('div', 'pnote', uncounted(B) + '. ' + t('power.upperBound')));
   }
   powerPanel.appendChild(sum);
   if (!list.length) { powerPanel.appendChild(el('p', 'note', t('power.empty'))); return; }
@@ -650,7 +656,7 @@ function renderPower(B) {
     r.appendChild(nm);
     r.appendChild(el('span', 'val', bp ? fmtW(bp.now) : T.wh ? fmtCap(T.wh) : t('power.noData')));
     if (bp) {
-      r.appendChild(el('span', 'sub', t('power.range', { idle: num(bp.idle), typ: num(bp.typ), peak: num(bp.peak) }) + ' W · ' + t('power.source.' + bp.source)));
+      r.appendChild(el('span', 'sub', t('power.range', { idle: num(bp.idle), typ: num(bp.typ), peak: num(bp.peak) }) + ' · ' + t('power.source.' + bp.source)));
       // 分轨小计。只有一个负载、没有底噪的板，这一行和下面负载那行是同一个数，省掉
       const single = bp.loads.length === 1 && Math.abs(bp.now - bp.loads[0].watts) < 1e-9;
       const parts = Object.entries(bp.rails).map(([k, v]) => railLabel(k) + ' ' + fmtW(v.now));
@@ -665,11 +671,12 @@ function renderPower(B) {
         const iface = L.interface && ifaceNotes(p.type).find(n => n.ref === L.interface);
         left.appendChild(el('span', 'ln', L.name + (iface ? ' (' + iface.label + ')' : '')));
         if (L.rail) left.appendChild(el('span', 'lr', railLabel(L.rail)));
-        lseg.setAttribute('role', 'group'); lseg.setAttribute('aria-label', L.name);
+        lseg.setAttribute('role', 'group'); lseg.setAttribute('aria-label', L.rail ? t('power.loadGroup', { name: L.name, rail: railLabel(L.rail) }) : L.name);
         Object.keys(L.states).forEach(st => {
           // 按钮上是状态的显示名（没写就是键名）和它的瓦数；data-act 是重建面板后把键盘焦点还回来用的
           const b = el('button', '', L.labels[st] || st);
           b.appendChild(el('span', 'w', fmtWShort(L.states[st])));
+          b.setAttribute('aria-label', t('power.loadState', { state: L.labels[st] || st, w: fmtWShort(L.states[st]) }));
           b.type = 'button'; b.dataset.act = 'load-' + p.id + '-' + L.key + '-' + st; b.setAttribute('aria-pressed', String(st === L.state));
           // 负载状态不进撤销记录，也不算改了布局（预设仍然是那套预设）；它会跟着分享链接走
           b.addEventListener('click', () => { if (st === L.state) return; p.loads = { ...p.loads, [L.key]: st }; renderUI(); });
@@ -696,7 +703,7 @@ function renderPower(B) {
 const DIM = 0.8, dim = { a: 0 };
 const LANE = 10;   // 车道间距（mm）
 const flow = makeFlow(), flowMarks = document.getElementById('flowMarks');
-let flowNodes = [], flowDirty = true, flowOn = false;
+let flowNodes = [], flowDirty = true, flowOn = false, flowLate = false;   // flowLate：下一帧开头再标记重建
 const RAIL_KEYS = Object.keys(RAILS);
 function rebuildFlow() {
   flow.clear(); flowMarks.textContent = ''; flowNodes = [];
@@ -803,7 +810,7 @@ function rebuildFlow() {
     used.forEach(k => {
       const n = RAIL_KEYS.indexOf(k), w = bp.rails[k].now, x = lane(n), d0 = dTrunk(n, zc), jog = Math.abs(zf - zc);
       flow.line([[x, y, zc], [x, y, zf], [x, top, zf]], [d0, d0 + jog, d0 + jog + top - y], colorOf(k), opt(w));
-      node(x, top, zf, T.name + ' · ' + railLabel(k) + ' ' + fmtW(w) + (used.length > 1 ? ' (' + fmtW(bp.now) + ')' : ''), tagColor(T), () => focusPowerRow(p.id));
+      node(x, top, zf, T.name + ' · ' + railLabel(k) + ' ' + fmtW(w) + (used.length > 1 ? ' · ' + t('flow.boardTotal', { w: fmtW(bp.now) }) : ''), tagColor(T), () => focusPowerRow(p.id));
     });
   });
 }
@@ -839,7 +846,7 @@ function renderUI() {
   powerPanel.hidden = !!inspect || layer !== 'power';
   layerSeg.querySelectorAll('button').forEach(b => { b.setAttribute('aria-pressed', String(b.dataset.layer === layer)); b.disabled = !!inspect; });
   // layout 和 bpKey 在文件后面才声明，第一次 renderUI（还没 ready）时碰不得
-  if (ready) ctxLine.textContent = [LAYOUTS[layout] && LAYOUTS[layout].name, bpKey && BACKPLANES[bpKey].name].filter(Boolean).join(' · ');
+  if (ready) ctxLine.textContent = [LAYOUTS[layout] && LAYOUTS[layout].name, bpKey && t('backplane') + ' ' + BACKPLANES[bpKey].name].filter(Boolean).join(' · ');
   const B = budget(powerEntries(), sys.power);
   if (!powerPanel.hidden) renderPower(B);
   libList.querySelectorAll('.item').forEach(b => {
@@ -916,18 +923,18 @@ function renderUI() {
   hint.appendChild(span);
   if (layer === 'power' && !inspect) {
     span.textContent = t('hint.power');
-    hint.appendChild(btn(t('btn.back'), 'ghost', () => setLayer('layout'), 'back'));
+    hint.appendChild(btn(t('btn.backLayout'), 'ghost', () => setLayer('layout'), 'back'));
   } else if (inspect) {
-    span.textContent = t('hint.inspect', { name: nameOf(inspect.p) });
+    span.textContent = th('hint.inspect', { name: nameOf(inspect.p) });
     hint.appendChild(btn(t('btn.flip'), '', flipInspect, 'flip'));
     hint.appendChild(btn(t('btn.back'), 'ghost', exitInspect, 'back'));
   } else if (!sel) {
-    span.textContent = !ready ? t('hint.loading') : failed.size ? t('hint.failed', { names: [...failed].map(k => TYPES[k].name).join(', ') }) : t('hint.idle');
+    span.textContent = !ready ? t('hint.loading') : failed.size ? t('hint.failed', { names: [...failed].map(k => TYPES[k].name).join(', ') }) : th('hint.idle');
     if (bpCard && bpCard.interfaces.length && !applying && !bpBusy) hint.appendChild(btn(t('btn.backplane'), 'ghost', () => enterInspect(bpCard), 'backplane'));
   } else if (sel.kind === 'lib') {
     const T = TYPES[sel.type];
     span.textContent = failed.has(sel.type) ? t('hint.loadFailed', { name: T.name })
-      : (loaded.has(sel.type) ? '' : t('hint.loadingBoard') + ' ') + t((anyFit(T.w, null) ? 'hint.place' : 'hint.noRoom') + (T.w === 2 ? '2' : ''), { name: T.name });
+      : (loaded.has(sel.type) ? '' : t('hint.loadingBoard') + ' ') + th((anyFit(T.w, null) ? 'hint.place' : 'hint.noRoom') + (T.w === 2 ? '2' : ''), { name: T.name });
     hint.appendChild(btn(t('btn.cancel'), 'ghost', () => setSel(null), 'cancel'));
   } else if (sel.swap) {
     const name = TYPES[placements.get(sel.id).type].name;
@@ -938,7 +945,7 @@ function renderUI() {
     // 除了自己现在的位置，还有没有别的槽放得下
     let canMove = false;
     for (let i = 0; i < SLOTS; i++) { const f = fit(TYPES[p.type].w, i, p.id); if (f >= 0 && f !== p.slot) canMove = true; }
-    span.textContent = t(canMove ? 'hint.selected' : placements.size > 1 ? 'hint.selectedFull' : 'hint.selectedOnly', { name: TYPES[p.type].name });
+    span.textContent = th(canMove ? 'hint.selected' : placements.size > 1 ? 'hint.selectedFull' : 'hint.selectedOnly', { name: TYPES[p.type].name });
     if (p.interfaces.length) hint.appendChild(btn(t('btn.interfaces'), '', () => enterInspect(p), 'interfaces'));
     if (placements.size > 1) hint.appendChild(btn(t('btn.swap'), 'ghost', () => { sel = { kind: 'placed', id: p.id, swap: true }; renderUI(); }, 'swap'));
     // 一组互斥的选项排成分段按钮：标签加各个选项，当前的那个是按下的
@@ -966,7 +973,7 @@ function renderUI() {
     if (p.bracket) group(t('bracket'), BRACKET_MODES.map(m => [m, t('bracket.' + m)]), p.bracketMode,
       mode => { p.bracketMode = mode; setBracket(p.bracket, mode); }, 'bracket');
     hint.appendChild(btn(t('btn.remove'), 'ghost', () => { touched(); removeCard(p); }, 'remove'));
-    hint.appendChild(btn(t('btn.cancel'), 'ghost', () => setSel(null), 'cancel'));
+    hint.appendChild(btn(t('btn.deselect'), 'ghost', () => setSel(null), 'cancel'));
   }
   if (placements.size && !inspect && layer !== 'power') hint.appendChild(btn(t('btn.clear'), 'ghost', () => { touched(); clearAll(); }, 'clear'));
   if (failed.size && !inspect && layer !== 'power') hint.appendChild(btn(t('btn.retry'), 'ghost', () => [...failed].forEach(fetchBoard), 'retry'));
@@ -983,7 +990,7 @@ function renderUI() {
   stats.textContent = '';
   rows.forEach(r => { const d = document.createElement('div'), dt = document.createElement('dt'), dd = document.createElement('dd');
     dt.textContent = r[0]; dd.textContent = r[1]; d.appendChild(dt); d.appendChild(dd); stats.appendChild(d); });
-  if (B.partial && showP) { const e = document.createElement('span'); e.className = 'tag warn'; e.textContent = t('power.counted', { n: B.counted, of: B.boards }); stats.appendChild(e); }
+  if (B.partial && showP) { const e = document.createElement('span'); e.className = 'tag warn'; e.textContent = uncounted(B); e.title = t('power.upperBound'); stats.appendChild(e); }
 
   if (refocus) {
     const box = refocus.power ? powerPanel : hint;
@@ -1221,11 +1228,13 @@ function frameLoop() {
   // 电源分布图的脉动需要持续重画：只在它正显示着、有线在脉动、而且标签页可见的时候
   const active = dirty || tweens.size > 0 || (flowOn && flow.live > 0 && !reduced && !document.hidden);
   dirty = false;
+  if (flowLate) { flowDirty = true; flowLate = false; }
   for (const w of tweens) {
     const u = Math.min(1, (now - w.t0) / w.ms);
     w.o[w.k] = w.from + (w.to - w.from) * w.ease(u);
-    // 补间结束后接着执行的收尾（摘掉模型、复位朝向）发生在这一帧之后，所以下一帧再画一次
-    if (u >= 1) { tweens.delete(w); w.res(); dirty = true; flowDirty = true; }
+    // 补间结束后接着执行的收尾（摘掉模型、复位朝向、板卡的 busy 清掉）发生在这一帧之后，所以下一帧再画一次。
+    // 电源分布图也等到下一帧再重建：这一帧里板卡还标着 busy，现在重建会把它们漏掉，之后再没有人来触发
+    if (u >= 1) { tweens.delete(w); w.res(); dirty = true; flowLate = true; }
   }
   if (active) draw();   // 没有变化就不重画
   requestAnimationFrame(frameLoop);

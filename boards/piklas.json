@@ -2,15 +2,15 @@
   "interfaces": [
     {"ref": "J2", "label": "Backplane connector", "type": "bus", "connector": "", "desc": "Plugs into a backplane slot."},
     {"ref": "J3", "label": "ST-Link", "type": "debug", "connector": "", "desc": "Programming and debug port."},
-    {"ref": "To PIKLAS1_Horizon1", "label": "Horizon 1", "type": "sensor", "connector": "Molex PicoBlade 10P", "desc": "Connects a horizon sensor."},
-    {"ref": "To PIKLAS1_Horizon2", "label": "Horizon 2", "type": "sensor", "connector": "Molex PicoBlade 10P", "desc": "Connects a horizon sensor."},
-    {"ref": "To PIKLAS1_Horizon3", "label": "Horizon 3", "type": "sensor", "connector": "Molex PicoBlade 10P", "desc": "Connects a horizon sensor."},
+    {"ref": "To PIKLAS1_Horizon1", "label": "Horizon sensor 1", "type": "sensor", "connector": "Molex PicoBlade 10P", "desc": "Connects a horizon sensor."},
+    {"ref": "To PIKLAS1_Horizon2", "label": "Horizon sensor 2", "type": "sensor", "connector": "Molex PicoBlade 10P", "desc": "Connects a horizon sensor."},
+    {"ref": "To PIKLAS1_Horizon3", "label": "Horizon sensor 3", "type": "sensor", "connector": "Molex PicoBlade 10P", "desc": "Connects a horizon sensor."},
     {"ref": "HDRM1", "label": "HDRM 1", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "Drives a release actuator, usually a thermal knife."},
     {"ref": "HDRM2", "label": "HDRM 2", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "Drives a release actuator, usually a thermal knife."},
     {"ref": "HDRM3", "label": "HDRM 3", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "Drives a release actuator, usually a thermal knife."},
     {"ref": "HDRM4", "label": "HDRM 4", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "Drives a release actuator, usually a thermal knife."},
     {"ref": "RCVR Bridge", "label": "RCVR Bridge", "type": "trigger", "connector": "Molex Pico-Lock 4P", "desc": "External trigger for the four HDRM channels."},
-    {"ref": "J-DS-Y+1", "label": "Deployment Switch Y+", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "Deployment switch, works like an RBF: when triggered it cuts the HDRM circuit."},
-    {"ref": "J-DS-Y-1", "label": "Deployment Switch Y−", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "Deployment switch, works like an RBF: when triggered it cuts the HDRM circuit."}
+    {"ref": "J-DS-Y+1", "label": "Deployment switch Y+", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "Deployment switch, works like a remove-before-flight (RBF) pin: when triggered it cuts the HDRM circuit."},
+    {"ref": "J-DS-Y-1", "label": "Deployment switch Y−", "type": "switch", "connector": "Molex Pico-Lock 3P", "desc": "Deployment switch, works like a remove-before-flight (RBF) pin: when triggered it cuts the HDRM circuit."}
   ]
 }
