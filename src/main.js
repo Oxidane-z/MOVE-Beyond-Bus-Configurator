@@ -758,21 +758,24 @@ function rebuildFlow() {
   const dL = dCharger + len(toL);
   const opt = (w, dead) => ({ width: wOf(w), casing, dead: dead != null ? dead : w <= 0 || !bats.length, level: w / max, still });
   // 各条轨上的用电板：支线在哪个 z 从干线切出去（板卡正面外一点）
-  const BEND = 9;   // 支线离开干线、干线分岔的圆弧半径（mm）
+  const BEND = 9;   // 支线离开干线的圆弧半径（mm）
+  const SPLIT = 5;  // 干线分岔处的圆弧半径（mm）
   const consumers = {};
   list.forEach(p => {
     const bp = TYPES[p.type].wh ? null : powerOf(p);
     if (bp) RAIL_KEYS.forEach(k => { if (bp.rails[k]) (consumers[k] = consumers[k] || []).push(zFace(p)); });
   });
-  // 一条干线：从 (x0, z0) 横着走到车道，拐一个圆弧沿槽位方向铺开，两头都通到最外面的槽，末端渐隐。
+  // 一条干线：从 (x0, z0) 横着走到车道，在车道上是一个三岔口：两个小圆弧分别拐向两头，车道本身在两个圆弧之间还有一段直线，
+  // 所以车道从头到尾是连着的，紧挨着三岔口的板卡也能照常从车道上切出支线。中间那段直线说不清电往哪边走，不走脉冲，只整段明暗起伏。
+  // 两头都通到最外面的槽，末端渐隐。
   // lead 是 (x0, z0) 前面的一点（降压模块的位置，VSYS 是进线上的分叉点）：干线从那里起头，顺着进线的方向走到 (x0, z0)，
   // 拐一个圆弧再去车道，这样进线和干线之间不是一个直角。返回这条干线上某个 z 的线路距离
   const trunks = {};
   const trunk = (k, x0, z0, d0, w, lead) => {
-    const n = NR(k), x = lane(n), color = colorOf(k), dx = Math.abs(x0 - x), dz = d0 + dx, sx = Math.sign(x0 - x) || 1, r = Math.min(BEND, dx);
+    const n = NR(k), x = lane(n), color = colorOf(k), dx = Math.abs(x0 - x), dz = d0 + dx, sx = Math.sign(x0 - x) || 1, r = Math.min(SPLIT, dx);
     const start = lead ? [lead, [x0, y, z0]] : [[x0, y, z0]], ll = lead ? len(start) : 0;
     const zAll = [...Array.from({ length: SLOTS }, (_, i) => slotZ(i)), z0], cons = consumers[k] || [];
-    let fed = false;
+    let fed = false, halves = 0;
     [-1, 1].forEach(s => {
       const zEnd = s < 0 ? Math.min(...zAll) : Math.max(...zAll), f = s * (zEnd - z0);
       if (f <= 1) return;
@@ -784,12 +787,14 @@ function rebuildFlow() {
       if (!fed && r > 0.5 && dx - r > 1) pins.push(ll + dx - r);
       // VSYS 干线的起头段和几路降压的进线叠着走，进线不摆，它在这一段也不摆
       if (!fed && lead && k === RAIL_KEYS[NV]) for (let v = 0; v < ll; v += 6) pins.push(v);
-      flow.line([...head, [x, y, z0], [x, y, zEnd]], [dz - off, dz + f], color, { ...opt(w), pins, fade: [false, true] });
-      fed = true;
+      flow.line([...head, [x, y, z0, r], [x, y, zEnd]], [dz - off, dz + f], color, { ...opt(w), pins, fade: [false, true] });
+      fed = true; halves++;
     });
     if (!fed && dx > 0.5) flow.line([...start, [x, y, z0]], [d0 - ll, dz], color, opt(w));
+    // 三岔口的第三条边：两个圆弧之间的那段车道
+    if (halves === 2 && r > 0.5) flow.line([[x, y, z0 - r], [x, y, z0 + r]], [dz, dz], color, { ...opt(w), still: true, breath: true });
     trunks[k] = z => dz + Math.abs(z - z0);
-    trunks[k].z0 = z0; trunks[k].r = r > 0.5 ? r : 0; trunks[k].nx = r > 0.5 ? x + sx * r : x;
+    trunks[k].z0 = z0;
     // 圆点放在两头分开的那一点上（拐角被圆弧切掉了，原来的拐角处没有线经过）
     node(r > 0.5 ? x + sx * r : x, y, z0, railLabel(k) + ' ' + fmtW(w), color);
   };
@@ -859,15 +864,9 @@ function rebuildFlow() {
     const used = RAIL_KEYS.filter(k => bp.rails[k]), zc = p.group.position.z, zf = zFace(p), top = topOf(p);
     used.forEach(k => {
       // 支线顺着电流的方向从干线上切出去，拐一个圆弧升进板内
-      const n = RAIL_KEYS.indexOf(k), w = bp.rails[k].now, x = lane(n), tk = trunks[k], z0 = tk.z0, sg = Math.sign(zf - z0) || 1;
-      if (Math.abs(zf - z0) < BEND + tk.r + 1) {
-        // 离干线分叉点太近：那一段干线是圆弧，不在车道上，照常切出去会接到空处。改从分叉点的圆点直接接过来
-        const foot = [[tk.nx, y, z0], [x, y, zf], [x, top, zf]], d0 = tk(z0) - tk.r;
-        flow.line(foot, [d0, d0 + len(foot)], colorOf(k), opt(w));
-      } else {
-        const d0 = dTrunk(n, zf) - BEND;
-        flow.line([[x, y, zf - sg * BEND], [x, y, zf], [x, top, zf]], [d0, d0 + BEND + top - y], colorOf(k), opt(w));
-      }
+      const n = RAIL_KEYS.indexOf(k), w = bp.rails[k].now, x = lane(n), z0 = trunks[k].z0, sg = Math.sign(zf - z0) || 1;
+      const d0 = dTrunk(n, zf) - BEND;
+      flow.line([[x, y, zf - sg * BEND], [x, y, zf], [x, top, zf]], [d0, d0 + BEND + top - y], colorOf(k), opt(w));
       node(x, top, zf, T.name + ' · ' + railLabel(k) + ' ' + fmtW(w) + (used.length > 1 ? ' · ' + t('flow.boardTotal', { w: fmtW(bp.now) }) : ''), tagColor(T), () => focusPowerRow(p.id));
     });
   });

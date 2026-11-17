@@ -29,13 +29,13 @@ const RAMP = 12;             // 按住的点两侧，摆幅从零过渡到满幅
 const FADE = 12;             // 悬空的末端渐隐的长度（mm）
 
 // 把折线的拐角改成圆弧（二次贝塞尔），再沿整条线路等距取点。返回 { P: [Vector3], S: [离起点的距离], L: 总长 }
-// 首尾两段只挨着一个拐角，可以整段让给圆弧（中间的段两头各让一半）
+// 首尾两段只挨着一个拐角，可以整段让给圆弧（中间的段两头各让一半）。某个点带第四个数时，那是这个拐角自己的圆弧半径
 function sample(pts) {
-  const P = pts.map(q => new THREE.Vector3().fromArray(q)).filter((q, i, a) => !i || q.distanceTo(a[i - 1]) > 1e-6), n = P.length;
+  const P = pts.map(q => { const v = new THREE.Vector3().fromArray(q); if (q.length > 3) v.r = q[3]; return v; }).filter((q, i, a) => !i || q.distanceTo(a[i - 1]) > 1e-6), n = P.length;
   if (n < 2) return null;
   const room = (i, j) => P[i].distanceTo(P[j]) * (j === 0 || j === n - 1 ? 1 : 0.5);
   const trim = new Array(n).fill(0);
-  for (let i = 1; i < n - 1; i++) trim[i] = Math.min(RADIUS, room(i, i - 1), room(i, i + 1));
+  for (let i = 1; i < n - 1; i++) trim[i] = Math.min(P[i].r != null ? P[i].r : RADIUS, room(i, i - 1), room(i, i + 1));
   const poly = [P[0].clone()];
   for (let i = 1; i < n; i++) {
     const d = P[i].clone().sub(P[i - 1]).normalize(), b = P[i].clone().addScaledVector(d, -trim[i]);
@@ -75,9 +75,9 @@ export function makeFlow() {
     const m = new LineMaterial({ color, linewidth: width, transparent: true, opacity: opts.opacity, depthTest: opts.depth, depthWrite: false,
                                  dashed: true, dashScale: 1, dashSize: DASH, gapSize: opts.dead ? GAP : 0 });
     m.resolution.copy(res);
-    const uArrows = { value: opts.arrows ? 1 : 0 }, uOmega = { value: opts.omega }, uPulse = { value: opts.pulse };
+    const uArrows = { value: opts.arrows ? 1 : 0 }, uOmega = { value: opts.omega }, uPulse = { value: opts.pulse }, uBreath = { value: opts.breath ? 1 : 0 };
     m.onBeforeCompile = shader => {
-      Object.assign(shader.uniforms, { uTime, uPhase, uArrows, uOmega, uPulse });
+      Object.assign(shader.uniforms, { uTime, uPhase, uArrows, uOmega, uPulse, uBreath });
       const sway = d => `sin( ${(2 * Math.PI / WAVE).toFixed(5)} * ${d} - uOmega * uTime )`;
       shader.vertexShader = shader.vertexShader
         .replace('attribute vec3 instanceStart;', 'attribute vec3 instanceStart;\nattribute vec3 instanceSwayStart;\nattribute vec3 instanceSwayEnd;\nattribute float instanceFadeStart;\nattribute float instanceFadeEnd;\nvarying float vFade;\nuniform float uTime;\nuniform float uOmega;')
@@ -85,12 +85,14 @@ export function makeFlow() {
         .replace('vec4 start = modelViewMatrix * vec4( instanceStart, 1.0 );', `vec4 start = modelViewMatrix * vec4( instanceStart + instanceSwayStart * ${sway('instanceDistanceStart')}, 1.0 );`)
         .replace('vec4 end = modelViewMatrix * vec4( instanceEnd, 1.0 );', `vec4 end = modelViewMatrix * vec4( instanceEnd + instanceSwayEnd * ${sway('instanceDistanceEnd')}, 1.0 );`);
       shader.fragmentShader = shader.fragmentShader
-        .replace('uniform float opacity;', 'uniform float opacity;\nuniform float uPhase;\nuniform float uArrows;\nuniform float uPulse;\nvarying float vFade;')
+        .replace('uniform float opacity;', 'uniform float opacity;\nuniform float uPhase;\nuniform float uArrows;\nuniform float uPulse;\nuniform float uBreath;\nvarying float vFade;')
         .replace('gl_FragColor = vec4( diffuseColor.rgb, alpha );',
           `// 脉冲：头部在下游一侧（线中心比两边略靠前），身后的亮度平缓地落下去。
            // uPulse（0–1，随功率）决定强弱：两个脉冲之间压暗多少、头部往白色提多少
            float fr = fract( ( vLineDistance - abs( vUv.x ) * 1.2 ) / ${CHEVRON.toFixed(1)} - uPhase );
            float glow = clamp( fr * fr * ( 1.0 - smoothstep( 0.86, 1.0, fr ) ) / 0.72, 0.0, 1.0 );
+           // 说不清电往哪边走的线段（三岔口中间那一段）不走脉冲，整段一起明暗起伏
+           glow = mix( glow, 0.5 + 0.5 * sin( 6.2832 * uPhase ), uBreath );
            float pulse = uArrows * uPulse;
            vec3 lit = diffuseColor.rgb * ( 1.0 - 0.5 * pulse * ( 1.0 - glow ) );
            lit += ( vec3( 1.0 ) - lit ) * 0.6 * pulse * glow * glow;
@@ -102,7 +104,8 @@ export function makeFlow() {
   // o.width 屏幕上的线宽（像素）；o.casing 描边色；o.dead 没有电流（虚线，不动，没有脉冲）；
   // o.level 0–1，相对功率，决定脉冲的强弱、摆幅和快慢；o.still 不做动画（减少动态效果）；
   // o.pins 线路中途要按住的点（离起点的距离，mm），有支线从那里切出去；
-  // o.fade [起点, 终点]，为 true 的那一端是悬空的：渐隐，也不按住
+  // o.fade [起点, 终点]，为 true 的那一端是悬空的：渐隐，也不按住；
+  // o.breath 不走脉冲，整段一起明暗起伏（电流方向不确定的线段）
   function line(pts, dist, color, o) {
     const path = sample(pts);
     if (!path) return;
@@ -145,7 +148,7 @@ export function makeFlow() {
     const omega = 2 * Math.PI * (0.16 + 0.4 * Math.sqrt(level));   // 0.16–0.56 Hz
     [[o.casing, o.width + 2.4, false, false], [color, o.width, false, true], [o.casing, o.width + 2.4, true, false], [color, o.width, true, true]]
       .forEach(([c, w, depth, arrows], n) => {
-        const mesh = new LineSegments2(g, material(c, w, { depth, dead: o.dead, omega, pulse: 0.25 + 0.75 * Math.sqrt(level), arrows: arrows && !o.dead, opacity: (depth ? 1 : HIDDEN) * (o.dead ? 0.7 : 1) }));
+        const mesh = new LineSegments2(g, material(c, w, { depth, dead: o.dead, omega, breath: o.breath, pulse: 0.25 + 0.75 * Math.sqrt(level), arrows: arrows && !o.dead, opacity: (depth ? 1 : HIDDEN) * (o.dead ? 0.7 : 1) }));
         mesh.renderOrder = n;
         mesh.frustumCulled = false;   // 包围盒是按没摆动的位置算的
         scene.add(mesh); objs.push(mesh);
