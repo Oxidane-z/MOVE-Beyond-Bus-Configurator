@@ -731,22 +731,31 @@ function rebuildFlow() {
   const [cx, cz] = BP.charger || [S.cx + S.hx * 0.6, slotZ(SLOTS - 1) - PITCH];
   const [lx, lz] = BP.inductor || [cx, cz - 10];
   const DC = BP.dcdc || {}, NR = k => RAIL_KEYS.indexOf(k);
-  // 电池走背板的外沿：沿离充电芯片远的那条长边走到头，再沿短边绕到充电芯片，不和任何一条电源轨交叉
-  const BAT_X = S.cx + (cx > S.cx ? -1 : 1) * (S.hx - 6), BAT_Z = S.cz + (cz >= S.cz ? 1 : -1) * (S.hz - 4);
   const len = pts => pts.reduce((a, q, i) => i ? a + Math.hypot(q[0] - pts[i - 1][0], q[1] - pts[i - 1][1], q[2] - pts[i - 1][2]) : 0, 0);
   const cum = (pts, d0) => [d0, d0 + len(pts)];                        // 线上只用首尾的距离，中间按长度均分
   const vColor = colorOf(RAIL_KEYS[NV]), bColor = sys.power.batteryColor || vColor, iColor = sys.power.inputColor || '#999999';
   const eff = k => (RAILS[k] && RAILS[k].efficiency) || 1;
 
-  // 离电源（电池）的线路距离：电池 → 充电芯片 → 电感 → VSYS（直接去槽位，也去各组降压）。有几块电池就取最近的那块
+  // 充电芯片（BCR）那里是一个三岔口：太阳能输入、电池、VSYS 各占一个口，两两之间用圆弧（或直线）连通，
+  // 因为可能一边充电一边放电。三个口离芯片 TRI 远：VSYS 口朝着电感，太阳能口在它的正对面，电池口在侧面
+  const toL = [[cx, y, cz], [lx, y, lz]], TRI = Math.min(7, 0.4 * len(toL));
+  const sgE = cz >= S.cz ? 1 : -1, sgX = cx > S.cx ? 1 : -1;           // 充电芯片靠近哪条短边、哪条长边
+  const along = (a, b, r) => { const L = len([a, b]) || 1; return a.map((v, i) => v + (b[i] - v) * r / L); };
+  const portV = along(toL[0], toL[1], TRI), portS = along(toL[0], toL[1], -TRI), portB = [cx - sgX * TRI, y, cz];
+  // 电池走背板的外沿：沿离充电芯片远的那条长边走到头，在最后一个槽外面一点横穿过去（比太阳能输入口靠里，不和它们的线重合），
+  // 再沿充电芯片旁边自己的一列走到电池口。不和任何一条电源轨交叉
+  const zSlot = Math.abs(slotZ(SLOTS - 1)), BAT_X = S.cx - sgX * (S.hx - 6), BAT_COL = cx - sgX * 14;
+  const BAT_Z = sgE * (zSlot + Math.max(2.5, 0.35 * (sgE * (S.cz + sgE * S.hz) - zSlot)));
+
+  // 离电源（电池）的线路距离：电池 → 充电芯片 → VSYS（直接去槽位，也去各组降压）。有几块电池就取最近的那块
   const bats = list.filter(p => TYPES[p.type].wh).map(p => {
     const zf = zFace(p), top = topOf(p);
-    const path = [[BAT_X, top, zf], [BAT_X, y, zf], [BAT_X, y, BAT_Z], [cx, y, BAT_Z], [cx, y, cz]];
+    const path = [[BAT_X, top, zf], [BAT_X, y, zf], [BAT_X, y, BAT_Z], [BAT_COL, y, BAT_Z], [BAT_COL, y, cz], portB];
     return { p, zf, top, path, len: len(path) };
   });
   const still = reduced || !bats.length;
-  const dCharger = bats.length ? Math.min(...bats.map(b => b.len)) : 0;
-  const toL = [[cx, y, cz], [lx, y, lz]], dL = dCharger + len(toL);
+  const dCharger = bats.length ? Math.min(...bats.map(b => b.len)) + TRI : 0;
+  const dL = dCharger + len(toL);
   const opt = (w, dead) => ({ width: wOf(w), casing, dead: dead != null ? dead : w <= 0 || !bats.length, level: w / max, still });
   // 各条轨上的用电板：支线在哪个 z 从干线切出去（板卡正面外一点）
   const BEND = 9;   // 支线离开干线、干线分岔的圆弧半径（mm）
@@ -773,12 +782,14 @@ function rebuildFlow() {
       const pins = cons.map(z => s * (z - z0) - BEND).filter(v => v > 1 && v < f - 1).map(v => off + v);
       // 第一头在另一头分出去的那一点也要按住，否则它在摆、另一头的起点不动，两条线会分开
       if (!fed && r > 0.5 && dx - r > 1) pins.push(ll + dx - r);
+      // VSYS 干线的起头段和几路降压的进线叠着走，进线不摆，它在这一段也不摆
+      if (!fed && lead && k === RAIL_KEYS[NV]) for (let v = 0; v < ll; v += 6) pins.push(v);
       flow.line([...head, [x, y, z0], [x, y, zEnd]], [dz - off, dz + f], color, { ...opt(w), pins, fade: [false, true] });
       fed = true;
     });
     if (!fed && dx > 0.5) flow.line([...start, [x, y, z0]], [d0 - ll, dz], color, opt(w));
     trunks[k] = z => dz + Math.abs(z - z0);
-    trunks[k].z0 = z0;
+    trunks[k].z0 = z0; trunks[k].r = r > 0.5 ? r : 0; trunks[k].nx = r > 0.5 ? x + sx * r : x;
     // 圆点放在两头分开的那一点上（拐角被圆弧切掉了，原来的拐角处没有线经过）
     node(r > 0.5 ? x + sx * r : x, y, z0, railLabel(k) + ' ' + fmtW(w), color);
   };
@@ -789,8 +800,8 @@ function rebuildFlow() {
     const g = S.interfaces.find(i => i.ref === ref), note = ifaceNotes(BP.notes).find(n => n.ref === ref);
     if (!g) return;
     const ix = g.center.x, iy = g.center.y + S.group.position.y, iz = g.center.z, yy = iy >= S.topY - 0.8 ? yTop : yBot;
-    const path = [[ix, iy, iz], [ix, yy, iz], [cx, yy, iz], [cx, yy, cz]];
-    if (yy !== yTop) path.push([cx, yTop, cz]);
+    const path = [[ix, iy, iz], [ix, yy, iz], [portS[0], yy, iz], [portS[0], yy, portS[2]]];
+    if (yy !== yTop) path.push(portS);
     flow.line(path, [0, len(path)], iColor, opt(0, true));
     node(ix, iy, iz, (note ? note.label : ref) + ' · ' + t('flow.input'), iColor);
   });
@@ -799,17 +810,27 @@ function rebuildFlow() {
   bats.forEach(b => {
     const T = TYPES[b.p.type], share = B.wh > 0 ? B.draw.now * T.wh / B.wh : 0;
     // 有几块电池时它们在外沿上叠着走，各摆各的会分开，所以都不摆
-    flow.line(b.path, [dCharger - b.len, dCharger], bColor, { ...opt(share), still: still || bats.length > 1 });
+    flow.line(b.path, [dCharger - TRI - b.len, dCharger - TRI], bColor, { ...opt(share), still: still || bats.length > 1 });
     node(BAT_X, b.top, b.zf, t('flow.battery') + ' ' + fmtCap(T.wh) + ' · ' + fmtW(share), tagColor(T), () => focusPowerRow(b.p.id));
   });
+  // 三岔口里的三条通路：电池 → VSYS（放电，现在算功率的就是这一条）、太阳能 → VSYS、太阳能 → 电池（充电）。后两条还不算功率，画成虚线
+  flow.line([portB, toL[0], portV], [dCharger - TRI, dCharger + TRI], bColor, { ...opt(B.draw.now), still: true });
+  flow.line([portS, toL[0], portV], [0, 2 * TRI], iColor, opt(0, true));
+  flow.line([portS, toL[0], portB], [0, 2 * TRI], iColor, opt(0, true));
   node(cx, y, cz, t('flow.charger') + (sys.power.charger ? ' ' + sys.power.charger : '') + ' · VSYS ' + fmtW(B.draw.now), vColor);
 
   // 充电芯片整流出 VSYS（经过它的电感）。VSYS 不经过降压，直接接到 VSYS 干线；同时送进各组降压模块
   // 进线上离终点 r 的那一点：进线画到这里为止，下一段（干线）从这里起头，用圆弧接过去
   const back = (from, to, r) => { const L = len([from, to]) || 1, u = Math.min(r, L / 2) / L; return to.map((v, i) => v + (from[i] - v) * u); };
   const tL = back(toL[0], toL[1], BEND), dTL = dL - len([tL, toL[1]]);
-  flow.line([toL[0], tL], [dCharger, dTL], vColor, opt(B.draw.now));
-  trunk(RAIL_KEYS[NV], lx, lz, dL, B.rails[RAIL_KEYS[NV]] ? B.rails[RAIL_KEYS[NV]].now : 0, tL);
+  flow.line([portV, tL], [dCharger + TRI, dTL], vColor, opt(B.draw.now));
+  // 三条干线去车道的那一段沿槽位方向等间距排开：5V 在中间（降压模块后面 BEND 处），VSYS 靠充电芯片一侧，3V3 在另一侧
+  const GAP = 14, ref = DC['5v'] || Object.entries(DC).filter(e => e[0] !== 'self').map(e => e[1])[0];
+  const sD = ref ? Math.sign(ref[1] - tL[2]) || -1 : -1, legZ = k => ref[1] + sD * BEND - sD * (1 - NR(k)) * GAP;
+  {
+    const k = RAIL_KEYS[NV], w = B.rails[k] ? B.rails[k].now : 0, run = ref ? (legZ(k) - tL[2]) * sD : 0;
+    if (run >= 2) trunk(k, tL[0], legZ(k), dTL + run, w, tL); else trunk(k, lx, lz, dL, w, tL);
+  }
   Object.entries(DC).forEach(([k, pos]) => {
     const [px, pz] = pos, self = k === 'self', out = !self && B.rails[k] ? B.rails[k].now : 0, inW = out / eff(k);
     // 进线从 VSYS 干线分出去的那一点（tL）出发，斜着靠到降压模块所在的那一列，再直着进去：所有的分叉都在同一点上
@@ -824,9 +845,8 @@ function rebuildFlow() {
       return;
     }
     node(px, y, pz, t('flow.dcdc') + ' ' + railLabel(k) + ' · ' + t('flow.in') + ' ' + fmtW(inW) + ' · ' + t('flow.loss') + ' ' + fmtW(inW - out), null);
-    // 干线从降压模块的圆点出发（在这里换成自己的颜色），顺着进线的方向再走一小段，拐一个圆弧去车道。
-    // 各条干线拐弯的位置错开一点，去车道的那一段才不会叠在一起
-    if (NR(k) >= 0) { const run = BEND + (NR(k) - 1.5) * 2; trunk(k, px, pz + Math.sign(D || -1) * run, dTL + len(full) + run, out, [px, y, pz]); }
+    // 干线从降压模块的圆点出发（在这里换成自己的颜色），顺着进线的方向走到自己拐弯的位置，拐一个圆弧去车道
+    if (NR(k) >= 0) { const far = (legZ(k) - pz) * sD, run = far >= 2 ? far : BEND; trunk(k, px, pz + sD * run, dTL + len(full) + run, out, [px, y, pz]); }
   });
   // 没有登记降压位置的电源轨（或者旧格式）：直接从电感接出来
   RAIL_KEYS.forEach(k => { if (!trunks[k]) trunk(k, lx, lz - 4 * NR(k), dL, B.rails[k] ? B.rails[k].now : 0); });
@@ -839,9 +859,15 @@ function rebuildFlow() {
     const used = RAIL_KEYS.filter(k => bp.rails[k]), zc = p.group.position.z, zf = zFace(p), top = topOf(p);
     used.forEach(k => {
       // 支线顺着电流的方向从干线上切出去，拐一个圆弧升进板内
-      const n = RAIL_KEYS.indexOf(k), w = bp.rails[k].now, x = lane(n), z0 = trunks[k].z0, sg = Math.sign(zf - z0) || 1;
-      const run = Math.min(BEND, Math.abs(zf - z0)), d0 = dTrunk(n, zf) - run;
-      flow.line([...(run > 1 ? [[x, y, zf - sg * run]] : []), [x, y, zf], [x, top, zf]], [d0, d0 + run + top - y], colorOf(k), opt(w));
+      const n = RAIL_KEYS.indexOf(k), w = bp.rails[k].now, x = lane(n), tk = trunks[k], z0 = tk.z0, sg = Math.sign(zf - z0) || 1;
+      if (Math.abs(zf - z0) < BEND + tk.r + 1) {
+        // 离干线分叉点太近：那一段干线是圆弧，不在车道上，照常切出去会接到空处。改从分叉点的圆点直接接过来
+        const foot = [[tk.nx, y, z0], [x, y, zf], [x, top, zf]], d0 = tk(z0) - tk.r;
+        flow.line(foot, [d0, d0 + len(foot)], colorOf(k), opt(w));
+      } else {
+        const d0 = dTrunk(n, zf) - BEND;
+        flow.line([[x, y, zf - sg * BEND], [x, y, zf], [x, top, zf]], [d0, d0 + BEND + top - y], colorOf(k), opt(w));
+      }
       node(x, top, zf, T.name + ' · ' + railLabel(k) + ' ' + fmtW(w) + (used.length > 1 ? ' · ' + t('flow.boardTotal', { w: fmtW(bp.now) }) : ''), tagColor(T), () => focusPowerRow(p.id));
     });
   });
