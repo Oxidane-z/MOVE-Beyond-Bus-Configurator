@@ -5,11 +5,13 @@
 // 两遍下面各垫一条略宽的描边色线，浅色主题下浅色的电源轨才不会融进背景。
 //
 // 动效有两层，都按“从电源沿线路走到这里的距离”算相位（这个距离借用 LineMaterial 画虚线用的那组属性传进去）：
-//   琴弦  整条线路是一根连续的弦（拐角是圆弧，波形顺着电流方向一路传过拐角），横向缓缓摆动。功率越大摆幅越大、振得越快。
+//   琴弦  整条线路是一根连续的弦（拐角是圆弧，波形顺着电流方向一路传过拐角），横向轻轻摆动。功率越大摆幅略大、振得越快，
+//         但摆幅整体压得很小：功率大小主要靠下面的脉冲来表现
 //         只在两端和有支线切出去的地方按住，按住的地方两侧平缓地过渡，不会一格一格地鼓起来
-//   光斑  线上一串顺着电流方向移动的柔和亮斑：头部朝下游、亮，身后拖着渐暗的尾巴，一眼看得出电往哪边走
+//   脉冲  线上一串顺着电流方向移动的亮光：头部朝下游、最亮，身后拖着渐暗的尾巴，一眼看得出电往哪边走。
+//         功率越大脉冲越强：头部越接近白色，两个脉冲之间越暗；功率很小的线只有淡淡的起伏
 // 悬空的末端（后面不再接东西的干线尾巴）渐隐到透明，不留一个方头。
-// 系统开了“减少动态效果”时两层都不动：弦是直的，光斑静止（方向仍然看得出来）
+// 系统开了“减少动态效果”时两层都不动：弦是直的，脉冲静止（方向仍然看得出来）
 import * as THREE from 'three';
 import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
 import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js';
@@ -73,9 +75,9 @@ export function makeFlow() {
     const m = new LineMaterial({ color, linewidth: width, transparent: true, opacity: opts.opacity, depthTest: opts.depth, depthWrite: false,
                                  dashed: true, dashScale: 1, dashSize: DASH, gapSize: opts.dead ? GAP : 0 });
     m.resolution.copy(res);
-    const uArrows = { value: opts.arrows ? 1 : 0 }, uOmega = { value: opts.omega };
+    const uArrows = { value: opts.arrows ? 1 : 0 }, uOmega = { value: opts.omega }, uPulse = { value: opts.pulse };
     m.onBeforeCompile = shader => {
-      Object.assign(shader.uniforms, { uTime, uPhase, uArrows, uOmega });
+      Object.assign(shader.uniforms, { uTime, uPhase, uArrows, uOmega, uPulse });
       const sway = d => `sin( ${(2 * Math.PI / WAVE).toFixed(5)} * ${d} - uOmega * uTime )`;
       shader.vertexShader = shader.vertexShader
         .replace('attribute vec3 instanceStart;', 'attribute vec3 instanceStart;\nattribute vec3 instanceSwayStart;\nattribute vec3 instanceSwayEnd;\nattribute float instanceFadeStart;\nattribute float instanceFadeEnd;\nvarying float vFade;\nuniform float uTime;\nuniform float uOmega;')
@@ -83,18 +85,22 @@ export function makeFlow() {
         .replace('vec4 start = modelViewMatrix * vec4( instanceStart, 1.0 );', `vec4 start = modelViewMatrix * vec4( instanceStart + instanceSwayStart * ${sway('instanceDistanceStart')}, 1.0 );`)
         .replace('vec4 end = modelViewMatrix * vec4( instanceEnd, 1.0 );', `vec4 end = modelViewMatrix * vec4( instanceEnd + instanceSwayEnd * ${sway('instanceDistanceEnd')}, 1.0 );`);
       shader.fragmentShader = shader.fragmentShader
-        .replace('uniform float opacity;', 'uniform float opacity;\nuniform float uPhase;\nuniform float uArrows;\nvarying float vFade;')
+        .replace('uniform float opacity;', 'uniform float opacity;\nuniform float uPhase;\nuniform float uArrows;\nuniform float uPulse;\nvarying float vFade;')
         .replace('gl_FragColor = vec4( diffuseColor.rgb, alpha );',
-          `// 光斑：头部在下游一侧（线中心比两边略靠前），身后的亮度平缓地落下去
+          `// 脉冲：头部在下游一侧（线中心比两边略靠前），身后的亮度平缓地落下去。
+           // uPulse（0–1，随功率）决定强弱：两个脉冲之间压暗多少、头部往白色提多少
            float fr = fract( ( vLineDistance - abs( vUv.x ) * 1.2 ) / ${CHEVRON.toFixed(1)} - uPhase );
-           float glow = fr * fr * ( 1.0 - smoothstep( 0.86, 1.0, fr ) );
-           gl_FragColor = vec4( diffuseColor.rgb * mix( 1.0, 0.68 + 0.42 * glow, uArrows ), alpha * vFade );`);
+           float glow = clamp( fr * fr * ( 1.0 - smoothstep( 0.86, 1.0, fr ) ) / 0.72, 0.0, 1.0 );
+           float pulse = uArrows * uPulse;
+           vec3 lit = diffuseColor.rgb * ( 1.0 - 0.5 * pulse * ( 1.0 - glow ) );
+           lit += ( vec3( 1.0 ) - lit ) * 0.6 * pulse * glow * glow;
+           gl_FragColor = vec4( lit, alpha * vFade );`);
     };
     return m;
   }
   // 一条线路。pts 是 [[x, y, z], …]，拐角会改成圆弧；dist 是首尾两点离电源的线路距离（mm）。
-  // o.width 屏幕上的线宽（像素）；o.casing 描边色；o.dead 没有电流（虚线，不动，没有光斑）；
-  // o.level 0–1，相对功率，决定摆幅和快慢；o.still 不做动画（减少动态效果）；
+  // o.width 屏幕上的线宽（像素）；o.casing 描边色；o.dead 没有电流（虚线，不动，没有脉冲）；
+  // o.level 0–1，相对功率，决定脉冲的强弱、摆幅和快慢；o.still 不做动画（减少动态效果）；
   // o.pins 线路中途要按住的点（离起点的距离，mm），有支线从那里切出去；
   // o.fade [起点, 终点]，为 true 的那一端是悬空的：渐隐，也不按住
   function line(pts, dist, color, o) {
@@ -103,7 +109,7 @@ export function makeFlow() {
     const { P, S, L } = path, m = P.length;
     const seg = [], d = [], sw = [], fd = [], level = Math.max(0, Math.min(1, o.level || 0)), moving = !o.dead && !o.still;
     const fade = o.fade || [false, false], pins = o.pins || [], ramp = Math.min(RAMP, L / 3);
-    const amp = moving ? Math.min(0.35 + 1.9 * Math.sqrt(level), L * 0.1) : 0;
+    const amp = moving ? Math.min(0.2 + 0.7 * Math.sqrt(level), L * 0.1) : 0;   // 最多约 0.9 mm
     const d0 = dist[0], d1 = dist[dist.length - 1], tan = new THREE.Vector3(), perp = new THREE.Vector3(1, 0, 0), q = new THREE.Vector3();
     const off = [], alpha = [];
     for (let i = 0; i < m; i++) {
@@ -139,14 +145,14 @@ export function makeFlow() {
     const omega = 2 * Math.PI * (0.16 + 0.4 * Math.sqrt(level));   // 0.16–0.56 Hz
     [[o.casing, o.width + 2.4, false, false], [color, o.width, false, true], [o.casing, o.width + 2.4, true, false], [color, o.width, true, true]]
       .forEach(([c, w, depth, arrows], n) => {
-        const mesh = new LineSegments2(g, material(c, w, { depth, dead: o.dead, omega, arrows: arrows && !o.dead, opacity: (depth ? 1 : HIDDEN) * (o.dead ? 0.7 : 1) }));
+        const mesh = new LineSegments2(g, material(c, w, { depth, dead: o.dead, omega, pulse: 0.25 + 0.75 * Math.sqrt(level), arrows: arrows && !o.dead, opacity: (depth ? 1 : HIDDEN) * (o.dead ? 0.7 : 1) }));
         mesh.renderOrder = n;
         mesh.frustumCulled = false;   // 包围盒是按没摆动的位置算的
         scene.add(mesh); objs.push(mesh);
       });
   }
   function setResolution(w, h) { res.set(w, h); objs.forEach(o => o.material.resolution.set(w, h)); }
-  // seconds：现在的时间（秒）。光斑每秒走半个间距
+  // seconds：现在的时间（秒）。脉冲每秒走半个间距
   function setTime(seconds) { uTime.value = seconds % 3600; uPhase.value = (seconds * 0.5) % 1; }
   return { scene, clear, line, setResolution, setTime, get live() { return live; } };
 }

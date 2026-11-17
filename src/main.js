@@ -698,8 +698,8 @@ function renderPower(B) {
 //   电源轨 VSYS、5V、3V3 从降压模块出发，横着走到各自的车道，再沿槽位方向铺开，从板卡底下穿过
 //   支线  每块板从它实际插着的那个槽的连接器位置垂直升进板内，用到哪条轨就从哪条车道升起，停在板的中上部
 //   节点  都是小圆点，名称和功率在悬浮标签里；点板卡或电池的圆点会跳到面板里对应的那一行
-// 线宽、摆幅和摆动的快慢都随当前功率变化，没有电流的支路是不动的虚线；线上的光斑顺着电流的方向走（flow.js）。
-// 系统开了“减少动态效果”时线不摆、光斑不走
+// 线宽、脉冲的强弱和摆动的快慢都随当前功率变化（摆幅只略有变化），没有电流的支路是不动的虚线；线上的脉冲顺着电流的方向走（flow.js）。
+// 系统开了“减少动态效果”时线不摆、脉冲不走
 const DIM = 0.8, dim = { a: 0 };
 const LANE = 10;   // 车道间距（mm）
 const flow = makeFlow(), flowMarks = document.getElementById('flowMarks');
@@ -768,13 +768,16 @@ function rebuildFlow() {
       const head = !fed ? [[x0, y, z0]] : r > 0.5 ? [[x + sx * r, y, z0]] : [], off = !fed ? dx : r > 0.5 ? r : 0;
       // 有支线切出去的地方按住（支线在用电板前面 BEND 处离开干线）
       const pins = cons.map(z => s * (z - z0) - BEND).filter(v => v > 1 && v < f - 1).map(v => off + v);
+      // 第一头在另一头分出去的那一点也要按住，否则它在摆、另一头的起点不动，两条线会分开
+      if (!fed && r > 0.5 && dx - r > 1) pins.push(dx - r);
       flow.line([...head, [x, y, z0], [x, y, zEnd]], [dz - off, dz + f], color, { ...opt(w), pins, fade: [false, true] });
       fed = true;
     });
     if (!fed && dx > 0.5) flow.line([[x0, y, z0], [x, y, z0]], [d0, dz], color, opt(w));
     trunks[k] = z => dz + Math.abs(z - z0);
     trunks[k].z0 = z0;
-    node(x, y, z0, railLabel(k) + ' ' + fmtW(w), color);
+    // 圆点放在两头分开的那一点上（拐角被圆弧切掉了，原来的拐角处没有线经过）
+    node(r > 0.5 ? x + sx * r : x, y, z0, railLabel(k) + ' ' + fmtW(w), color);
   };
 
   // 外部电源输入（太阳能口、GSE 接口……）：从接口的实际位置贴着背板走到充电芯片。在背面的接口走背面，到芯片底下再穿上来。
@@ -803,7 +806,8 @@ function rebuildFlow() {
   Object.entries(DC).forEach(([k, pos]) => {
     const [px, pz] = pos, self = k === 'self', out = !self && B.rails[k] ? B.rails[k].now : 0, inW = out / eff(k);
     const feed = [[lx, y, lz], [lx, y, (lz + pz) / 2 + 3], [px, y, (lz + pz) / 2 + 3], [px, y, pz]];
-    flow.line(feed, [dL, dL + len(feed)], vColor, opt(inW, self ? true : undefined));
+    // 几路降压的进线从电感出来有一段是叠在一起走的，各摆各的会分开，所以这几段不摆（脉冲照常）
+    flow.line(feed, [dL, dL + len(feed)], vColor, { ...opt(inW, self ? true : undefined), still: true });
     if (self) {
       // 背板自己的 3V3：给背板上的 MCU 和各槽的功率监测供电，还没有功耗数据
       const [mx, mz] = BP.mcu || [px, pz - 20], path = [[px, y, pz], [px, y, mz], [mx, y, mz]];
