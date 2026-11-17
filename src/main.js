@@ -158,6 +158,8 @@ function rebuildInterfaces(p) {
 function addInterfaces(list, notes, geos) {
   notes.forEach(note => {
     const geo = geos.find(i => i.ref === note.ref);
+    // 射频接口（MMCX、MCX 这类同轴座）整个画成金色
+    if (geo && note.type === 'rf') geo.mat.uniforms.uAllGold.value = 1;
     if (geo) list.push({ n: list.length + 1, note, mat: geo.mat, center: geo.center, side: geo.side, face: geo.face, normal: geo.normal });
   });
 }

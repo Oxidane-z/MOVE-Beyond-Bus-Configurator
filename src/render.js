@@ -40,6 +40,7 @@ uniform vec3 uKapton;
 uniform vec3 uGold;
 uniform vec3 uTint;
 uniform float uMix;
+uniform float uAllGold;
 varying vec3 vN;
 #ifdef USE_COLOR
 varying float vMat;
@@ -53,6 +54,7 @@ void main() {
   // 顶点色的红色通道存的是材质编号除以 3（见 models.js）
   base = vMat < 0.17 ? uDark : vMat < 0.5 ? uLight : vMat < 0.83 ? uKapton : uGold;
   #endif
+  if (uAllGold > 0.5) base = uGold;   // 整个件都画成金色（射频接口）
   base = mix(base, uTint, uMix);   // 接口高亮
   gl_FragColor = vec4(mix(uShade, base, s), 1.0);
   #include <colorspace_fragment>
@@ -61,7 +63,7 @@ void main() {
 function shaderMat(color, vertexColors) {
   return new THREE.ShaderMaterial({
     uniforms: { uColor: { value: new THREE.Color(color) }, uShade, uDark, uLight, uKapton, uGold,
-                uTint: { value: new THREE.Color('#ffffff') }, uMix: { value: 0 } },
+                uTint: { value: new THREE.Color('#ffffff') }, uMix: { value: 0 }, uAllGold: { value: 0 } },
     vertexShader: VERT, fragmentShader: FRAG, vertexColors,
     polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1
   });
