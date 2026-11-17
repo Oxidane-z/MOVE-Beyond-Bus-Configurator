@@ -572,8 +572,9 @@ function setLayer(next) {
 layerSeg.querySelectorAll('button').forEach(b => b.addEventListener('click', () => setLayer(b.dataset.layer)));
 const powerOf = p => boardPower(TYPES[p.type], p.loads);
 const powerEntries = () => [...placements.values()].filter(p => !p.leaving).map(p => ({ T: TYPES[p.type], sel: p.loads }));
-// 电源输入口（太阳能、GSE）现在的状态 { 口的 ref: 数 }：太阳能口是有几串在日照下，GSE 口是 0 / 1。和负载状态一样不进撤销记录，跟着分享链接走
+// 电源输入口（太阳能、GSE）现在的状态 { 口的 ref: 值 }：太阳能口是各串受到的日照 [0–1, …]，GSE 口是 0 / 1。和负载状态一样不进撤销记录，跟着分享链接走
 let srcSel = {};
+let powerTab = 'loads';   // 功耗面板下半部分显示哪一边：用电的板卡（loads）还是供电的输入口（sources）
 const inputDefs = () => ((bpKey && BACKPLANES[bpKey] && BACKPLANES[bpKey].inputs) || []).map(d => typeof d === 'string' ? { ref: d } : d);
 // 预算。withInputs 为 false 时不算电源输入（布局层的统计固定按只靠电池算）
 const fullBudget = (entries, withInputs) => withSources(budget(entries, sys.power), sources(withInputs ? inputDefs() : [], srcSel, sys.power), sys.power);
@@ -651,32 +652,75 @@ function renderPower(B) {
   if (!B.counted) powerPanel.appendChild(el('p', 'note', t('power.none')));
   if (B.short.now > 0.005) powerPanel.appendChild(el('div', 'pnote', t('power.short', { w: fmtW(B.short.now) })));
 
-  // 电源输入：每个太阳能口选有几串在日照下，GSE 口选接没接地面电源
-  if (B.input.list.length) {
-    const box = el('div', 'list'), r = el('div', 'prow'), S = sys.power.solar;
-    r.appendChild(el('span', 'no', ''));
-    r.appendChild(el('span', 'nm', t('power.inputs')));
-    r.appendChild(el('span', 'val', B.input.gse ? t('power.gseIn') : fmtW(B.input.solar)));
-    if (S && B.input.list.some(i => i.kind === 'solar')) r.appendChild(el('span', 'sub', t('power.stringSpec', { name: S.name, w: fmtW(stringWatts(S)), eff: Math.round((S.efficiency || 1) * 100) })));
-    B.input.list.forEach(i => {
-      const row = el('div', 'load'), left = el('span'), seg = el('div', 'seg'), note = ifaceNotes(BACKPLANES[bpKey].notes).find(n => n.ref === i.ref), name = note ? note.label : i.ref;
-      left.appendChild(el('span', 'ln', name));
-      if (i.kind === 'solar') left.appendChild(el('span', 'lr', t('power.inSun')));
-      seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', name);
-      for (let n = 0; n <= i.max; n++) {
-        const b = el('button', '', i.kind === 'gse' ? t(n ? 'power.on' : 'power.off') : String(n));
-        b.type = 'button'; b.dataset.act = 'src-' + i.ref + '-' + n; b.setAttribute('aria-pressed', String(n === i.n));
-        if (i.kind === 'solar') b.setAttribute('aria-label', t(n === 1 ? 'power.strings.1' : 'power.strings.n', { n }));
-        b.addEventListener('click', () => { if (n === i.n) return; srcSel = { ...srcSel, [i.ref]: n }; renderUI(); });
+  // 下半部分分两边：用电的板卡和供电的输入口，用一个切换按钮分开
+  const tabs = el('div', 'seg ptabs');
+  tabs.setAttribute('role', 'group'); tabs.setAttribute('aria-label', t('aria.powerTabs'));
+  (B.input.list.length ? ['loads', 'sources'] : []).forEach(name => {
+    const b = el('button', '', t('power.tab.' + name));
+    b.type = 'button'; b.dataset.act = 'tab-' + name; b.setAttribute('aria-pressed', String(name === powerTab));
+    b.addEventListener('click', () => { if (powerTab === name) return; powerTab = name; renderUI(); });
+    tabs.appendChild(b);
+  });
+  if (B.input.list.length) powerPanel.appendChild(tabs); else powerTab = 'loads';
+
+  // 供电的一边：每个太阳能口的每一串有一根拉条，选它受到的日照占满日照的几成；GSE 口选接没接地面电源
+  if (powerTab === 'sources') {
+    const box = el('div', 'list'), So = sys.power.solar, solar = B.input.list.filter(i => i.kind === 'solar');
+    const setAll = f => { const next = { ...srcSel }; solar.forEach(i => { next[i.ref] = i.fr.map(() => f); }); srcSel = next; renderUI(); };
+    if (solar.length) {
+      const r = el('div', 'prow'), seg = el('div', 'seg'), row = el('div', 'load');
+      r.appendChild(el('span', 'no', '')); r.appendChild(el('span', 'nm', t('power.solarIn'))); r.appendChild(el('span', 'val', fmtW(B.input.solar)));
+      if (So) r.appendChild(el('span', 'sub', t('power.stringSpec', { name: So.name, w: fmtW(stringWatts(So)), eff: Math.round((So.efficiency || 1) * 100) })));
+      seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', t('power.sun'));
+      [['eclipse', 0], ['fullSun', 1]].forEach(([key, f]) => {
+        const b = el('button', '', t('power.' + key));
+        b.type = 'button'; b.dataset.act = 'sun-' + key; b.setAttribute('aria-pressed', String(solar.every(i => i.fr.every(v => v === f))));
+        b.addEventListener('click', () => setAll(f));
         seg.appendChild(b);
-      }
-      row.appendChild(left); row.appendChild(seg); r.appendChild(row);
+      });
+      row.appendChild(el('span', 'ln', t('power.sun'))); row.appendChild(seg); r.appendChild(row);
+      box.appendChild(r);
+    }
+    B.input.list.forEach(i => {
+      const r = el('div', 'prow'), note = ifaceNotes(BACKPLANES[bpKey].notes).find(n => n.ref === i.ref), name = note ? note.label : i.ref;
+      r.appendChild(el('span', 'no', ''));
+      r.appendChild(el('span', 'nm', name));
+      const val = el('span', 'val', i.kind === 'gse' ? t(i.n ? 'power.on' : 'power.off') : fmtW(i.watts));
+      r.appendChild(val);
+      if (i.kind === 'gse') {
+        const row = el('div', 'load'), seg = el('div', 'seg');
+        seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', name);
+        [0, 1].forEach(n => {
+          const b = el('button', '', t(n ? 'power.on' : 'power.off'));
+          b.type = 'button'; b.dataset.act = 'src-' + i.ref + '-' + n; b.setAttribute('aria-pressed', String(n === i.n));
+          b.addEventListener('click', () => { if (n === i.n) return; srcSel = { ...srcSel, [i.ref]: n }; renderUI(); });
+          seg.appendChild(b);
+        });
+        row.appendChild(el('span', 'ln', t('power.gseIn'))); row.appendChild(seg); r.appendChild(row);
+      } else i.fr.forEach((f, k) => {
+        const row = el('div', 'load'), wrap = el('span', 'sun'), rg = el('input'), sv = el('span', 'sv');
+        const show = v => { sv.textContent = Math.round(v * 100) + ' % · ' + fmtW(v * i.per); };
+        rg.type = 'range'; rg.min = '0'; rg.max = '100'; rg.step = '5'; rg.value = String(Math.round(f * 100));
+        rg.dataset.act = 'sun-' + i.ref + '-' + k; rg.setAttribute('aria-label', t('power.stringAria', { name, n: k + 1 }));
+        show(f);
+        // 拖动的过程中只更新这一串的数字和三维视图（整个面板重建的话拉条会从手里掉出去）；松手后再把面板上的合计都更新
+        rg.addEventListener('input', () => {
+          const cur = (Array.isArray(srcSel[i.ref]) ? srcSel[i.ref] : i.fr).slice(); while (cur.length < i.max) cur.push(0);
+          cur[k] = Number(rg.value) / 100; srcSel = { ...srcSel, [i.ref]: cur };
+          show(cur[k]); val.textContent = fmtW(cur.reduce((a, v) => a + v, 0) * i.per);
+          flowDirty = true; dirty = true;
+        });
+        rg.addEventListener('change', () => renderUI());
+        wrap.appendChild(rg); wrap.appendChild(sv);
+        row.appendChild(el('span', 'ln', t('power.string', { n: k + 1 }))); row.appendChild(wrap); r.appendChild(row);
+      });
+      box.appendChild(r);
     });
-    box.appendChild(r); powerPanel.appendChild(box);
+    powerPanel.appendChild(box);
   }
 
   const rowsEl = el('div', 'list');
-  list.forEach(p => {
+  if (powerTab === 'loads') list.forEach(p => {
     const T = TYPES[p.type], bp = powerOf(p), sub = SUBS[T.subsystem], r = el('div', 'prow' + (bp || T.wh ? '' : ' nodata'));
     r.id = 'prow-' + p.id;
     // 悬停或键盘聚焦到这一行：三维视图里对应的板卡描出剪影
@@ -722,7 +766,7 @@ function renderPower(B) {
     }
     rowsEl.appendChild(r);
   });
-  powerPanel.appendChild(rowsEl);
+  if (powerTab === 'loads') powerPanel.appendChild(rowsEl);
 }
 
 /* ---------- 电源分布图 ---------- */
@@ -779,10 +823,10 @@ function rebuildFlow() {
   const sgE = cz >= S.cz ? 1 : -1, sgX = cx > S.cx ? 1 : -1;           // 充电芯片靠近哪条短边、哪条长边
   const along = (a, b, r) => { const L = len([a, b]) || 1; return a.map((v, i) => v + (b[i] - v) * r / L); };
   const portV = along(toL[0], toL[1], TRI), portS = along(toL[0], toL[1], -TRI), portB = [cx - sgX * TRI, y, cz];
-  // 电池走背板的外沿：沿离充电芯片远的那条长边走到头，在最后一个槽外面一点横穿过去（比太阳能输入口靠里，不和它们的线重合），
+  // 电池走背板的外沿：沿离充电芯片远的那条长边走到头，在最后一个槽外面一点横穿过去（比电源输入的汇流线还靠里，不和它们重合），
   // 再沿充电芯片旁边自己的一列走到电池口。不和任何一条电源轨交叉
   const zSlot = Math.abs(slotZ(SLOTS - 1)), BAT_X = S.cx - sgX * (S.hx - 6), BAT_COL = cx - sgX * 14;
-  const BAT_Z = sgE * (zSlot + Math.max(2.5, 0.35 * (sgE * (S.cz + sgE * S.hz) - zSlot)));
+  const BAT_Z = sgE * (zSlot + 2.5);
 
   // 离电源（电池）的线路距离：电池 → 充电芯片 → VSYS（直接去槽位，也去各组降压）。有几块电池就取最近的那块
   const bats = list.filter(p => TYPES[p.type].wh).map(p => {
@@ -837,22 +881,41 @@ function rebuildFlow() {
     node(r > 0.5 ? x + sx * r : x, y, z0, railLabel(k) + ' ' + fmtW(w), color);
   };
 
-  // 外部电源输入（太阳能口、GSE 接口）：从板外引进来（那一头是太阳能板或地面电源，渐隐），经过接口，贴着背板走到充电芯片的太阳能口。
-  // 在背面的接口走背面，到芯片底下再穿上来。没在供电的口是虚线
-  B.input.list.forEach(inp => {
-    const ref = inp.ref, g = S.interfaces.find(i => i.ref === ref), note = ifaceNotes(BP.notes).find(n => n.ref === ref);
-    if (!g) return;
-    const ix = g.center.x, iy = g.center.y + S.group.position.y, iz = g.center.z, yy = iy >= S.topY - 0.8 ? yTop : yBot;
-    const w = inp.kind === 'gse' ? (inp.n ? inTotal : 0) : inp.watts, on = inp.n > 0;
-    // 板外的那一段朝着离接口最近的板边外面，稍微偏一点
-    const ex = (ix - S.cx) / S.hx, ez = (iz - S.cz) / S.hz, o = Math.abs(ez) >= Math.abs(ex) ? [0, Math.sign(ez) || 1] : [Math.sign(ex) || 1, 0];
-    const path = [[ix + o[0] * 26 + Math.abs(o[1]) * 12, iy, iz + o[1] * 26 + Math.abs(o[0]) * 12], [ix + o[0] * 12, iy, iz + o[1] * 12],
-                  [ix, iy, iz], [ix, yy, iz], [portS[0], yy, iz], [portS[0], yy, portS[2]]];
-    if (yy !== yTop) path.push(portS);
-    flow.line(path, [-len(path), 0], iColor, { ...opt(w, !on), fade: [true, false] });
-    const state = inp.kind === 'gse' ? t(on ? 'flow.on' : 'flow.off') : t('flow.strings', { n: inp.n, max: inp.max }) + (on ? ' · ' + fmtW(w) : '');
-    node(ix, iy, iz, (note ? note.label : ref) + ' · ' + state, iColor);
-  });
+  // 外部电源输入（太阳能口、GSE 接口）：每个口从板外引进来（那一头是太阳能板或地面电源，渐隐），经过接口，
+  // 拐一个圆弧并进一条汇流线；汇流线沿着板边走到充电芯片那一列，再拐进去，接到充电芯片的输入口。
+  // 汇流线上两边来的电在那一列汇合，汇合处和干线的三岔口是同一个做法。没在供电的是虚线
+  const ins = B.input.list.map(inp => {
+    const g = S.interfaces.find(i => i.ref === inp.ref);
+    return g && { inp, ix: g.center.x, iy: g.center.y + S.group.position.y, iz: g.center.z, on: inp.n > 0,
+                  w: inp.kind === 'gse' ? (inp.n ? inTotal : 0) : inp.watts, s: Math.sign(portS[0] - g.center.x) || 1 };
+  }).filter(Boolean);
+  if (ins.length) {
+    // 汇流线在最靠里的接口和电池线之间
+    const X = portS[0], inner = Math.min(...ins.map(i => sgE * i.iz)), gap = inner - sgE * BAT_Z;
+    const zBus = sgE * (gap > 6 ? inner - gap / 2 : inner - 4), r = SPLIT;
+    const colTop = [X, yTop, zBus - sgE * r], colLen = len([colTop, portS]), dB = x => -(colLen + r + Math.abs(X - x));
+    const total = ins.reduce((a, i) => a + i.w, 0), any = ins.some(i => i.on);
+    ins.forEach(i => {
+      const { inp, ix, iy, iz } = i, note = ifaceNotes(BP.notes).find(n => n.ref === inp.ref);
+      // 板外的那一段朝着离接口最近的板边外面，稍微偏一点
+      const ex = (ix - S.cx) / S.hx, ez = (iz - S.cz) / S.hz, o = Math.abs(ez) >= Math.abs(ex) ? [0, Math.sign(ez) || 1] : [Math.sign(ex) || 1, 0];
+      i.rr = Math.max(3, Math.min(BEND, Math.abs(iz - zBus)));   // 匝道的圆弧半径：从接口到汇流线有多远就用多大
+      i.end = ix + i.s * i.rr;
+      const path = [[ix + o[0] * 26 + Math.abs(o[1]) * 12, iy, iz + o[1] * 26 + Math.abs(o[0]) * 12], [ix + o[0] * 12, iy, iz + o[1] * 12],
+                    [ix, iy, iz], [ix, yTop, zBus, i.rr], [i.end, yTop, zBus]];
+      flow.line(path, [dB(i.end) - len(path), dB(i.end)], iColor, { ...opt(i.w, !i.on), fade: [true, false] });
+      const state = inp.kind === 'gse' ? t(i.on ? 'flow.on' : 'flow.off') : t('flow.solarOf', { w: fmtW(inp.watts), max: fmtW(inp.max * inp.per) });
+      node(ix, iy, iz, (note ? note.label : inp.ref) + ' · ' + state, iColor);
+    });
+    const sides = [1, -1].map(s => ins.filter(i => i.s === s)).filter(m => m.length);
+    sides.forEach(m => {
+      const far = m.reduce((a, i) => Math.abs(X - i.end) > Math.abs(X - a.end) ? i : a), w = m.reduce((a, i) => a + i.w, 0);
+      const pins = m.filter(i => i !== far).map(i => Math.abs(i.end - far.end));
+      flow.line([[far.end, yTop, zBus], [X, yTop, zBus, r], colTop], [dB(far.end), -colLen], iColor, { ...opt(w, !m.some(i => i.on)), pins });
+    });
+    if (sides.length === 2) flow.line([[X - r, yTop, zBus], [X + r, yTop, zBus]], [-colLen, -colLen], iColor, { ...opt(total, !any), still: true, breath: true });
+    flow.line([colTop, portS], [-colLen, 0], iColor, opt(total, !any));
+  }
 
   // 电池：从板里向下，沿背板的外沿走到充电芯片
   bats.forEach(b => {

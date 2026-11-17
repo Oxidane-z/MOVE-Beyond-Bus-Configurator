@@ -193,23 +193,24 @@ describe('power inputs', () => {
   const load = w => budget([{ T: { wh: 10 } }, { T: { power: { typ: w } } }], P);
   it('adds up the strings in sun and clamps them to what the connector takes', () => {
     expect(stringWatts(P.solar)).toBeCloseTo(6);
-    const s = sources(defs, { A: 5, B: 2, X: 1 }, P);
-    expect(s.list.map(i => i.n)).toEqual([0, 1, 2]);
-    expect(s.solar).toBeCloseTo(9);
+    const s = sources(defs, { A: [5], B: [1, 0.5], X: [1] }, P);
+    expect(s.list.map(i => i.n)).toEqual([0, 1, 1.5]);
+    expect(s.list[2].fr).toEqual([1, 0.5, 0]);
+    expect(s.solar).toBeCloseTo(7.5);
     expect(s.gse).toBe(false);
   });
   it('lets the battery cover what the sun does not, and stretches the runtime', () => {
-    const b = withSources(load(5), sources(defs, { A: 1 }, P), P);
+    const b = withSources(load(5), sources(defs, { A: [1] }, P), P);
     expect(b.battery.typ).toBeCloseTo(2);
     expect(b.runtime.typ).toBeCloseTo(2.5);   // 10 Wh × 0.5 ÷ 2 W
     expect(b.charging).toBe(false);
   });
   it('charges the battery with the surplus and never runs out', () => {
-    const b = withSources(load(5), sources(defs, { B: 3 }, P), P);
+    const b = withSources(load(5), sources(defs, { B: [1, 1, 1] }, P), P);
     expect(b.battery.typ).toBeCloseTo(-4);
     expect(b.runtime.typ).toBe(Infinity);
     expect(b.charging).toBe(true);
-    expect(withSources(load(5), sources(defs, { B: 3 }, P), { ...P, chargeLimit: 1 }).spare.typ).toBeCloseTo(3);
+    expect(withSources(load(5), sources(defs, { B: [1, 1, 1] }, P), { ...P, chargeLimit: 1 }).spare.typ).toBeCloseTo(3);
   });
   it('treats the GSE supply as unlimited', () => {
     const b = withSources(load(50), sources(defs, { G: 1 }, P), P);
@@ -218,15 +219,15 @@ describe('power inputs', () => {
     expect(b.charging).toBe(true);
   });
   it('reports the shortfall when there is no battery', () => {
-    const b = withSources(budget([{ T: { power: { typ: 5 } } }], P), sources(defs, { A: 1 }, P), P);
+    const b = withSources(budget([{ T: { power: { typ: 5 } } }], P), sources(defs, { A: [1] }, P), P);
     expect(b.short.typ).toBeCloseTo(2);
     expect(b.runtime.typ).toBe(null);
   });
   it('keeps the inputs in the share link', () => {
-    const cfg = { bp: 'v78', boards: [], inputs: { 'MLP-6P-1': 2, HARNESS: 1, 'MLP-2P': 0, bogus: 3 } };
+    const cfg = { bp: 'v78', boards: [], inputs: { 'MLP-6P-1': [1, 0.5], HARNESS: 1, 'MLP-2P': [0], bogus: [1] } };
     const str = serialize(sys, cfg);
-    expect(str).toBe('v78;in:HARNESS=1+MLP-6P-1=2');
-    expect(parse(sys, str).inputs).toEqual({ HARNESS: 1, 'MLP-6P-1': 2 });
-    expect(parse(sys, 'v78;in:MLP-2P=9').inputs).toEqual({ 'MLP-2P': 1 });
+    expect(str).toBe('v78;in:HARNESS=1+MLP-6P-1=100.50');
+    expect(parse(sys, str).inputs).toEqual({ HARNESS: 1, 'MLP-6P-1': [1, 0.5, 0] });
+    expect(parse(sys, 'v78;in:MLP-2P=900+MLP-6P-2=0.0.35').inputs).toEqual({ 'MLP-2P': [1], 'MLP-6P-2': [0, 0, 0.35] });
   });
 });

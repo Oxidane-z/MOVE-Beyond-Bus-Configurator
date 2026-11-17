@@ -121,14 +121,16 @@ export const fmtH = h => h == null ? '—' : h === Infinity ? '∞' : h >= 100 ?
 // 一串太阳能电池在最大功率点的功率（W）。S 是 system.json 的 power.solar：cells 串联节数，vmp / imp 单节在最大功率点的电压、电流
 export const stringWatts = S => S ? (S.cells || 0) * (S.vmp || 0) * (S.imp || 0) : 0;
 // 背板上各个输入口现在供多少电。defs 是背板的 inputs：[{ ref, kind: 'solar' | 'gse', strings: 这个口最多接几串 }]（只写 ref 的字符串也认）；
-// sel 是 { ref: 数 }：太阳能口是有几串在日照下，GSE 口是 0 / 1。
-// 返回 { list: [{ ref, kind, max, n, watts }], solar: 太阳能合计（已乘充电芯片的效率）, gse: 接着地面电源 }
+// sel 是 { ref: 值 }：太阳能口是一个数组，每一串受到的日照占满日照的几成（0–1）；GSE 口是 0 / 1。
+// 返回 { list: [{ ref, kind, max, fr: 各串的日照, n: 折合成几串满日照, per: 一串满日照送到 VSYS 的功率, watts }],
+//        solar: 太阳能合计（已乘充电芯片的效率）, gse: 接着地面电源 }
 export function sources(defs, sel, P = {}) {
-  const per = stringWatts(P.solar) * ((P.solar && P.solar.efficiency) || 1);
+  const per = stringWatts(P.solar) * ((P.solar && P.solar.efficiency) || 1), unit = v => Math.max(0, Math.min(1, Number(v) || 0));
   const list = (defs || []).map(d => {
-    const o = typeof d === 'string' ? { ref: d } : d, kind = o.kind === 'gse' ? 'gse' : 'solar', max = kind === 'gse' ? 1 : o.strings || 1;
-    const n = Math.max(0, Math.min(max, Math.round(Number(sel && sel[o.ref]) || 0)));
-    return { ref: o.ref, kind, max, n, watts: kind === 'solar' ? n * per : 0 };
+    const o = typeof d === 'string' ? { ref: d } : d, kind = o.kind === 'gse' ? 'gse' : 'solar', max = kind === 'gse' ? 1 : o.strings || 1, v = sel && sel[o.ref];
+    const fr = kind === 'gse' ? [] : Array.from({ length: max }, (_, i) => unit(Array.isArray(v) ? v[i] : 0));
+    const n = kind === 'gse' ? (Number(v) > 0 ? 1 : 0) : fr.reduce((a, f) => a + f, 0);
+    return { ref: o.ref, kind, max, fr, n, per, watts: kind === 'solar' ? n * per : 0 };
   });
   return { list, solar: list.reduce((a, i) => a + i.watts, 0), gse: list.some(i => i.kind === 'gse' && i.n > 0) };
 }
