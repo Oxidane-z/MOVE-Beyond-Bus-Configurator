@@ -1,10 +1,13 @@
 // 一套配置的文字形式，用在地址栏（分享、刷新后恢复）和撤销记录里。
 // 配置：{ bp: 背板 key, boards: [{ type, slot, bracket, exps: [扩展板 key 或 null, …] }], inputs: { 输入口 ref: 数 } }
+// 槽位写的是板卡占的第一格（从 1 起）；悬出槽位之外的板写 0（朝前悬）或最后一槽的号（朝后悬）
 // 文字：背板;板卡,槽位[,b支架面][,e扩展板+扩展板][,p负载=状态+负载=状态];…   槽位从 1 起；和默认值相同的选项不写；"-" 表示这个扩展位不装
 // loads 是功耗层里各负载选的状态 { 负载 key: 状态名 }，只记和默认不同的
 // inputs 是功耗层里各电源输入口的状态：太阳能口是各串受到的日照 [0–1, …]，写成百分数用点隔开（100.50）；GSE 口是 0 / 1。
 // 写成单独的一段 in:口=值+口=值，只记不是 0 的
 // 例：v78;obdh,1,e-;recovery,3,bfront
+
+import { span } from './slots.js';
 
 export const BRACKET_MODES = ['back', 'front', 'none'];
 const own = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
@@ -60,8 +63,8 @@ export function parse(sys, str) {
     const [type, n, ...opts] = part.split(',');
     if (!own(sys.boards, type)) continue;
     const T = sys.boards[type], slot = Number(n) - 1;
-    if (!Number.isInteger(slot) || slot < 0 || slot + T.w > sys.slots) continue;
-    if (used.slice(slot, slot + T.w).some(Boolean)) continue;
+    const sp = span(T, slot, sys.slots);
+    if (!sp || used.slice(sp[0], sp[1]).some(Boolean)) continue;
     const c = { type, slot, bracket: defaultBracket(sys, type), exps: defaultExps(sys, type), loads: {} };
     for (const o of opts) {
       if (o[0] === 'b' && T.bracket && BRACKET_MODES.includes(o.slice(1))) c.bracket = o.slice(1);
@@ -76,7 +79,7 @@ export function parse(sys, str) {
         else if (site.options.includes(k)) c.exps[i] = k;
       });
     }
-    for (let k = 0; k < T.w; k++) used[slot + k] = true;
+    for (let k = sp[0]; k < sp[1]; k++) used[k] = true;
     boards.push(c);
   }
   return { bp, boards, inputs };

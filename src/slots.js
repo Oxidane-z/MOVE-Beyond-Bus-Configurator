@@ -21,3 +21,23 @@ export function swapPlan(slots, a, b) {
   if (newR + R.w > newL) return null;
   return new Map([[L.id, newL], [R.id, newR]]);
 }
+
+/* 悬出：两槽宽、只有一格真的插连接器的板（system.json 里标了 overhang），可以把连接器插在最靠边的那个槽，
+   板体的另一半悬到槽位之外，只占一个槽。这时它的起始槽位是 -1（朝前悬）或最后一槽（朝后悬） */
+export const NONE = -9;   // fitOver 放不下时返回它（-1 已经是一个合法的起始槽位了）
+// 一块板朝哪边悬：-1 朝前（连接器在靠后那格），1 朝后（连接器在靠前那格），0 不能悬
+export const overOf = T => T && T.overhang && T.w === 2 ? (T.connectorSlot ? -1 : 1) : 0;
+// 板卡 T 起始槽位为 slot 时实际占的槽 [from, to)，n 是槽位数；越界而且不是允许的悬出时返回 null
+export function span(T, slot, n) {
+  if (!Number.isInteger(slot)) return null;
+  const o = overOf(T), inside = slot >= 0 && slot + T.w <= n;
+  if (!inside && !((o === -1 && slot === -1) || (o === 1 && slot === n - 1))) return null;
+  return [Math.max(slot, 0), Math.min(slot + T.w, n)];
+}
+// fit 加上悬出：能悬的板指着它那一侧最靠边的槽时，连接器就插在那个槽，板体悬出去。放不下返回 NONE
+export function fitOver(slots, w, i, ignore, over) {
+  if (over === -1 && i === 0 && isFree(slots, 0, ignore)) return -1;
+  if (over === 1 && i === slots.length - 1 && isFree(slots, i, ignore)) return i;
+  const f = fit(slots, w, i, ignore);
+  return f < 0 ? NONE : f;
+}

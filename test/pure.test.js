@@ -231,3 +231,35 @@ describe('power inputs', () => {
     expect(parse(sys, 'v78;in:MLP-2P=900+MLP-6P-2=0.0.35').inputs).toEqual({ 'MLP-2P': [1], 'MLP-6P-2': [0, 0, 0.35] });
   });
 });
+
+import { fitOver, span, overOf, NONE } from '../src/slots.js';
+
+describe('overhang', () => {
+  const front = { w: 2, connectorSlot: 1, overhang: true }, back = { w: 2, overhang: true }, plain = { w: 2, connectorSlot: 1 };
+  it('knows which way a board may overhang', () => {
+    expect([overOf(front), overOf(back), overOf(plain), overOf({ w: 1, overhang: true })]).toEqual([-1, 1, 0, 0]);
+  });
+  it('puts the connector in the edge slot and takes one slot there', () => {
+    const s = [null, null, null, 5, null, null, null];
+    expect(fitOver(s, 2, 0, null, -1)).toBe(-1);
+    expect(fitOver(s, 2, 1, null, -1)).toBe(1);
+    expect(fitOver(s, 2, 6, null, 1)).toBe(6);
+    expect(fitOver(s, 2, 0, null, 0)).toBe(0);
+    expect(fitOver(s, 2, 3, null, -1)).toBe(NONE);
+    expect(fitOver([9, null, null], 2, 0, null, -1)).toBe(NONE);
+  });
+  it('clips the occupied span and rejects other positions outside the slots', () => {
+    expect(span(front, -1, 7)).toEqual([0, 1]);
+    expect(span(back, 6, 7)).toEqual([6, 7]);
+    expect(span(front, 2, 7)).toEqual([2, 4]);
+    expect(span(front, 6, 7)).toBeNull();
+    expect(span(plain, -1, 7)).toBeNull();
+    expect(span(back, -1, 7)).toBeNull();
+  });
+  it('keeps an overhanging board in the share link', () => {
+    const cfg = parse(sys, 'v78;obdh,0;recovery,2;battery,1');
+    expect(cfg.boards.map(b => [b.type, b.slot])).toEqual([['obdh', -1], ['recovery', 1]]);   // the battery would overlap slot 1
+    expect(serialize(sys, cfg)).toBe('v78;obdh,0;recovery,2');
+    expect(parse(sys, 'v78;battery,0').boards).toEqual([]);
+  });
+});
