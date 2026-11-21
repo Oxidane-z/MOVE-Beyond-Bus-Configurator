@@ -56,3 +56,20 @@ export function swapOver(slots, h, o) {
   }
   return null;
 }
+
+// 互换的宽松做法，swapPlan 排不开时用：不要求两块板合起来占的范围不变，只要各自能落在对方原来的位置附近。
+// 先让一块落到另一块原来占的某个槽上，再让另一块落到它原来占的某个槽上（两槽宽的板可以借用旁边的空槽）；
+// 一个顺序不行就换一个顺序。a、b 是 { id, slot, w }；返回 Map(id → 新槽位)，放不下返回 null
+export function swapLoose(slots, a, b) {
+  const n = slots.length, vis = p => { const r = []; for (let i = Math.max(p.slot, 0); i < Math.min(p.slot + p.w, n); i++) r.push(i); return r; };
+  const attempt = (x, y) => {
+    for (const i of vis(x)) {
+      const tmp = slots.map(v => v === a.id || v === b.id ? null : v), fy = fit(tmp, y.w, i, null);
+      if (fy < 0) continue;
+      for (let k = fy; k < fy + y.w; k++) tmp[k] = y.id;
+      for (const j of vis(y)) { const fx = fit(tmp, x.w, j, null); if (fx >= 0) return new Map([[x.id, fx], [y.id, fy]]); }
+    }
+    return null;
+  };
+  return attempt(a, b) || attempt(b, a);
+}

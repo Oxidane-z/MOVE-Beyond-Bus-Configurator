@@ -278,3 +278,17 @@ describe('swapping with an overhanging board', () => {
     expect(swapOver([1, 9, 3, 3, null, null, null], h, { id: 3, slot: 2, w: 2, over: 0 })).toBeNull();   // slot 2 is taken, so the wide board cannot start at slot 1
   });
 });
+
+import { swapLoose } from '../src/slots.js';
+
+describe('swapLoose', () => {
+  it('lets a wide board borrow the free slot beside the other board', () => {
+    const s = [1, 1, 2, 2, 3, 4, null], wide = { id: 1, slot: 0, w: 2 }, narrow = { id: 4, slot: 5, w: 1 };
+    expect(swapPlan(s, wide, narrow)).toBeNull();                      // the strict plan wants slots 5–6, slot 5 is taken
+    expect([...swapLoose(s, wide, narrow)]).toEqual([[1, 5], [4, 0]]);  // slots 6–7 instead
+    expect([...swapLoose(s, narrow, wide)].sort()).toEqual([[1, 5], [4, 0]]);
+  });
+  it('still gives up when there is no room at all', () => {
+    expect(swapLoose([1, 1, 2, 2, 3, 4, 5], { id: 1, slot: 0, w: 2 }, { id: 4, slot: 5, w: 1 })).toBeNull();
+  });
+});

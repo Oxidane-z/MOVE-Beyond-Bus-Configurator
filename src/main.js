@@ -3,7 +3,7 @@ import sys from '../system.json';
 import { t, applyStatic } from './i18n.js';
 import { applyTheme, setResolution, drawSilhouette, drawDim, SIL_LAYER } from './render.js';
 import { makeFlow } from './flow.js';
-import { isFree as isFreeIn, fitOver, swapPlan as swapPlanIn, swapOver, span as spanIn, overOf as overOfT, NONE } from './slots.js';
+import { isFree as isFreeIn, fitOver, swapPlan as swapPlanIn, swapOver, swapLoose, span as spanIn, overOf as overOfT, NONE } from './slots.js';
 import { inkOn } from './color.js';
 import { LEVELS, SCENARIOS, boardPower, budget, railCurrents, scenarioSel, scenarioOf, sources, withSources, stringWatts, fmtW, fmtWShort, fmtH } from './power.js';
 import { BRACKET_MODES, serialize, parse, presetCfg, defaultBracket } from './config.js';
@@ -188,7 +188,8 @@ function fly(p, lift) {
 // 有一块板悬在槽位之外时：另一块换到它连接器所在的那个槽，它回到槽位里、落在另一块原来的位置（slots.js 的 swapOver）
 const swapPlan = (A, B) => {
   const a = { id: A.id, slot: A.slot, w: TYPES[A.type].w, over: overOf(A.type) }, b = { id: B.id, slot: B.slot, w: TYPES[B.type].w, over: overOf(B.type) };
-  return hangs(a.slot, a.w) ? swapOver(slots, a, b) : hangs(b.slot, b.w) ? swapOver(slots, b, a) : swapPlanIn(slots, a, b);
+  // 一般情况先按“两块板合起来占的范围不变”排；排不开（比如宽板要换到的位置旁边被占着，但另一侧有空槽）再用宽松的做法
+  return hangs(a.slot, a.w) ? swapOver(slots, a, b) : hangs(b.slot, b.w) ? swapOver(slots, b, a) : swapPlanIn(slots, a, b) || swapLoose(slots, a, b);
 };
 function swap(A, B) {
   const plan = swapPlan(A, B);
