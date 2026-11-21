@@ -263,3 +263,18 @@ describe('overhang', () => {
     expect(parse(sys, 'v78;battery,0').boards).toEqual([]);
   });
 });
+
+import { swapOver } from '../src/slots.js';
+
+describe('swapping with an overhanging board', () => {
+  const h = { id: 1, slot: -1, w: 2, over: -1 };
+  it('moves the other board to the edge slot and brings the overhanging one back in', () => {
+    const s = [1, null, 3, null, 5, 6, 6];
+    expect([...swapOver(s, h, { id: 5, slot: 4, w: 1, over: 0 })]).toEqual([[1, 3], [5, 0]]);   // slots 4–5 for the wide board
+    expect([...swapOver(s, h, { id: 3, slot: 2, w: 1, over: 0 })]).toEqual([[1, 2], [3, 0]]);
+  });
+  it('gives up when the overhanging board has nowhere to land', () => {
+    expect(swapOver([1, 2, 3, 4, 5, 6, 7], h, { id: 5, slot: 4, w: 1, over: 0 })).toBeNull();
+    expect(swapOver([1, 9, 3, 3, null, null, null], h, { id: 3, slot: 2, w: 2, over: 0 })).toBeNull();   // slot 2 is taken, so the wide board cannot start at slot 1
+  });
+});

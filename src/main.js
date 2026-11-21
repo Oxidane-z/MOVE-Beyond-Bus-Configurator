@@ -3,7 +3,7 @@ import sys from '../system.json';
 import { t, applyStatic } from './i18n.js';
 import { applyTheme, setResolution, drawSilhouette, drawDim, SIL_LAYER } from './render.js';
 import { makeFlow } from './flow.js';
-import { isFree as isFreeIn, fitOver, swapPlan as swapPlanIn, span as spanIn, overOf as overOfT, NONE } from './slots.js';
+import { isFree as isFreeIn, fitOver, swapPlan as swapPlanIn, swapOver, span as spanIn, overOf as overOfT, NONE } from './slots.js';
 import { inkOn } from './color.js';
 import { LEVELS, SCENARIOS, boardPower, budget, railCurrents, scenarioSel, scenarioOf, sources, withSources, stringWatts, fmtW, fmtWShort, fmtH } from './power.js';
 import { BRACKET_MODES, serialize, parse, presetCfg, defaultBracket } from './config.js';
@@ -63,7 +63,7 @@ const hangs = (slot, w) => slot < 0 || slot + w > SLOTS;
 function showTarget(w, slot) {
   const on = slot !== NONE;
   banner.classList.toggle('on', on);
-  if (on) banner.textContent = t('banner.slot', { n: slotText(slot, w) }) + (hangs(slot, w) ? ' · ' + t('slot.overhang') : '');
+  if (on) banner.textContent = t('banner.slot', { n: slotText(slot, w) });
   slotMarks.forEach((b, i) => b.classList.toggle('target', on && i >= slot && i < slot + w));
   stripCells.forEach(c => c.classList.remove('target'));
   if (on) for (let i = slot; i < slot + w; i++) if (stripCells[i]) stripCells[i].classList.add('target');
@@ -185,9 +185,11 @@ function fly(p, lift) {
     .then(() => tween(p.group.position, 'y', SEAT_Y, 140, easeIn))
     .then(() => { p.busy = false; });
 }
-// 悬出的板不参与互换：换过去的那块板没法照样悬着，先把它挪回槽位里再换
-const swapPlan = (A, B) => hangs(A.slot, TYPES[A.type].w) || hangs(B.slot, TYPES[B.type].w) ? null
-  : swapPlanIn(slots, { id: A.id, slot: A.slot, w: TYPES[A.type].w }, { id: B.id, slot: B.slot, w: TYPES[B.type].w });
+// 有一块板悬在槽位之外时：另一块换到它连接器所在的那个槽，它回到槽位里、落在另一块原来的位置（slots.js 的 swapOver）
+const swapPlan = (A, B) => {
+  const a = { id: A.id, slot: A.slot, w: TYPES[A.type].w, over: overOf(A.type) }, b = { id: B.id, slot: B.slot, w: TYPES[B.type].w, over: overOf(B.type) };
+  return hangs(a.slot, a.w) ? swapOver(slots, a, b) : hangs(b.slot, b.w) ? swapOver(slots, b, a) : swapPlanIn(slots, a, b);
+};
 function swap(A, B) {
   const plan = swapPlan(A, B);
   if (!plan) { sel = { kind: 'placed', id: A.id, swap: true, failed: TYPES[B.type].name }; renderUI(); return; }

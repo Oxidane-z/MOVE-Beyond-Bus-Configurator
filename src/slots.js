@@ -41,3 +41,18 @@ export function fitOver(slots, w, i, ignore, over) {
   const f = fit(slots, w, i, ignore);
   return f < 0 ? NONE : f;
 }
+
+// 互换里有一块板悬在槽位之外时的做法。h 是悬着的那块，o 是另一块，都是 { id, slot, w, over }：
+// o 换到 h 的连接器所在的那个槽（o 自己也能悬就照样悬着，否则从那个槽起占够自己的宽度），
+// h 回到槽位里，落在 o 原来的位置附近（先试连接器对着 o 原来的各个槽）。返回 Map(id → 新槽位)，放不下返回 null
+export function swapOver(slots, h, o) {
+  const n = slots.length, tmp = slots.map(v => v === h.id || v === o.id ? null : v);
+  const edge = h.slot < 0 ? 0 : n - 1, newO = fitOver(tmp, o.w, edge, null, o.over);
+  if (newO === NONE) return null;
+  for (let k = Math.max(newO, 0); k < Math.min(newO + o.w, n); k++) tmp[k] = o.id;
+  for (let i = Math.max(o.slot, 0); i < Math.min(o.slot + o.w, n); i++) {
+    const f = fitOver(tmp, h.w, i, null, h.over);
+    if (f !== NONE) return new Map([[h.id, f], [o.id, newO]]);
+  }
+  return null;
+}
