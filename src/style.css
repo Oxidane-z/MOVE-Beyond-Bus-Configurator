@@ -57,6 +57,10 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .item .sw { width: 14px; height: 28px; border: 1.5px solid var(--muted); }
 .item .nm { font-weight: 500; }
 .item .mt { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+/* 板载器件和可外接的功能：最多两行，放不下的在悬停卡里看全 */
+.item .ft { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: 11px; line-height: 1.35; margin-top: 2px; }
+.item .ft b { font-weight: 500; }
+.item .ft .cn { color: var(--muted); }
 .note { margin: 6px 0 0; font-size: 12px; color: var(--muted); }
 
 .main { grid-area: main; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; gap: 12px; min-width: 0; }
@@ -237,6 +241,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .hovercard .row { display: flex; gap: 8px; align-items: baseline; border-top: 1px solid var(--rule); padding-top: 3px; }
 .hovercard .k { flex: none; color: var(--muted); font-size: 11px; min-width: 64px; }
 .hovercard .v { display: flex; flex-wrap: wrap; gap: 2px 10px; font-family: var(--mono); font-size: 11px; }
+.hovercard .v.txt { display: block; font-family: var(--font); line-height: 1.35; }
 .hovercard .tag { white-space: nowrap; }
 @media (prefers-reduced-motion: reduce) { .hovercard { animation: none; } }
 

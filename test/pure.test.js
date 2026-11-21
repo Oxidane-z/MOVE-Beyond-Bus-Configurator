@@ -292,3 +292,20 @@ describe('swapLoose', () => {
     expect(swapLoose([1, 1, 2, 2, 3, 4, 5], { id: 1, slot: 0, w: 2 }, { id: 4, slot: 5, w: 1 })).toBeNull();
   });
 });
+
+import { connects, connectsText } from '../src/summary.js';
+
+describe('what a board connects to', () => {
+  it('groups numbered interfaces and leaves out bus, debug, expansion and on-board settings', () => {
+    const notes = [
+      { label: 'Backplane connector', type: 'bus' }, { label: 'ST-Link', type: 'debug' }, { label: 'Expansion connector', type: 'expansion' },
+      { label: 'Magnetometer A', type: 'sensor' }, { label: 'Magnetometer B', type: 'sensor' },
+      { label: 'Sun sensor 1', type: 'sensor' }, { label: 'Sun sensor 2', type: 'sensor' }, { label: 'Sun sensor 3', type: 'sensor' },
+      { label: 'I²C bus 1 (A)', type: 'io' }, { label: 'I²C bus 2 (B)', type: 'io' },
+      { label: 'USB 3.0 (Type-A)', type: 'io' }, { label: 'USB 3.0 (Type-C)', type: 'io' },
+      { label: 'Deployment switch Y+', type: 'switch' }, { label: 'Deployment switch Y−', type: 'switch' },
+      { label: 'Standby jumper', type: 'switch' }, { label: 'Power button', type: 'switch' }, { label: 'VBAT select', type: 'switch' }];
+    expect(connectsText(notes)).toEqual(['Magnetometer ×2', 'Sun sensor ×3', 'I²C bus ×2', 'USB 3.0 (Type-A)', 'USB 3.0 (Type-C)', 'Deployment switch ×2']);
+    expect(connects([])).toEqual([]);
+  });
+});

@@ -3,6 +3,7 @@ import sys from '../system.json';
 import { t, applyStatic } from './i18n.js';
 import { applyTheme, setResolution, drawSilhouette, drawDim, SIL_LAYER } from './render.js';
 import { makeFlow } from './flow.js';
+import { connectsText } from './summary.js';
 import { isFree as isFreeIn, fitOver, swapPlan as swapPlanIn, swapOver, swapLoose, span as spanIn, overOf as overOfT, NONE } from './slots.js';
 import { inkOn } from './color.js';
 import { LEVELS, SCENARIOS, boardPower, budget, railCurrents, scenarioSel, scenarioOf, sources, withSources, stringWatts, fmtW, fmtWShort, fmtH } from './power.js';
@@ -447,17 +448,10 @@ function setHover(p) {
   hoverEl.appendChild(mt);
   if (T.desc) hoverEl.appendChild(el('div', 'ds', T.desc));
   const row = (label, node) => { const r = el('div', 'row'); r.appendChild(el('span', 'k', label)); r.appendChild(node); hoverEl.appendChild(r); };
-  // 接口按类型计数，色点用接口类型的颜色
-  if (p.interfaces.length) {
-    const counts = new Map();
-    p.interfaces.forEach(i => counts.set(i.note.type, (counts.get(i.note.type) || 0) + 1));
-    const v = el('span', 'v');
-    counts.forEach((n, type) => {
-      const I = sys.interfaceTypes[type] || { label: type, color: '#cccccc' }, c = el('span', 'tag');
-      c.appendChild(dot(I.color)); c.appendChild(document.createTextNode(n + ' ' + I.label)); v.appendChild(c);
-    });
-    row(t('hover.interfaces'), v);
-  }
+  // 板上有什么（处理器、传感器、射频模块，system.json 的 onboard），以及能外接什么（从接口说明归纳，装着的扩展板的接口也算）
+  if (T.onboard && T.onboard.length) row(t('hover.onboard'), el('span', 'v txt', T.onboard.join(' · ')));
+  const cn = connectsText(p.interfaces.map(i => i.note));
+  if (cn.length) row(t('hover.connects'), el('span', 'v txt', cn.join(' · ')));
   sitesOf(p.type).forEach((site, i) => {
     const e = p.exps[i];
     if (!site.fixed && site.options.length && e.by < 0) row(site.name, el('span', 'v', e.key ? sys.expansions[e.key].name : t('expansion.none')));
@@ -511,13 +505,19 @@ let cellDrag = null, suppressClick = false;   // 在槽位条上拖动板卡
 Object.keys(TYPES).forEach(key => {
   const T = TYPES[key], b = document.createElement('button');
   b.type = 'button'; b.className = 'item'; b.id = 'lib-' + key; b.dataset.type = key;
-  b.innerHTML = '<span class="sw"></span><span><span class="nm"></span><br><span class="mt"></span></span>';
+  b.innerHTML = '<span class="sw"></span><span><span class="nm"></span><br><span class="mt"></span><span class="ft"></span></span>';
   b.querySelector('.sw').style.background = T.color;
   b.querySelector('.nm').textContent = T.name;
   const meta = [...(SUBS[T.subsystem] ? [SUBS[T.subsystem].label] : []), sys.levels[T.level] || T.level, T.w === 1 ? t('meta.slots.1') : t('meta.slots.n', { n: T.w }),
                 ...(T.wh ? [T.wh + ' Wh'] : boardPower(T) ? [fmtW(boardPower(T).typ)] : hasPower ? [t('meta.noPower')] : [])];
-  if (ifaceNotes(key).length) meta.push(t('meta.interfaces', { n: ifaceNotes(key).length }));
   b.querySelector('.mt').textContent = meta.join(' · ');
+  // 第三行：板上有什么（加粗），能外接什么
+  {
+    const ft = b.querySelector('.ft'), cn = connectsText(ifaceNotes(key));
+    if (T.onboard && T.onboard.length) { const e = document.createElement('b'); e.textContent = T.onboard.join(' · '); ft.appendChild(e); }
+    if (cn.length) { const e = document.createElement('span'); e.className = 'cn'; e.textContent = (ft.firstChild ? ' · ' : '') + cn.join(' · '); ft.appendChild(e); }
+    ft.hidden = !ft.firstChild;
+  }
   // 色块是 PCB 颜色；分系统颜色（槽位条用的那套）用一个小圆点带上
   if (SUBS[T.subsystem]) { const d = document.createElement('span'); d.className = 'dot'; d.style.background = SUBS[T.subsystem].color; b.querySelector('.mt').prepend(d); }
   // 模型到点选时才取
