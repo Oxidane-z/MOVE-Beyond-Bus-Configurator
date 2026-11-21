@@ -2,8 +2,6 @@
   "interfaces": [
     {"ref": "BUS1", "match": ["SAMTEC_ERM8*"], "cluster": 0, "label": "Backplane connector 1", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot. Both backplane connectors are identical."},
     {"ref": "BUS2", "match": ["SAMTEC_ERM8*"], "cluster": 1, "label": "Backplane connector 2", "type": "bus", "connector": "Samtec ERM8-030", "desc": "Plugs into a backplane slot. Both backplane connectors are identical."},
-    {"ref": "P1", "match": ["PICOLOCK_4_1MM_CMP-123-000000-1*"], "cluster": 1, "label": "Heater 1", "type": "actuator", "connector": "Molex Pico-Lock 4P", "desc": "Connects the heater board of the pack."},
-    {"ref": "P2", "match": ["PICOLOCK_4_1MM_CMP-123-000000-1*"], "cluster": 0, "label": "Battery output", "type": "power", "connector": "Molex Pico-Lock 4P", "desc": "External battery interface. Provides the battery voltage."},
-    {"ref": "P3", "match": ["FP-503763-0691-MFG_CMP-015-000042*"], "label": "Heater 2", "type": "actuator", "connector": "Molex Pico-Lock 6P", "desc": "Connects the heater board of the pack."}
+    {"ref": "P2", "match": ["PICOLOCK_4_1MM_CMP-123-000000-1*"], "cluster": 0, "label": "Battery output", "type": "power", "connector": "Molex Pico-Lock 4P", "desc": "External battery interface. Provides the battery voltage."}
   ]
 }
